@@ -1,0 +1,45 @@
+---
+/**
+ * Section — a labelled content region.
+ *
+ * `03` §2 requires every content block inside `<main>` to be a `<section>`
+ * carrying an accessible name via `aria-labelledby`. This component makes the
+ * heading/label wiring impossible to forget: pass `headingId`, and the section
+ * is labelled by it.
+ *
+ * Provenance: CANONICAL (`03` §2, §5).
+ * Accessibility:
+ *   - a `<section>` only becomes a landmark when it has an accessible name, so
+ *     `headingId` is how it earns one. Without it, it is a plain grouping
+ *     element, which is the right outcome for an unlabelled block.
+ *   - the heading itself is the caller's, so heading level stays with the
+ *     document outline rather than being guessed here.
+ * JavaScript: none.
+ */
+export interface Props {
+  /**
+   * `id` of the heading that names this section. Rendered as `aria-labelledby`.
+   * Omit only for a section that genuinely has no heading.
+   */
+  headingId?: string;
+  /** Anchor target, e.g. `interest` for the hero call to action. */
+  id?: string;
+  class?: string;
+}
+
+const { headingId, id, class: className } = Astro.props;
+---
+
+<section class:list={['section', className]} id={id} aria-labelledby={headingId}>
+  <slot />
+</section>
+
+<style>
+  /*
+   * The section owns no vertical rhythm of its own — spacing between sections
+   * is the parent's concern (see Stack), so a Section is safe to drop anywhere.
+   */
+  .section {
+    display: block;
+  }
+</style>

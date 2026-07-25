@@ -1,0 +1,38 @@
+---
+/**
+ * Container — the horizontal measure.
+ *
+ * `07` §4: max-width 720px, centred, `padding-inline` of `--space-5` below
+ * 640px and `--space-7` above. 720px is chosen over wider because the page is
+ * entirely text; a wider column would exceed a comfortable measure and force a
+ * two-column layout the content does not warrant.
+ *
+ * Provenance: CANONICAL.
+ * Accessibility: no semantics of its own — renders a plain `<div>` by default.
+ * JavaScript: none.
+ */
+export interface Props {
+  /** Element to render. Changes the element only — never an ARIA role. */
+  as?: 'div' | 'section' | 'header' | 'footer' | 'main' | 'article';
+  /** Anchor / skip-link target, e.g. `main`. */
+  id?: string;
+  /** Extra classes, merged after the component's own. */
+  class?: string;
+}
+
+const { as: Tag = 'div', id, class: className } = Astro.props;
+---
+
+<Tag class:list={['container', className]} id={id}>
+  <slot />
+</Tag>
+
+<style>
+  .container {
+    width: 100%;
+    /* The measure plus its own gutters, so 720px is the *content* width. */
+    max-width: calc(var(--container-max) + (var(--container-pad) * 2));
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+</style>

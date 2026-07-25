@@ -1,6 +1,6 @@
 {
   "name": "aiworkspace-hq-web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "Public product surface. Scope-limited local build under AG-2-S. Not deployed.",

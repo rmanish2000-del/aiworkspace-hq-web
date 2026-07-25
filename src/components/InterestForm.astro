@@ -45,11 +45,13 @@
  * Recorded in docs/decisions/ADR-0003-visual-only-form.md.
  */
 import { interest } from '../content/copy';
+import Button from './ui/Button.astro';
+import Section from './ui/Section.astro';
 
 const HEADING_ID = 'interest-heading';
 ---
 
-<section class="section" id="interest" aria-labelledby={HEADING_ID}>
+<Section id="interest" headingId={HEADING_ID}>
   <h2 class="section__heading" id={HEADING_ID}>{interest.heading}</h2>
 
   <p class="section__lead">{interest.lead}</p>
@@ -155,7 +157,7 @@ const HEADING_ID = 'interest-heading';
       on both click and Enter, so a browser regression here fails CI rather than
       leaking field values into a URL.
     -->
-    <button class="button" type="submit">{interest.submitLabel}</button>
+    <Button type="submit">{interest.submitLabel}</Button>
 
     <!--
       `04` §5.4, verbatim. Contains binding commitments C-12, C-13 and C-14.
@@ -175,4 +177,4 @@ const HEADING_ID = 'interest-heading';
     -->
     <div class="status-region" role="status" aria-live="polite"></div>
   </form>
-</section>
+</Section>

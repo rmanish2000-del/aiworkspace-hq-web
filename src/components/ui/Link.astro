@@ -1,0 +1,57 @@
+---
+/**
+ * Link — a body-text link.
+ *
+ * `07` §6.12: accent colour, underlined with `text-underline-offset: 0.2em`
+ * and `text-decoration-thickness: 1px`, thickening to 2px on hover.
+ *
+ * **The underline is never removed.** `07` §2: colour is never the sole carrier
+ * of meaning, so a link that is only coloured is a defect, not a style choice.
+ *
+ * Provenance: CANONICAL.
+ * Accessibility:
+ *   - `external` adds `rel="noopener noreferrer"`. It does NOT add
+ *     `target="_blank"`: opening a new window unannounced is a WCAG 3.2.5
+ *     problem, and no approved copy warns the reader that it will happen.
+ *   - no `title` attribute is ever emitted — `08` HTML-07 forbids using it to
+ *     convey information.
+ * JavaScript: none.
+ */
+export interface Props {
+  href: string;
+  /** Marks an off-site destination; adds rel, never target. */
+  external?: boolean;
+  'aria-label'?: string;
+  class?: string;
+}
+
+const { href, external = false, 'aria-label': ariaLabel, class: className } = Astro.props;
+---
+
+<a
+  class:list={['link', className]}
+  href={href}
+  rel={external ? 'noopener noreferrer' : undefined}
+  aria-label={ariaLabel}
+>
+  <slot />
+</a>
+
+<style>
+  .link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-thickness var(--duration-fast) var(--ease);
+  }
+
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+</style>

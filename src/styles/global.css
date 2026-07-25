@@ -77,14 +77,6 @@ body {
   padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
 }
 
-/* §4 — container: max-width 720px, centred. */
-.container {
-  width: 100%;
-  max-width: calc(var(--container-max) + (var(--container-pad) * 2));
-  margin-inline: auto;
-  padding-inline: var(--container-pad);
-}
-
 /* -------------------------------------------------------------------------- */
 /* §7 Focus — one consistent treatment on every interactive element           */
 /*                                                                            */
@@ -163,23 +155,16 @@ a:hover {
   padding-block: var(--space-5);
 }
 
-.wordmark {
-  font-size: var(--type-wordmark);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-wordmark);
-  letter-spacing: var(--tracking-wordmark);
-  color: var(--fg);
-}
-
 /* -------------------------------------------------------------------------- */
 /* §4 Vertical rhythm — mobile column, desktop column below                   */
 /* -------------------------------------------------------------------------- */
 
-.hero {
-  padding-block-start: var(--space-9);
-}
-
 /*
+ * The hero's own top padding now lives in the design system's Hero component.
+ * What stays here is the rhythm BETWEEN blocks, which is the page's concern
+ * rather than any one component's — a component that sets its own outer margin
+ * cannot be reused at a different rhythm.
+ *
  * `07` §4 gives the same gap to "Hero -> principles" and "Principles -> form".
  * `.hero` does not carry the `.section` class, so it needs naming explicitly —
  * without it the CTA butts straight into the next heading.
@@ -194,10 +179,6 @@ a:hover {
 }
 
 @media (min-width: 1024px) {
-  .hero {
-    padding-block-start: var(--space-11);
-  }
-
   .hero + .section,
   .section + .section {
     margin-block-start: var(--space-12);
@@ -249,19 +230,23 @@ a:hover {
   }
 }
 
-/* §6.4 Stage disclosure — factual disclosure, not a warning banner */
+/*
+ * §6.4 Stage disclosure. The border, padding, type and colour now come from the
+ * design system's Callout (neutral tone). What remains here is the placement:
+ * where it sits in the hero, and how wide it is allowed to get.
+ */
 .stage-disclosure {
   margin-block-start: var(--space-6);
   max-width: var(--measure-body);
-  border-inline-start: 2px solid var(--border-strong);
-  padding-inline: var(--space-4);
-  font-size: var(--type-stage);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-stage);
-  color: var(--fg-muted);
+}
 
-  /* §5 — text-spacing overrides must not clip; never a fixed height. */
-  min-height: var(--space-6);
+/*
+ * §4 — "Stage disclosure -> CTA: --space-6". The Button component supplies the
+ * control's own appearance and its full-width-below-640px behaviour (`block`);
+ * where it sits in the hero is the page's concern.
+ */
+.hero__cta {
+  margin-block-start: var(--space-6);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -302,71 +287,6 @@ a:hover {
   max-width: var(--measure-body);
   color: var(--fg-muted);
   text-wrap: pretty;
-}
-
-/* -------------------------------------------------------------------------- */
-/* §6.5 Primary button                                                        */
-/*                                                                            */
-/* Used by the hero CTA (an <a>) and the form's submit control (a <button>).  */
-/* -------------------------------------------------------------------------- */
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px; /* §6.5; also clears the 44x44 touch target in §9 */
-  padding: 14px 24px;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  background-color: var(--accent);
-  color: var(--accent-fg);
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: var(--weight-semibold);
-  line-height: 1.2;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease);
-}
-
-.button:hover {
-  background-color: var(--accent-hover);
-  /* The button's label is not underlined; only body links are (§6.12). */
-  text-decoration: none;
-}
-
-.button:active {
-  background-color: var(--accent-active);
-  /* §6.5 — no transform on active. */
-}
-
-/*
- * §6.5 — a 1px inner ring in the page background colour, so the indicator stays
- * visible against the accent fill as well as against the page.
- */
-.button:focus-visible {
-  outline: var(--focus-ring-width) solid var(--accent);
-  outline-offset: var(--focus-ring-offset);
-  box-shadow: 0 0 0 1px var(--bg);
-}
-
-/* §5 — full width below 640px, intrinsic width above. */
-.hero__cta {
-  margin-block-start: var(--space-6);
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .hero__cta {
-    width: auto;
-  }
-}
-
-@media (forced-colors: active) {
-  .button {
-    border-color: ButtonText;
-  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -488,20 +408,11 @@ a:hover {
   padding: 0;
 }
 
-/* -------------------------------------------------------------------------- */
-/* §6.11 Footer                                                               */
-/* -------------------------------------------------------------------------- */
-
-.site-footer {
-  border-block-start: 1px solid var(--border);
-  padding-block: var(--space-7);
-  font-size: var(--type-small);
-  line-height: var(--leading-small);
-  color: var(--fg-muted);
-
-  /* Holds its shape while its content is blocked on Open Items B and C. */
-  min-height: var(--space-7);
-}
+/*
+ * §6.11 Footer — the rule, padding, type and colour now come from the design
+ * system's Footer component. Only its position in the page rhythm remains here
+ * (see the vertical-rhythm block above).
+ */
 
 /* -------------------------------------------------------------------------- */
 /* 404                                                                        */

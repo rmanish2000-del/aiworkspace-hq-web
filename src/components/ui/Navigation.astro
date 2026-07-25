@@ -1,0 +1,111 @@
+---
+/**
+ * Navigation — a set of links inside a `navigation` landmark.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ ⛔ NOT APPROVED FOR THE CURRENT ROUTES. Built because P1-I asks for it.    │
+ * │                                                                           │
+ * │ `03` §2 rejects a navigation menu with a reason, not a preference:         │
+ * │ "Nothing to navigate to. A menu with one item is noise." `03` §3 Block 1   │
+ * │ repeats it: "No navigation, no CTA, no language switcher."                 │
+ * │                                                                           │
+ * │ Adding this to `/` today would also change the landmark map `03` §5 fixes  │
+ * │ at banner / main / contentinfo / form, which                              │
+ * │ `tests/e2e/structure.spec.ts` asserts.                                     │
+ * │                                                                           │
+ * │ It exists for the moment there is a second destination — the documentation │
+ * │ and developer surfaces `08` C9 anticipates.                               │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * ─── Why there is no dropdown, no hamburger, and no JavaScript ─────────────
+ * `07` §7: "No keyboard trap exists anywhere. There are no modals, no menus,
+ * no carousels." A disclosure menu is a menu. When the link count outgrows one
+ * row the answer is to WRAP, not to hide behind a toggle — wrapping needs no
+ * JavaScript, no focus management, and no `aria-expanded` to get wrong.
+ *
+ * Items are passed as data rather than as a slot, so the component can mark the
+ * current page itself. Doing that in markup is what keeps it zero-JavaScript.
+ *
+ * Provenance: EXTENSION, unapproved.
+ * Accessibility:
+ *   - a `<nav>` is a landmark; two on a page need distinct accessible names, so
+ *     `label` is required rather than optional.
+ *   - the links render as a list, so their number is announced.
+ *   - the current item gets `aria-current="page"` — the standard way to say
+ *     "you are here" without relying on a visual style, per `07` §2's rule that
+ *     colour is never the sole carrier of meaning.
+ *   - link text comes from the caller and must be approved copy. This component
+ *     has no content authority (P1-A §7.1).
+ * JavaScript: none.
+ */
+import type { NavigationItem } from './types';
+
+export interface Props {
+  /** Accessible name for the landmark. Required — landmarks need distinct names. */
+  label: string;
+  items: readonly NavigationItem[];
+  /** `href` of the current page, if it is one of `items`. */
+  current?: string;
+  class?: string;
+}
+
+const { label, items, current, class: className } = Astro.props;
+---
+
+<nav class:list={['nav', className]} aria-label={label}>
+  <ul class="nav__list">
+    {
+      items.map((item) => (
+        <li class="nav__item">
+          <a
+            class="nav__link"
+            href={item.href}
+            aria-current={item.href === current ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    /* `07` §9 — >=44px touch target with room between adjacent targets. */
+    min-height: 44px;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .nav__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .nav__link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /*
+   * The current page is marked by weight AND by `aria-current`, never by colour
+   * alone (`07` §2).
+   */
+  .nav__link[aria-current='page'] {
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

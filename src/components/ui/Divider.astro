@@ -1,0 +1,48 @@
+---
+/**
+ * Divider — a horizontal rule.
+ *
+ * `07` §2 is precise about which token this may use: `--border` is for
+ * "decorative rules and dividers only — not UI-component boundaries". A
+ * Divider is the canonical decorative rule, so `--border` is correct here and
+ * exempt from the 3:1 non-text contrast requirement (SC 1.4.11), which applies
+ * to controls rather than to ornament.
+ *
+ * The footer's top rule (`07` §6.11) is the only divider on the current pages.
+ *
+ * Provenance: CANONICAL (the token and its one existing use).
+ * Accessibility:
+ *   - a `<hr>` is exposed as a `separator`. When the rule is purely decorative
+ *     and the layout already communicates the break, pass `decorative` to hide
+ *     it from assistive technology rather than announcing a meaningless
+ *     separator.
+ *   - never used to fake spacing. Space is the Stack's job; a Divider means
+ *     "these two things are different", which is a semantic claim.
+ * JavaScript: none.
+ */
+export interface Props {
+  /** Hides the rule from assistive technology. Use when it adds no meaning. */
+  decorative?: boolean;
+  class?: string;
+}
+
+const { decorative = false, class: className } = Astro.props;
+---
+
+<hr class:list={['divider', className]} aria-hidden={decorative ? 'true' : undefined} />
+
+<style>
+  .divider {
+    height: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--border);
+  }
+
+  /* forced-colors strips author borders; restore a visible rule. */
+  @media (forced-colors: active) {
+    .divider {
+      border-block-start-color: CanvasText;
+    }
+  }
+</style>
