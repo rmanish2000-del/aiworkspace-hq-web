@@ -1,6 +1,6 @@
 # Component catalog
 
-15 components, in [`src/components/ui/`](../../src/components/ui/). All import
+11 components, in [`src/components/ui/`](../../src/components/ui/). All import
 from the barrel:
 
 ```astro
@@ -96,19 +96,6 @@ A `<section>` becomes a landmark only when it has an accessible name, so
 `headingId` is how it earns one. The heading level stays with the caller, so the
 document outline is never guessed here.
 
-### `Grid`
-
-⛔ **Not approved for the current routes** — `07` §4 mandates a single column.
-
-| Prop      | Type                         | Default | Notes                       |
-| --------- | ---------------------------- | ------- | --------------------------- |
-| `as`      | `div \| ul \| ol \| section` | `div`   | `ul`/`ol` get `role="list"` |
-| `columns` | `1 \| 2 \| 3 \| 4`           | `2`     | At ≥640px; one column below |
-| `gap`     | `SpaceStep`                  | `6`     |                             |
-
-Collapses to one column below 640px automatically, so reflow at 320px holds
-without the caller doing anything.
-
 ---
 
 ## Controls
@@ -162,8 +149,8 @@ WCAG 3.2.5 problem, and no approved copy warns the reader it will happen.
 
 ### `Navigation`
 
-⛔ **Not approved for the current routes** — `03` §2: "Nothing to navigate to. A
-menu with one item is noise."
+Approved by **P1-J §4.1**, which replaces DEC-008. Four items, wrapping to a
+second row below 640px.
 
 | Prop      | Type                        | Notes                                           |
 | --------- | --------------------------- | ----------------------------------------------- |
@@ -259,53 +246,3 @@ A horizontal rule. `--border` is correct here: `07` §2 scopes that token to
 
 Never used to fake spacing. Space is `Stack`'s job; a Divider asserts "these two
 things are different", which is a semantic claim.
-
-### `Card`
-
-⛔ **Not approved for the current routes.** `07` §1 rejects "floating glass
-cards"; `03` §3 rules out cards for the principles list by name.
-
-| Prop        | Type          | Default | Notes                            |
-| ----------- | ------------- | ------- | -------------------------------- |
-| `as`        | element       | `div`   |                                  |
-| `elevation` | `0 \| 1 \| 2` | `0`     | **Only 0 is approved** (`07` §1) |
-| `subtle`    | `boolean`     | `false` | Uses `--bg-subtle`               |
-
-A Card is a container, never a control. A whole-card click target swallows text
-selection and hides the real link from the accessibility tree — put a real `<a>`
-inside instead.
-
-### `Badge`
-
-⛔ **Not approved anywhere.** The most constrained component in the system.
-
-| Prop   | Type                | Default   |
-| ------ | ------------------- | --------- |
-| `tone` | `neutral \| accent` | `neutral` |
-
-`07` §1 rejects badges. `07` §6.3 gives the reason that generalises: a pill
-"would read as a status chip and imply a state we are not claiming."
-
-That is a **claims** problem, not a visual one. `02` §3 prohibits claims about
-production readiness, maturity, and release status — "Beta", "New", "GA",
-"Stable" are all prohibited strings, and a badge is the component that most
-invites writing one. Using it needs a decision on the visual rule **and** the
-claim.
-
-### `Tag`
-
-⛔ **Not approved for the current routes.** Same pill treatment as `Badge`.
-
-| Prop   | Type              | Default | Notes               |
-| ------ | ----------------- | ------- | ------------------- |
-| `as`   | `span \| li \| a` | `span`  | `a` requires `href` |
-| `href` | `string`          | —       |                     |
-
-Separated from `Badge` because the two mean different things, and conflating
-them is how a taxonomy label becomes a maturity claim:
-
-- **Badge** asserts a **state** of the thing beside it — almost always a claim.
-- **Tag** asserts a **category** it belongs to — not a maturity claim, so the
-  safer of the two, but still unapproved because the pill treatment is.
-
-Intended for the documentation and blog surfaces `08` C9 anticipates.

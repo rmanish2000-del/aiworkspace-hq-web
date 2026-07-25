@@ -7,38 +7,38 @@ needs, because P1-I asked for the components future surfaces will want. The
 rules are what stop that head start from quietly becoming a specification
 breach.
 
-Enforced by `tests/unit/design-system.test.ts`, which fails if an unapproved
-component appears in any page, layout, or page-level component.
+Enforced by `tests/unit/design-system.test.ts`, which fails if a removed
+component reappears on disk or in a template.
 
 ---
 
 ## The one rule that overrides the rest
 
-> **A component being available is not permission to use it.**
+> **Everything exported is approved. Anything not approved is not exported.**
 
-Five components are shipped and unapproved. They are not broken and not
-deprecated — they are ahead of their approval. Using one is a specification
-breach, not a style disagreement.
+This replaces the P1-I position, where five components shipped unapproved. The
+P1-J §0 cleanup removed `Badge`, `Card`, `Tag` and `Grid` from the codebase
+entirely — not merely from the barrel — so that a build importing one **fails**
+rather than silently falling back (CL-4).
+
+`Navigation` moved the other way: P1-J §4.1 approves a four-item navigation bar,
+replacing DEC-008.
 
 ## Approval status
 
-| Component    | `/` and `/404`                 | Why                                                                  |
-| ------------ | ------------------------------ | -------------------------------------------------------------------- |
-| `Container`  | ✅ approved                    | `07` §4 defines the measure                                          |
-| `Stack`      | ✅ approved                    | Expresses the `07` §4 spacing scale                                  |
-| `Section`    | ✅ approved                    | `03` §2 requires labelled sections                                   |
-| `Button`     | ✅ approved                    | `07` §6.5                                                            |
-| `Link`       | ✅ approved                    | `07` §6.12                                                           |
-| `Logo`       | ✅ approved                    | `03` §3 Block 1, as plain text                                       |
-| `Hero`       | ✅ approved                    | `03` §3 Block 2                                                      |
-| `Footer`     | ✅ approved                    | `03` §3 Block 5, `07` §6.11                                          |
-| `Callout`    | ✅ approved, neutral tone only | `07` §6.4 — non-neutral tones are for form states                    |
-| `Divider`    | ✅ approved                    | `07` §2, §6.11                                                       |
-| `Card`       | ⛔ **not approved**            | `07` §1 rejects floating cards; `03` §3 rejects cards for principles |
-| `Grid`       | ⛔ **not approved**            | `07` §4 — single column at every breakpoint                          |
-| `Navigation` | ⛔ **not approved**            | `03` §2 — nothing to navigate to                                     |
-| `Badge`      | ⛔ **not approved**            | `07` §1, §6.3 — implies a state; `02` §3 prohibits most such claims  |
-| `Tag`        | ⛔ **not approved**            | `07` §1, §6.3 — pill treatment unapproved                            |
+| Component    | `/` and `/404`                 | Why                                               |
+| ------------ | ------------------------------ | ------------------------------------------------- |
+| `Container`  | ✅ approved                    | `07` §4 defines the measure                       |
+| `Stack`      | ✅ approved                    | Expresses the `07` §4 spacing scale               |
+| `Section`    | ✅ approved                    | `03` §2 requires labelled sections                |
+| `Button`     | ✅ approved                    | `07` §6.5                                         |
+| `Link`       | ✅ approved                    | `07` §6.12                                        |
+| `Logo`       | ✅ approved                    | `03` §3 Block 1, as plain text                    |
+| `Hero`       | ✅ approved                    | `03` §3 Block 2                                   |
+| `Footer`     | ✅ approved                    | `03` §3 Block 5, `07` §6.11                       |
+| `Callout`    | ✅ approved, neutral tone only | `07` §6.4 — non-neutral tones are for form states |
+| `Divider`    | ✅ approved                    | `07` §2, §6.11                                    |
+| `Navigation` | ⛔ **not approved**            | `03` §2 — nothing to navigate to                  |
 
 Lifting any of these is a founder decision under P1-A §10.2(1). For `Badge` it
 is two decisions: the visual rule **and** the claim.
@@ -127,12 +127,6 @@ is not a landmark, so a screen-reader user cannot jump to it.
 Do not use `Section` for the hero: `03` §2 lists the hero as its own block, and
 `Hero` renders the `<section>` itself.
 
-### `Grid`
-
-Only on surfaces `08` C9 anticipates. Never on `/` or `/404`.
-When it is used, `as="ul"` for genuine lists so `role="list"` is restored —
-`display: grid` drops list semantics in Safari with VoiceOver.
-
 ### `Button`
 
 One primary action per view. `03` §3 omits a secondary CTA at P0, so two
@@ -188,27 +182,6 @@ emphasis.
 Only where two regions are genuinely different in kind. The footer's top rule is
 the one current use. Pass `decorative` when the layout already communicates the
 break, so a screen reader is not told about a separator that means nothing.
-
-### `Card`
-
-Not on the current routes, and specifically **not for the five principles** —
-`03` §3 rules that out by name: "No icons. No numbering. No cards with borders
-competing for attention."
-
-Keep `elevation={0}`. Levels 1 and 2 exist in the scale but `07` §1 approves
-neither.
-
-### `Badge`
-
-Not anywhere. Before proposing a use, check the intended text against `02` §1.3
-and §3 — most badge words are prohibited claims, and the automated
-prohibited-term test will reject them from `copy.ts` regardless.
-
-### `Tag`
-
-Not on the current routes. When the documentation surface exists, render tags
-inside a `<ul>` so their number is announced, and give any linked tag a 44×44
-target (`07` §9).
 
 ### `Navigation`
 

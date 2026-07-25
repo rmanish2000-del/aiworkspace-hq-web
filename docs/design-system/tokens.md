@@ -113,9 +113,9 @@ they are not consumed by any query. Changing one changes nothing on its own.
 | --------------- | -------- | ------------------------------------- |
 | `--radius`      | `8px`    | CANONICAL — `07` §6.5, §6.6           |
 | `--radius-none` | `0`      | EXTENSION                             |
-| `--radius-sm`   | `4px`    | EXTENSION — used by `Tag`             |
+| `--radius-sm`   | `4px`    | EXTENSION — currently unused          |
 | `--radius-md`   | `8px`    | CANONICAL value, aliased into a scale |
-| `--radius-full` | `9999px` | EXTENSION — used by `Badge`           |
+| `--radius-full` | `9999px` | EXTENSION — currently unused          |
 
 ## Motion — CANONICAL (`07` §8)
 
@@ -138,17 +138,18 @@ it do not hang. `scroll-behavior: smooth` is applied only inside a
 P1-I constrains this system to token definitions only: **no component introduces
 an animation.**
 
-## Elevation — EXTENSION, and deliberately almost empty
+## Elevation — REMOVED
 
-| Token           | Value                        | Approved for use |
-| --------------- | ---------------------------- | ---------------- |
-| `--elevation-0` | `none`                       | ✅ yes           |
-| `--elevation-1` | `0 1px 2px rgb(0 0 0 / .06)` | ⛔ no            |
-| `--elevation-2` | `0 2px 8px rgb(0 0 0 / .08)` | ⛔ no            |
+P1-J §0 CL-2 removed elevation from the canonical surface. P0 `07` defines no
+elevation scale, `07` §1 rejects "floating glass cards", and §6.2 gives the
+header "no border, no shadow".
 
-`07` §1 rejects "floating glass cards" and §6.2 gives the header "no border, no
-shadow". **The page's depth model is that there is no depth.** The scale exists
-because P1-I asks for one; using anything above 0 needs a visual approval.
+> **Phase 1 pages use borders and background tokens for separation, never
+> shadow.** — P1-J §0
+
+The only remaining `box-shadow` is the 1px inner ring on `Button:focus-visible`,
+which is an accessibility indicator (`07` §6.5), not decoration. A test asserts
+no other component uses one.
 
 ## Z-index — EXTENSION
 
@@ -174,12 +175,3 @@ The page body currently references **no images at all** (`07` §11 — image wei
 0 bytes). The only icon `07` specifies is the inline warning glyph beside error
 text, which must carry `aria-hidden="true"` and `focusable="false"`
 (`08` HTML-09) because the text carries the meaning.
-
-## Grid — EXTENSION
-
-| Token        | Value       |
-| ------------ | ----------- |
-| `--grid-gap` | `--space-6` |
-
-Columns collapse to one below 640px, always. `07` §4 mandates a single column at
-every breakpoint for the current routes, so this is for later surfaces only.

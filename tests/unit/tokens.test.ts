@@ -6,8 +6,6 @@ import {
   BREAKPOINTS,
   COLOR_TOKENS,
   CONTAINER_MAX_PX,
-  ELEVATION,
-  ELEVATION_APPROVED_FOR_USE,
   FOUNDATION_PROVENANCE,
   ICON_SIZE,
   MOTION_DURATIONS,
@@ -56,12 +54,9 @@ describe('the two declarations agree', () => {
     }
   });
 
-  it('declares every radius, elevation, z-index and icon token in CSS', () => {
+  it('declares every radius, z-index and icon token in CSS', () => {
     for (const [step, value] of Object.entries(RADIUS)) {
       expect(cssVar(`--radius-${step}`), `--radius-${step}`).toBe(value);
-    }
-    for (const [level, value] of Object.entries(ELEVATION)) {
-      expect(cssVar(`--elevation-${level}`), `--elevation-${level}`).toBe(value);
     }
     for (const [layer, value] of Object.entries(Z_INDEX)) {
       expect(cssVar(`--z-${layer}`), `--z-${layer}`).toBe(String(value));
@@ -144,10 +139,16 @@ describe('scale integrity', () => {
 
 describe('provenance', () => {
   it('marks the extension tokens as extensions, not as canonical', () => {
-    expect(FOUNDATION_PROVENANCE.elevation).toBe('extension');
     expect(FOUNDATION_PROVENANCE['z-index']).toBe('extension');
     expect(FOUNDATION_PROVENANCE['icon-sizing']).toBe('extension');
-    expect(FOUNDATION_PROVENANCE.grid).toBe('extension');
+  });
+
+  it('no longer declares elevation or grid at all', () => {
+    // P1-J §0 CL-2 removed elevation from the canonical surface, and the Grid
+    // component went with it — `07` §4 mandates a single column and every
+    // Phase 1 route is single-column.
+    expect(Object.keys(FOUNDATION_PROVENANCE)).not.toContain('elevation');
+    expect(Object.keys(FOUNDATION_PROVENANCE)).not.toContain('grid');
   });
 
   it('keeps the canonical foundations canonical', () => {
@@ -157,12 +158,6 @@ describe('provenance', () => {
     expect(FOUNDATION_PROVENANCE.color).toBe('canonical');
     expect(FOUNDATION_PROVENANCE.breakpoints).toBe('canonical');
     expect(FOUNDATION_PROVENANCE.motion).toBe('canonical');
-  });
-
-  it('approves only elevation 0 for use', () => {
-    // `07` §1 rejects floating cards; §6.2 gives the header no shadow.
-    expect(ELEVATION_APPROVED_FOR_USE).toEqual([0]);
-    expect(ELEVATION[0]).toBe('none');
   });
 
   it('documents every foundation in the token reference', () => {
