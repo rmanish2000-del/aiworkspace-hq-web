@@ -138,6 +138,61 @@ but the pinned combination is unverified until CI runs.
 **Required act:** treat the first CI run as the check. If it fails on the pin,
 that is the finding, and it is cheap to correct.
 
+### E-8 · Branch protection could not be applied — the plan does not allow it ⛔
+
+**This is the most consequential finding in this handoff.**
+
+P1-A §4.1 makes `main` a protected branch: no direct push, no force push, no
+deletion, linear history, required status checks. P1-A **CC-9** requires that
+protection to be active **before the first product commit**. P1-A §2.4 step 5
+additionally requires secret scanning.
+
+Neither could be applied. Both attempts were refused by GitHub:
+
+| Attempted                           | Result                                                       |
+| ----------------------------------- | ------------------------------------------------------------ |
+| Repository ruleset on `main`        | `403 — Upgrade to GitHub Pro or make this repository public` |
+| Classic branch protection on `main` | `403 — Upgrade to GitHub Pro or make this repository public` |
+| Secret scanning + push protection   | `422 — Secret scanning is not available for this repository` |
+
+The cause is the account plan: on GitHub Free, these features are available on
+public repositories only. The account has no paid plan.
+
+**The two obvious workarounds are both prohibited:**
+
+- Making the repository public breaches SEC-12, P-09, and P-17.
+- Creating an organization in the operating entity's name is the foreign-vendor
+  contract that P1-F §4.1 routes to counsel while OBJ-6 is unresolved.
+
+**What was applied instead**
+
+| Control                                        | State                                                                             |
+| ---------------------------------------------- | --------------------------------------------------------------------------------- |
+| Visibility private                             | ✅ Verified                                                                       |
+| Default branch `main`                          | ✅                                                                                |
+| Sole collaborator                              | ✅ Only the account owner                                                         |
+| Dependabot alerts                              | ✅ Enabled                                                                        |
+| Dependabot automated security fixes            | ✅ Enabled                                                                        |
+| Merge commits disabled; squash and rebase only | ✅ — approximates linear history by convention                                    |
+| Delete branch on merge                         | ✅                                                                                |
+| `gitleaks` as a CI gate                        | ✅ — this is what P1-F S-5 actually relies on, and it does not depend on the plan |
+| CodeQL                                         | ✅                                                                                |
+
+So the secret-scanning objective is met by `gitleaks` in CI. The
+**branch-protection objective is not met by anything.** Direct pushes to `main`
+are currently possible, and nothing mechanically enforces that CI passed.
+
+**Required act — choose one:**
+
+1. Upgrade the personal account to GitHub Pro. This is a cost decision and a
+   personal-name subscription, not a company contract; it does not engage OBJ-6.
+2. Accept the gap explicitly, amend P1-A CC-9 to reflect it, and rely on
+   convention until the repository moves to an organization under trigger T-F1.
+3. Direct some other arrangement.
+
+Until one is chosen, the repository is **not** in the configuration P1-A §4.1
+describes, and `PROJECT_STATE.md` should not be read as claiming otherwise.
+
 ---
 
 ## 3. Assumptions made

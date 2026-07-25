@@ -120,9 +120,19 @@ jobs:
       - name: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          # Offline: internal links only. The site is not deployed and must make
-          # no outbound request (P-02, P-09), so external URLs are not resolved.
-          args: --offline --no-progress --include-fragments 'dist/**/*.html'
+          # --offline: internal links only. The site is not deployed and must
+          #   make no outbound request (P-02, P-09), so external URLs are never
+          #   resolved.
+          # --root-dir: required to resolve root-relative hrefs such as the
+          #   404 page's link to `/`. Without it lychee cannot tell what `/`
+          #   means for a file on disk, and reports it as an error.
+          # --include-fragments: so an in-page anchor pointing at a missing id
+          #   fails here. That is the gate that keeps the omitted hero CTA
+          #   honest.
+          args: >-
+            --offline --no-progress --include-fragments
+            --root-dir ${{ github.workspace }}/dist
+            'dist/**/*.html'
           fail: true
 
   a11y-and-e2e:

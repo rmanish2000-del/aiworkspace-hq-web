@@ -162,6 +162,56 @@ should be removed once its parent ships the fix.
 deployed production URL under mobile emulation, 4× CPU throttling and Slow 4G.
 None of that exists here. Re-measure after AG-3.
 
+## 6a. Remote repository configuration — as applied
+
+| Control                             | State                                                      |
+| ----------------------------------- | ---------------------------------------------------------- |
+| Visibility                          | ✅ **Private** — verified                                  |
+| Default branch                      | ✅ `main`                                                  |
+| Principals with access              | ✅ Account owner only. No collaborator, no bot, no app     |
+| Dependabot alerts                   | ✅ Enabled                                                 |
+| Dependabot automated security fixes | ✅ Enabled                                                 |
+| Merge commits                       | ✅ Disabled — squash and rebase only                       |
+| Delete branch on merge              | ✅ Enabled                                                 |
+| Secret scanning / push protection   | ⛔ **Unavailable on this plan** — `gitleaks` in CI instead |
+| Branch protection on `main`         | ⛔ **NOT APPLIED — unavailable on this plan**              |
+
+**Branch protection could not be applied.** Both the ruleset API and the classic
+branch-protection API return `403 — Upgrade to GitHub Pro or make this
+repository public`. On GitHub Free these features exist on public repositories
+only, and making this repository public is prohibited by SEC-12, P-09 and P-17.
+
+Consequences, stated plainly:
+
+- P1-A §4.1 (no direct push, no force push, linear history, required status
+  checks) is **not enforced**. It is currently convention only.
+- P1-A **CC-9** — protection active before the first product commit — is **not
+  satisfied**.
+- P1-A §2.4 step 5 (secret scanning) is met in substance by `gitleaks` running
+  as a CI gate, which is what P1-F S-5 relies on and does not depend on the
+  plan.
+
+This needs a founder decision. See [`HANDOFF.md`](HANDOFF.md) E-8.
+
+## 6b. First CI run
+
+| Job                              | Result     |
+| -------------------------------- | ---------- |
+| Lint, types, format, unit tests  | ✅ success |
+| Build and validate HTML          | ✅ success |
+| Accessibility and end-to-end     | ✅ success |
+| Lighthouse (indicative only)     | ✅ success |
+| Dependency audit and secret scan | ✅ success |
+| Link check (`lychee`)            | ❌ → fixed |
+
+`lychee` correctly rejected the 404 page's root-relative link to `/`: resolving
+such a link against files on disk needs an explicit root directory. Fixed by
+passing `--root-dir`. The failure is worth recording rather than quietly
+patching — it is evidence the link gate actually works.
+
+The CI run also **verifies the Node pin**: the workflow installs 22.23.1 from
+`.nvmrc`, and every job succeeded on it. That closes the caveat in §6.
+
 ## 7. What has deliberately not been done
 
 No deployment. No hosting account. No vendor account of any kind, including free
