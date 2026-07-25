@@ -1,12 +1,29 @@
 name: CodeQL
 
-# Static analysis of the repository's own JavaScript/TypeScript and of the
+# Static analysis of this repository's own JavaScript/TypeScript and of the
 # GitHub Actions workflows themselves.
 #
 # CodeQL is not named in P0 `08` §14. It was added by the current assignment and
 # is additive: it blocks nothing that `08` §14 does not already block, and it
 # introduces no runtime dependency and no processor (source code only —
 # TDR-04 records that this vendor handles no personal data).
+#
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │ Code scanning is UNAVAILABLE on the account plan currently in force.       │
+# │                                                                           │
+# │ CodeQL analyses the code happily, then fails when it tries to upload its   │
+# │ results, because the code-scanning API returns 403 for a private           │
+# │ repository on GitHub Free. Making the repository public to obtain the      │
+# │ feature is prohibited (SEC-12, P-09, P-17).                                │
+# │                                                                           │
+# │ Rather than leave a permanently red check — which teaches everyone to      │
+# │ ignore CI — the preflight job below probes the API and skips the analysis  │
+# │ when it is unavailable. The moment the plan allows code scanning, the      │
+# │ probe succeeds and the analysis starts running with no edit to this file.  │
+# │                                                                           │
+# │ Recorded as finding E-8 in HANDOFF.md. Do not delete this workflow to      │
+# │ silence it: a skipped job is visible, a deleted one is forgotten.          │
+# └───────────────────────────────────────────────────────────────────────────┘
 
 on:
   push:
@@ -21,8 +38,46 @@ permissions:
   contents: read
 
 jobs:
+  preflight:
+    name: Is code scanning available?
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: read
+    outputs:
+      enabled: ${{ steps.probe.outputs.enabled }}
+    steps:
+      - id: probe
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/code-scanning/alerts?per_page=1")
+
+          echo "code-scanning API returned HTTP $code"
+
+          # 403 => the feature is not available on this plan.
+          # 404 => enabled but no alerts yet. 200 => enabled.
+          if [ "$code" = "403" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### CodeQL skipped"
+              echo ""
+              echo "Code scanning is not available for this repository on the"
+              echo "current account plan (API returned 403). See HANDOFF.md E-8."
+              echo ""
+              echo "This is a **known, recorded gap**, not a passing check."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
   analyze:
     name: Analyze (${{ matrix.language }})
+    needs: preflight
+    if: needs.preflight.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 

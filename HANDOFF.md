@@ -3,7 +3,7 @@
 **From:** Claude Code, delegated implementer under AG-2-S
 **To:** Founder
 **Assignment:** Repository initialization and non-public development foundation
-**Date:** 2026-07-25
+**Date:** 2026-07-26
 **Stopping point reached:** yes — work has stopped and awaits a founder act
 
 ---
@@ -135,10 +135,10 @@ All gates pass on 22.14.0 with engine warnings and no errors. The pin is newer
 than the verified version, not older, so the direction of risk is favourable —
 but the pinned combination is unverified until CI runs.
 
-**Required act:** treat the first CI run as the check. If it fails on the pin,
-that is the finding, and it is cheap to correct.
+**RESOLVED.** The first CI run installed 22.23.1 from `.nvmrc` and every job
+succeeded on it. The pin is verified. No act required.
 
-### E-8 · Branch protection could not be applied — the plan does not allow it ⛔
+### E-8 · Three required repository controls are blocked by the account plan ⛔
 
 **This is the most consequential finding in this handoff.**
 
@@ -147,16 +147,25 @@ deletion, linear history, required status checks. P1-A **CC-9** requires that
 protection to be active **before the first product commit**. P1-A §2.4 step 5
 additionally requires secret scanning.
 
-Neither could be applied. Both attempts were refused by GitHub:
+None of it could be applied. Every attempt was refused:
 
 | Attempted                           | Result                                                       |
 | ----------------------------------- | ------------------------------------------------------------ |
 | Repository ruleset on `main`        | `403 — Upgrade to GitHub Pro or make this repository public` |
 | Classic branch protection on `main` | `403 — Upgrade to GitHub Pro or make this repository public` |
 | Secret scanning + push protection   | `422 — Secret scanning is not available for this repository` |
+| Code scanning (CodeQL upload)       | `403 — Code scanning is not enabled for this repository`     |
 
-The cause is the account plan: on GitHub Free, these features are available on
-public repositories only. The account has no paid plan.
+One cause: on GitHub Free these features exist on **public** repositories only,
+and the account has no paid plan.
+
+The CodeQL consequence is worth stating separately. The analysis itself runs
+fine; it fails only when uploading results. Rather than leave a permanently red
+check — which teaches everyone to ignore CI — the workflow now probes the
+code-scanning API first and skips the analysis when it is unavailable, with a
+job summary saying so. It starts working by itself the moment the plan allows
+it. The workflow was **not** deleted: a skipped job stays visible, a deleted one
+is forgotten.
 
 **The two obvious workarounds are both prohibited:**
 
@@ -176,11 +185,12 @@ public repositories only. The account has no paid plan.
 | Merge commits disabled; squash and rebase only | ✅ — approximates linear history by convention                                    |
 | Delete branch on merge                         | ✅                                                                                |
 | `gitleaks` as a CI gate                        | ✅ — this is what P1-F S-5 actually relies on, and it does not depend on the plan |
-| CodeQL                                         | ✅                                                                                |
+| CodeQL                                         | ⛔ Configured, skips itself while code scanning is unavailable                    |
 
-So the secret-scanning objective is met by `gitleaks` in CI. The
-**branch-protection objective is not met by anything.** Direct pushes to `main`
-are currently possible, and nothing mechanically enforces that CI passed.
+So the secret-scanning objective is met by `gitleaks` in CI, which is what P1-F
+S-5 actually relies on. The **branch-protection objective is met by nothing.**
+Direct pushes to `main` are currently possible, and nothing mechanically
+enforces that CI passed before a merge.
 
 **Required act — choose one:**
 
