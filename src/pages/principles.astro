@@ -1,0 +1,96 @@
+---
+/**
+ * `/principles` — P1-J §7. "How we are building it."
+ *
+ * ⚠️ The five principles and their glosses are NOT re-transcribed here. They
+ * resolve from `principles.items` — the same copy entry `/` uses. P1-J §11:
+ * "A string that appears on two routes is one entry. Duplicating it is how a
+ * claim silently diverges between pages." P1-J §7.3 makes it an acceptance
+ * criterion: "the shared gloss resolves from ONE copy-module entry."
+ *
+ * ⚠️ The gloss for *Evidence before claims* says "this page", not "this site".
+ * It is verbatim from P0 `04` §4 and must not be edited to match the lead's
+ * "this site" — editing it would break the verbatim-copy test and re-enter
+ * content approval (P1-J §7.1).
+ *
+ * ⚠️ DEVIATION FROM P1-J §7.3 — heading levels.
+ *
+ * P1-J §7.3 specifies the outline `h1 → h3 ×5 → h2`. That skips h2 on the way
+ * down, which:
+ *
+ *   - fails `08` HTML-03 ("no skipped heading levels");
+ *   - fails `08` HTML-01 ("zero errors from the validator") — `html-validate`
+ *     rejects it with `heading-level`;
+ *   - is a WCAG 1.3.1 problem: a screen-reader user navigating by heading
+ *     hears a level-3 heading with no level-2 parent.
+ *
+ * P1-A §6.1 puts the P0 foundation above P1-J, so P0 wins. The five principles
+ * render as **h2** here, giving `h1 → h2 ×5 → h2`.
+ *
+ * The level is genuinely different on the two routes, and correctly so: on `/`
+ * the principles sit under the h2 "How we are building it", so they are h3. On
+ * `/principles` that same string IS the h1, so they are its direct children.
+ * The heading level is structural, not part of the copy — the strings
+ * themselves remain one shared entry, unchanged.
+ *
+ * Raised as a finding for P1-J §7.3 to be corrected. See
+ * docs/reviews/implementation-notes.md.
+ */
+import Base from '../layouts/Base.astro';
+import Section from '../components/ui/Section.astro';
+import Callout from '../components/ui/Callout.astro';
+import Button from '../components/ui/Button.astro';
+import { hero, interest, nav, principles, principlesPage } from '../content/copy';
+
+const MEANING_ID = 'meaning-heading';
+---
+
+<Base
+  title={principlesPage.metaTitle}
+  description={principlesPage.metaDescription}
+  canonicalPath={principlesPage.canonicalPath}
+  indexableInProduction={true}
+>
+  <section class="page-head">
+    <h1 class="page-head__title">{principlesPage.heading}</h1>
+    <p class="page-head__lead">{principlesPage.lead}</p>
+  </section>
+
+  {
+    /*
+    Same five entries the home route renders. No icons, no numbering, no cards
+    competing for attention (`03` §3).
+  */
+  }
+  <ul class="principles__list principles__list--page">
+    {
+      principles.items.map((principle) => (
+        <li class="principles__item">
+          {/* h2, not h3 — see the deviation note above. */}
+          <h2 class="principles__title">{principle.title}</h2>
+          <p class="principles__gloss">{principle.gloss}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <Section headingId={MEANING_ID}>
+    <h2 class="section__heading" id={MEANING_ID}>{principlesPage.meaningHeading}</h2>
+    <ul class="statement-list">
+      {
+        principlesPage.meaningPoints.map((point) => (
+          <li class="statement">
+            <p class="statement__body">{point}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <section class="page-close">
+    <Callout class="stage-disclosure">{hero.stageDisclosure}</Callout>
+    <Button as="a" href={nav.registerInterestHref} class="page-close__cta" block>
+      {interest.heading}
+    </Button>
+  </section>
+</Base>

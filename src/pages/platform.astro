@@ -1,0 +1,104 @@
+---
+/**
+ * `/platform` — P1-J §6. "What an Enterprise AI Operating Layer is."
+ *
+ * Purpose (P1-J §6): educate before selling. Explain the category and the
+ * problem it addresses, and draw the boundary against adjacent categories —
+ * **without describing product capability**.
+ *
+ * Every string resolves from `copy.ts`, transcribed from P1-J §6, which traces
+ * each line to P0 `01` or the Approved Foundation.
+ *
+ * Nothing on this page describes architecture, a feature, an integration, a
+ * deployment model, a performance figure, or a date. No competitor is named.
+ * All three pillars read "is designed to" — P1-J §6.3 tier [AD].
+ *
+ * Outline (P1-J §6.4): h1 → h2 ×3 → h3 ×3, no level skipped.
+ *   h1  What an Enterprise AI Operating Layer is
+ *    h2  The problem
+ *    h2  Three things it is designed to do
+ *      h3 Connect / Understand / Orchestrate
+ *    h2  What it is not
+ */
+import Base from '../layouts/Base.astro';
+import Section from '../components/ui/Section.astro';
+import Callout from '../components/ui/Callout.astro';
+import Button from '../components/ui/Button.astro';
+import { hero, interest, nav, platform } from '../content/copy';
+
+const PROBLEM_ID = 'problem-heading';
+const PILLARS_ID = 'pillars-heading';
+const DISTINCTIONS_ID = 'distinctions-heading';
+---
+
+<Base
+  title={platform.metaTitle}
+  description={platform.metaDescription}
+  canonicalPath={platform.canonicalPath}
+  indexableInProduction={true}
+>
+  <section class="page-head">
+    <p class="eyebrow">{platform.eyebrow}</p>
+    <h1 class="page-head__title">{platform.heading}</h1>
+    <p class="page-head__lead">{platform.lead}</p>
+  </section>
+
+  <Section headingId={PROBLEM_ID}>
+    <h2 class="section__heading" id={PROBLEM_ID}>{platform.problemHeading}</h2>
+    <ul class="statement-list">
+      {
+        platform.problems.map((problem) => (
+          <li class="statement">
+            <strong class="statement__lead-in">{problem.leadIn}</strong>
+            <p class="statement__body">{problem.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section headingId={PILLARS_ID}>
+    <h2 class="section__heading" id={PILLARS_ID}>{platform.pillarsHeading}</h2>
+    <p class="section__lead">{platform.pillarsLead}</p>
+    <ul class="principles__list">
+      {
+        platform.pillars.map((pillar) => (
+          <li class="principles__item">
+            <h3 class="principles__title">{pillar.title}</h3>
+            <p class="principles__gloss">{pillar.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section headingId={DISTINCTIONS_ID}>
+    <h2 class="section__heading" id={DISTINCTIONS_ID}>{platform.distinctionsHeading}</h2>
+    <p class="section__lead">{platform.distinctionsLead}</p>
+    {
+      /*
+      A definition list: each row pairs a category with what distinguishes it.
+      `<dl>` says that relationship in markup, where a `<ul>` would leave a
+      screen-reader user to infer it from visual adjacency.
+    */
+    }
+    <dl class="distinctions">
+      {
+        platform.distinctions.map((distinction) => (
+          <div class="distinction">
+            <dt class="distinction__term">{distinction.category}</dt>
+            <dd class="distinction__body">{distinction.body}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Section>
+
+  <section class="page-close">
+    {/* Binding commitment C-11, one copy entry shared with `/`. */}
+    <Callout class="stage-disclosure">{hero.stageDisclosure}</Callout>
+    <Button as="a" href={nav.registerInterestHref} class="page-close__cta" block>
+      {interest.heading}
+    </Button>
+  </section>
+</Base>

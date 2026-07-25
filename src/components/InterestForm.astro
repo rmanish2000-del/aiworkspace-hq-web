@@ -72,13 +72,15 @@ const HEADING_ID = 'interest-heading';
         spellcheck="false"
         aria-describedby="work-email-hint"
       />
-      <!--
+      {
+        /*
         `07` §9 specifies `autocapitalize="none"` on the email field. It is
         omitted: `html-validate` rejects the attribute on `<input type="email">`,
         and `08` HTML-01 requires zero validator errors. Nothing is lost —
         `type="email"` already suppresses autocapitalisation on every mobile
         keyboard, so the attribute was redundant as well as invalid.
-      -->
+      */
+      }
     </div>
 
     <div class="field">
@@ -134,13 +136,14 @@ const HEADING_ID = 'interest-heading';
         aria-describedby="context-hint"></textarea>
     </div>
 
-    <!-- `07` §6.7 — a consent, never a toggle switch. Unchecked by default. -->
+    {/* `07` §6.7 — a consent, never a toggle switch. Unchecked by default. */}
     <div class="consent">
       <input class="consent__box" type="checkbox" id="consent" name="consent" required />
       <label class="consent__label" for="consent">{interest.consentLabel}</label>
     </div>
 
-    <!--
+    {
+      /*
       A real `type="submit"`, deliberately.
 
       An earlier revision used `type="button"` to guarantee inertness. That
@@ -156,10 +159,12 @@ const HEADING_ID = 'interest-heading';
       tests/e2e/form-inert.spec.ts asserts no navigation and no network request
       on both click and Enter, so a browser regression here fails CI rather than
       leaking field values into a URL.
-    -->
+    */
+    }
     <Button type="submit">{interest.submitLabel}</Button>
 
-    <!--
+    {
+      /*
       `04` §5.4, verbatim. Contains binding commitments C-12, C-13 and C-14.
 
       "Read the privacy notice" is rendered as TEXT, not as a link: `/privacy`
@@ -168,13 +173,16 @@ const HEADING_ID = 'interest-heading';
       where a destination is out of scope, the link and the destination are
       omitted together. The sentence itself is unchanged, so no approved string
       is edited.
-    -->
+    */
+    }
     <p class="micro-notice">{interest.privacyMicroNotice}</p>
 
-    <!--
+    {
+      /*
       `07` §7 — present in the DOM from first render. Empty, and stays empty:
       nothing in this scope writes a status message.
-    -->
+    */
+    }
     <div class="status-region" role="status" aria-live="polite"></div>
   </form>
 </Section>

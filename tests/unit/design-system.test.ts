@@ -204,6 +204,19 @@ describe('Link', () => {
     expect(html).not.toContain('target=');
   });
 
+  it('emits no whitespace inside the anchor', async () => {
+    // An inline link with padding whitespace renders as "register interest ."
+    // — a space before the punctuation, underlined. It reached /contact once.
+    const html = await render(Link, {
+      props: { href: '/x' },
+      slots: { default: 'register interest' },
+    });
+
+    expect(html).toContain('>register interest</a>');
+    expect(html).not.toMatch(/>\s+register interest/);
+    expect(html).not.toMatch(/register interest\s+<\/a>/);
+  });
+
   it('never emits a title attribute', async () => {
     // `08` HTML-07 — `title` must not be used to convey information.
     const html = await render(Link, { props: { href: '/x' }, slots: { default: 'x' } });

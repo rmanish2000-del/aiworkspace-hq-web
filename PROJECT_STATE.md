@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.3.0`
-**Specification version implemented:** P0 v1.1.1 (`00`–`12`, `DECISION_LOG.md`)
+**Implementation version:** `0.4.0`
+**Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-I)
+**Last updated:** 2026-07-26 (P1-K)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -66,16 +66,25 @@ component with an open decision is excluded by an enumerated prohibition.
 
 ## 4. What is built
 
-| Route                       | File                    | Status                                            |
-| --------------------------- | ----------------------- | ------------------------------------------------- |
-| `/`                         | `src/pages/index.astro` | Built — header, hero, principles, footer landmark |
-| `/404`                      | `src/pages/404.astro`   | Built                                             |
-| `/privacy`                  | —                       | **Not built.** Open Item A; P-11                  |
-| `/robots.txt`               | —                       | **Not built.** P-14                               |
-| `/sitemap.xml`              | —                       | **Not built.** P-14                               |
-| `/.well-known/security.txt` | —                       | **Not built.** Open Item C; P-13                  |
-| `/api/interest`             | —                       | **Not built.** MF-1 — and none is possible        |
-| `/api/form-token`           | —                       | **Not built.** MF-1                               |
+Six routes, per P1-J §3.
+
+| Route                       | File                         | Status                                             |
+| --------------------------- | ---------------------------- | -------------------------------------------------- |
+| `/`                         | `src/pages/index.astro`      | Built — hero, principles, visual-only form         |
+| `/platform`                 | `src/pages/platform.astro`   | Built — P1-J §6                                    |
+| `/principles`               | `src/pages/principles.astro` | Built — P1-J §7                                    |
+| `/contact`                  | `src/pages/contact.astro`    | Built **as a shell** — every address withheld      |
+| `/privacy`                  | `src/pages/privacy.astro`    | Built — **not publishable**, Open Items A and B    |
+| `/404`                      | `src/pages/404.astro`        | Built — body string corrected by P1-J §10          |
+| `/sitemap.xml`              | `src/pages/sitemap.xml.ts`   | Built — the five indexable routes                  |
+| `/docs`                     | —                            | **Deferred.** P1-J §13 — no approved platform spec |
+| `/research`                 | —                            | **Deferred.** P1-J §12 — no approved research      |
+| `/robots.txt`               | —                            | **Not built.** P-14                                |
+| `/.well-known/security.txt` | —                            | **Not built.** Open Item C; P-13                   |
+| `/api/interest`             | —                            | **Not built.** MF-1 — and none is possible         |
+| `/api/form-token`           | —                            | **Not built.** MF-1                                |
+
+Nothing links to a route that does not exist, and a test asserts it.
 
 ### Blocks on `/`, against `03` §2
 

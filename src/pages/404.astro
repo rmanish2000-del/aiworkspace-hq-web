@@ -1,12 +1,24 @@
 ---
 /**
- * `/404` — not found. `03` §1: minimal, single link back to `/`, never indexed.
+ * `/404` — not found. `03` §1: minimal, never indexed.
  *
- * Copy is `04` §11 verbatim. The <title> is PROVISIONAL (GAP-02 in copy.ts):
- * `04` §1 specifies titles for home and privacy only.
+ * ⚠️ The body string is CORRECTED by P1-J §10. P0 `04` §11 reads "There is only
+ * one page here at the moment." — which became factually false the moment a
+ * second content route shipped. P1-J supplies the replacement, and its
+ * acceptance criterion is that "the old 'only one page' string appears nowhere
+ * in the build". A test asserts that.
  *
- * No meta description is emitted: `04` §1 specifies none for this route, and
- * composing one would be a further invention. The route is noindex regardless.
+ * P1-J §10 adds two recovery links beside the home link.
+ *
+ * The `<title>` is PROVISIONAL (GAP-02 in copy.ts): `04` §1 specifies titles
+ * for home and privacy only. No meta description is emitted — `04` §1 specifies
+ * none for this route, and the route is noindex regardless.
+ *
+ * ⚠️ Behaviour caveat. P1-J §10 requires HTTP 404 and an `X-Robots-Tag` header.
+ * A static build emits `404.html`; the status code and the header are supplied
+ * by the host, which does not exist (P-01, P-02). The `noindex` meta tag is
+ * emitted here and holds regardless. Recorded in
+ * docs/reviews/implementation-notes.md.
  */
 import Base from '../layouts/Base.astro';
 import { notFound, PROVISIONAL } from '../content/copy';
@@ -21,6 +33,17 @@ import { notFound, PROVISIONAL } from '../content/copy';
   <section class="notfound">
     <h1 class="notfound__heading">{notFound.heading}</h1>
     <p class="notfound__body">{notFound.body}</p>
-    <a class="notfound__link" href="/">{notFound.linkText}</a>
+    <ul class="notfound__links">
+      <li><a class="notfound__link" href="/">{notFound.linkText}</a></li>
+      {
+        notFound.links.map((link) => (
+          <li>
+            <a class="notfound__link" href={link.href}>
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 </Base>

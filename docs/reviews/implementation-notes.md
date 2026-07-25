@@ -11,11 +11,59 @@ answer. Anything here that turns out to be permanent belongs in
 Moved out of `ADR-0003` on 2026-07-26, under P1-H.1, so that the decision
 records hold long-term architectural decisions only.
 
-**Last updated:** 2026-07-26 · **Applies to:** `0.2.0`
+**Last updated:** 2026-07-26 · **Applies to:** `0.4.0`
 
 ---
 
 ## 1. Open — needs a founder decision
+
+### P1K-1 · `06` Part B says "This site is a single page", which is now false
+
+**Component:** `src/pages/privacy.astro` · **Since:** P1-K
+
+P0 `06` Part B opens: _"This site is a single page. It does not have accounts,
+does not sell anything, and does not track you across the web."_
+
+The first sentence stopped being true the moment `/platform` shipped. This is
+the **identical defect** P1-J §10 caught in the `04` §11 404 string and
+corrected — P1-J simply did not check `06` for the same problem.
+
+The sentence is withheld rather than edited (P-10 forbids editing approved
+copy). The rest of the paragraph is withheld with it, because the three clauses
+are one string.
+
+**Resolves when:** `06` is amended the same way `04` §11 was.
+
+### P1K-2 · P1-J §7.3 specifies a heading outline that fails the validator
+
+**Component:** `src/pages/principles.astro` · **Since:** P1-K
+
+P1-J §7.3 specifies `h1 → h3 ×5 → h2` for `/principles`. That skips a level,
+which fails `08` HTML-03, fails `08` HTML-01 (`html-validate` rejects it), and
+is a WCAG 1.3.1 problem — a screen-reader user hears a level-3 heading with no
+level-2 parent.
+
+P1-A §6.1 puts P0 above P1-J, so the principles render as **h2** here. The
+strings are unchanged and still resolve from the one shared copy entry; only
+the element differs, and it differs correctly: on `/` the principles sit under
+the h2 "How we are building it", so they are h3; on `/principles` that string
+IS the h1, so they are its direct children.
+
+**Resolves when:** P1-J §7.3 is corrected to `h1 → h2 ×5 → h2`.
+
+### P1K-3 · The P0 v2.0 amendment could not be verified
+
+P1-J §2.2 states that `/platform` and `/contact` are named in `03` §1 as "not
+created at P0", that DEC-008 forbids a navigation menu, and that the `04` §11
+404 string must change — and concludes that **a P0 v2.0 amendment must be
+approved before the first route commit** (§15, Governance).
+
+The assignment supplied P1-J as approved and directed implementation, so the
+build proceeded on that basis. Whether the P0 amendment was formally recorded
+is not something this repository can verify.
+
+**Resolves when:** the amendment is recorded, or the founder confirms P1-J's
+approval subsumes it.
 
 ### R-1 · "Read the privacy notice" renders as text, not a link
 
@@ -90,6 +138,29 @@ a submit with no `action` would issue a GET to the current URL with the field
 values in the query string. That is why the no-navigation assertions live in
 CI rather than in a comment claiming safety.
 
+### The `Link` component put whitespace inside its anchor
+
+**Resolved:** P1-K, before merge.
+
+`Link.astro` formatted its slot across lines, so every inline use rendered with
+a leading and trailing space inside the `<a>`. On `/contact` that showed as
+"register interest ." — a space before the period, underlined.
+
+Fixed by keeping the slot flush against the tags. Caught by looking at a
+screenshot; a regression test now asserts it.
+
+### Internal template comments were shipping to the browser
+
+**Resolved:** P1-K, before merge.
+
+HTML comments in `.astro` templates render into the output. Several documented
+_why_ a placeholder was withheld — and named the placeholder, so
+`{{LEGAL_ENTITY_NAME}}` and three others reached `/privacy` inside comments.
+That is exactly what `04`'s header note forbids.
+
+Every template comment is now an Astro `{/* */}` comment, which is stripped at
+build. Zero HTML comments ship. The placeholder test caught this.
+
 ### The `07` §4 hero→principles gap was missing
 
 **Resolved:** P1-H, before merge.
@@ -101,6 +172,31 @@ explicitly. Caught by looking at a screenshot, not by a test — worth noting,
 because no gate covers vertical rhythm.
 
 ---
+
+## 3a. Withheld content — Phase 1
+
+Approved strings this build holds but does not render. Each would otherwise put
+a `{{...}}` placeholder in front of a reader, which `04`'s header note and
+P1-J §8.4/§9 both forbid — and editing the string to remove the placeholder is
+forbidden by P-10. The full list with reasons is
+`WITHHELD_UNTIL_UNBLOCKED` in `src/content/copy.ts`; a test asserts none of it
+reaches output.
+
+| Where          | Withheld                                            | Blocked by                                    |
+| -------------- | --------------------------------------------------- | --------------------------------------------- |
+| `/contact`     | Every email address; the whole "Where we are" block | Open Item C; Open Item B / P1-E B-F04         |
+| `/privacy` §1  | Entire section                                      | Open Item B                                   |
+| `/privacy` §2  | Visit-measurement and bot-check paragraphs          | No analytics (P-06), no bot mitigation (P-08) |
+| `/privacy` §4  | The aggregate-measurement sentence                  | No analytics exists                           |
+| `/privacy` §6  | The four-item processor list                        | Open Item D — processor set not fixed         |
+| `/privacy` §7  | Entire body                                         | `06` §7: "must not be published in this form" |
+| `/privacy` §8  | The address to email                                | Open Item C                                   |
+| `/privacy` §12 | Entire section                                      | Open Items B and C                            |
+| Footer         | Entity line, contact email, copyright               | Open Items B and C; P-12                      |
+
+All twelve `/privacy` headings still render, per P1-J §9 — a heading with a
+withheld body tells the reader the section exists and tells a reviewer exactly
+what is missing.
 
 ## 4. Where the other open items live
 

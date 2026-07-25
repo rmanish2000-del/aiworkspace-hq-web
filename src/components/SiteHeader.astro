@@ -1,26 +1,36 @@
 ---
 /**
- * `03` Block 1 — Header. Product identity only.
+ * `03` Block 1 — Header, extended by P1-J §4.1.
  *
- * Composed from the design system: `Container` supplies the `07` §4 measure,
- * `Logo` supplies the wordmark. Neither the measure nor the wordmark string is
- * defined here, so neither can drift from its source.
+ * The wordmark sits left and the navigation sits right. P1-J §4.1:
  *
- * `03` §3 Block 1: no navigation, no CTA, no language switcher. The `Navigation`
- * component exists but is unapproved for this route — "Nothing to navigate to.
- * A menu with one item is noise." (`03` §2).
+ *   "Wordmark `AI Workspace` sits left and becomes a link to `/` on every route
+ *    except `/`, where it remains plain text (P0 `03` §3.1 reasoning preserved)."
+ *
+ * That preserved reasoning is worth restating, because it is the whole rule:
+ * on the home route there is nowhere for the wordmark to go, and a link that
+ * returns you to where you already are is a focusable control that does
+ * nothing. On every other route it is the standard way home.
  */
 import Container from './ui/Container.astro';
 import Logo from './ui/Logo.astro';
+import SiteNav from './SiteNav.astro';
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const isHome = currentPath === '/';
 ---
 
 <header class="site-header">
   <Container>
-    <!--
-      No `href`: `03` §3 Block 1 requires plain text while there is one page.
-      An anchor to `#` is a focusable control that does nothing.
-    -->
-    <Logo />
+    <div class="site-header__inner">
+      {isHome ? <Logo /> : <Logo href="/" />}
+      <SiteNav currentPath={currentPath} />
+    </div>
   </Container>
 </header>
 
@@ -28,5 +38,13 @@ import Logo from './ui/Logo.astro';
   /* `07` §6.2 — padding block --space-5. No border, no shadow, not sticky. */
   .site-header {
     padding-block: var(--space-5);
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
   }
 </style>

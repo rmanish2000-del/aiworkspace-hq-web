@@ -28,14 +28,20 @@ export interface Props {
 const { href, external = false, 'aria-label': ariaLabel, class: className } = Astro.props;
 ---
 
-<a
+{
+  /*
+  The slot sits flush against the tags on purpose. Formatting it across lines
+  puts whitespace text nodes inside the anchor, which renders as a space before
+  the following punctuation — "register interest ." instead of
+  "register interest." — and underlines that space. Prettier preserves this
+  because significant whitespace in inline elements is not safe to reflow.
+*/
+}<a
   class:list={['link', className]}
   href={href}
   rel={external ? 'noopener noreferrer' : undefined}
-  aria-label={ariaLabel}
+  aria-label={ariaLabel}><slot /></a
 >
-  <slot />
-</a>
 
 <style>
   .link {

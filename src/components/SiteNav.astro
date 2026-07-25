@@ -1,0 +1,115 @@
+---
+/**
+ * P1-J §4.1 — the Phase 1 navigation bar. Replaces DEC-008.
+ *
+ * DEC-008 said "No navigation menu — a menu with one item is noise." That was
+ * correct while there was one page. Phase 1 has four destinations, so P1-J
+ * reverses it. The reasoning did not change; the number of pages did.
+ *
+ * Four items, in this order:
+ *   Platform · Principles · Contact · Register interest
+ *
+ * The fourth is styled as the primary button and points at `/#interest` — the
+ * form on the home route. Its label is `interest.heading`, the same copy entry
+ * the form's own heading uses, because P1-J §11 requires a string appearing on
+ * two routes to be one entry.
+ *
+ * `/privacy` and `/404` are reachable from the footer, not from here (§4.1).
+ * `/docs` and `/research` appear nowhere — P1-J §12 and §13 defer both, and
+ * §15 forbids linking a route that does not exist.
+ *
+ * ─── No disclosure menu, and no JavaScript ─────────────────────────────────
+ * P1-J §4.1: "No dropdown, no mega-menu, no hamburger… A disclosure menu is
+ * prohibited — four items do not need one, and it would add the first piece of
+ * interactive JavaScript to a site that has almost none." Below 640px the items
+ * wrap to a second row instead.
+ */
+import { interest, nav } from '../content/copy';
+import Button from './ui/Button.astro';
+
+export interface Props {
+  /** Path of the route being rendered, for `aria-current`. */
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<nav class="site-nav" aria-label={nav.label}>
+  <ul class="site-nav__list">
+    {
+      nav.items.map((item) => (
+        <li class="site-nav__item">
+          <a
+            class="site-nav__link"
+            href={item.href}
+            aria-current={item.href === currentPath ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+    <li class="site-nav__item site-nav__item--cta">
+      <Button as="a" href={nav.registerInterestHref} class="site-nav__cta">
+        {interest.heading}
+      </Button>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .site-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__link {
+    display: inline-flex;
+    align-items: center;
+    /* `07` §9 — >=44px touch target. */
+    min-height: 44px;
+    color: var(--fg);
+    font-size: var(--type-small);
+    text-decoration: none;
+  }
+
+  .site-nav__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .site-nav__link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /*
+   * The current route is marked by weight AND underline AND `aria-current` —
+   * never by colour alone (`07` §2).
+   */
+  .site-nav__link[aria-current='page'] {
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* A compact CTA: the hero's full-size button would dominate the header. */
+  .site-nav__cta {
+    min-height: 40px;
+    padding: 8px 16px;
+    font-size: var(--type-small);
+  }
+
+  @media (forced-colors: active) {
+    .site-nav__link[aria-current='page'] {
+      /* Weight alone is unreliable in forced colours; the underline carries it. */
+      text-decoration: underline;
+    }
+  }
+</style>

@@ -132,11 +132,15 @@ test('the page ships no JavaScript', async ({ page }) => {
   // signal that something out of scope was added.
   await page.goto('/');
 
-  const scripts = await page.evaluate(() =>
-    [...document.querySelectorAll('script')].map((script) => script.src || 'inline'),
+  // JSON-LD is data, not code — it does not execute and ships no runtime.
+  // P1-J §4.3 requires it on `/`; everything else must still be script-free.
+  const executable = await page.evaluate(() =>
+    [...document.querySelectorAll('script')]
+      .filter((script) => script.type !== 'application/ld+json')
+      .map((script) => script.src || 'inline'),
   );
 
-  expect(scripts).toEqual([]);
+  expect(executable).toEqual([]);
 });
 
 test('primary content is present without executing JavaScript', async ({ browser }) => {

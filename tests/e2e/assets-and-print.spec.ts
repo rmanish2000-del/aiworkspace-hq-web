@@ -111,7 +111,8 @@ test('print does not expand link hrefs into visible text', async ({ page }) => {
   await page.goto('/404');
   await page.emulateMedia({ media: 'print' });
 
-  const link = page.locator('.notfound__link');
+  // P1-J §10 adds two recovery links, so scope this to the home link.
+  const link = page.locator('.notfound__link').first();
   await expect(link).toHaveText('Go to the AI Workspace home page');
 });
 

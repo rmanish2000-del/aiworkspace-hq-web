@@ -1,44 +1,119 @@
 ---
 /**
- * `03` Block 5 — Footer.
+ * `03` Block 5 — Footer, extended by P1-J §4.2.
  *
- * Composed from the design system: `Footer` supplies the `contentinfo` landmark
- * and the `07` §6.11 treatment, `Container` supplies the measure.
+ * P1-J §4.2 specifies three lines:
  *
- * ┌───────────────────────────────────────────────────────────────────────────┐
- * │ EVERY line of approved footer copy is blocked, so this landmark renders    │
- * │ with no text. That is a deliberate, recorded state — not an oversight.     │
- * │                                                                           │
- * │   1. Legal entity line   {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}}           │
- * │                          Open Item B; AWHQ-AUT-P1F P-12 prohibits filling  │
- * │                          it. A build-time placeholder must never reach the │
- * │                          browser (`04` header note).                       │
- * │                                                                           │
- * │   2. `Privacy` link   ->  /privacy is not built. P1-F §9.2 directs that    │
- * │                          the route and the footer link are omitted         │
- * │                          together, so no dead link exists for the link     │
- * │                          checker to find.                                  │
- * │                                                                           │
- * │   3. Contact email       {{PRIVACY_EMAIL}} — Open Item C, no mailbox       │
- * │                          exists. P-05.                                     │
- * │                                                                           │
- * │   4. Copyright line      Contains {{LEGAL_ENTITY_NAME}} — Open Item B.     │
- * └───────────────────────────────────────────────────────────────────────────┘
+ *   1. {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}}
+ *   2. Platform · Principles · Contact · Privacy · {{PRIVACY_EMAIL}}
+ *   3. © 2026 {{LEGAL_ENTITY_NAME}}. All rights reserved.
  *
- * The element is still rendered because `03` §2 marks the footer Required and
- * `03` §5 requires exactly one `contentinfo` landmark. Removing it would change
- * the landmark map; filling it would invent copy (P-10). Rendering it empty is
- * the only option that breaks neither rule.
+ * Lines 1 and 3, and the email in line 2, are build-time placeholders blocked
+ * on Open Item B (entity, jurisdiction) and Open Item C (mailboxes). P-12
+ * prohibits filling the entity line, and `04`'s header note forbids a `{{...}}`
+ * reaching the browser. They are held verbatim in `copy.ts` and withheld here —
+ * recorded in `WITHHELD_UNTIL_UNBLOCKED`.
  *
- * Strings are held verbatim in `copy.ts` under `footer`, so restoring this block
- * once Open Items B and C close is a wiring change with no content decision.
+ * What is renderable is the four route links, and they now render: unlike at
+ * P1-G, `/platform`, `/principles`, `/contact` and `/privacy` all exist, so
+ * none of these is the dead link that AWHQ-AUT-P1F §9.2 made us omit.
+ *
+ * P1-J §4.2: "No social links, no badges, no 'built with', no sitemap block, no
+ * status link." `/docs` and `/research` are absent — P1-J §12/§13 defer both.
  */
+import { contact, nav, principlesPage, privacy } from '../content/copy';
 import Container from './ui/Container.astro';
 import Footer from './ui/Footer.astro';
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+/** P1-J §4.2 order: Platform · Principles · Contact · Privacy. */
+const links = [
+  { href: '/platform', label: nav.items[0].label },
+  { href: '/principles', label: principlesPage.metaTitle.split(' — ')[0] },
+  { href: '/contact', label: contact.heading },
+  { href: '/privacy', label: privacy.heading },
+] as const;
 ---
 
 <Footer>
   <Container>
-    <!-- Content blocked on Open Item B (legal entity) and Open Item C (mailboxes). -->
+    {
+      /*
+      Line 1 — {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}} — withheld, Open Item B.
+    */
+    }
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul class="site-footer__list">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                class="site-footer__link"
+                href={link.href}
+                aria-current={link.href === currentPath ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    {
+      /*
+      {{PRIVACY_EMAIL}} — withheld, Open Item C.
+      Line 3 — © 2026 {{LEGAL_ENTITY_NAME}}. All rights reserved. — withheld,
+      Open Item B.
+    */
+    }
   </Container>
 </Footer>
+
+<style>
+  /* `07` §5 — stacks below 640px, single row above. */
+  .site-footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .site-footer__list {
+      flex-direction: row;
+      gap: var(--space-5);
+    }
+  }
+
+  .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--fg-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  .site-footer__link:hover {
+    color: var(--fg);
+    text-decoration-thickness: 2px;
+  }
+
+  .site-footer__link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .site-footer__link[aria-current='page'] {
+    color: var(--fg);
+    font-weight: var(--weight-semibold);
+  }
+</style>

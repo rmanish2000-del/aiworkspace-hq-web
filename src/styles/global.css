@@ -415,6 +415,172 @@ a:hover {
  */
 
 /* -------------------------------------------------------------------------- */
+/* Phase 1 inner routes — P1-J §6, §7, §8, §9                                 */
+/*                                                                            */
+/* No new visual language. Every value below is an existing token, and the     */
+/* type roles are the ones `07` §3 already defines. `07` §4's single-column    */
+/* rule holds on every route.                                                  */
+/* -------------------------------------------------------------------------- */
+
+.page-head {
+  padding-block-start: var(--space-9);
+}
+
+@media (min-width: 1024px) {
+  .page-head {
+    padding-block-start: var(--space-11);
+  }
+}
+
+.page-head__title {
+  margin-block-start: var(--space-3);
+  max-width: var(--measure-h1);
+  font-size: var(--type-h1);
+  font-weight: var(--weight-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
+  text-wrap: balance;
+}
+
+.page-head__lead {
+  margin-block-start: var(--space-5);
+  max-width: var(--measure-body);
+  font-size: var(--type-hero-supporting);
+  line-height: var(--leading-hero-supporting);
+  text-wrap: pretty;
+}
+
+.page-head + .section,
+.section + .page-close {
+  margin-block-start: var(--space-11);
+}
+
+@media (min-width: 1024px) {
+  .page-head + .section,
+  .section + .page-close {
+    margin-block-start: var(--space-12);
+  }
+}
+
+/* A list of statements: a bold lead-in, then a sentence. No bullets, no cards. */
+.statement-list {
+  margin-block-start: var(--space-7);
+}
+
+.statement + .statement {
+  margin-block-start: var(--space-6);
+}
+
+.statement__lead-in {
+  display: block;
+  font-size: var(--type-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h3);
+  color: var(--fg);
+}
+
+.statement__body {
+  margin-block-start: var(--space-2);
+  max-width: var(--measure-body);
+  color: var(--fg-muted);
+  text-wrap: pretty;
+}
+
+/*
+ * `07` §4 — the principles list on `/principles` carries the same rhythm it
+ * has on `/`, but follows a page lead rather than a section heading.
+ */
+.principles__list--page {
+  margin-block-start: var(--space-9);
+}
+
+/* A definition list: category paired with what distinguishes it. */
+.distinctions {
+  margin-block-start: var(--space-7);
+}
+
+.distinction + .distinction {
+  margin-block-start: var(--space-6);
+}
+
+.distinction__term {
+  font-size: var(--type-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h3);
+  color: var(--fg);
+}
+
+.distinction__body {
+  margin-block-start: var(--space-2);
+  margin-inline-start: 0;
+  max-width: var(--measure-body);
+  color: var(--fg-muted);
+  text-wrap: pretty;
+}
+
+.page-close__cta {
+  margin-block-start: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .page-close__cta {
+    width: auto;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Long-form prose — /privacy                                                 */
+/*                                                                            */
+/* `03` §6: deliberately plainer than every other route. No CTA, no callout,   */
+/* nothing but a comfortable reading measure.                                  */
+/* -------------------------------------------------------------------------- */
+
+.prose {
+  padding-block-start: var(--space-9);
+  max-width: var(--measure-body);
+}
+
+@media (min-width: 1024px) {
+  .prose {
+    padding-block-start: var(--space-11);
+  }
+}
+
+.prose__meta {
+  margin-block-start: var(--space-4);
+  font-size: var(--type-small);
+  color: var(--fg-muted);
+}
+
+.prose > p {
+  margin-block-start: var(--space-4);
+  text-wrap: pretty;
+}
+
+.prose > h2 {
+  margin-block-start: var(--space-8);
+  font-size: var(--type-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+
+.prose > ul {
+  margin-block-start: var(--space-4);
+  padding-inline-start: var(--space-5);
+  list-style: disc;
+}
+
+.prose > ul > li {
+  margin-block-start: var(--space-2);
+}
+
+.prose__back {
+  margin-block-start: var(--space-8);
+}
+
+/* -------------------------------------------------------------------------- */
 /* 404                                                                        */
 /* -------------------------------------------------------------------------- */
 
@@ -438,9 +604,12 @@ a:hover {
   line-height: var(--leading-hero-supporting);
 }
 
+.notfound__links {
+  margin-block-start: var(--space-6);
+}
+
 .notfound__link {
   display: inline-block;
-  margin-block-start: var(--space-6);
 
   /* §9 — touch target >=44x44px with room around it. */
   min-height: 44px;
