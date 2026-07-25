@@ -10,6 +10,9 @@ dist/
 .env.*
 !.env.example
 
+# Review artifacts — regenerate with `npm run screenshots`, never commit
+screenshots/
+
 # Test and tooling output
 test-results/
 playwright-report/

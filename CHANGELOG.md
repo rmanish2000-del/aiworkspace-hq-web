@@ -16,7 +16,66 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.1.0`.
+Nothing. `main` is at `0.2.0`.
+
+---
+
+## [0.2.0] — 2026-07-26
+
+**Implements:** P0 v1.1.1
+**Authorized under:** AG-2-S, assignment P1-H
+**Released:** no. No tag, no deployment. AG-3 expressly withheld.
+
+The static holding page, complete against `03` §2 for the two routes in scope.
+
+### Added
+
+- **Block 4, Early interest — visual only.** All five fields with visible
+  labels and hints, the consent checkbox, the submit control, and the privacy
+  micro-notice carrying binding commitments C-12, C-13 and C-14. No submission
+  path exists: no `action`, `method="dialog"` so both click and Enter are
+  no-ops, zero JavaScript, nothing persisted. Proven by
+  `tests/e2e/form-inert.spec.ts`, not asserted in a comment.
+- **Hero primary call to action**, restored now that `#interest` exists.
+- **Print stylesheet** (`src/styles/print.css`) — forces black on white even
+  from dark mode, drops the form, the CTA and the skip link, keeps headings and
+  principles whole across page breaks, and never expands a link into a visible
+  URL.
+- **Favicon and manifest placeholders.** Neither is a brand asset: the icon is a
+  plain geometric glyph with no letterform, and the manifest introduces no new
+  string. `07` §11's `"AI"` monogram is deliberately not used — P-15.
+- `src/lib/site.ts` — the canonical origin and the indexability constant, in one
+  place.
+- `scripts/screenshots.mjs` and `npm run screenshots` — reproducible review set
+  across mobile, tablet and desktop in both colour schemes, plus print.
+- Tests: form inertness, field labelling, consent defaults, tab order, asset
+  placeholders, print behaviour, and a guard that no environment variable is
+  read. 19 unit and 147 e2e, up from 17 and 90.
+
+### Changed
+
+- **No environment variable is read anywhere.** The canonical origin is the
+  literal from `04` §1 rather than `PUBLIC_SITE_URL`, and every route is
+  `noindex` unconditionally rather than by `ENVIRONMENT`. There is no
+  environment to vary by, and reading an origin from the environment would let
+  an unapproved one reach the page. `.env.example` stays as documentation of a
+  future need; a unit test asserts nothing reads it.
+- `astro.config.mjs` → `astro.config.ts`.
+- Fixed a spacing defect: the `07` §4 hero→principles gap was missing on screen
+  and in print, because `.hero` does not carry the `.section` class.
+- The scope guards now strip comments before scanning, so prose explaining why
+  a construct is absent no longer trips the guard looking for it.
+
+### Known deviations
+
+- "Read the privacy notice" renders as text, not a link — `/privacy` is not
+  built. The sentence is verbatim; only the anchor is absent.
+- `autocapitalize="none"` omitted from the email field — `html-validate`
+  rejects it on `type="email"` and `08` HTML-01 requires zero errors.
+- The CTA does not move focus into the form (`07` §7) — that needs JavaScript.
+
+All three, with reasoning, in
+[`docs/decisions/ADR-0003-visual-only-form.md`](docs/decisions/ADR-0003-visual-only-form.md).
 
 ---
 

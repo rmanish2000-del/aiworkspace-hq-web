@@ -8,25 +8,24 @@
  *   2. <h1> — the single h1 on the page.
  *   3. Supporting statement — <p>.
  *   4. Stage disclosure — <p>, visually distinct (`07` §6.4).
- *   5. Primary CTA — OMITTED IN THIS SCOPE. See below.
- *   6. Secondary CTA — omitted at P0 (DEC-006).
+ *   5. Primary CTA — an in-page anchor to `#interest`, styled as a button.
+ *   6. Secondary CTA — omitted at P0 (DEC-006). There is no second destination
+ *      worth sending an enterprise buyer to. Copy is drafted in `04` §7 so that
+ *      adding one later requires no new content decision.
  *
- * ─── Why the primary CTA is absent ─────────────────────────────────────────
- * `03` §3 specifies the CTA as an in-page anchor to `#interest`. The authorized
- * assignment excludes forms outright, so Block 4 (Early interest) is not built
- * and `#interest` does not exist. Rendering the CTA would leave a dead in-page
- * anchor — a broken link the `lychee` gate is meant to catch.
+ * The CTA is an `<a href="#interest">` with its native link role left alone
+ * (`07` §6.5). It moves within the page, so describing it as a button in the
+ * accessibility tree would misdescribe it.
  *
- * This follows the precedent AWHQ-AUT-P1F §9.2 sets for `/privacy`: where a
- * link's destination is out of scope, the link and the destination are omitted
- * *together*. The approved CTA strings are retained verbatim in `copy.ts`
- * (`hero.ctaLabel`, `hero.ctaAccessibleName`).
+ * `07` §7 additionally specifies that the CTA move focus to the form's first
+ * field, not merely the scroll position. That requires JavaScript, and this
+ * build ships none. The anchor targets the section, so a keyboard user lands on
+ * the section heading and reaches the email field with one more Tab. Correct,
+ * and one step short of the specified behaviour. Recorded in
+ * docs/decisions/ADR-0003-visual-only-form.md.
  *
- * Consequence to note: the `03` §3 constraint that the eyebrow, h1, and first
- * line of the supporting statement are visible without scrolling at 375x667 is
- * *easier* to meet without the CTA, not harder. Nothing else in Block 2 changes.
- *
- * Recorded in docs/decisions/ADR-0002-scope-deviations.md.
+ * `03` §3 constraint: on a 375x667 viewport the eyebrow, h1, and at least the
+ * first line of the supporting statement must be visible without scrolling.
  */
 import { hero } from '../content/copy';
 ---
@@ -40,4 +39,8 @@ import { hero } from '../content/copy';
 
   <!-- Binding commitment C-11. Factual disclosure, not a warning banner (`07` §6.4). -->
   <p class="stage-disclosure">{hero.stageDisclosure}</p>
+
+  <a class="button hero__cta" href="#interest" aria-label={hero.ctaAccessibleName}>
+    {hero.ctaLabel}
+  </a>
 </section>

@@ -1,5 +1,6 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+
+import { CANONICAL_ORIGIN } from './src/lib/site';
 
 /**
  * Astro configuration — TDR-01 (site framework), TDR-02 (language/runtime).
@@ -7,21 +8,21 @@ import { defineConfig } from 'astro/config';
  * Static output only. No adapter, no SSR, no API routes.
  * P0 `08` ARCH-01/02/03; AWHQ-AUT-P1F §8 P-01/P-02/P-07.
  *
- * `site` is read from PUBLIC_SITE_URL so the canonical origin is configuration,
- * not a literal. It is used only to build canonical and Open Graph URLs; no
- * request is ever made to it, and nothing is deployed there.
+ * No environment variable is read here or anywhere in the build. `site` is the
+ * literal canonical origin from P0 `04` §1, imported from `src/lib/site.ts` so
+ * there is exactly one definition of it. No request is ever made to it, and
+ * nothing is deployed there.
  */
-const SITE = process.env.PUBLIC_SITE_URL ?? 'https://aiworkspacehq.com';
-
 export default defineConfig({
-  site: SITE,
+  site: CANONICAL_ORIGIN,
   output: 'static',
   trailingSlash: 'ignore',
   compressHTML: true,
   build: {
     // Emit /404.html rather than /404/index.html so the file maps to the route.
     format: 'file',
-    inlineStylesheets: 'always', // P0 `08` §8 — inline critical CSS, no render-blocking request
+    // P0 `08` §8 — inline critical CSS; no render-blocking external stylesheet.
+    inlineStylesheets: 'always',
   },
   devToolbar: {
     // The dev toolbar injects markup and script into the served page. Off, so

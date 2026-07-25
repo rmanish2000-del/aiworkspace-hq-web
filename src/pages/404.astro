@@ -12,7 +12,12 @@ import Base from '../layouts/Base.astro';
 import { notFound, PROVISIONAL } from '../content/copy';
 ---
 
-<Base title={PROVISIONAL.notFoundTitle} description="" canonicalPath="/404" indexable={false}>
+<Base
+  title={PROVISIONAL.notFoundTitle}
+  description=""
+  canonicalPath="/404"
+  indexableInProduction={false}
+>
   <section class="notfound">
     <h1 class="notfound__heading">{notFound.heading}</h1>
     <p class="notfound__body">{notFound.body}</p>

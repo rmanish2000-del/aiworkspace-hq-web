@@ -1,0 +1,178 @@
+---
+/**
+ * `03` Block 4 — Early interest. **VISUAL ONLY.**
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ THIS FORM CANNOT SUBMIT ANYTHING, ANYWHERE.                               │
+ * │                                                                           │
+ * │ AWHQ-AUT-P1F MF-1/MF-2 and the P1-H assignment both require it. The        │
+ * │ guarantee is structural, not a promise:                                    │
+ * │                                                                           │
+ * │   - no `action` attribute, and no endpoint exists to point one at;         │
+ * │   - `method="dialog"` on a form that is not inside a <dialog>. Per the     │
+ * │     HTML standard the form submission algorithm returns immediately in     │
+ * │     that case. Clicking submit and implicit submission (Enter in a text    │
+ * │     field) therefore both do nothing — no navigation, no request;          │
+ * │   - zero JavaScript ships, so there is no fetch, no cookie, no             │
+ * │     localStorage, no sessionStorage, and no in-memory store;               │
+ * │   - values are discarded by the browser on reload. Nothing is recorded.    │
+ * │                                                                           │
+ * │ Both belt and braces are tested: `tests/e2e/form-inert.spec.ts` asserts    │
+ * │ that Enter and click cause no navigation and no network request.          │
+ * │                                                                           │
+ * │ MF-1 and MF-2 together mean no personal data can be collected even by      │
+ * │ accident. That is the property keeping Open Items A and B untouched.       │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * DOM order follows `03` §3 Block 4. Three specified items are absent:
+ *
+ *   Honeypot field       — `05` §5 anti-spam. It exists to be READ by the
+ *                          endpoint. With no endpoint it is decoration, and
+ *                          decoration that looks like a security control is
+ *                          worse than none.
+ *   Character counter    — `04` §5.1 is the runtime placeholder `%n% of 1000
+ *                          characters`. A live counter needs JavaScript. The
+ *                          static `maxlength` still enforces the limit, and
+ *                          rendering the literal `%n%` would leak a placeholder.
+ *   Success/error states — every one needs a submission that cannot happen, and
+ *                          the success body carries `{{PRIVACY_EMAIL}}`, blocked
+ *                          on Open Item C.
+ *
+ * The `role="status"` region IS present, because `07` §7 requires it in the DOM
+ * from first render — regions injected at update time are unreliably announced.
+ * It is empty and stays empty in this scope.
+ *
+ * Recorded in docs/decisions/ADR-0003-visual-only-form.md.
+ */
+import { interest } from '../content/copy';
+
+const HEADING_ID = 'interest-heading';
+---
+
+<section class="section" id="interest" aria-labelledby={HEADING_ID}>
+  <h2 class="section__heading" id={HEADING_ID}>{interest.heading}</h2>
+
+  <p class="section__lead">{interest.lead}</p>
+
+  <form class="form" method="dialog" aria-label={interest.formAccessibleName}>
+    <div class="field">
+      <label class="field__label" for="work-email">{interest.fields.email.label}</label>
+      <p class="field__hint" id="work-email-hint">{interest.fields.email.hint}</p>
+      <input
+        class="field__input"
+        type="email"
+        id="work-email"
+        name="work-email"
+        required
+        maxlength="254"
+        autocomplete="email"
+        inputmode="email"
+        spellcheck="false"
+        aria-describedby="work-email-hint"
+      />
+      <!--
+        `07` §9 specifies `autocapitalize="none"` on the email field. It is
+        omitted: `html-validate` rejects the attribute on `<input type="email">`,
+        and `08` HTML-01 requires zero validator errors. Nothing is lost —
+        `type="email"` already suppresses autocapitalisation on every mobile
+        keyboard, so the attribute was redundant as well as invalid.
+      -->
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="full-name">{interest.fields.fullName.label}</label>
+      <p class="field__hint" id="full-name-hint">{interest.fields.fullName.hint}</p>
+      <input
+        class="field__input"
+        type="text"
+        id="full-name"
+        name="full-name"
+        autocomplete="name"
+        autocapitalize="words"
+        aria-describedby="full-name-hint"
+      />
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="organization">{interest.fields.organization.label}</label>
+      <p class="field__hint" id="organization-hint">{interest.fields.organization.hint}</p>
+      <input
+        class="field__input"
+        type="text"
+        id="organization"
+        name="organization"
+        autocomplete="organization"
+        autocapitalize="words"
+        aria-describedby="organization-hint"
+      />
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="role">{interest.fields.role.label}</label>
+      <p class="field__hint" id="role-hint">{interest.fields.role.hint}</p>
+      <input
+        class="field__input"
+        type="text"
+        id="role"
+        name="role"
+        autocomplete="organization-title"
+        aria-describedby="role-hint"
+      />
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="context">{interest.fields.context.label}</label>
+      <p class="field__hint" id="context-hint">{interest.fields.context.hint}</p>
+      <textarea
+        class="field__input field__input--textarea"
+        id="context"
+        name="context"
+        rows="5"
+        maxlength="1000"
+        aria-describedby="context-hint"></textarea>
+    </div>
+
+    <!-- `07` §6.7 — a consent, never a toggle switch. Unchecked by default. -->
+    <div class="consent">
+      <input class="consent__box" type="checkbox" id="consent" name="consent" required />
+      <label class="consent__label" for="consent">{interest.consentLabel}</label>
+    </div>
+
+    <!--
+      A real `type="submit"`, deliberately.
+
+      An earlier revision used `type="button"` to guarantee inertness. That
+      failed `html-validate`'s wcag/h32 rule — "form must have a submit button"
+      — which is correct: a form whose only control cannot submit it is not
+      operable in the way a screen-reader user expects, and `08` HTML-01
+      requires zero validator errors.
+
+      `method="dialog"` already makes submission a no-op, so the accessible
+      semantics and the inertness are not in tension: the control announces and
+      behaves as the form's submit button, and submitting does nothing.
+
+      tests/e2e/form-inert.spec.ts asserts no navigation and no network request
+      on both click and Enter, so a browser regression here fails CI rather than
+      leaking field values into a URL.
+    -->
+    <button class="button" type="submit">{interest.submitLabel}</button>
+
+    <!--
+      `04` §5.4, verbatim. Contains binding commitments C-12, C-13 and C-14.
+
+      "Read the privacy notice" is rendered as TEXT, not as a link: `/privacy`
+      is not built in this scope (P-11, Open Item A), and a link to a route that
+      does not exist is a broken link. AWHQ-AUT-P1F §9.2 sets the precedent —
+      where a destination is out of scope, the link and the destination are
+      omitted together. The sentence itself is unchanged, so no approved string
+      is edited.
+    -->
+    <p class="micro-notice">{interest.privacyMicroNotice}</p>
+
+    <!--
+      `07` §7 — present in the DOM from first render. Empty, and stays empty:
+      nothing in this scope writes a status message.
+    -->
+    <div class="status-region" role="status" aria-live="polite"></div>
+  </form>
+</section>

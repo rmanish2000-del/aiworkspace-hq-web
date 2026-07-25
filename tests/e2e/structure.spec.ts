@@ -4,9 +4,8 @@ import { expect, test } from '@playwright/test';
  * Document outline (`03` §4) and landmark map (`03` §5), asserted against the
  * built output rather than against intent.
  *
- * The outline expected here is `03` §4 MINUS the trailing `h2 Register interest`,
- * because Block 4 (Early interest) is out of the authorized scope. That single
- * deviation is recorded in docs/decisions/ADR-0002-scope-deviations.md.
+ * Since P1-H the outline matches `03` §4 exactly — Block 4 is present, so the
+ * trailing `h2 Register interest` is back.
  */
 
 test('the home route has exactly one h1, with no skipped heading levels', async ({ page }) => {
@@ -29,6 +28,7 @@ test('the home route has exactly one h1, with no skipped heading levels', async 
     { level: 3, text: 'Extend before replace' },
     { level: 3, text: 'Reuse before rebuild' },
     { level: 3, text: 'Evidence before claims' },
+    { level: 2, text: 'Register interest' },
   ]);
 
   // No level is skipped on the way down.
@@ -47,8 +47,8 @@ test('the landmark map matches `03` §5', async ({ page }) => {
   await expect(page.locator('main#main')).toHaveCount(1);
   await expect(page.locator('body > .page > footer')).toHaveCount(1);
 
-  // No form landmark in this scope — the form is not built.
-  await expect(page.locator('form')).toHaveCount(0);
+  // `03` §5 — exactly one form landmark, and it carries an accessible name.
+  await expect(page.locator('form[aria-label]')).toHaveCount(1);
 });
 
 test('the eyebrow is a paragraph, not a heading', async ({ page }) => {

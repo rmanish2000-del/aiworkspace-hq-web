@@ -58,6 +58,20 @@ function escapeRegExp(literal: string): string {
 }
 
 /**
+ * Removes comments so that a guard scanning for a forbidden *construct* is not
+ * tripped by prose explaining why that construct is absent.
+ *
+ * Line comments are stripped only when `//` begins the line, so that the `//`
+ * in a URL literal survives — the third-party-origin guard depends on it.
+ */
+function stripComments(source: string): string {
+  return source
+    .replace(/<!--[\s\S]*?-->/g, ' ') // HTML comments
+    .replace(/\/\*[\s\S]*?\*\//g, ' ') // block comments, incl. JSDoc
+    .replace(/^[ \t]*\/\/.*$/gm, ' '); // whole-line comments
+}
+
+/**
  * Whole-word, case-insensitive match, as `02` §1.3's enforcement note requires.
  * There is no "but it's a denial" exemption.
  */
@@ -407,6 +421,29 @@ describe('scope.prohibitions', () => {
     expect(violations).toEqual([]);
   });
 
+  it('reads no environment variable anywhere in src/ or in the build config', () => {
+    // P1-H: "No environment variables." The canonical origin is a literal from
+    // `04` §1 (see src/lib/site.ts), not configuration — reading it from the
+    // environment would let an unapproved origin reach the page.
+    //
+    // `.env.example` stays committed as documentation of a future need
+    // (`08` §10, P1-F S-2). Nothing reads it, which is what this asserts.
+    const files = [
+      ...walkFiles(SRC_DIR, ['.astro', '.ts']),
+      resolve(process.cwd(), 'astro.config.ts'),
+    ];
+
+    const violations = files.flatMap((file) => {
+      const source = readFileSync(file, 'utf8');
+      const hits: string[] = [];
+      if (/process\.env/.test(source)) hits.push('process.env');
+      if (/import\.meta\.env/.test(source)) hits.push('import.meta.env');
+      return hits.map((hit) => `${relative(process.cwd(), file)} reads ${hit}`);
+    });
+
+    expect(violations).toEqual([]);
+  });
+
   it('contains no submission endpoint, storage call, or third-party origin in src/', () => {
     // P-02, P-04, P-06, P-07, P-08 and MF-1/MF-2. Blunt on purpose.
     const forbiddenPatterns: Array<[RegExp, string]> = [
@@ -417,13 +454,33 @@ describe('scope.prohibitions', () => {
       [/https?:\/\/(?!aiworkspacehq\.com)[a-z0-9.-]+\.[a-z]{2,}/i, 'zero third-party origins'],
     ];
 
+    // Comments are stripped: this guard looks for the construct, not for prose
+    // explaining its absence. The programme-name guard above deliberately does
+    // NOT strip them — P-16 covers comments and metadata too.
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
-      const source = readFileSync(file, 'utf8');
+      const source = stripComments(readFileSync(file, 'utf8'));
       return forbiddenPatterns
         .filter(([pattern]) => pattern.test(source))
         .map(([, reason]) => `${relative(SRC_DIR, file)}: ${reason}`);
     });
 
     expect(violations).toEqual([]);
+  });
+
+  it('has a scope guard that still fires on real code', () => {
+    // Guards the guard: stripping comments must not have neutered it.
+    expect(stripComments('window.localStorage.setItem("a", "b");')).toMatch(/localStorage/);
+    expect(stripComments("const u = 'https://evil.example';")).toMatch(/https:\/\//);
+
+    // Stripped: block comments, JSDoc, HTML comments, whole-line comments.
+    expect(stripComments('/* localStorage is not used */')).not.toMatch(/localStorage/);
+    expect(stripComments('<!-- document.cookie is never set -->')).not.toMatch(/document\.cookie/);
+    expect(stripComments('  // no sessionStorage here')).not.toMatch(/sessionStorage/);
+
+    // NOT stripped, on purpose: a trailing `//` comment. Stripping those would
+    // also truncate `https://…` in a string literal, and the third-party-origin
+    // guard depends on seeing that. A trailing comment naming a forbidden
+    // construct will therefore fail the guard — write it above the line instead.
+    expect(stripComments('const a = 1; // localStorage')).toMatch(/localStorage/);
   });
 });

@@ -9,30 +9,29 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { meta, openGraph, PROVISIONAL } from '../content/copy';
+import { IS_INDEXABLE, canonicalUrl } from '../lib/site';
 
 interface Props {
   title: string;
   /** Empty string means "emit no description tag" — see /404. */
   description: string;
   canonicalPath: string;
-  /** Whether this route is indexable *in production*. `04` §1. */
-  indexable: boolean;
+  /** Whether this route would be indexable once a production deploy exists. */
+  indexableInProduction: boolean;
 }
 
-const { title, description, canonicalPath, indexable } = Astro.props;
+const { title, description, canonicalPath, indexableInProduction } = Astro.props;
 
 /**
- * P0 `08` SEO-10 — noindex is enforced on every non-production build, driven by
- * the ENVIRONMENT variable at build time rather than by a hand-maintained file.
- *
- * The default is deliberately inverted from the specification's steady state:
- * an unconfigured build is NOT indexable. Nothing is deployed in this phase
- * (AWHQ-AUT-P1F P-01), so `production` should never be set here.
+ * P0 `08` SEO-10. `IS_INDEXABLE` is a constant `false`: nothing is deployed and
+ * P-01 forbids deploying, so there is no environment in which this build should
+ * be indexable. The per-route flag is carried through so the intent survives to
+ * the phase where it matters, but it cannot make a route indexable on its own.
  */
-const isProduction = process.env.ENVIRONMENT === 'production';
-const robots = indexable && isProduction ? meta.robotsIndexable : meta.robotsNotIndexable;
+const robots =
+  indexableInProduction && IS_INDEXABLE ? meta.robotsIndexable : meta.robotsNotIndexable;
 
-const canonical = new URL(canonicalPath, Astro.site).href;
+const canonical = canonicalUrl(canonicalPath);
 ---
 
 <!doctype html>
@@ -61,21 +60,29 @@ const canonical = new URL(canonicalPath, Astro.site).href;
     <meta name="twitter:card" content={openGraph.twitterCard} />
 
     <!--
-      An empty data: icon, not a brand asset. It suppresses the browser's implicit
-      /favicon.ico request, which would otherwise 404 (no favicon exists yet — P-15)
-      and consume one of the <=6 first-load requests in `08` §8.
-      Replace with the real favicon set once P-15 lifts.
+      PLACEHOLDER favicon and manifest. Neither is a brand asset: the icon is a
+      plain geometric glyph carrying no wordmark, monogram, or logotype, and the
+      manifest names the product using the approved public string only.
+
+      `07` §11 suggests an "AI" monogram for the real favicon. That is
+      deliberately NOT used here — a monogram is a brand asset, and P-15 blocks
+      brand assets while IP ownership is unevidenced (Open Item E). Replace both
+      files, do not edit them in place, when P-15 lifts.
     -->
-    <link rel="icon" href="data:," />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0d0e" media="(prefers-color-scheme: dark)" />
 
     <!--
       Deliberately absent, each with a reason:
         - Organization JSON-LD (`08` SEO-07) requires a `logo` — blocked by P-15.
         - robots.txt / sitemap.xml naming a live host — blocked by P-14.
         - security.txt — needs a real contact and expiry — blocked by Open Item C.
-        - site.webmanifest, apple-touch-icon, og-image — brand assets, blocked by P-15.
+        - og-image, apple-touch-icon, wordmark SVG — brand assets, blocked by P-15.
         - Web fonts — `08` §8 budget is zero, and `07` §3 specifies a system stack.
         - Analytics — blocked by P-06.
+        - Any script. This build ships zero bytes of client JavaScript.
     -->
   </head>
 

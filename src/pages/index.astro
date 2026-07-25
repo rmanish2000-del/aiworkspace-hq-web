@@ -7,11 +7,12 @@
  *   1  Header         — Base.astro -> SiteHeader
  *   2  Hero           — here
  *   3  Principles     — here
- *   4  Early interest — NOT BUILT. The authorized assignment excludes forms;
- *                       AWHQ-AUT-P1F MF-1/MF-2 exclude any submission path.
+ *   4  Early interest — here, VISUAL ONLY. No submission path exists.
  *   5  Footer         — Base.astro -> SiteFooter (landmark only; copy blocked)
  *
- * Resulting document outline, against `03` §4:
+ * All six blocks of `03` §2 are now present, in order.
+ *
+ * Document outline, matching `03` §4 exactly:
  *
  *   h1  The layer between your enterprise systems and your AI agents
  *    h2  How we are building it
@@ -20,14 +21,15 @@
  *      h3 Extend before replace
  *      h3 Reuse before rebuild
  *      h3 Evidence before claims
- *    h2  Register interest              <-- ABSENT in this scope (Block 4)
+ *    h2  Register interest
  *
- * Exactly one h1. No heading levels skipped. The deviation is the trailing h2
- * only, and it is recorded in docs/decisions/ADR-0002-scope-deviations.md.
+ * Exactly one h1. No heading levels skipped. Asserted by
+ * tests/e2e/structure.spec.ts against the built output.
  */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Principles from '../components/Principles.astro';
+import InterestForm from '../components/InterestForm.astro';
 import { meta } from '../content/copy';
 ---
 
@@ -35,8 +37,9 @@ import { meta } from '../content/copy';
   title={meta.titleHome}
   description={meta.descriptionHome}
   canonicalPath={meta.canonicalPathHome}
-  indexable={true}
+  indexableInProduction={true}
 >
   <Hero />
   <Principles />
+  <InterestForm />
 </Base>

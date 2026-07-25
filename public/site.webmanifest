@@ -1,0 +1,24 @@
+{
+  "$comment": [
+    "PLACEHOLDER MANIFEST. See public/README.md.",
+    "`name` and `short_name` use the approved public product string from P0 `04` §2 and §8 — no new string is introduced here.",
+    "`icons` points at the placeholder favicon, which is NOT a brand asset (P-15, Open Item E).",
+    "No `display: standalone`, per P0 `07` §11: this is a page, not an app.",
+    "`start_url` is relative so the manifest asserts no host. P-14 blocks naming a live host."
+  ],
+  "name": "AI Workspace",
+  "short_name": "AI Workspace",
+  "lang": "en",
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+/*
+ * print.css — the printed and PDF-exported form of both routes.
+ *
+ * P0 `07` does not specify print. Nothing here is a visual decision about the
+ * *screen* design; it is the same content re-rendered for a medium that has no
+ * colour budget, no interaction, and no viewport. Where a choice was needed,
+ * the rule applied was: print what carries meaning, drop what only carries
+ * behaviour.
+ *
+ * No string is added, removed, or altered for print. In particular, no URL is
+ * expanded into visible text via `content: attr(href)` — that would put a host
+ * name on the page as visible copy, which `04` does not specify and P-14 would
+ * bear on. Links print as plain text.
+ */
+
+@media print {
+  /* ---- Page box ---------------------------------------------------------- */
+
+  @page {
+    /* Generous, so a printer's own margins never clip the measure. */
+    margin: 18mm 16mm;
+  }
+
+  /*
+   * Force the light palette. Dark mode on paper wastes an entire cartridge and
+   * renders as a grey slab on most printers. `print-color-adjust: exact` is
+   * deliberately NOT set: the browser should be free to drop backgrounds.
+   */
+  :root {
+    --bg: #ffffff;
+    --bg-subtle: #ffffff;
+    --fg: #000000;
+    --fg-muted: #333333;
+    --border: #999999;
+    --border-input: #666666;
+    --border-strong: #666666;
+    --accent: #000000;
+    --accent-fg: #ffffff;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    /* Physical units, because CSS px on paper is a fiction. */
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  /* The measure is set by the page box, not by a screen container. */
+  .container {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .page {
+    padding-inline: 0;
+  }
+
+  /* ---- Typography -------------------------------------------------------- */
+
+  h1,
+  h2,
+  h3 {
+    /* Never leave a heading stranded at the foot of a page. */
+    break-after: avoid;
+    page-break-after: avoid;
+    color: #000 !important;
+  }
+
+  h1 {
+    font-size: 22pt;
+    line-height: 1.15;
+    max-width: none;
+  }
+
+  h2 {
+    font-size: 15pt;
+    margin-block-start: 12pt;
+  }
+
+  h3 {
+    font-size: 11.5pt;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+    max-width: none;
+  }
+
+  .eyebrow {
+    font-size: 9pt;
+    letter-spacing: 0.08em;
+  }
+
+  .hero__supporting {
+    font-size: 12pt;
+  }
+
+  /* Keep each principle whole across a page break. */
+  .principles__item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ---- Vertical rhythm, compressed for paper ----------------------------- */
+
+  .hero,
+  .notfound {
+    padding-block-start: 0;
+  }
+
+  /* Both gaps, for the same reason as on screen: `.hero` is not a `.section`. */
+  .hero + .section,
+  .section + .section {
+    margin-block-start: 14pt;
+  }
+
+  .site-header {
+    padding-block: 0 10pt;
+  }
+
+  .site-footer {
+    margin-block-start: 14pt;
+    padding-block: 8pt 0;
+    border-block-start: 0.5pt solid #999;
+  }
+
+  .stage-disclosure {
+    border-inline-start: 1.5pt solid #000;
+    color: #000 !important;
+  }
+
+  /* ---- Behaviour that does not exist on paper ---------------------------- */
+
+  /*
+   * The form is dropped entirely. It cannot be completed on paper, it cannot
+   * submit anything even on screen, and printing five empty boxes and a consent
+   * checkbox would imply a paper return path that does not exist. The section
+   * heading and lead go with it, because a heading introducing nothing is
+   * worse than no heading.
+   */
+  #interest,
+  .form,
+  .status-region {
+    display: none !important;
+  }
+
+  /* The CTA points at a section that is not printed. */
+  .hero__cta,
+  .skip-link {
+    display: none !important;
+  }
+
+  /* Links: readable, not decorated, and never expanded into a visible URL. */
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  /* Nothing animates on paper. */
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+}

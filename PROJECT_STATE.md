@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.1.0`
+**Implementation version:** `0.2.0`
 **Specification version implemented:** P0 v1.1.1 (`00`–`12`, `DECISION_LOG.md`)
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26
+**Last updated:** 2026-07-26 (P1-H)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -74,7 +74,7 @@ component with an open decision is excluded by an enumerated prohibition.
 | `/robots.txt`               | —                       | **Not built.** P-14                               |
 | `/sitemap.xml`              | —                       | **Not built.** P-14                               |
 | `/.well-known/security.txt` | —                       | **Not built.** Open Item C; P-13                  |
-| `/api/interest`             | —                       | **Not built.** MF-1                               |
+| `/api/interest`             | —                       | **Not built.** MF-1 — and none is possible        |
 | `/api/form-token`           | —                       | **Not built.** MF-1                               |
 
 ### Blocks on `/`, against `03` §2
@@ -83,9 +83,9 @@ component with an open decision is excluded by an enumerated prohibition.
 | --- | -------------- | ------------------------------------------------------------------------ |
 | 0   | Skip link      | Built. Text is **provisional** — GAP-01                                  |
 | 1   | Header         | Built                                                                    |
-| 2   | Hero           | Built **without the primary CTA** — its target does not exist            |
+| 2   | Hero           | Built, including the primary CTA to `#interest`                          |
 | 3   | Principles     | Built, all five, in order                                                |
-| 4   | Early interest | **Not built.** Forms excluded from the assignment                        |
+| 4   | Early interest | Built, **visual only** — no submission path exists (ADR-0003)            |
 | 5   | Footer         | Landmark built; **all four content lines blocked** on Open Items B and C |
 
 Deviations from `03` are recorded in
