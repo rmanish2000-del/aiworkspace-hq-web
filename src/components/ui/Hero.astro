@@ -1,0 +1,70 @@
+---
+/**
+ * Hero — the top-of-page block: eyebrow, heading, supporting text, disclosure,
+ * and one action.
+ *
+ * This is a LAYOUT primitive. It takes no copy of its own — every string is a
+ * slot filled by the caller from the approved copy module. P1-A §7.1 gives this
+ * component no content authority, and a Hero that accepted a `headline` string
+ * prop would be the easiest place in the codebase to introduce an unapproved
+ * one.
+ *
+ * DOM order is fixed by `03` §3 Block 2 and is not the caller's choice:
+ *
+ *   1. eyebrow      — a <p>, NOT a heading; it carries no outline meaning
+ *   2. heading      — the caller's <h1>
+ *   3. supporting   — <p>, max ~60 words
+ *   4. disclosure   — <p>, visually distinct (`07` §6.4)
+ *   5. action       — one call to action
+ *
+ * `03` §3 constraint the caller must respect: on a 375x667 viewport the
+ * eyebrow, the h1, and at least the first line of the supporting statement must
+ * be visible without scrolling.
+ *
+ * `03` §3 also omits a secondary CTA at P0 (DEC-006), so there is one action
+ * slot, not two. Adding a second is a positioning decision, not a layout one.
+ *
+ * Provenance: CANONICAL (`03` §3, `07` §3, §4).
+ * Accessibility:
+ *   - the eyebrow renders as a paragraph. Marking it up as a heading would put
+ *     a second entry above the h1 in the document outline.
+ *   - the heading slot must receive exactly one `<h1>`; `03` §4 allows one per
+ *     page and `08` HTML-03 makes it a validator error otherwise.
+ *   - the h1 is capped at `18ch` and body text at `68ch` (`07` §3 measure).
+ * JavaScript: none.
+ */
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<section class:list={['hero', className]}>
+  <slot name="eyebrow" />
+  <slot name="heading" />
+  <slot name="supporting" />
+  <slot name="disclosure" />
+  <slot name="action" />
+</section>
+
+<style>
+  .hero {
+    /* `07` §4 — "Header -> hero": --space-9 mobile, --space-11 desktop. */
+    padding-block-start: var(--space-9);
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block-start: var(--space-11);
+    }
+  }
+
+  /*
+   * Rhythm INSIDE the hero is not styled here. Slotted content belongs to the
+   * caller's scope, not this component's, so a descendant rule would need
+   * `:global` — and a global rule shipped from a component is how a design
+   * system starts leaking. The per-element typography lives in global.css,
+   * where `07` §3 and §4 are transcribed once.
+   */
+</style>

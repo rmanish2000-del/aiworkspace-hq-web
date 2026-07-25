@@ -1,0 +1,59 @@
+---
+/**
+ * Stack — vertical rhythm between siblings.
+ *
+ * The single most repeated pattern in the page: "these things sit in a column
+ * with a consistent gap". Expressing it once removes a class of defect that
+ * has already occurred twice — a missing `.hero + .section` rule left the call
+ * to action butting into the next heading on screen and in print (recorded in
+ * docs/reviews/implementation-notes.md §3).
+ *
+ * `07` §4: every spacing value is a multiple of the 4px base, so the gap is a
+ * step on the canonical scale, never a free value.
+ *
+ * Provenance: CANONICAL (spacing scale) — the component itself is an EXTENSION.
+ * Accessibility: no semantics of its own; a `<ul>` renders its children as list
+ *   items only if the caller supplies them.
+ * JavaScript: none.
+ */
+import type { SpaceStep } from '../../lib/tokens';
+
+export interface Props {
+  as?: 'div' | 'section' | 'ul' | 'ol' | 'form' | 'article';
+  /** Spacing step from `07` §4. Applied between children, never around them. */
+  gap?: SpaceStep;
+  /** Optional larger gap from the 1024px breakpoint up (`07` §4 desktop column). */
+  gapLg?: SpaceStep;
+  class?: string;
+}
+
+const { as: Tag = 'div', gap = 5, gapLg, class: className } = Astro.props;
+
+const style = [
+  `--stack-gap: var(--space-${gap})`,
+  gapLg ? `--stack-gap-lg: var(--space-${gapLg})` : null,
+]
+  .filter(Boolean)
+  .join('; ');
+---
+
+<Tag class:list={['stack', gapLg && 'stack--responsive', className]} style={style}>
+  <slot />
+</Tag>
+
+<style>
+  /*
+   * `> * + *` rather than `gap`, so the Stack adds no space above its first
+   * child or below its last. That keeps it composable inside a Section without
+   * doubling the section's own rhythm.
+   */
+  .stack > * + * {
+    margin-block-start: var(--stack-gap);
+  }
+
+  @media (min-width: 1024px) {
+    .stack--responsive > * + * {
+      margin-block-start: var(--stack-gap-lg, var(--stack-gap));
+    }
+  }
+</style>

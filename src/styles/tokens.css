@@ -102,7 +102,62 @@
   /* --- §8 Motion --------------------------------------------------------- */
   --duration-fast: 120ms;
   --duration-swap: 160ms;
+  --duration-spin: 800ms;
   --ease: ease;
+  --ease-linear: linear;
+
+  /* ======================================================================= */
+  /* EXTENSION TOKENS — new in P1-I. `07` specifies nothing here.            */
+  /*                                                                         */
+  /* Values are derived from the canonical scales above, not invented freely, */
+  /* and they REMAIN UNAPPROVED until ratified. A token being defined is not  */
+  /* permission to use it — see docs/design-system/usage-rules.md.            */
+  /* Typed mirror and provenance: src/lib/tokens.ts.                          */
+  /* ======================================================================= */
+
+  /* Radius scale. `--radius` (8px) above stays the canonical alias. */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 9999px;
+
+  /*
+   * Elevation. Deliberately almost empty: `07` §1 rejects "floating glass
+   * cards" and §6.2 gives the header "no border, no shadow". The page's depth
+   * model is that there is no depth. ONLY --elevation-0 is approved for use.
+   */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgb(0 0 0 / 0.06);
+  --elevation-2: 0 2px 8px rgb(0 0 0 / 0.08);
+
+  /*
+   * Z-index. `07` §6.1 gives the skip link `z-index: 10`; nothing else stacks.
+   * There are no modals, menus, or carousels (`07` §7), so this scale exists to
+   * replace a magic number, not to enable layering.
+   */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-sticky: 5; /* reserved — `07` §6.2: the header is NOT sticky */
+  --z-skip-link: 10;
+
+  /* Icon sizing. `07` §6.8's error glyph is sized to the 14px error type. */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+
+  /*
+   * Grid. `07` §4 mandates a single column at every breakpoint for the current
+   * routes. These exist for the surfaces `08` C9 anticipates.
+   */
+  --grid-gap: var(--space-6);
+
+  /*
+   * Breakpoints, for reference only — CSS cannot use a custom property in a
+   * media query, so every @media below repeats the literal. Source of truth:
+   * src/lib/tokens.ts BREAKPOINTS. `07` §5: min 320, sm 640, lg 1024.
+   */
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 1024px;
 
   color-scheme: light dark;
 }
@@ -141,5 +196,6 @@
   :root {
     --duration-fast: 0.01ms;
     --duration-swap: 0.01ms;
+    --duration-spin: 0.01ms;
   }
 }

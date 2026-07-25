@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.2.0`
+**Implementation version:** `0.3.0`
 **Specification version implemented:** P0 v1.1.1 (`00`–`12`, `DECISION_LOG.md`)
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-H.1)
+**Last updated:** 2026-07-26 (P1-I)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -87,6 +87,12 @@ component with an open decision is excluded by an enumerated prohibition.
 | 3   | Principles     | Built, all five, in order                                                |
 | 4   | Early interest | Built, **visual only** — no submission path exists (ADR-0003)            |
 | 5   | Footer         | Landmark built; **all four content lines blocked** on Open Items B and C |
+
+Since P1-I the page is composed from the design system in
+[`src/components/ui/`](src/components/ui/) — see
+[`docs/design-system/`](docs/design-system/). The refactor was verified
+**pixel-identical** across all ten review screenshots, so nothing about the
+rendered page changed.
 
 Deviations from `03` are recorded in
 [`docs/decisions/ADR-0002-scope-deviations.md`](docs/decisions/ADR-0002-scope-deviations.md).

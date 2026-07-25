@@ -16,7 +16,66 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.2.0`.
+Nothing. `main` is at `0.3.0`.
+
+---
+
+## [0.3.0] — 2026-07-26
+
+**Implements:** P0 v1.1.1
+**Authorized under:** AG-2-S, assignment P1-I
+**Released:** no. No tag, no deployment. AG-3 expressly withheld.
+
+The design system: reusable foundations and components for every future page.
+
+### Added
+
+- **Ten foundations**, declared twice and kept in step by test — as CSS custom
+  properties in `src/styles/tokens.css` and typed values in
+  `src/lib/tokens.ts`. Typography, spacing, grid, breakpoints, colour,
+  elevation, radius, motion, icon sizing, z-index.
+- **Fifteen components** in `src/components/ui/`: `Container`, `Stack`,
+  `Section`, `Grid`, `Button`, `Link`, `Logo`, `Hero`, `Footer`, `Callout`,
+  `Divider`, `Card`, `Badge`, `Tag`, `Navigation`. Zero JavaScript, fully typed,
+  no content authority.
+- **`docs/design-system/`** — token reference, component catalog, usage rules,
+  accessibility notes.
+- **53 new unit tests.** Components are rendered in-process through Astro's
+  Container API, so the system is covered without the component showcase page
+  P1-I prohibits.
+
+### Changed
+
+- The page is now composed from the system. `SiteHeader` uses `Container` +
+  `Logo`; `SiteFooter` uses `Footer` + `Container`; `Hero` uses the `Hero`
+  primitive with `Callout` and `Button`; `Principles` and `InterestForm` use
+  `Section`; `Base` uses `Container`.
+- Component CSS moved out of `global.css` into the components that own it.
+  What remains there is page-level rhythm — spacing _between_ blocks, which is
+  the page's concern rather than any component's.
+- `vitest.config.ts` now uses Astro's Vite pipeline so `.astro` files can be
+  rendered in tests.
+
+**The refactor is pixel-identical.** All ten review screenshots — mobile,
+tablet and desktop in both colour schemes, plus focus state and print — compare
+byte-for-byte equal at the pixel level against the `0.2.0` baseline. Lighthouse
+holds at 100/100/100/100.
+
+### Provenance, and what is deliberately unapproved
+
+P0 `07` opens by stating it is **"Not a design system"**. P1-I directs that one
+be built for reuse, so every token and component is tagged `CANONICAL`
+(transcribed from `07`) or `EXTENSION` (new, and **not approved until
+ratified**).
+
+Five components ship **unapproved for the current routes**, each rejected by an
+approved specification: `Badge` and `Tag` (`07` §1, §6.3 — a pill "would read as
+a status chip and imply a state we are not claiming"), `Card` (`07` §1, `03`
+§3), `Grid` (`07` §4 — single column), `Navigation` (`03` §2 — nothing to
+navigate to). A test asserts none of them reaches a page.
+
+Elevation levels 1 and 2 are defined but unapproved: `07` §1 rejects floating
+cards, so the page's depth model is that there is no depth.
 
 ---
 

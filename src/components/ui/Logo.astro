@@ -1,0 +1,79 @@
+---
+/**
+ * Logo — the product wordmark.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ THIS RENDERS TEXT, NOT A MARK — AND THAT IS DELIBERATE.                   │
+ * │                                                                           │
+ * │ AWHQ-AUT-P1F P-15 prohibits any logo, wordmark asset, ™ or ® symbol, or    │
+ * │ brand asset while 0 of 8 IP assets have evidenced ownership (Open Item E). │
+ * │ So the "logo" is the approved string "AI Workspace" set in the system font │
+ * │ stack, exactly as `07` §3 and `04` §2 specify.                            │
+ * │                                                                           │
+ * │ `07` §3: if a wordmark asset arrives later, "it replaces only the header   │
+ * │ wordmark, as an inline SVG with an accessible name — never as a font       │
+ * │ swap." This component is that single replacement point.                    │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * The text is NOT a prop. It comes from the copy module, because it is approved
+ * copy and P1-A §7.1 gives Claude Code no content authority. A caller must not
+ * be able to pass a different string.
+ *
+ * Provenance: CANONICAL.
+ * Accessibility:
+ *   - `03` §3 Block 1: the wordmark is NOT a link at P0 — "there is nowhere
+ *     else to go. It is a plain element, not an anchor to `#`." An anchor to
+ *     `#` is a focusable control that does nothing, which is worse than no
+ *     control. Pass `href` only once there is somewhere to go.
+ *   - when it does become a link, the accessible name is the wordmark text, so
+ *     no `aria-label` is needed or wanted.
+ * JavaScript: none.
+ */
+import { header } from '../../content/copy';
+
+export interface Props {
+  /**
+   * Renders the wordmark as a link to this destination. Omit on the current
+   * routes — `03` §3 Block 1 requires plain text while there is one page.
+   */
+  href?: string;
+  class?: string;
+}
+
+const { href, class: className } = Astro.props;
+---
+
+{
+  href ? (
+    <a class:list={['wordmark', 'wordmark--link', className]} href={href}>
+      {header.wordmark}
+    </a>
+  ) : (
+    <p class:list={['wordmark', className]}>{header.wordmark}</p>
+  )
+}
+
+<style>
+  .wordmark {
+    margin: 0;
+    font-size: var(--type-wordmark);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-wordmark);
+    letter-spacing: var(--tracking-wordmark);
+    color: var(--fg);
+  }
+
+  .wordmark--link {
+    text-decoration: none;
+  }
+
+  .wordmark--link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .wordmark--link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+</style>

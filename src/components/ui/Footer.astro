@@ -1,0 +1,54 @@
+---
+/**
+ * Footer — the `contentinfo` landmark.
+ *
+ * `07` §6.11: `--fg-muted`, 14px, a 1px `--border` top rule, `--space-7` block
+ * padding, links underlined.
+ *
+ * `03` §5 requires **exactly one** `contentinfo` per page, so this must be used
+ * once per document and never nested inside `<main>` — a `<footer>` inside a
+ * sectioning element is not a landmark at all.
+ *
+ * `03` §3 Block 5 fixes the content: legal entity line, privacy link, contact
+ * email, copyright. "No sitemap, no social links, no 'built with', no badges."
+ * The component supplies the shell; the caller supplies content that is
+ * approved copy.
+ *
+ * Provenance: CANONICAL.
+ * Accessibility:
+ *   - `<footer>` maps to `contentinfo` only as a direct child of `<body>`.
+ *     Nesting it silently demotes it to a generic element, which is why the
+ *     landmark map is asserted in `tests/e2e/structure.spec.ts` rather than
+ *     assumed.
+ *   - `min-height` rather than a fixed height, so text-spacing overrides
+ *     (WCAG 1.4.12) cannot clip it — and so the landmark keeps its shape while
+ *     its content is blocked on Open Items B and C.
+ * JavaScript: none.
+ */
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<footer class:list={['site-footer', className]}>
+  <slot />
+</footer>
+
+<style>
+  .site-footer {
+    border-block-start: 1px solid var(--border);
+    padding-block: var(--space-7);
+    font-size: var(--type-small);
+    line-height: var(--leading-small);
+    color: var(--fg-muted);
+    min-height: var(--space-7);
+  }
+
+  @media (forced-colors: active) {
+    .site-footer {
+      border-block-start-color: CanvasText;
+    }
+  }
+</style>

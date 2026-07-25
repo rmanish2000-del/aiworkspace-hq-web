@@ -8,6 +8,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import Container from '../components/ui/Container.astro';
 import { meta, openGraph, PROVISIONAL } from '../content/copy';
 import { IS_INDEXABLE, canonicalUrl } from '../lib/site';
 
@@ -97,9 +98,9 @@ const canonical = canonicalUrl(canonicalPath);
 
       <SiteHeader />
 
-      <main id="main" class="container">
+      <Container as="main" id="main">
         <slot />
-      </main>
+      </Container>
 
       <SiteFooter />
     </div>

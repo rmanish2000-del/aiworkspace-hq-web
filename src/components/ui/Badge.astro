@@ -1,0 +1,73 @@
+---
+/**
+ * Badge — a small pill carrying a short status word.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ ⛔ NOT APPROVED FOR USE ANYWHERE. Built because P1-I asks for it.          │
+ * │                                                                           │
+ * │ This component is in direct tension with two approved rules, and the       │
+ * │ tension is about claims, not looks:                                       │
+ * │                                                                           │
+ * │   `07` §1  lists "badges" among the anti-patterns it explicitly rejects.  │
+ * │                                                                           │
+ * │   `07` §6.3 rules out a pill for the eyebrow with the reason that         │
+ * │            matters: "a pill would read as a status chip and imply a       │
+ * │            state we are not claiming."                                    │
+ * │                                                                           │
+ * │ That reason generalises. `02` §3 prohibits claims about production        │
+ * │ readiness, maturity, and release status — which is most of what a badge   │
+ * │ is for. "Beta", "New", "GA", "Stable" are all prohibited strings, and a   │
+ * │ badge is the component that most invites writing one.                     │
+ * │                                                                           │
+ * │ Using this requires a founder decision on BOTH the visual rule and the    │
+ * │ claim. `tests/unit/design-system.test.ts` asserts no page renders it.     │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * Provenance: EXTENSION, unapproved.
+ * Accessibility:
+ *   - the badge text must stand alone. A badge is not a label for the thing
+ *     beside it, and screen-reader users get no visual adjacency to infer from.
+ *   - `07` §2: colour is never the sole carrier of meaning, so the tone must
+ *     never be the only thing distinguishing two badges.
+ *   - the pill is never a control. If it filters or toggles, it is a button,
+ *     and it needs a button's semantics and a 44x44 target.
+ * JavaScript: none.
+ */
+export interface Props {
+  tone?: 'neutral' | 'accent';
+  as?: 'span' | 'strong';
+  class?: string;
+}
+
+const { tone = 'neutral', as: Tag = 'span', class: className } = Astro.props;
+---
+
+<Tag class:list={['badge', `badge--${tone}`, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+
+  .badge--accent {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (forced-colors: active) {
+    .badge {
+      border-color: CanvasText;
+    }
+  }
+</style>

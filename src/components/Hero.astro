@@ -1,46 +1,57 @@
 ---
 /**
- * `03` Block 2 — Hero.
+ * `03` Block 2 — Hero, filled with approved copy.
  *
- * DOM order and semantics per `03` §3:
+ * The layout is the design system's `Hero`; this component supplies only the
+ * strings, each from `copy.ts`. That split is the point: a Hero that accepted
+ * copy as props would be the easiest place in the codebase to introduce an
+ * unapproved string, so the primitive takes slots and the content lives here,
+ * next to its source.
+ *
+ * DOM order is fixed by `03` §3 and enforced by the slot names:
  *   1. Category label — a <p> styled as an eyebrow. NOT a heading; it carries
  *      no document-outline meaning.
  *   2. <h1> — the single h1 on the page.
  *   3. Supporting statement — <p>.
- *   4. Stage disclosure — <p>, visually distinct (`07` §6.4).
- *   5. Primary CTA — an in-page anchor to `#interest`, styled as a button.
- *   6. Secondary CTA — omitted at P0 (DEC-006). There is no second destination
- *      worth sending an enterprise buyer to. Copy is drafted in `04` §7 so that
- *      adding one later requires no new content decision.
+ *   4. Stage disclosure — a neutral Callout (`07` §6.4).
+ *   5. Primary CTA — a Button rendered as an in-page anchor.
+ *   6. Secondary CTA — omitted at P0 (DEC-006). Copy is drafted in `04` §7 so
+ *      that adding one later requires no new content decision.
  *
- * The CTA is an `<a href="#interest">` with its native link role left alone
- * (`07` §6.5). It moves within the page, so describing it as a button in the
- * accessibility tree would misdescribe it.
+ * `07` §6.5 — the CTA keeps its native link role. It moves within the page, so
+ * describing it as a button in the accessibility tree would misdescribe it.
  *
  * `07` §7 additionally specifies that the CTA move focus to the form's first
  * field, not merely the scroll position. That requires JavaScript, and this
- * build ships none. The anchor targets the section, so a keyboard user lands on
- * the section heading and reaches the email field with one more Tab. Correct,
- * and one step short of the specified behaviour. Recorded in
- * docs/decisions/ADR-0003-visual-only-form.md.
+ * build ships none. Recorded in docs/reviews/implementation-notes.md §2.
  *
  * `03` §3 constraint: on a 375x667 viewport the eyebrow, h1, and at least the
  * first line of the supporting statement must be visible without scrolling.
  */
 import { hero } from '../content/copy';
+import Button from './ui/Button.astro';
+import Callout from './ui/Callout.astro';
+import Hero from './ui/Hero.astro';
 ---
 
-<section class="hero">
-  <p class="eyebrow">{hero.eyebrow}</p>
+<Hero>
+  <p slot="eyebrow" class="eyebrow">{hero.eyebrow}</p>
 
-  <h1 class="hero__headline">{hero.headline}</h1>
+  <h1 slot="heading" class="hero__headline">{hero.headline}</h1>
 
-  <p class="hero__supporting">{hero.supporting}</p>
+  <p slot="supporting" class="hero__supporting">{hero.supporting}</p>
 
-  <!-- Binding commitment C-11. Factual disclosure, not a warning banner (`07` §6.4). -->
-  <p class="stage-disclosure">{hero.stageDisclosure}</p>
+  <!-- Binding commitment C-11. Factual disclosure, not a warning banner. -->
+  <Callout slot="disclosure" class="stage-disclosure">{hero.stageDisclosure}</Callout>
 
-  <a class="button hero__cta" href="#interest" aria-label={hero.ctaAccessibleName}>
+  <Button
+    slot="action"
+    as="a"
+    href="#interest"
+    aria-label={hero.ctaAccessibleName}
+    block
+    class="hero__cta"
+  >
     {hero.ctaLabel}
-  </a>
-</section>
+  </Button>
+</Hero>

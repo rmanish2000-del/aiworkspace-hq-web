@@ -1,0 +1,61 @@
+---
+/**
+ * Card — a bordered content surface.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ NOT APPROVED FOR THE CURRENT ROUTES.                                      │
+ * │                                                                           │
+ * │ `07` §1 lists "floating glass cards" among the anti-patterns it           │
+ * │ explicitly rejects, and `03` §3 Block 3 rules out "cards with borders      │
+ * │ competing for attention" for the principles list by name.                 │
+ * │                                                                           │
+ * │ So: a Card must not be used on `/` or `/404`, and in particular must not   │
+ * │ be used to render the five principles. It exists for the later surfaces    │
+ * │ `08` C9 anticipates, where a list of distinct linked items is a real       │
+ * │ need rather than decoration.                                              │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * Provenance: EXTENSION.
+ * Accessibility:
+ *   - the Card is a container, not a control. It has no role and is not
+ *     clickable. A whole-card click target would swallow the text selection
+ *     and hide the real link from the accessibility tree; put a real `<a>`
+ *     inside instead.
+ *   - `elevation` defaults to 0 and `07` §1 approves no other level. Level 1
+ *     and 2 exist in the scale but must not be used without a visual approval.
+ * JavaScript: none.
+ */
+import type { ElevationLevel } from '../../lib/tokens';
+
+export interface Props {
+  as?: 'div' | 'article' | 'li' | 'section';
+  /** `07` §1 approves only 0. Anything else needs a visual decision first. */
+  elevation?: ElevationLevel;
+  /** Uses `--bg-subtle`, the panel background `07` §2 defines. */
+  subtle?: boolean;
+  class?: string;
+}
+
+const { as: Tag = 'div', elevation = 0, subtle = false, class: className } = Astro.props;
+
+const style = `--card-elevation: var(--elevation-${elevation})`;
+---
+
+<Tag class:list={['card', subtle && 'card--subtle', className]} style={style}>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    padding: var(--space-6);
+    /* `07` §2 — `--border` is for decorative boundaries, which this is. */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--bg);
+    box-shadow: var(--card-elevation);
+  }
+
+  .card--subtle {
+    background-color: var(--bg-subtle);
+  }
+</style>

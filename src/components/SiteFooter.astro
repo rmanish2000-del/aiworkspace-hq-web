@@ -2,6 +2,9 @@
 /**
  * `03` Block 5 — Footer.
  *
+ * Composed from the design system: `Footer` supplies the `contentinfo` landmark
+ * and the `07` §6.11 treatment, `Container` supplies the measure.
+ *
  * ┌───────────────────────────────────────────────────────────────────────────┐
  * │ EVERY line of approved footer copy is blocked, so this landmark renders    │
  * │ with no text. That is a deliberate, recorded state — not an oversight.     │
@@ -30,10 +33,12 @@
  * Strings are held verbatim in `copy.ts` under `footer`, so restoring this block
  * once Open Items B and C close is a wiring change with no content decision.
  */
+import Container from './ui/Container.astro';
+import Footer from './ui/Footer.astro';
 ---
 
-<footer class="site-footer">
-  <div class="container">
+<Footer>
+  <Container>
     <!-- Content blocked on Open Item B (legal entity) and Open Item C (mailboxes). -->
-  </div>
-</footer>
+  </Container>
+</Footer>

@@ -1,0 +1,123 @@
+---
+/**
+ * Button — the primary action control.
+ *
+ * `07` §6.5 gives exactly one button treatment. There is no secondary or ghost
+ * variant, because the page has one action; inventing variants would be a
+ * visual decision, which P1-A §10.2(1) reserves to the founder.
+ *
+ * ─── Link or button ────────────────────────────────────────────────────────
+ * `07` §6.5: "The hero CTA is an `<a href="#interest">` styled as a button,
+ * with `role` left as its native link role. The form submit is a real
+ * `<button type="submit">`."
+ *
+ * So `as` changes the ELEMENT, never the role. A link that moves you within the
+ * page is a link; describing it as a button in the accessibility tree would
+ * misdescribe it. This component therefore never sets `role="button"`.
+ *
+ * Provenance: CANONICAL.
+ * Accessibility:
+ *   - min-height 48px and a 44x44 minimum touch target (`07` §6.5, §9);
+ *   - focus ring plus a 1px inner ring in the page background, so the indicator
+ *     is visible against the accent fill as well as against the page (`07` §6.5);
+ *   - `disabled` uses `aria-disabled` where the control must stay focusable;
+ *   - label text is never underlined — only body links are (`07` §6.12).
+ * JavaScript: none.
+ */
+export interface Props {
+  /** `a` renders a link (needs `href`); `button` renders a real button. */
+  as?: 'a' | 'button';
+  href?: string;
+  type?: 'submit' | 'button' | 'reset';
+  /** Supplements the visible label when it needs more context (`04` §3). */
+  'aria-label'?: string;
+  disabled?: boolean;
+  /** Full width below the `sm` breakpoint, intrinsic above (`07` §5). */
+  block?: boolean;
+  class?: string;
+}
+
+const {
+  as = 'button',
+  href,
+  type = 'button',
+  'aria-label': ariaLabel,
+  disabled = false,
+  block = false,
+  class: className,
+} = Astro.props;
+
+const Tag = as;
+const isLink = as === 'a';
+---
+
+<Tag
+  class:list={['button', block && 'button--block', className]}
+  href={isLink ? href : undefined}
+  type={isLink ? undefined : type}
+  aria-label={ariaLabel}
+  aria-disabled={disabled ? 'true' : undefined}
+>
+  <slot />
+</Tag>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* `07` §6.5 min-height 48px; also clears the 44x44 target in §9. */
+    min-height: 48px;
+    padding: 14px 24px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: var(--weight-semibold);
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease);
+  }
+
+  .button:hover {
+    background-color: var(--accent-hover);
+    text-decoration: none;
+  }
+
+  /* `07` §6.5 — darkens further on active, and never transforms. */
+  .button:active {
+    background-color: var(--accent-active);
+  }
+
+  .button:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 0 1px var(--bg);
+  }
+
+  .button[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .button--block {
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .button--block {
+      width: auto;
+    }
+  }
+
+  /* `07` §2 — never suppress system colours in forced-colors mode. */
+  @media (forced-colors: active) {
+    .button {
+      border-color: ButtonText;
+    }
+  }
+</style>

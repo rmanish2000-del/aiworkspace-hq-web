@@ -16,15 +16,21 @@
  * (`03` §2: `<section aria-labelledby>`).
  */
 import { principles } from '../content/copy';
+import Section from './ui/Section.astro';
 
 const HEADING_ID = 'principles-heading';
 ---
 
-<section class="section" aria-labelledby={HEADING_ID}>
+<Section headingId={HEADING_ID}>
   <h2 class="section__heading" id={HEADING_ID}>{principles.heading}</h2>
 
   <p class="section__lead">{principles.lead}</p>
 
+  <!--
+    A plain <ul>, not the design system's Grid or Card. `03` §3 rules both out
+    for this block by name: "No icons. No numbering. No cards with borders
+    competing for attention."
+  -->
   <ul class="principles__list">
     {
       principles.items.map((principle) => (
@@ -35,4 +41,4 @@ const HEADING_ID = 'principles-heading';
       ))
     }
   </ul>
-</section>
+</Section>
