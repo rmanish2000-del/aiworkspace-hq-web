@@ -1,9 +1,12 @@
 ---
 /**
- * Base.astro — <head>, skip link, header, landmarks, footer.
+ * Base.astro — <head>, skip link, header, nav, landmarks, footer.
  *
- * Landmark map (`03` §5): banner x1, main x1, contentinfo x1.
- * All non-decorative content lives inside a landmark.
+ * Landmark map (`03` §5, extended by P1-J §4.4):
+ *   banner ×1 · navigation (named) · main ×1 · contentinfo ×1
+ *
+ * P1-J §4.4 tab order, on every route:
+ *   skip link → wordmark → nav items → main content → footer
  */
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
@@ -19,9 +22,22 @@ interface Props {
   canonicalPath: string;
   /** Whether this route would be indexable once a production deploy exists. */
   indexableInProduction: boolean;
+  /**
+   * `Organization` JSON-LD. P1-J §4.3: on `/` ONLY, and `Organization` only —
+   * no `Product`, `SoftwareApplication`, `AggregateRating`, `Offer`,
+   * `FAQPage`, `BreadcrumbList` or `Article` (DEC-031). Each of those would
+   * assert something `02` §3 prohibits.
+   */
+  structuredData?: boolean;
 }
 
-const { title, description, canonicalPath, indexableInProduction } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath,
+  indexableInProduction,
+  structuredData = false,
+} = Astro.props;
 
 /**
  * P0 `08` SEO-10. `IS_INDEXABLE` is a constant `false`: nothing is deployed and
@@ -33,13 +49,27 @@ const robots =
   indexableInProduction && IS_INDEXABLE ? meta.robotsIndexable : meta.robotsNotIndexable;
 
 const canonical = canonicalUrl(canonicalPath);
+
+/**
+ * `08` SEO-07 permits `name`, `url`, `description`, `logo`. `logo` is omitted:
+ * it is a brand asset, and P-15 blocks brand assets while IP ownership is
+ * unevidenced (Open Item E). Emitting a `logo` pointing at the placeholder
+ * favicon would assert a brand mark that does not exist.
+ */
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: openGraph.siteName,
+  url: canonicalUrl('/'),
+  description: meta.descriptionHome,
+};
 ---
 
 <!doctype html>
 <html lang={meta.lang}>
   <head>
     <meta charset="utf-8" />
-    <!-- `08` HTML-10 / `07` §9 — no maximum-scale, no user-scalable=no. Pinch zoom must work. -->
+    {/* `08` HTML-10 / `07` §9 — no maximum-scale, no user-scalable=no. Pinch zoom must work. */}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{title}</title>
@@ -47,62 +77,77 @@ const canonical = canonicalUrl(canonicalPath);
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={robots} />
 
-    <!--
-      `04` §8 — Open Graph. `og:image` and `og:image:alt` are deliberately absent:
-      the OG image is a brand asset, and AWHQ-AUT-P1F P-15 prohibits any logo,
-      wordmark, or brand asset while IP ownership is unevidenced.
-    -->
+    {
+      /*
+      `04` §8 / P1-J §4.3 — Open Graph. One card for every route; no per-route
+      imagery. `og:image` and `og:image:alt` are deliberately absent: the OG
+      image is a brand asset, and P-15 blocks brand assets while IP ownership
+      is unevidenced.
+    */
+    }
     <meta property="og:type" content={openGraph.type} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={openGraph.siteName} />
     <meta property="og:locale" content={openGraph.locale} />
-    <meta property="og:title" content={openGraph.title} />
-    <meta property="og:description" content={openGraph.description} />
+    <meta property="og:title" content={title} />
+    {description !== '' && <meta property="og:description" content={description} />}
     <meta name="twitter:card" content={openGraph.twitterCard} />
 
-    <!--
+    {
+      /*
       PLACEHOLDER favicon and manifest. Neither is a brand asset: the icon is a
       plain geometric glyph carrying no wordmark, monogram, or logotype, and the
       manifest names the product using the approved public string only.
-
-      `07` §11 suggests an "AI" monogram for the real favicon. That is
-      deliberately NOT used here — a monogram is a brand asset, and P-15 blocks
-      brand assets while IP ownership is unevidenced (Open Item E). Replace both
-      files, do not edit them in place, when P-15 lifts.
-    -->
+      Replace both files, do not edit them in place, when P-15 lifts.
+    */
+    }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b0d0e" media="(prefers-color-scheme: dark)" />
 
-    <!--
+    {
+      structuredData && (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(organizationJsonLd)}
+        />
+      )
+    }
+
+    {
+      /*
       Deliberately absent, each with a reason:
-        - Organization JSON-LD (`08` SEO-07) requires a `logo` — blocked by P-15.
-        - robots.txt / sitemap.xml naming a live host — blocked by P-14.
+        - `logo` in the Organization JSON-LD — brand asset, blocked by P-15.
         - security.txt — needs a real contact and expiry — blocked by Open Item C.
         - og-image, apple-touch-icon, wordmark SVG — brand assets, blocked by P-15.
         - Web fonts — `08` §8 budget is zero, and `07` §3 specifies a system stack.
         - Analytics — blocked by P-06.
-        - Any script. This build ships zero bytes of client JavaScript.
-    -->
+        - Any executable script. This build ships zero bytes of client JavaScript;
+          the JSON-LD block above is data, not code, and does not execute.
+    */
+    }
   </head>
 
   <body>
     <div class="page">
-      <!--
+      {
+        /*
         `03` Block 0 — first element in DOM inside <body>.
         Text is PROVISIONAL (GAP-01 in copy.ts): `04` specifies no skip-link
         string. Pending founder ratification.
-      -->
+      */
+      }
       <a class="skip-link" href="#main">{PROVISIONAL.skipLinkText}</a>
 
-      <SiteHeader />
+      <SiteHeader currentPath={canonicalPath} />
 
       <Container as="main" id="main">
         <slot />
       </Container>
 
-      <SiteFooter />
+      <SiteFooter currentPath={canonicalPath} />
     </div>
   </body>
 </html>

@@ -186,27 +186,6 @@ export const MOTION_EASING = {
 export const MOTION_REDUCED_DURATION = '0.01ms';
 
 /* -------------------------------------------------------------------------- */
-/* Elevation — EXTENSION, and deliberately almost empty                       */
-/*                                                                            */
-/* `07` §1 rejects "floating glass cards" outright, and §6.2 specifies the     */
-/* header has "no border, no shadow". The page's depth model is: there is no   */
-/* depth. A scale is defined because P1-I asks for one; only level 0 is        */
-/* approved for use.                                                          */
-/* -------------------------------------------------------------------------- */
-
-export const ELEVATION_LEVELS = [0, 1, 2] as const;
-export type ElevationLevel = (typeof ELEVATION_LEVELS)[number];
-
-export const ELEVATION: Readonly<Record<ElevationLevel, string>> = {
-  0: 'none',
-  1: '0 1px 2px rgb(0 0 0 / 0.06)',
-  2: '0 2px 8px rgb(0 0 0 / 0.08)',
-};
-
-/** Only level 0 may be used on an approved surface. `07` §1. */
-export const ELEVATION_APPROVED_FOR_USE: readonly ElevationLevel[] = [0];
-
-/* -------------------------------------------------------------------------- */
 /* Z-index — EXTENSION                                                        */
 /*                                                                            */
 /* `07` §6.1 gives the skip link `z-index: 10` and nothing else stacks. A      */
@@ -246,20 +225,6 @@ export const ICON_SIZE: Readonly<Record<IconSize, string>> = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Grid — EXTENSION                                                           */
-/*                                                                            */
-/* `07` §4: "single column at every breakpoint ... no grid framework". The     */
-/* Grid component exists for the surfaces `08` C9 anticipates (documentation,  */
-/* developers, blog, trust centre), NOT for the current routes.                */
-/* -------------------------------------------------------------------------- */
-
-export const GRID_COLUMN_OPTIONS = [1, 2, 3, 4] as const;
-export type GridColumns = (typeof GRID_COLUMN_OPTIONS)[number];
-
-/** Gap presets, expressed as spacing steps so the 4px base still governs. */
-export const GRID_GAP_STEPS = [4, 5, 6, 7] as const satisfies readonly SpaceStep[];
-
-/* -------------------------------------------------------------------------- */
 /* Provenance index — used by the docs and by the token tests                  */
 /* -------------------------------------------------------------------------- */
 
@@ -270,8 +235,6 @@ export const FOUNDATION_PROVENANCE = {
   breakpoints: 'canonical',
   motion: 'canonical',
   radius: 'canonical',
-  grid: 'extension',
-  elevation: 'extension',
   'z-index': 'extension',
   'icon-sizing': 'extension',
 } as const satisfies Record<string, TokenProvenance>;

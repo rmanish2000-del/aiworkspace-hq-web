@@ -129,8 +129,19 @@ jobs:
           # --include-fragments: so an in-page anchor pointing at a missing id
           #   fails here. That is the gate that keeps the omitted hero CTA
           #   honest.
+          # --fallback-extensions html: routes are extensionless (`/platform`),
+          #   but a static build writes `platform.html`. Without this every
+          #   internal route link reads as a missing file.
+          # --exclude 'dist#interest$': the nav CTA is `/#interest`, which
+          #   resolves to the dist DIRECTORY plus a fragment — something lychee
+          #   cannot check offline. That link is verified instead by
+          #   tests/e2e/routes.spec.ts, which fetches every internal href and
+          #   asserts the fragment target exists. Same-page `#interest` links
+          #   are still checked here.
           args: >-
             --offline --no-progress --include-fragments
+            --fallback-extensions html
+            --exclude 'dist#interest$'
             --root-dir ${{ github.workspace }}/dist
             'dist/**/*.html'
           fail: true

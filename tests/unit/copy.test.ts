@@ -165,6 +165,19 @@ const PROHIBITED_TERMS: readonly string[] = [
   'no-code',
   'zero-code',
 
+  /**
+   * Pricing and forward-plan vocabulary. `02` §3 prohibits the Pricing and
+   * Dates domains; these are the two words that most often smuggle them in.
+   *
+   * P1-J §7.1 depends on this gate existing. Its first draft of a `/principles`
+   * line read "There is no pricing… and no roadmap on this site." — a denial,
+   * which `02` §1.3's enforcement note says still counts. The shipped wording
+   * ("no price, no availability date, and no forward plan") says the same thing
+   * and passes. Removing these two entries would silently un-protect that.
+   */
+  'pricing',
+  'roadmap',
+
   // Contradicts "extend before replace"
   'replaces',
   'eliminates the need for',
@@ -445,7 +458,35 @@ describe('scope.prohibitions', () => {
   });
 
   it('contains no submission endpoint, storage call, or third-party origin in src/', () => {
-    // P-02, P-04, P-06, P-07, P-08 and MF-1/MF-2. Blunt on purpose.
+    /**
+     * P-02, P-04, P-06, P-07, P-08 and MF-1/MF-2. Blunt on purpose.
+     *
+     * ─── Two URIs are allowed, because they are not origins ─────────────────
+     *
+     * A URI in source is only a third-party origin if something FETCHES it.
+     * These two are identifiers that no browser ever requests:
+     *
+     *   https://schema.org                     JSON-LD `@context`. A vocabulary
+     *                                          identifier. Required by the
+     *                                          format; `08` SEO-07 mandates the
+     *                                          Organization block that uses it.
+     *   http://www.sitemaps.org/schemas/...    XML namespace on `<urlset>`.
+     *                                          Required by the sitemap format;
+     *                                          `08` SEO-05 mandates the sitemap.
+     *
+     * Neither is dereferenced, and neither appears on a rendered page — the
+     * sitemap is a separate document. The claim that actually matters is
+     * behavioural, and it is asserted on the wire rather than in source:
+     * `tests/e2e/metadata-and-boundary.spec.ts` fails if first render makes any
+     * third-party request at all.
+     *
+     * Anything else still fails here.
+     */
+    const ALLOWED_NON_FETCHED_URIS = [
+      'https://schema.org',
+      'http://www.sitemaps.org/schemas/sitemap/0.9',
+    ];
+
     const forbiddenPatterns: Array<[RegExp, string]> = [
       [/\/api\/interest/, 'P-04 — no submission endpoint in this scope'],
       [/\/api\/form-token/, 'MF-1 — no form token endpoint in this scope'],
@@ -458,13 +499,25 @@ describe('scope.prohibitions', () => {
     // explaining its absence. The programme-name guard above deliberately does
     // NOT strip them — P-16 covers comments and metadata too.
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
-      const source = stripComments(readFileSync(file, 'utf8'));
+      let source = stripComments(readFileSync(file, 'utf8'));
+      for (const uri of ALLOWED_NON_FETCHED_URIS) source = source.split(uri).join('');
+
       return forbiddenPatterns
         .filter(([pattern]) => pattern.test(source))
         .map(([, reason]) => `${relative(SRC_DIR, file)}: ${reason}`);
     });
 
     expect(violations).toEqual([]);
+  });
+
+  it('still rejects a genuine third-party origin', () => {
+    // Guards the allowance above: removing one identifier must not open the
+    // door to a real one.
+    const pattern = /https?:\/\/(?!aiworkspacehq\.com)[a-z0-9.-]+\.[a-z]{2,}/i;
+
+    expect(pattern.test("const a = 'https://cdn.example.com/script.js';")).toBe(true);
+    expect(pattern.test("const a = 'https://fonts.googleapis.com/css';")).toBe(true);
+    expect(pattern.test("const a = 'https://aiworkspacehq.com/platform';")).toBe(false);
   });
 
   it('has a scope guard that still fires on real code', () => {

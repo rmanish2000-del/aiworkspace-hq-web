@@ -49,6 +49,9 @@ test('the landmark map matches `03` §5', async ({ page }) => {
 
   // `03` §5 — exactly one form landmark, and it carries an accessible name.
   await expect(page.locator('form[aria-label]')).toHaveCount(1);
+
+  // P1-J §4.1 adds the main nav; the footer nav is named separately.
+  await expect(page.locator('nav[aria-label="Main"]')).toHaveCount(1);
 });
 
 test('the eyebrow is a paragraph, not a heading', async ({ page }) => {
@@ -60,14 +63,17 @@ test('the eyebrow is a paragraph, not a heading', async ({ page }) => {
   await expect(page.locator('.eyebrow')).toHaveText('Enterprise AI Operating Layer');
 });
 
-test('the wordmark is plain text, never an anchor', async ({ page }) => {
-  // `03` §3 Block 1 — not a link at P0, and never an anchor to `#`.
+test('the wordmark is plain text on the home route', async ({ page }) => {
+  // `03` §3 Block 1, reasoning preserved by P1-J §4.1: on `/` there is nowhere
+  // for the wordmark to go, so it stays a <p>. The header now also carries the
+  // navigation (P1-J §4.1), so `header a` is no longer zero — the assertion is
+  // about the wordmark specifically.
   await page.goto('/');
 
   const tagName = await page.locator('.wordmark').evaluate((element) => element.tagName);
-  expect(tagName).not.toBe('A');
+  expect(tagName).toBe('P');
   await expect(page.locator('.wordmark')).toHaveText('AI Workspace');
-  await expect(page.locator('header a')).toHaveCount(0);
+  await expect(page.locator('header a.wordmark')).toHaveCount(0);
 });
 
 test('the five principles are h3 elements inside list items, in order', async ({ page }) => {
@@ -89,13 +95,17 @@ test('the 404 route renders its approved copy and a link home', async ({ page })
   await page.goto('/404');
 
   await expect(page.locator('h1')).toHaveText('Page not found');
+  // Corrected by P1-J §10 — the old string became false at Phase 1.
   await expect(page.locator('.notfound__body')).toHaveText(
-    'There is only one page here at the moment.',
+    'That page does not exist, or it has moved.',
   );
 
-  const link = page.locator('.notfound__link');
-  await expect(link).toHaveText('Go to the AI Workspace home page');
-  await expect(link).toHaveAttribute('href', '/');
+  const home = page.locator('.notfound__link').first();
+  await expect(home).toHaveText('Go to the AI Workspace home page');
+  await expect(home).toHaveAttribute('href', '/');
+
+  // P1-J §10 adds two recovery links beside the home link.
+  await expect(page.locator('.notfound__link')).toHaveCount(3);
 });
 
 test('no in-page anchor points at a target that does not exist', async ({ page }) => {

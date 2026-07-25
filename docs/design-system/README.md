@@ -42,15 +42,15 @@ output of `/` or `/404`.
 
 ## What is in the system
 
-**Foundations** — typography, spacing, grid, breakpoints, colour, elevation,
-radius, motion, icon sizing, z-index. Declared twice, deliberately: as CSS
+**Foundations** — typography, spacing, breakpoints, colour, radius, motion,
+icon sizing, z-index. (Grid and elevation were removed by the P1-J §0 cleanup.) Declared twice, deliberately: as CSS
 custom properties in [`src/styles/tokens.css`](../../src/styles/tokens.css) for
 the stylesheet, and as typed values in
 [`src/lib/tokens.ts`](../../src/lib/tokens.ts) for component props and tests. A
 unit test asserts the two agree, so a token cannot exist in one and not the
 other.
 
-**Components** — 15, in [`src/components/ui/`](../../src/components/ui/), each
+**Components** — 11, in [`src/components/ui/`](../../src/components/ui/), each
 importable from the barrel:
 
 ```astro
@@ -78,21 +78,26 @@ import { Button, Container, Section, Stack } from '../components/ui';
 5. **The token is the value.** No component hard-codes a length, a colour, or a
    duration. Spacing props take a step on the 4px scale, not a pixel count.
 
-## Not approved for use
+## The P1-J §0 cleanup
 
-Defined, documented, tested — and rejected by an approved specification for the
-current routes. A unit test asserts none of them reaches a page.
+P1-I shipped five components that no approved specification permitted. P1-J §0
+required the canonical export surface to be cleaned before any Phase 1 route was
+built, and that cleanup **removed them from the codebase**, not merely from the
+barrel — so a build importing one fails rather than falling back silently.
 
-| Component    | Rejected by                                                                                                                                                      |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Badge`      | `07` §1 rejects badges; §6.3 — a pill "would read as a status chip and imply a state we are not claiming". Most badge words are prohibited claims under `02` §3. |
-| `Tag`        | Same pill treatment. Safer than `Badge` (a category, not a maturity claim) but still unapproved.                                                                 |
-| `Card`       | `07` §1 rejects "floating glass cards"; `03` §3 rules out cards for the principles list by name.                                                                 |
-| `Grid`       | `07` §4 — "single column at every breakpoint … no grid framework".                                                                                               |
-| `Navigation` | `03` §2 — "Nothing to navigate to. A menu with one item is noise."                                                                                               |
+| Removed        | Rejected by                                                                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Badge`, `Tag` | `07` §1 rejects badges; §6.3 — a pill "would read as a status chip and imply a state we are not claiming". `02` §3 prohibits most badge words. |
+| `Card`         | `07` §1 rejects "floating glass cards"; `03` §3 rules them out for the principles list by name                                                 |
+| `Grid`         | `07` §4 mandates a single column, and every Phase 1 route is single-column                                                                     |
 
-Approving any of them is a visual decision plus, for `Badge`, a claims decision.
-Both belong to the founder (P1-A §10.2(1)).
+**Elevation tokens were removed entirely.** P0 `07` defines no elevation scale.
+P1-J §0: "Phase 1 pages use borders and background tokens for separation, never
+shadow."
+
+`Navigation` moved the other way — P1-J §4.1 approves it, replacing DEC-008.
+
+**Everything now exported is approved and used.**
 
 ## What this system does not do
 

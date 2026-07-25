@@ -4,7 +4,7 @@
  *
  * Blocks rendered (`03` §2):
  *   0  Skip link      — Base.astro
- *   1  Header         — Base.astro -> SiteHeader
+ *   1  Header + nav   — Base.astro -> SiteHeader (nav is new: P1-J §4.1)
  *   2  Hero           — here
  *   3  Principles     — here
  *   4  Early interest — here, VISUAL ONLY. No submission path exists.
@@ -38,6 +38,7 @@ import { meta } from '../content/copy';
   description={meta.descriptionHome}
   canonicalPath={meta.canonicalPathHome}
   indexableInProduction={true}
+  structuredData={true}
 >
   <Hero />
   <Principles />

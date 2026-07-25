@@ -122,15 +122,6 @@
   --radius-full: 9999px;
 
   /*
-   * Elevation. Deliberately almost empty: `07` §1 rejects "floating glass
-   * cards" and §6.2 gives the header "no border, no shadow". The page's depth
-   * model is that there is no depth. ONLY --elevation-0 is approved for use.
-   */
-  --elevation-0: none;
-  --elevation-1: 0 1px 2px rgb(0 0 0 / 0.06);
-  --elevation-2: 0 2px 8px rgb(0 0 0 / 0.08);
-
-  /*
    * Z-index. `07` §6.1 gives the skip link `z-index: 10`; nothing else stacks.
    * There are no modals, menus, or carousels (`07` §7), so this scale exists to
    * replace a magic number, not to enable layering.
@@ -144,12 +135,6 @@
   --icon-sm: 16px;
   --icon-md: 20px;
   --icon-lg: 24px;
-
-  /*
-   * Grid. `07` §4 mandates a single column at every breakpoint for the current
-   * routes. These exist for the surfaces `08` C9 anticipates.
-   */
-  --grid-gap: var(--space-6);
 
   /*
    * Breakpoints, for reference only — CSS cannot use a custom property in a

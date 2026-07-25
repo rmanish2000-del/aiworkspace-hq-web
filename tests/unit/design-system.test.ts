@@ -3,22 +3,18 @@ import { join, relative, resolve } from 'node:path';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-import Badge from '../../src/components/ui/Badge.astro';
 import Button from '../../src/components/ui/Button.astro';
 import Callout from '../../src/components/ui/Callout.astro';
-import Card from '../../src/components/ui/Card.astro';
 import Container from '../../src/components/ui/Container.astro';
 import Divider from '../../src/components/ui/Divider.astro';
 import Footer from '../../src/components/ui/Footer.astro';
-import Grid from '../../src/components/ui/Grid.astro';
 import Hero from '../../src/components/ui/Hero.astro';
 import Link from '../../src/components/ui/Link.astro';
 import Logo from '../../src/components/ui/Logo.astro';
 import Navigation from '../../src/components/ui/Navigation.astro';
 import Section from '../../src/components/ui/Section.astro';
 import Stack from '../../src/components/ui/Stack.astro';
-import Tag from '../../src/components/ui/Tag.astro';
-import { COMPONENT_NAMES, NOT_APPROVED_FOR_CURRENT_ROUTES } from '../../src/components/ui';
+import { COMPONENT_NAMES, REMOVED_BY_P1J_CLEANUP } from '../../src/components/ui';
 
 /**
  * The design system is tested by rendering each component in-process through
@@ -118,16 +114,12 @@ describe('zero JavaScript', () => {
     const outputs = await Promise.all([
       render(Button, { slots: { default: 'Go' } }),
       render(Link, { props: { href: '/x' }, slots: { default: 'x' } }),
-      render(Card, { slots: { default: 'x' } }),
       render(Callout, { slots: { default: 'x' } }),
       render(Divider),
       render(Logo),
-      render(Badge, { slots: { default: 'x' } }),
-      render(Tag, { slots: { default: 'x' } }),
       render(Container, { slots: { default: 'x' } }),
       render(Stack, { slots: { default: 'x' } }),
       render(Section, { slots: { default: 'x' } }),
-      render(Grid, { slots: { default: 'x' } }),
       render(Footer, { slots: { default: 'x' } }),
       render(Hero, { slots: { heading: '<h1>x</h1>' } }),
       render(Navigation, { props: { label: 'Main', items: [{ href: '/a', label: 'A' }] } }),
@@ -212,6 +204,19 @@ describe('Link', () => {
     expect(html).not.toContain('target=');
   });
 
+  it('emits no whitespace inside the anchor', async () => {
+    // An inline link with padding whitespace renders as "register interest ."
+    // — a space before the punctuation, underlined. It reached /contact once.
+    const html = await render(Link, {
+      props: { href: '/x' },
+      slots: { default: 'register interest' },
+    });
+
+    expect(html).toContain('>register interest</a>');
+    expect(html).not.toMatch(/>\s+register interest/);
+    expect(html).not.toMatch(/register interest\s+<\/a>/);
+  });
+
   it('never emits a title attribute', async () => {
     // `08` HTML-07 — `title` must not be used to convey information.
     const html = await render(Link, { props: { href: '/x' }, slots: { default: 'x' } });
@@ -285,17 +290,6 @@ describe('layout primitives', () => {
     const html = await render(Stack, { props: { gap: 6 }, slots: { default: 'x' } });
     expect(html).toContain('--stack-gap: var(--space-6)');
   });
-
-  it('Grid restores list semantics when rendered as a list', async () => {
-    // display:grid on a <ul> drops list semantics in Safari + VoiceOver.
-    const html = await render(Grid, { props: { as: 'ul' }, slots: { default: '<li>x</li>' } });
-    expect(html).toMatch(/<ul[^>]*role="list"/);
-  });
-
-  it('Grid does not set role=list on a non-list element', async () => {
-    const html = await render(Grid, { slots: { default: 'x' } });
-    expect(html).not.toContain('role="list"');
-  });
 });
 
 /* -------------------------------------------------------------------------- */
@@ -317,18 +311,6 @@ describe('surfaces', () => {
   it('Callout defaults to the neutral stage-disclosure tone', async () => {
     const html = await render(Callout, { slots: { default: 'x' } });
     expect(html).toMatch(/class="[^"]*callout--neutral/);
-  });
-
-  it('Card defaults to elevation 0, the only approved level', async () => {
-    // `07` §1 rejects floating cards; the page's depth model is no depth.
-    const html = await render(Card, { slots: { default: 'x' } });
-    expect(html).toContain('--card-elevation: var(--elevation-0)');
-  });
-
-  it('Card is a container, never a control', async () => {
-    const html = await render(Card, { slots: { default: 'x' } });
-    expect(html).not.toContain('role="button"');
-    expect(html).not.toContain('tabindex');
   });
 
   it('Divider can be hidden from assistive technology', async () => {
@@ -373,14 +355,21 @@ describe('Navigation', () => {
 });
 
 /* -------------------------------------------------------------------------- */
-/* Boundary — unapproved components must not reach a page                     */
+/* P1-J §0 cleanup — the removed components must stay removed                 */
 /* -------------------------------------------------------------------------- */
 
-describe('usage boundary', () => {
-  it('renders no unapproved component from any page or layout', () => {
-    // The rule the docs state, enforced. If a later assignment approves one of
-    // these, remove it from NOT_APPROVED_FOR_CURRENT_ROUTES deliberately —
-    // do not silence this test.
+describe('P1-J cleanup', () => {
+  it('has no file on disk for any removed component', () => {
+    // CL-1 and CL-4: removal, not un-exporting. A build that imports one of
+    // these must FAIL rather than silently fall back.
+    const onDisk = readdirSync(UI_DIR).filter((f) => f.endsWith('.astro'));
+
+    for (const name of REMOVED_BY_P1J_CLEANUP) {
+      expect(onDisk, `${name}.astro is back on disk`).not.toContain(`${name}.astro`);
+    }
+  });
+
+  it('renders no removed component from any page, layout, or component', () => {
     const consumers = [
       ...walkFiles(join(SRC_DIR, 'pages'), ['.astro']),
       ...walkFiles(join(SRC_DIR, 'layouts'), ['.astro']),
@@ -399,7 +388,7 @@ describe('usage boundary', () => {
         .replace(/\/\*[\s\S]*?\*\//g, ' ')
         .replace(/^[ \t]*\/\/.*$/gm, ' ');
 
-      for (const name of NOT_APPROVED_FOR_CURRENT_ROUTES) {
+      for (const name of REMOVED_BY_P1J_CLEANUP) {
         if (new RegExp(`<${name}[\\s/>]`).test(code)) {
           violations.push(`${relative(SRC_DIR, file)} renders <${name}>`);
         }
@@ -409,10 +398,34 @@ describe('usage boundary', () => {
     expect(violations).toEqual([]);
   });
 
-  it('keeps the unapproved list honest', () => {
-    // Every name on the list must be a real component.
-    for (const name of NOT_APPROVED_FOR_CURRENT_ROUTES) {
-      expect(COMPONENT_NAMES).toContain(name);
-    }
+  it('exports no elevation token, in CSS or in TypeScript', () => {
+    // CL-2. P1-J §0: "Phase 1 pages use borders and background tokens for
+    // separation, never shadow." P0 `07` defines no elevation scale at all.
+    const tokensTs = readFileSync(resolve(process.cwd(), 'src/lib/tokens.ts'), 'utf8');
+    const tokensCss = readFileSync(resolve(process.cwd(), 'src/styles/tokens.css'), 'utf8');
+
+    expect(tokensTs).not.toMatch(/ELEVATION/);
+    expect(tokensCss).not.toMatch(/--elevation/);
+  });
+
+  it('uses no box-shadow for separation in any component', () => {
+    // The focus ring's inner ring on Button is the one permitted shadow, and it
+    // is an accessibility indicator (`07` §6.5), not decoration.
+    const offenders = readdirSync(UI_DIR)
+      .filter((f) => f.endsWith('.astro'))
+      .filter((f) => f !== 'Button.astro')
+      .filter((f) => /box-shadow:\s*(?!none)/.test(readFileSync(join(UI_DIR, f), 'utf8')))
+      .map((f) => f);
+
+    expect(offenders).toEqual([]);
+  });
+
+  it('keeps every exported component real', () => {
+    const onDisk = readdirSync(UI_DIR)
+      .filter((f) => f.endsWith('.astro'))
+      .map((f) => f.replace('.astro', ''))
+      .sort();
+
+    expect(onDisk).toEqual([...COMPONENT_NAMES].sort());
   });
 });

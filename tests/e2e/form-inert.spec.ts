@@ -184,15 +184,17 @@ test('tab order follows DOM order through the form', async ({ page }) => {
    *   Full name -> Organization -> Role -> Context -> Consent -> Submit ->
    *   Privacy link -> Footer privacy link -> Footer email link
    *
-   * The last three stops do not exist in this scope: the micro-notice's
-   * "Read the privacy notice" is rendered as text because `/privacy` is not
-   * built, and the footer's content is blocked on Open Items B and C. Every
-   * stop that does exist appears here, in the specified order.
+   * P1-J §4.4 extends it: skip link -> wordmark -> nav items -> main content
+   * -> footer.
+   *
+   * The micro-notice's "Read the privacy notice" is still rendered as text
+   * rather than a link (ADR-0003 R-1), so it is not a tab stop. The footer
+   * links follow the submit button and are asserted separately.
    */
   await page.goto('/');
 
   const order: string[] = [];
-  for (let i = 0; i < 9; i += 1) {
+  for (let i = 0; i < 13; i += 1) {
     await page.keyboard.press('Tab');
     order.push(
       await page.evaluate(() => {
@@ -212,6 +214,13 @@ test('tab order follows DOM order through the form', async ({ page }) => {
 
   expect(order).toEqual([
     'skip-link',
+    // P1-J §4.4: skip link -> wordmark -> nav items -> main content -> footer.
+    // The wordmark is a <p> on `/` and is correctly not focusable (`03` §3
+    // Block 1) — there is nowhere for it to go from the home route.
+    'site-nav__link',
+    'site-nav__link',
+    'site-nav__link',
+    'site-nav__cta',
     'hero__cta',
     'work-email',
     'full-name',

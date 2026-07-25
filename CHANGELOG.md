@@ -16,7 +16,86 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.3.0`.
+Nothing. `main` is at `0.4.0`.
+
+---
+
+## [0.4.0] — 2026-07-26
+
+**Implements:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
+**Authorized under:** AG-2-S, assignment P1-K
+**Released:** no. No tag, no deployment. AG-3 and AG-4 expressly withheld.
+
+The Phase 1 website: six routes, a navigation shell, and a sitemap.
+
+### Cleanup — landed first, in its own commit
+
+P1-J §0 makes the P1-I cleanup a precondition, not a parallel task, and CL-5
+requires it as a separate commit before the first route commit.
+
+`Badge`, `Card`, `Tag` and `Grid` were **removed from the codebase**, not merely
+un-exported, so a build importing one fails rather than falling back silently
+(CL-4). Elevation tokens were removed entirely — P0 `07` defines no elevation
+scale, and P1-J §0: "Phase 1 pages use borders and background tokens for
+separation, never shadow." `Navigation` moved the other way: P1-J §4.1 approves
+it, replacing DEC-008.
+
+### Added
+
+- **`/platform`** — P1-J §6. The category, the problem, three "is designed to"
+  pillars, and seven definitional distinctions. No architecture, no feature, no
+  integration, no deployment model, no performance figure, no date, no
+  competitor named.
+- **`/principles`** — P1-J §7. The five principles resolve from the **same copy
+  entry** `/` uses; a test asserts they are byte-identical on both routes.
+- **`/contact`** — P1-J §8, **shell only**. Structure and prose render; every
+  address is withheld. P1-J §8.1: "A contact page that publishes a non-existent
+  address is worse than no contact page."
+- **`/privacy`** — P0 `06` Part B via P1-J §9. All twelve headings in order,
+  `[LEGAL]` markers stripped, and three classes of content withheld: build-time
+  placeholders, `06` §7 ("must not be published in this form"), and any
+  sentence describing processing this build does not perform.
+- **Navigation** — four items, `aria-current` on the active route, wordmark
+  linking home on every route except `/`. No dropdown, no hamburger, no
+  JavaScript.
+- **`/sitemap.xml`** — the five indexable routes. No `lastmod`: there is no
+  publication date, and inventing one would assert a date `02` §3 prohibits.
+- **`Organization` JSON-LD** on `/` only, without `logo` (a brand asset, P-15).
+- **`tests/e2e/routes.spec.ts`** — every route rendered, axe-clean, canonical,
+  noindex, landmark map, link integrity, and the deferred routes proven absent.
+
+### Changed
+
+- **The 404 body string.** P0 `04` §11 read "There is only one page here at the
+  moment." — false the moment a second route shipped. P1-J §10 supplies the
+  replacement, and a test asserts the old string appears nowhere in the build.
+- Internal template comments no longer ship to the browser. HTML comments in
+  `.astro` render into output; several named the placeholders they explained,
+  so `{{LEGAL_ENTITY_NAME}}` and three others were reaching `/privacy`. All are
+  now `{/* */}` comments, stripped at build. **Zero HTML comments ship.**
+- `Link` no longer puts whitespace inside its anchor — it rendered as
+  "register interest ." on `/contact`.
+- The prohibited-term gate now also matches `pricing` and `roadmap`, which
+  P1-J §7.1 relies on existing.
+
+### Known deviations, each recorded
+
+- `/principles` renders the principles as **h2, not h3**. P1-J §7.3's outline
+  skips a level, which fails `08` HTML-01/HTML-03 and WCAG 1.3.1. P1-A §6.1
+  puts P0 above P1-J.
+- `06` Part B's "This site is a single page" is withheld — the same defect
+  P1-J §10 corrected in the 404 string, not yet corrected in `06`.
+- `/404` returns HTTP 404 and `X-Robots-Tag` only from a host; a static build
+  emits `404.html`. The `noindex` meta tag holds regardless.
+
+All in
+[`docs/reviews/implementation-notes.md`](docs/reviews/implementation-notes.md).
+
+### Verified
+
+73 unit · 276 e2e · axe **0 violations on all six routes in both colour
+schemes** · Lighthouse **100/100/100/100 on all five indexable routes** ·
+zero cookies, zero storage, zero third-party requests, zero client JavaScript.
 
 ---
 

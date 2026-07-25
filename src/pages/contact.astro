@@ -1,0 +1,106 @@
+---
+/**
+ * `/contact` — P1-J §8. **SHELL ONLY.**
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ EVERY ADDRESS ON THIS PAGE IS WITHHELD, AND THAT IS THE POINT.            │
+ * │                                                                           │
+ * │ P1-J §8.1: "A contact page that publishes a non-existent address is worse │
+ * │ than no contact page." Open Item C is open — `{{PRIVACY_EMAIL}}` and      │
+ * │ `{{OPS_EMAIL}}` do not exist. B-F04 is open — there is no confirmed       │
+ * │ registered office, and P1-E flags the address of record as a care-of      │
+ * │ address at a director's residence, whose publication is a counsel         │
+ * │ question. P1-E R-6/R-7/R-8 leave the privacy, deletion and security       │
+ * │ contacts all unallocated.                                                 │
+ * │                                                                           │
+ * │ So this route renders its structure and its prose, and renders **no       │
+ * │ mailto link and no address**. `04`'s header note and P1-J §8.4 both       │
+ * │ forbid a `{{...}}` reaching the browser, and P-10 forbids editing an      │
+ * │ approved string to remove one. Withholding is the only option that        │
+ * │ breaks neither rule.                                                      │
+ * │                                                                           │
+ * │ Recorded in `WITHHELD_UNTIL_UNBLOCKED`. P1-J §8.1: "It is specified now   │
+ * │ so that when the mailboxes exist, the page is a transcription job."       │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * P1-J §8.2 — explicitly not on this page: no contact form (a second form
+ * doubles the data-collection surface for no benefit), no phone number, no live
+ * chat, no map, no office photograph, no team names or photographs, and no
+ * response-time promise beyond the two already committed in P0.
+ *
+ * Outline: h1 → h2 ×4.
+ */
+import Base from '../layouts/Base.astro';
+import Section from '../components/ui/Section.astro';
+import Link from '../components/ui/Link.astro';
+import { contact, nav } from '../content/copy';
+
+const GENERAL_ID = 'general-heading';
+const PRIVACY_ID = 'privacy-heading';
+const SECURITY_ID = 'security-heading';
+const LOCATION_ID = 'location-heading';
+
+/**
+ * The lead sentence ends with "…the fastest route is to register interest.",
+ * where `register interest` is an inline link (P1-J §8.2). Split on the exact
+ * link text so the sentence is rendered whole and unedited, with the anchor
+ * placed inside it.
+ */
+const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
+---
+
+<Base
+  title={contact.metaTitle}
+  description={contact.metaDescription}
+  canonicalPath={contact.canonicalPath}
+  indexableInProduction={true}
+>
+  <section class="page-head">
+    <h1 class="page-head__title">{contact.heading}</h1>
+    <p class="page-head__lead">
+      {leadBefore}<Link href={nav.registerInterestHref}>{contact.leadLinkText}</Link>{leadAfter}
+    </p>
+  </section>
+
+  <Section headingId={GENERAL_ID}>
+    <h2 class="section__heading" id={GENERAL_ID}>{contact.generalHeading}</h2>
+    {
+      /*
+      {{PRIVACY_EMAIL}} withheld — Open Item C. P1-J §8.2 specifies a single
+      published address at Phase 1; it does not exist yet.
+    */
+    }
+  </Section>
+
+  <Section headingId={PRIVACY_ID}>
+    <h2 class="section__heading" id={PRIVACY_ID}>{contact.privacyHeading}</h2>
+    {
+      /*
+      Both timeframes below are transcribed from P0 `05` §10 and `06` §8. They
+      are existing commitments, not new ones (P1-J §8.2).
+    */
+    }
+    <p class="section__lead">{contact.privacyBody}</p>
+    <p class="section__lead">
+      <Link href="/privacy">{contact.privacyLinkText}</Link>
+    </p>
+    {/* {{PRIVACY_EMAIL}} withheld — Open Item C. */}
+  </Section>
+
+  <Section headingId={SECURITY_ID}>
+    <h2 class="section__heading" id={SECURITY_ID}>{contact.securityHeading}</h2>
+    <p class="section__lead">{contact.securityBody}</p>
+    {/* {{PRIVACY_EMAIL}} withheld — Open Item C, and R-8 unallocated. */}
+  </Section>
+
+  <Section headingId={LOCATION_ID}>
+    <h2 class="section__heading" id={LOCATION_ID}>{contact.locationHeading}</h2>
+    {
+      /*
+      {{LEGAL_ENTITY_NAME}} and {{REGISTERED_ADDRESS}} withheld — Open Item B
+      and P1-E B-F04. Publishing a care-of residential address is a counsel
+      question, not an implementation detail.
+    */
+    }
+  </Section>
+</Base>

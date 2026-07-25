@@ -26,6 +26,16 @@ const VIEWPORTS = [
 
 const SCHEMES = /** @type {const} */ (['light', 'dark']);
 
+/** Every Phase 1 route (P1-J §3). `/docs` and `/research` are deferred. */
+const ROUTES = [
+  { path: '/', name: 'home' },
+  { path: '/platform', name: 'platform' },
+  { path: '/principles', name: 'principles' },
+  { path: '/contact', name: 'contact' },
+  { path: '/privacy', name: 'privacy' },
+  { path: '/404', name: '404' },
+];
+
 async function main() {
   await rm(OUT, { recursive: true, force: true });
   await mkdir(OUT, { recursive: true });
@@ -43,17 +53,18 @@ async function main() {
         });
         const page = await context.newPage();
 
-        await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-        const home = `${OUT}/home-${viewport.name}-${scheme}.png`;
-        await page.screenshot({ path: home, fullPage: true });
-        captured.push(home);
+        // Every route at desktop; the narrower widths only need the two
+        // routes whose layout actually differs by width.
+        const routes =
+          viewport.name === 'desktop'
+            ? ROUTES
+            : ROUTES.filter((r) => r.path === '/' || r.path === '/platform');
 
-        // The 404 only needs one width to be legible; desktop is enough.
-        if (viewport.name === 'desktop') {
-          await page.goto(`${BASE}/404`, { waitUntil: 'networkidle' });
-          const notFound = `${OUT}/404-${viewport.name}-${scheme}.png`;
-          await page.screenshot({ path: notFound, fullPage: true });
-          captured.push(notFound);
+        for (const route of routes) {
+          await page.goto(`${BASE}${route.path}`, { waitUntil: 'networkidle' });
+          const file = `${OUT}/${route.name}-${viewport.name}-${scheme}.png`;
+          await page.screenshot({ path: file, fullPage: true });
+          captured.push(file);
         }
 
         await context.close();

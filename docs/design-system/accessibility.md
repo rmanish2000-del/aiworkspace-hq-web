@@ -91,16 +91,6 @@ text-bearing elements — `Callout` and `Footer` both do.
 which is the point. A layout primitive that added a role would be imposing
 meaning the content has not asked for.
 
-### `Grid`
-
-`display: grid` on a `<ul>` **removes list semantics** in Safari with VoiceOver,
-so the item count is not announced. `Grid` sets `role="list"` when rendered as a
-list to restore it. This is a real, well-documented browser behaviour, not a
-defensive guess.
-
-Columns collapse to one below 640px, so reflow at 320px (`08` A11Y-05) holds
-without the caller doing anything.
-
 ### `Button`
 
 |                 |                                                                                                                                                     |
@@ -197,32 +187,6 @@ would talk over whatever the user was reading.
 
 A separator announced to a screen-reader user is a claim that the content either
 side differs in kind. When the rule is ornament, saying so is noise.
-
-### `Card`
-
-|                 |                                                              |
-| --------------- | ------------------------------------------------------------ |
-| **Guarantees**  | No role, no `tabindex` — it is a container, never a control. |
-| **Caller must** | Put a real `<a>` inside for anything clickable.              |
-
-A whole-card click target swallows text selection, hides the real destination
-from the accessibility tree, and gives keyboard users nothing to focus. The link
-goes inside.
-
-### `Badge` and `Tag`
-
-|                 |                                                                 |
-| --------------- | --------------------------------------------------------------- |
-| **Guarantees**  | Inline text with no role. Forced-colors boundary on `Badge`.    |
-| **Caller must** | Ensure the text stands alone. Render a group of tags as a list. |
-
-**A badge is not a label for the thing beside it.** Sighted users infer the
-association from proximity; screen-reader users get the badge text as a separate
-run of text with no relationship to anything. If the association matters, it has
-to be in the text or in `aria-describedby`.
-
-A linked `Tag` is a control and needs a 44×44 target (`07` §9). The component
-sets `min-height` but cannot make the caller use `as="a"` correctly.
 
 ### `Navigation`
 
