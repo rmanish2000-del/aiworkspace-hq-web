@@ -193,6 +193,13 @@ jobs:
   security:
     name: Dependency audit and secret scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # On a pull_request event the gitleaks action lists the PR's commits via
+      # /pulls/{n}/commits, which the workflow-level `contents: read` alone does
+      # not allow. Without this the job fails with 403 "Resource not accessible
+      # by integration" — which reads like a secret finding and is not one.
+      pull-requests: read
     steps:
       - uses: actions/checkout@v5
         with:

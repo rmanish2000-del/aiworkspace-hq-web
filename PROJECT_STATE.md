@@ -4,7 +4,7 @@
 **Implementation version:** `0.2.0`
 **Specification version implemented:** P0 v1.1.1 (`00`–`12`, `DECISION_LOG.md`)
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-H)
+**Last updated:** 2026-07-26 (P1-H.1)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -164,34 +164,47 @@ None of that exists here. Re-measure after AG-3.
 
 ## 6a. Remote repository configuration — as applied
 
-| Control                             | State                                                      |
-| ----------------------------------- | ---------------------------------------------------------- |
-| Visibility                          | ✅ **Private** — verified                                  |
-| Default branch                      | ✅ `main`                                                  |
-| Principals with access              | ✅ Account owner only. No collaborator, no bot, no app     |
-| Dependabot alerts                   | ✅ Enabled                                                 |
-| Dependabot automated security fixes | ✅ Enabled                                                 |
-| Merge commits                       | ✅ Disabled — squash and rebase only                       |
-| Delete branch on merge              | ✅ Enabled                                                 |
-| Secret scanning / push protection   | ⛔ **Unavailable on this plan** — `gitleaks` in CI instead |
-| Branch protection on `main`         | ⛔ **NOT APPLIED — unavailable on this plan**              |
+| Control                              | State                                                       |
+| ------------------------------------ | ----------------------------------------------------------- |
+| Visibility                           | ✅ **Private** — verified                                   |
+| Default branch                       | ✅ `main`                                                   |
+| Principals with access               | ✅ Account owner only. No collaborator, no bot, no app      |
+| Dependabot alerts                    | ✅ Enabled                                                  |
+| Dependabot automated security fixes  | ✅ Enabled                                                  |
+| Merge commits                        | ✅ Disabled — squash and rebase only                        |
+| Delete branch on merge               | ✅ Enabled                                                  |
+| Secret scanning / push protection    | ⛔ **Unavailable on this plan** — `gitleaks` in CI instead  |
+| Branch protection on `main` (server) | ⛔ **NOT APPLIED — unavailable on this plan**               |
+| Direct push to `main` (local)        | 🟡 Refused by `.githooks/pre-push` — a seatbelt, not a lock |
+| Working practice                     | ✅ Short-lived branches, merged by pull request             |
 
-**Branch protection could not be applied.** Both the ruleset API and the classic
-branch-protection API return `403 — Upgrade to GitHub Pro or make this
-repository public`. On GitHub Free these features exist on public repositories
+**Server-side branch protection still could not be applied.** Retried under
+P1-H.1 on 2026-07-26: the rulesets API and the classic branch-protection API
+both return `403 — Upgrade to GitHub Pro or make this repository public`. The
+account is on the Free plan, where these features exist on public repositories
 only, and making this repository public is prohibited by SEC-12, P-09 and P-17.
 
-Consequences, stated plainly:
+**What is in force instead**
 
-- P1-A §4.1 (no direct push, no force push, linear history, required status
-  checks) is **not enforced**. It is currently convention only.
-- P1-A **CC-9** — protection active before the first product commit — is **not
-  satisfied**.
-- P1-A §2.4 step 5 (secret scanning) is met in substance by `gitleaks` running
-  as a CI gate, which is what P1-F S-5 relies on and does not depend on the
-  plan.
+`.githooks/pre-push` refuses a push whose target is `main`, and
+`npm run prepare` points `core.hooksPath` at it on every install. All work now
+goes through a short-lived branch and a pull request.
 
-This needs a founder decision. See [`HANDOFF.md`](HANDOFF.md) E-8.
+Stated precisely, so the gap is not mistaken for closure:
+
+- the hook **prevents the ordinary mistake** — pushing to `main` out of habit;
+- it does **not** prevent a bypass: `git push --no-verify` skips it, and it only
+  runs where `core.hooksPath` has been set;
+- nothing mechanically requires CI to be green before a merge.
+
+So P1-A §4.1 is **partly enforced and partly convention**, and P1-A **CC-9** is
+still **not satisfied**. P1-A §2.4 step 5 (secret scanning) is met in substance
+by `gitleaks` as a CI gate, which does not depend on the plan.
+
+Closing this needs one founder act — see [`HANDOFF.md`](HANDOFF.md) E-8.
+The moment the plan allows it, apply the server-side rule and **delete the
+hook**: two overlapping controls invite the belief that the weaker one is the
+strong one.
 
 ## 6b. First CI run
 
