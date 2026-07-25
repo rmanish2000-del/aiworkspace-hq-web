@@ -1,0 +1,43 @@
+---
+/**
+ * `03` Block 2 — Hero.
+ *
+ * DOM order and semantics per `03` §3:
+ *   1. Category label — a <p> styled as an eyebrow. NOT a heading; it carries
+ *      no document-outline meaning.
+ *   2. <h1> — the single h1 on the page.
+ *   3. Supporting statement — <p>.
+ *   4. Stage disclosure — <p>, visually distinct (`07` §6.4).
+ *   5. Primary CTA — OMITTED IN THIS SCOPE. See below.
+ *   6. Secondary CTA — omitted at P0 (DEC-006).
+ *
+ * ─── Why the primary CTA is absent ─────────────────────────────────────────
+ * `03` §3 specifies the CTA as an in-page anchor to `#interest`. The authorized
+ * assignment excludes forms outright, so Block 4 (Early interest) is not built
+ * and `#interest` does not exist. Rendering the CTA would leave a dead in-page
+ * anchor — a broken link the `lychee` gate is meant to catch.
+ *
+ * This follows the precedent AWHQ-AUT-P1F §9.2 sets for `/privacy`: where a
+ * link's destination is out of scope, the link and the destination are omitted
+ * *together*. The approved CTA strings are retained verbatim in `copy.ts`
+ * (`hero.ctaLabel`, `hero.ctaAccessibleName`).
+ *
+ * Consequence to note: the `03` §3 constraint that the eyebrow, h1, and first
+ * line of the supporting statement are visible without scrolling at 375x667 is
+ * *easier* to meet without the CTA, not harder. Nothing else in Block 2 changes.
+ *
+ * Recorded in docs/decisions/ADR-0002-scope-deviations.md.
+ */
+import { hero } from '../content/copy';
+---
+
+<section class="hero">
+  <p class="eyebrow">{hero.eyebrow}</p>
+
+  <h1 class="hero__headline">{hero.headline}</h1>
+
+  <p class="hero__supporting">{hero.supporting}</p>
+
+  <!-- Binding commitment C-11. Factual disclosure, not a warning banner (`07` §6.4). -->
+  <p class="stage-disclosure">{hero.stageDisclosure}</p>
+</section>

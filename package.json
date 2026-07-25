@@ -1,0 +1,56 @@
+{
+  "name": "aiworkspace-hq-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Public product surface. Scope-limited local build under AG-2-S. Not deployed.",
+  "engines": {
+    "node": ">=22.22.3 <23",
+    "npm": ">=10.9.0"
+  },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "check:astro": "astro check",
+    "check:types": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:html": "html-validate \"dist/**/*.html\"",
+    "test:lighthouse": "lhci autorun",
+    "audit:deps": "npm audit --audit-level=high",
+    "test": "npm run check:types && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run test:html && npm run test:e2e"
+  },
+  "overrideNotes": {
+    "playwright-core": "ARCH-05 reproducible build. @axe-core/playwright depends on its own playwright-core range, which resolves to a second copy and a second, incompatible set of Page types. Pinned to one version.",
+    "security": "The remaining entries force patched versions of transitive dependencies that a direct dependency still pins to a vulnerable range. `08` SEC-11 requires `npm audit --audit-level=high` to report zero findings, and that gate blocks merge. Each entry should be removed once the parent ships the fix on its own."
+  },
+  "overrides": {
+    "playwright-core": "1.62.0",
+    "brace-expansion": "^5.0.8",
+    "minimatch": "^10.2.5",
+    "tmp": "^0.2.7",
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.62.0",
+    "@types/node": "22.18.13",
+    "astro": "7.1.3",
+    "eslint": "10.8.0",
+    "eslint-plugin-astro": "3.0.1",
+    "globals": "17.7.0",
+    "html-validate": "11.5.6",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.10"
+  }
+}

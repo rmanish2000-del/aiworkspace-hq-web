@@ -1,0 +1,52 @@
+name: CodeQL
+
+# Static analysis of the repository's own JavaScript/TypeScript and of the
+# GitHub Actions workflows themselves.
+#
+# CodeQL is not named in P0 `08` §14. It was added by the current assignment and
+# is additive: it blocks nothing that `08` §14 does not already block, and it
+# introduces no runtime dependency and no processor (source code only —
+# TDR-04 records that this vendor handles no personal data).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, so a newly published query reaches an otherwise idle repository.
+    - cron: '17 4 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript-typescript', 'actions']
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          language: ${{ matrix.language }}
+          queries: security-and-quality
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:${{ matrix.language }}'

@@ -1,0 +1,38 @@
+---
+/**
+ * `03` Block 3 — Principles. This block *is* the differentiation section.
+ *
+ * Structure per `03` §3:
+ *   - <h2> "How we are building it"
+ *   - the section lead paragraph, immediately below the h2
+ *   - a <ul> of five <li>; each <li> contains the principle as an <h3> — NOT a
+ *     <strong>, because the document outline in `03` §4 requires five h3
+ *     elements — and a one-sentence gloss as body text.
+ *
+ * Order is fixed and matches the approved foundation. No icons, no numbering,
+ * no cards with borders competing for attention (`03` §3, `07` §1).
+ *
+ * The section is labelled by its own heading so it exposes an accessible name
+ * (`03` §2: `<section aria-labelledby>`).
+ */
+import { principles } from '../content/copy';
+
+const HEADING_ID = 'principles-heading';
+---
+
+<section class="section" aria-labelledby={HEADING_ID}>
+  <h2 class="section__heading" id={HEADING_ID}>{principles.heading}</h2>
+
+  <p class="section__lead">{principles.lead}</p>
+
+  <ul class="principles__list">
+    {
+      principles.items.map((principle) => (
+        <li class="principles__item">
+          <h3 class="principles__title">{principle.title}</h3>
+          <p class="principles__gloss">{principle.gloss}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>

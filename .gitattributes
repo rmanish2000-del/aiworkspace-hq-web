@@ -1,0 +1,22 @@
+# Normalize every text file to LF in the repository and on checkout.
+#
+# Without this, a clone on Windows gets CRLF working-tree files, and the
+# Prettier gate (`endOfLine: "lf"`) fails on a freshly cloned, unmodified
+# repository. That would make the build non-reproducible across platforms,
+# which ARCH-05 does not permit.
+
+* text=auto eol=lf
+
+# Explicit, so intent survives a future edit to the line above.
+*.astro   text eol=lf
+*.css     text eol=lf
+*.js      text eol=lf
+*.json    text eol=lf
+*.md      text eol=lf
+*.mjs     text eol=lf
+*.ts      text eol=lf
+*.toml    text eol=lf
+*.yml     text eol=lf
+
+# Lockfile: never merge by hand; regenerate it.
+package-lock.json -diff merge=binary linguist-generated=true

@@ -1,0 +1,21 @@
+---
+/**
+ * `/404` — not found. `03` §1: minimal, single link back to `/`, never indexed.
+ *
+ * Copy is `04` §11 verbatim. The <title> is PROVISIONAL (GAP-02 in copy.ts):
+ * `04` §1 specifies titles for home and privacy only.
+ *
+ * No meta description is emitted: `04` §1 specifies none for this route, and
+ * composing one would be a further invention. The route is noindex regardless.
+ */
+import Base from '../layouts/Base.astro';
+import { notFound, PROVISIONAL } from '../content/copy';
+---
+
+<Base title={PROVISIONAL.notFoundTitle} description="" canonicalPath="/404" indexable={false}>
+  <section class="notfound">
+    <h1 class="notfound__heading">{notFound.heading}</h1>
+    <p class="notfound__body">{notFound.body}</p>
+    <a class="notfound__link" href="/">{notFound.linkText}</a>
+  </section>
+</Base>

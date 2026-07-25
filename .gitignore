@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment — never committed (P1-F §6 S-3)
+.env
+.env.*
+!.env.example
+
+# Test and tooling output
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.lighthouseci/
+coverage/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*

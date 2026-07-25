@@ -1,0 +1,19 @@
+---
+/**
+ * `03` Block 1 — Header. Product identity only.
+ *
+ * The wordmark is NOT a link at P0 (there is nowhere else to go). It is a plain
+ * element, never an anchor to `#`. No navigation, no CTA, no language switcher.
+ *
+ * `07` §3 — if a wordmark asset is supplied later (Open Item E), it replaces
+ * only this element, as an inline SVG with an accessible name — never as a font
+ * swap. Blocked today by AWHQ-AUT-P1F P-15.
+ */
+import { header } from '../content/copy';
+---
+
+<header class="site-header">
+  <div class="container">
+    <p class="wordmark">{header.wordmark}</p>
+  </div>
+</header>

@@ -1,0 +1,145 @@
+/*
+ * tokens.css — design tokens, transcribed from P0 `07-visual-and-interaction-spec.md`.
+ *
+ * §2 colour · §3 typography · §4 spacing and layout · §8 motion.
+ *
+ * Every token here exists because the page needs it. This is not a design
+ * system. No value is invented: each is specified in `07`.
+ */
+
+:root {
+  /* --- §2 Colour — light theme (default) --------------------------------- */
+  --bg: #ffffff;
+  --bg-subtle: #f6f7f8;
+  --fg: #111315;
+  --fg-muted: #5a6167;
+
+  /* Decorative rules and dividers ONLY — never a UI-component boundary. */
+  --border: #dfe3e6;
+
+  /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
+  --border-input: #848b92;
+  --border-strong: #6b7278;
+
+  --accent: #1b4de4;
+  --accent-fg: #ffffff;
+  --danger: #b3261e;
+  --success: #0f6e3d;
+
+  /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
+  --accent-hover: #1743c4;
+  --accent-active: #1339ab;
+
+  /* --- §3 Typography ----------------------------------------------------- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+  /*
+   * Fluid scale, clamped between the 360px and 1280px viewports (§3).
+   * Each clamp() is derived from the min/max pair in the `07` §3 table; the
+   * middle term is the line through (360px, min) and (1280px, max).
+   */
+  --type-wordmark: clamp(1.0625rem, 1.0136rem + 0.2174vw, 1.1875rem); /* 17 -> 19 */
+  --type-eyebrow: clamp(0.8125rem, 0.788rem + 0.1087vw, 0.875rem); /* 13 -> 14 */
+  --type-h1: clamp(2rem, 1.413rem + 2.6087vw, 3.5rem); /* 32 -> 56 */
+  --type-hero-supporting: clamp(1.0625rem, 0.9647rem + 0.4348vw, 1.3125rem); /* 17 -> 21 */
+  --type-stage: clamp(0.875rem, 0.8505rem + 0.1087vw, 0.9375rem); /* 14 -> 15 */
+  --type-h2: clamp(1.375rem, 1.1793rem + 0.8696vw, 1.875rem); /* 22 -> 30 */
+  --type-h3: clamp(1rem, 0.9511rem + 0.2174vw, 1.125rem); /* 16 -> 18 */
+  --type-body: clamp(1rem, 0.9755rem + 0.1087vw, 1.0625rem); /* 16 -> 17 */
+  --type-small: clamp(0.8125rem, 0.788rem + 0.1087vw, 0.875rem); /* 13 -> 14 */
+  --type-input: 1rem; /* never below 16px: iOS Safari auto-zoom */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-h1: 620;
+
+  --leading-h1: 1.08;
+  --leading-wordmark: 1.2;
+  --leading-h2: 1.2;
+  --leading-eyebrow: 1.3;
+  --leading-h3: 1.35;
+  --leading-input: 1.4;
+  --leading-stage: 1.5;
+  --leading-small: 1.5;
+  --leading-hero-supporting: 1.55;
+  --leading-body: 1.6;
+
+  --tracking-wordmark: -0.01em;
+  --tracking-eyebrow: 0.06em;
+  --tracking-h1: -0.02em;
+  --tracking-h2: -0.01em;
+
+  /* §3 Measure */
+  --measure-body: 68ch;
+  --measure-h1: 18ch;
+
+  /* --- §4 Spacing — base unit 4px, every value a multiple ---------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --space-11: 112px;
+  --space-12: 160px;
+
+  /* §4 Container */
+  --container-max: 720px;
+  --container-pad: var(--space-5); /* raised to --space-7 at >=640px */
+
+  /* §6 Shape */
+  --radius: 8px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* --- §8 Motion --------------------------------------------------------- */
+  --duration-fast: 120ms;
+  --duration-swap: 160ms;
+  --ease: ease;
+
+  color-scheme: light dark;
+}
+
+/* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d0e;
+    --bg-subtle: #141719;
+    --fg: #f2f4f5;
+    --fg-muted: #a2aab1;
+    --border: #262b2f;
+    --border-input: #7a8288;
+    --border-strong: #99a1a8;
+    --accent: #7a9bff;
+    --accent-fg: #0b0d0e;
+    --danger: #ff8a80;
+    --success: #5fd39b;
+    --accent-hover: #6f8fef;
+    --accent-active: #6484df;
+  }
+}
+
+/* --- §4 Container padding steps up at 640px ------------------------------- */
+@media (min-width: 640px) {
+  :root {
+    --container-pad: var(--space-7);
+  }
+}
+
+/*
+ * §8 Reduced motion. Durations go to a near-zero value rather than 0, so that
+ * `transitionend` handlers are not broken.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-swap: 0.01ms;
+  }
+}

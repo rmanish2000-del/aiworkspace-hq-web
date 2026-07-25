@@ -1,0 +1,37 @@
+LICENCE — PLACEHOLDER, NOT YET DETERMINED
+=========================================
+
+No licence is granted by this file.
+
+This repository is private and proprietary. All rights are reserved by the
+copyright holder. No permission is granted to any person to use, copy, modify,
+merge, publish, distribute, sublicense, or sell any part of this software.
+
+Why this file is a placeholder
+------------------------------
+
+The licence text cannot be completed yet because the copyright holder is not
+yet determined:
+
+  - Open Item B (legal entity and jurisdiction) is open. The entity that will
+    hold the copyright has not been confirmed.
+  - The intellectual-property assignment route recorded in the P1-E IP ownership
+    register has not been agreed.
+
+Naming a holder here before those are resolved would assert an ownership
+position that has not been decided.
+
+P0 `11` §2 records the standing position: "Licence: None — private,
+proprietary. Add LICENSE only if the repository is ever opened." This file
+exists because the current assignment asked for a licence placeholder. It
+deliberately grants nothing and names nobody.
+
+What must happen before this file becomes a real licence
+-------------------------------------------------------
+
+  1. Open Item B closes — legal entity and jurisdiction confirmed.
+  2. The IP assignment route is agreed and executed.
+  3. A licence is chosen deliberately (remaining proprietary is a valid choice).
+  4. This file is replaced in full, and the change is recorded in CHANGELOG.md.
+
+Until then, the paragraph at the top of this file is the operative statement.

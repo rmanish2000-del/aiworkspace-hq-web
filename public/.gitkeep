@@ -1,0 +1,15 @@
+Files placed here are copied to the output root verbatim.
+
+Currently empty. Everything P0 `11` §3 expects here is blocked:
+
+  favicon.svg, favicon.ico, apple-touch-icon.png, og-image.png,
+  site.webmanifest      brand assets — P-15, and Open Item E
+
+  robots.txt            would name a live host — P-14
+
+  .well-known/security.txt
+                        needs a real contact address and expiry — Open Item C,
+                        P-13, `08` SEC-14
+
+This file exists only so the directory survives in version control. Delete it
+when the first real asset lands.

@@ -1,0 +1,79 @@
+version: 2
+
+# P0 `08` SEC-11 names Dependabot specifically. TDR-04 records that this is one
+# of the reasons GitHub was adopted rather than an equivalent host.
+#
+# Every dependency in this repository is a devDependency: nothing ships to a
+# browser. An update therefore cannot change the delivered page — only the
+# toolchain that checks it. Updates are still reviewed, because a compromised
+# build tool is a supply-chain problem regardless of what it emits.
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Asia/Kolkata
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    commit-message:
+      # Conventional Commits (P1-A §4.2).
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    labels:
+      - dependencies
+    groups:
+      # One PR per concern rather than one per package: a solo operator reviews
+      # five grouped PRs properly and twenty individual ones not at all (C10).
+      astro:
+        patterns:
+          - 'astro'
+          - '@astrojs/*'
+      linting:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+          - 'typescript-eslint'
+          - 'prettier'
+          - 'prettier-*'
+          - 'globals'
+      testing:
+        patterns:
+          - 'vitest'
+          - '@playwright/*'
+          - 'playwright*'
+          - '@axe-core/*'
+          - 'html-validate'
+          - '@lhci/*'
+      types:
+        patterns:
+          - 'typescript'
+          - '@types/*'
+    ignore:
+      # ARCH-05 pins the Node version in .nvmrc and package.json engines.
+      # Changing the runtime is a decision under P1-A §8, not a dependency bump.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Asia/Kolkata
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: ci
+      include: scope
+    labels:
+      - dependencies
+      - ci
+    groups:
+      actions:
+        patterns:
+          - '*'

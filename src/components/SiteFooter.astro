@@ -1,0 +1,39 @@
+---
+/**
+ * `03` Block 5 — Footer.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ EVERY line of approved footer copy is blocked, so this landmark renders    │
+ * │ with no text. That is a deliberate, recorded state — not an oversight.     │
+ * │                                                                           │
+ * │   1. Legal entity line   {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}}           │
+ * │                          Open Item B; AWHQ-AUT-P1F P-12 prohibits filling  │
+ * │                          it. A build-time placeholder must never reach the │
+ * │                          browser (`04` header note).                       │
+ * │                                                                           │
+ * │   2. `Privacy` link   ->  /privacy is not built. P1-F §9.2 directs that    │
+ * │                          the route and the footer link are omitted         │
+ * │                          together, so no dead link exists for the link     │
+ * │                          checker to find.                                  │
+ * │                                                                           │
+ * │   3. Contact email       {{PRIVACY_EMAIL}} — Open Item C, no mailbox       │
+ * │                          exists. P-05.                                     │
+ * │                                                                           │
+ * │   4. Copyright line      Contains {{LEGAL_ENTITY_NAME}} — Open Item B.     │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * The element is still rendered because `03` §2 marks the footer Required and
+ * `03` §5 requires exactly one `contentinfo` landmark. Removing it would change
+ * the landmark map; filling it would invent copy (P-10). Rendering it empty is
+ * the only option that breaks neither rule.
+ *
+ * Strings are held verbatim in `copy.ts` under `footer`, so restoring this block
+ * once Open Items B and C close is a wiring change with no content decision.
+ */
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <!-- Content blocked on Open Item B (legal entity) and Open Item C (mailboxes). -->
+  </div>
+</footer>

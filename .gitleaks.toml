@@ -1,0 +1,38 @@
+title = "aiworkspace-hq-web secret scanning"
+
+# P0 `08` SEC-07 / §14, and AWHQ-AUT-P1F §6 S-5: gitleaks runs as a merge gate
+# from the first CI run, so the no-secrets policy is machine-checked rather than
+# remembered.
+#
+# The policy this enforces is unusually strong: NO SECRET EXISTS. Every variable
+# in `.env.example` belongs to a component excluded from the authorized scope,
+# so there is nothing in this repository that a real credential could
+# legitimately be doing. Any finding is a genuine finding.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "env-example-must-stay-empty"
+description = "A value was assigned in .env.example. That file carries names only, with empty values (`08` §10, P1-F S-2)."
+# Matches KEY=<something> where something is not end-of-line and not a comment.
+regex = '''(?m)^[A-Z][A-Z0-9_]*=[ \t]*[^\s#][^\n]*$'''
+path = '''\.env\.example$'''
+
+[allowlist]
+description = "Paths and patterns that cannot hold a credential."
+paths = [
+  '''(^|/)package-lock\.json$''',
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)playwright-report/''',
+  '''(^|/)\.lighthouseci/''',
+]
+regexes = [
+  # RFC 2606 reserved domains, used in the approved validation copy (`04` §5.6)
+  # and permitted as the only test-data domains by P1-F MF-4.
+  '''name@example\.com''',
+  '''@example\.(com|org|net)''',
+  # The empty-icon data URI in Base.astro is markup, not an encoded secret.
+  '''href="data:,"''',
+]
