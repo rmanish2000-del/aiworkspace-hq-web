@@ -164,10 +164,30 @@ tests/e2e/           Playwright — a11y, structure, metadata, boundary
 
 ## Contributing
 
-One working branch per assignment, cut from `main`, using the Conventional
-Commits prefixes `feat/` `fix/` `chore/` `ci/` `test/` `refactor/` `docs/`.
-`main` is protected: no direct push, no force push, linear history, required
-checks green.
+**Nothing is committed directly to `main`.** One short-lived working branch per
+assignment, cut from `main`, merged by pull request:
+
+```bash
+git switch -c feature/p1-i          # or fix/ chore/ ci/ test/ refactor/ docs/
+# ...work, committing as you go...
+git push -u origin feature/p1-i
+gh pr create --fill
+```
+
+Merge with **squash or rebase, never a merge commit** — P1-A §4.1 requires
+linear history. Merge commits are disabled on the remote. Delete the branch
+after merging.
+
+`npm ci` runs `npm run prepare`, which points `core.hooksPath` at `.githooks`.
+The `pre-push` hook there refuses a push to `main`. Confirm it is active:
+
+```bash
+git config core.hooksPath
+```
+
+That hook is a local seatbelt, not server-side protection — see
+[`PROJECT_STATE.md`](PROJECT_STATE.md) §6a for what is and is not enforced, and
+why.
 
 Never commit a secret, a real email address, or personal data of any kind.
 

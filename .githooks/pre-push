@@ -1,0 +1,77 @@
+#!/bin/sh
+#
+# pre-push — refuse a direct push to a protected branch.
+#
+# WHY THIS EXISTS
+#
+# P1-A §4.1 makes `main` protected: no direct push, no force push, no deletion,
+# linear history, required status checks. The proper home for that rule is the
+# server, where it cannot be bypassed.
+#
+# It is not there. GitHub returns 403 "Upgrade to GitHub Pro or make this
+# repository public" for both the rulesets API and the classic branch-protection
+# API, because the repository is private on a Free plan. Making it public is
+# prohibited (SEC-12, P-09, P-17), so the rule has no server-side home yet.
+#
+# This hook is the stopgap. It is honest about what it is:
+#
+#   - it PREVENTS the ordinary mistake — pushing to `main` out of habit;
+#   - it does NOT prevent a determined bypass. `git push --no-verify` skips it,
+#     and it only runs on machines where the hook path has been configured;
+#   - it is therefore a seatbelt, not a lock. It does not satisfy P1-A CC-9.
+#
+# Enabled by `npm run prepare` (which npm runs automatically on install), which
+# sets `core.hooksPath` to `.githooks`. Verify with:
+#
+#     git config core.hooksPath
+#
+# REMOVE THIS HOOK once real branch protection is in force. Two overlapping
+# controls invite the belief that the weaker one is the strong one.
+
+set -e
+
+PROTECTED='main'
+REMOTE_NAME="$1"
+
+blocked=0
+
+# stdin: <local ref> <local sha> <remote ref> <remote sha>
+while read -r local_ref local_sha remote_ref remote_sha; do
+	[ -z "$remote_ref" ] && continue
+
+	branch="${remote_ref#refs/heads/}"
+
+	for protected in $PROTECTED; do
+		if [ "$branch" = "$protected" ]; then
+			blocked=1
+			cat >&2 <<EOF
+
+  ✖ Direct push to '$protected' on '$REMOTE_NAME' refused.
+
+    P1-A §4.1: '$protected' takes no direct push. Changes reach it through a
+    pull request from a short-lived working branch.
+
+      git switch -c feature/<assignment>     # or fix/ chore/ ci/ test/ docs/
+      git push -u origin feature/<assignment>
+      gh pr create --fill
+
+    Merge with squash or rebase, never a merge commit — P1-A §4.1 requires
+    linear history.
+
+EOF
+		fi
+	done
+done
+
+if [ "$blocked" -ne 0 ]; then
+	cat >&2 <<'EOF'
+    This hook is a local seatbelt, not server-side protection. If you are
+    deliberately bypassing it, record why — an unexplained direct push to a
+    branch that is supposed to be protected is exactly the event the rule
+    exists to make visible.
+
+EOF
+	exit 1
+fi
+
+exit 0
