@@ -28,8 +28,8 @@ running system is the authority on reality, not the other way round.
 |                        |                                                                    |
 | ---------------------- | ------------------------------------------------------------------ |
 | Assignment             | P1-M.1 — final merge, release-candidate freeze and project closure |
-| Tag                    | `v0.5.0-rc1`                                                       |
-| Implementation version | `0.6.0` (see the note below)                                       |
+| Tag                    | `v0.6.0-rc1`                                                       |
+| Implementation version | `0.6.0`                                                            |
 | Deployment             | **Not authorized.** AG-3 and AG-4 remain expressly withheld        |
 | Publication            | **Not performed.** No DNS, no hosting, no services activated       |
 
@@ -38,11 +38,11 @@ of the repository. It authorizes nothing: nothing is deployed, no DNS record
 exists, no vendor account has been created, and `/privacy` remains
 unpublishable while Open Items A and B are open.
 
-**Version/tag mismatch, recorded rather than silently reconciled.** The tag name
-`v0.5.0-rc1` was specified by the founder in the P1-M.1 assignment. The tree it
-points at is version `0.6.0` — `0.5.0` was P1-L. The tag was created as
-instructed and the discrepancy is flagged here. Retagging costs one command and
-no GitHub Release exists, so this is recoverable at any time.
+**Tag naming.** The P1-M.1 assignment first specified `v0.5.0-rc1`, which did
+not match the `0.6.0` implementation version — `0.5.0` was P1-L. The mismatch
+was flagged rather than silently reconciled, the founder confirmed `v0.6.0-rc1`,
+and the tag was corrected. `v0.5.0-rc1` no longer exists locally or on the
+remote. No GitHub Release was ever created, so nothing downstream referenced it.
 
 ## 2. Gates
 

@@ -7,7 +7,7 @@
 **Stopping point reached:** yes — work has stopped and awaits a founder act
 
 > **Phase 1 is complete and frozen** as of P1-M.1. The repository is tagged
-> `v0.5.0-rc1` at implementation version `0.6.0`. Deployment is **not
+> `v0.6.0-rc1` at implementation version `0.6.0`. Deployment is **not
 > authorized** and nothing has been published. The escalations below still
 > stand, and §5 lists what needs a founder act next — the NVDA checklist is the
 > largest remaining gap.
