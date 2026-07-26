@@ -83,18 +83,30 @@ function loadProduction(hash) {
 /* Build the configuration                                                    */
 /* -------------------------------------------------------------------------- */
 
-function build() {
+/**
+ * @param {{ prebuilt?: boolean }} options
+ *   `prebuilt: true` omits the build settings, for deploying an already-built
+ *   `dist/` directly. Same headers, same redirects, same single source — only
+ *   the build instructions differ, because there is nothing left to build.
+ *   Used by `--prebuilt` so a direct upload cannot drift from the committed
+ *   configuration in the parts that actually reach a visitor.
+ */
+function build({ prebuilt = false } = {}) {
   const hash = jsonLdHash();
   const headers = loadProduction(hash).map(({ name, value }) => ({ key: name, value }));
 
   return {
     $schema: 'https://openapi.vercel.sh/vercel.json',
 
-    // Astro emits a fully static site; Vercel must serve it, not rebuild it.
-    framework: 'astro',
-    buildCommand: 'npm run build',
-    outputDirectory: 'dist',
-    installCommand: 'npm ci',
+    ...(prebuilt
+      ? {}
+      : {
+          // Astro emits a fully static site; Vercel must serve it, not rebuild it.
+          framework: 'astro',
+          buildCommand: 'npm run build',
+          outputDirectory: 'dist',
+          installCommand: 'npm ci',
+        }),
 
     // `04` §11 — the 404 document is a real route, not a rewrite target.
     cleanUrls: true,
@@ -150,7 +162,16 @@ function build() {
 
 /* -------------------------------------------------------------------------- */
 
-const generated = `${JSON.stringify(build(), null, 2)}\n`;
+const prebuilt = process.argv.includes('--prebuilt');
+const generated = `${JSON.stringify(build({ prebuilt }), null, 2)}\n`;
+
+if (prebuilt) {
+  // Written to stdout, never to the repository: the committed vercel.json is
+  // the git-connected one. This variant exists only so a direct upload of an
+  // already-built dist/ carries byte-identical headers and redirects.
+  process.stdout.write(generated);
+  process.exit(0);
+}
 
 if (process.argv.includes('--check')) {
   if (!existsSync(OUT)) {
