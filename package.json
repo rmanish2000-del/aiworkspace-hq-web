@@ -26,6 +26,7 @@
     "audit:deps": "npm audit --audit-level=high",
     "screenshots": "node scripts/screenshots.mjs",
     "assets": "node scripts/generate-assets.mjs",
+    "vercel:config": "node scripts/generate-vercel-json.mjs",
     "test": "npm run check:types && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run test:html && npm run test:e2e",
     "verify:release": "node scripts/verify-release.mjs"
   },

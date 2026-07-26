@@ -134,6 +134,17 @@ run('unit tests', 'npm run test:unit');
 run('build', 'npm run build');
 run('html validity', 'npm run test:html');
 
+/**
+ * The host configuration is generated from `src/lib/production.ts`, because
+ * Vercel reads `vercel.json` before the build runs and it is therefore the one
+ * place the `08` §9.2 headers and `08` §8 cache policy could drift away from
+ * the module the unit tests assert against.
+ *
+ * This gate runs after the build because the CSP hash is computed over the
+ * JSON-LD bytes in `dist/index.html` — the actual served bytes, not a copy.
+ */
+run('vercel.json matches the spec modules', 'node scripts/generate-vercel-json.mjs --check');
+
 /* -------------------------------------------------------------------------- */
 /* 4. Built-output invariants — the things that must never ship               */
 /* -------------------------------------------------------------------------- */

@@ -28,31 +28,31 @@ running system is the authority on reality, not the other way round.
 |                        |                                                                    |
 | ---------------------- | ------------------------------------------------------------------ |
 | Assignment             | P1-M.1 — final merge, release-candidate freeze and project closure |
-| Tag                    | `v0.5.0-rc1`                                                       |
-| Implementation version | `0.6.0` (see the note below)                                       |
-| Deployment             | **Not authorized.** AG-3 and AG-4 remain expressly withheld        |
-| Publication            | **Not performed.** No DNS, no hosting, no services activated       |
+| Tag                    | `v0.6.0-rc1`                                                       |
+| Implementation version | `0.6.0`                                                            |
+| Deployment             | **Authorized** at P2-A.1 (AG-3). See §9                            |
+| Publication            | **Not authorized.** AG-4 withheld; the site stays `noindex`        |
 
 **A release candidate is not a release.** The tag marks a verified, frozen state
 of the repository. It authorizes nothing: nothing is deployed, no DNS record
 exists, no vendor account has been created, and `/privacy` remains
 unpublishable while Open Items A and B are open.
 
-**Version/tag mismatch, recorded rather than silently reconciled.** The tag name
-`v0.5.0-rc1` was specified by the founder in the P1-M.1 assignment. The tree it
-points at is version `0.6.0` — `0.5.0` was P1-L. The tag was created as
-instructed and the discrepancy is flagged here. Retagging costs one command and
-no GitHub Release exists, so this is recoverable at any time.
+**Tag naming.** The P1-M.1 assignment first specified `v0.5.0-rc1`, which did
+not match the `0.6.0` implementation version — `0.5.0` was P1-L. The mismatch
+was flagged rather than silently reconciled, the founder confirmed `v0.6.0-rc1`,
+and the tag was corrected. `v0.5.0-rc1` no longer exists locally or on the
+remote. No GitHub Release was ever created, so nothing downstream referenced it.
 
 ## 2. Gates
 
-| Gate   | Authorizes                             | State                                        |
-| ------ | -------------------------------------- | -------------------------------------------- |
-| AG-1   | Repository existence and configuration | Granted                                      |
-| AG-2-S | Scope-limited implementation           | Granted — **this assignment**                |
-| AG-2   | Unrestricted implementation            | **Not granted.** Requires Open Item D closed |
-| AG-3   | Deployment                             | **Not granted. Expressly withheld**          |
-| AG-4   | Publication                            | **Not granted. Expressly withheld**          |
+| Gate   | Authorizes                             | State                                                                      |
+| ------ | -------------------------------------- | -------------------------------------------------------------------------- |
+| AG-1   | Repository existence and configuration | Granted                                                                    |
+| AG-2-S | Scope-limited implementation           | Granted — **this assignment**                                              |
+| AG-2   | Unrestricted implementation            | **Not granted.** Requires Open Item D closed                               |
+| AG-3   | Deployment                             | **GRANTED** — founder override, P2-A.1                                     |
+| AG-4   | Publication                            | **Not granted.** `noindex` stays until a separate Public Launch assignment |
 
 ## 3. Open items
 
@@ -61,7 +61,7 @@ no GitHub Release exists, so this is recoverable at any time.
 | A    | Legal review of the privacy notice           | Open                 | `/privacy` route; any publication                                               |
 | B    | Legal entity and jurisdiction                | Open                 | Footer entity line; copyright line; `LICENSE`                                   |
 | C    | Published contact and notification mailboxes | Open                 | Footer email; `security.txt`; success-message body                              |
-| D    | Technology decisions                         | **Partially closed** | 6 of 13 rows signed; the 7 unsigned rows are the components this scope excludes |
+| D    | Technology decisions                         | **Partially closed** | 7 of 13 rows signed; the 6 unsigned rows are the components this scope excludes |
 | E    | Brand assets                                 | Open                 | Favicons, OG image, wordmark SVG, web manifest                                  |
 
 ### Open Item D — which rows are in force
@@ -74,7 +74,7 @@ no GitHub Release exists, so this is recoverable at any time.
 | 11  | DNS posture                          | Signed       | Not exercised — no DNS change made                                                                        |
 | 12  | Test / quality toolchain             | Signed       | ESLint, Prettier, tsc, html-validate, lychee, axe, Lighthouse CI, Vitest, Playwright, npm audit, gitleaks |
 | 13  | Web fonts                            | Signed       | Zero web fonts; system font stack                                                                         |
-| 03  | Hosting + serverless                 | **Unsigned** | Excluded — nothing is deployed                                                                            |
+| 03  | Hosting + serverless                 | **Signed**   | **Vercel Pro** — founder override, P2-A.1. Static hosting only; no serverless function is deployed        |
 | 05  | Submission store                     | **Unsigned** | Excluded — no storage                                                                                     |
 | 06  | Rate-limit KV                        | **Unsigned** | Excluded — no storage                                                                                     |
 | 07  | Transactional email                  | **Unsigned** | Excluded — no email                                                                                       |
@@ -84,6 +84,11 @@ no GitHub Release exists, so this is recoverable at any time.
 
 Every technology this repository depends on has a signed decision. Every
 component with an open decision is excluded by an enumerated prohibition.
+
+**TDR-03 signed at P2-A.1 — Vercel Pro.** The decision covers static hosting
+only. No serverless function, edge function, storage primitive or analytics
+product is enabled by it, and the six remaining unsigned rows stay excluded by
+their enumerated prohibitions.
 
 ## 4. What is built
 
