@@ -4,7 +4,7 @@
 **Implementation version:** `0.6.0`
 **Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-M)
+**Last updated:** 2026-07-26 (P1-M.1 — release-candidate freeze)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -14,14 +14,35 @@ running system is the authority on reality, not the other way round.
 
 ## 1. Lifecycle state
 
-| #   | State       | Status                                                     |
-| --- | ----------- | ---------------------------------------------------------- |
-| 1   | Proposed    | passed                                                     |
-| 2   | Authorized  | passed                                                     |
-| 3   | Initialized | passed                                                     |
-| 4   | **Active**  | **current** — first assignment complete, no release tagged |
-| 5   | Maintained  | not reached                                                |
-| 6   | Archived    | not reached                                                |
+| #   | State       | Status                                                        |
+| --- | ----------- | ------------------------------------------------------------- |
+| 1   | Proposed    | passed                                                        |
+| 2   | Authorized  | passed                                                        |
+| 3   | Initialized | passed                                                        |
+| 4   | **Active**  | **current** — Phase 1 complete, frozen as a release candidate |
+| 5   | Maintained  | not reached                                                   |
+| 6   | Archived    | not reached                                                   |
+
+### Phase 1 Release Candidate — frozen
+
+|                        |                                                                    |
+| ---------------------- | ------------------------------------------------------------------ |
+| Assignment             | P1-M.1 — final merge, release-candidate freeze and project closure |
+| Tag                    | `v0.5.0-rc1`                                                       |
+| Implementation version | `0.6.0` (see the note below)                                       |
+| Deployment             | **Not authorized.** AG-3 and AG-4 remain expressly withheld        |
+| Publication            | **Not performed.** No DNS, no hosting, no services activated       |
+
+**A release candidate is not a release.** The tag marks a verified, frozen state
+of the repository. It authorizes nothing: nothing is deployed, no DNS record
+exists, no vendor account has been created, and `/privacy` remains
+unpublishable while Open Items A and B are open.
+
+**Version/tag mismatch, recorded rather than silently reconciled.** The tag name
+`v0.5.0-rc1` was specified by the founder in the P1-M.1 assignment. The tree it
+points at is version `0.6.0` — `0.5.0` was P1-L. The tag was created as
+instructed and the discrepancy is flagged here. Retagging costs one command and
+no GitHub Release exists, so this is recoverable at any time.
 
 ## 2. Gates
 

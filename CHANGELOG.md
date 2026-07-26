@@ -16,7 +16,17 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.6.0`.
+Nothing. `main` is at `0.6.0`, frozen as the Phase 1 Release Candidate and
+tagged `v0.5.0-rc1` (P1-M.1).
+
+**The tag name and the version differ, deliberately recorded.** `v0.5.0-rc1` was
+specified by the founder in the P1-M.1 assignment; the tree it points at is
+`0.6.0`, since `0.5.0` was P1-L. The tag was created as instructed and the
+mismatch is noted in `PROJECT_STATE.md` rather than reconciled unilaterally.
+
+**A release candidate is not a release.** Nothing is deployed, no DNS record
+exists, no service is active, and no GitHub Release was created. AG-3 and AG-4
+remain expressly withheld.
 
 ---
 
