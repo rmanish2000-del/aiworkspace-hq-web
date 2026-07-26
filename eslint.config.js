@@ -71,6 +71,21 @@ export default tseslint.config(
 
   {
     files: ['**/*.config.{js,mjs,ts}', 'scripts/**/*.{js,mjs}'],
-    rules: { 'no-console': 'off' },
+    rules: {
+      'no-console': 'off',
+      /**
+       * `no-restricted-globals` bans `fetch` because the PAGE must make no
+       * network call (MF-1, and the zero-third-party-request budget in
+       * `08` §8). Operator tooling is the opposite case: `check-headers.mjs`
+       * exists precisely to query a deployment, and `08` §14 makes that check
+       * a gate. Storage and cookies stay banned here — nothing under
+       * `scripts/` has any business touching them.
+       */
+      'no-restricted-globals': [
+        'error',
+        { name: 'localStorage', message: 'P-07 — no persistent storage in this scope.' },
+        { name: 'sessionStorage', message: 'P-07 — no persistent storage in this scope.' },
+      ],
+    },
   },
 );

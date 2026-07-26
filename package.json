@@ -1,6 +1,6 @@
 {
   "name": "aiworkspace-hq-web",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "description": "Public product surface. Scope-limited local build under AG-2-S. Not deployed.",
@@ -25,6 +25,7 @@
     "test:lighthouse": "lhci autorun",
     "audit:deps": "npm audit --audit-level=high",
     "screenshots": "node scripts/screenshots.mjs",
+    "assets": "node scripts/generate-assets.mjs",
     "test": "npm run check:types && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run test:html && npm run test:e2e"
   },
   "overrideNotes": {

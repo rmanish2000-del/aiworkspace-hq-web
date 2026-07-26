@@ -11,13 +11,24 @@ answer. Anything here that turns out to be permanent belongs in
 Moved out of `ADR-0003` on 2026-07-26, under P1-H.1, so that the decision
 records hold long-term architectural decisions only.
 
-**Last updated:** 2026-07-26 · **Applies to:** `0.4.0`
+**Last updated:** 2026-07-26 · **Applies to:** `0.5.0`
 
 ---
 
 ## 1. Open — needs a founder decision
 
+> **P1K-1, P1K-2 and P1K-3 were RATIFIED at the P1-K founder gate on
+> 2026-07-26.** All three are resolved as decisions; what remains is applying
+> the corresponding edits in the canonical documents, which this repository
+> does not hold. See
+> [`../decisions/ADR-0004-founder-gate-corrections.md`](../decisions/ADR-0004-founder-gate-corrections.md).
+>
+> They are kept below, marked resolved, because the implementation still looks
+> the way it does _because_ of them.
+
 ### P1K-1 · `06` Part B says "This site is a single page", which is now false
+
+> **RESOLVED — ratified.** The sentence is to be removed or replaced in `06`. Until approved replacement text exists the paragraph stays withheld; it is not edited in code, because P-10 reserves that to the specification.
 
 **Component:** `src/pages/privacy.astro` · **Since:** P1-K
 
@@ -36,6 +47,8 @@ are one string.
 
 ### P1K-2 · P1-J §7.3 specifies a heading outline that fails the validator
 
+> **RESOLVED — ratified.** The implementation stands; P1-J §7.3 is corrected to `h1 -> h2`. Changing the headings back would now be a regression, not a correction.
+
 **Component:** `src/pages/principles.astro` · **Since:** P1-K
 
 P1-J §7.3 specifies `h1 → h3 ×5 → h2` for `/principles`. That skips a level,
@@ -52,6 +65,8 @@ IS the h1, so they are its direct children.
 **Resolves when:** P1-J §7.3 is corrected to `h1 → h2 ×5 → h2`.
 
 ### P1K-3 · The P0 v2.0 amendment could not be verified
+
+> **RESOLVED — ratified.** Recorded as one decision: "P1-J supersedes the original P0 single-page information architecture for Phase 1 implementation." No historical rewrite required.
 
 P1-J §2.2 states that `/platform` and `/contact` are named in `03` §1 as "not
 created at P0", that DEC-008 forbids a navigation menu, and that the `04` §11
@@ -137,6 +152,21 @@ The residual risk is browser-dependent: if a browser ignored `method="dialog"`,
 a submit with no `action` would issue a GET to the current URL with the field
 values in the query string. That is why the no-navigation assertions live in
 CI rather than in a comment claiming safety.
+
+### P1-L: the ignore file written to silence gitleaks tripped gitleaks
+
+**Resolved:** P1-K, before merge — recorded because the shape recurs.
+
+Three `generic-api-key` findings were a field literally named `key`. Renaming
+it to `path` fixed the tree, but gitleaks scans HISTORY, so the finding
+survived in the superseded commit. A `.gitleaksignore` was added — and it
+quoted the offending lines verbatim so a reader could see what was ignored,
+which tripped the same rule on the ignore file itself.
+
+The branch history was collapsed instead, so neither commit exists and no
+ignore file is needed. **Rewriting unmerged history is cheaper than carrying a
+permanent exception**, and a stale ignore file is how a real finding eventually
+gets ignored.
 
 ### The `Link` component put whitespace inside its anchor
 

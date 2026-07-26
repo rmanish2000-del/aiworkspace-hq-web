@@ -7,7 +7,8 @@ to be traceable later.
 | ------------------------------------------------------------------ | ----------------------------------------------- | -------------------------------------------- |
 | [`manual-accessibility-checks.md`](manual-accessibility-checks.md) | `08` §6 A11Y-02…A11Y-12 and P0 `11` §8 M-1…M-10 | **All outstanding**                          |
 | [`lighthouse-local-baseline.md`](lighthouse-local-baseline.md)     | Lighthouse for `0.2.0`                          | **Local Baseline — not production evidence** |
-| [`implementation-notes.md`](implementation-notes.md)               | Temporary omissions and open ratification items | 2 open                                       |
+| [`implementation-notes.md`](implementation-notes.md)               | Temporary omissions and open ratification items | P1-K items ratified                          |
+| [`production-readiness.md`](production-readiness.md)               | P1-L production readiness                       | **Ready to deploy; not deployed**            |
 
 ## What belongs here
 
