@@ -14,6 +14,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import Container from '../components/ui/Container.astro';
 import { meta, openGraph, PROVISIONAL } from '../content/copy';
 import { IS_INDEXABLE, canonicalUrl } from '../lib/site';
+import { organizationJsonLd } from '../lib/structured-data';
 
 interface Props {
   title: string;
@@ -51,18 +52,13 @@ const robots =
 const canonical = canonicalUrl(canonicalPath);
 
 /**
- * `08` SEO-07 permits `name`, `url`, `description`, `logo`. `logo` is omitted:
- * it is a brand asset, and P-15 blocks brand assets while IP ownership is
- * unevidenced (Open Item E). Emitting a `logo` pointing at the placeholder
- * favicon would assert a brand mark that does not exist.
+ * Serialised once, in `src/lib/structured-data.ts`, so that the CSP hash in
+ * `src/lib/production.ts` is computed over exactly the bytes rendered here.
  */
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: openGraph.siteName,
-  url: canonicalUrl('/'),
-  description: meta.descriptionHome,
-};
+const jsonLd = organizationJsonLd(meta.descriptionHome);
+
+/** `04` §8 — one social card for every route; no per-route imagery. */
+const ogImage = canonicalUrl('/og-image.png');
 ---
 
 <!doctype html>
@@ -91,7 +87,13 @@ const organizationJsonLd = {
     <meta property="og:locale" content={openGraph.locale} />
     <meta property="og:title" content={title} />
     {description !== '' && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={openGraph.imageAlt} />
     <meta name="twitter:card" content={openGraph.twitterCard} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={openGraph.imageAlt} />
 
     {
       /*
@@ -102,26 +104,22 @@ const organizationJsonLd = {
     */
     }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b0d0e" media="(prefers-color-scheme: dark)" />
 
-    {
-      structuredData && (
-        <script
-          type="application/ld+json"
-          is:inline
-          set:html={JSON.stringify(organizationJsonLd)}
-        />
-      )
-    }
+    {structuredData && <script type="application/ld+json" is:inline set:html={jsonLd} />}
 
     {
       /*
       Deliberately absent, each with a reason:
         - `logo` in the Organization JSON-LD — brand asset, blocked by P-15.
         - security.txt — needs a real contact and expiry — blocked by Open Item C.
-        - og-image, apple-touch-icon, wordmark SVG — brand assets, blocked by P-15.
+        - humans.txt, feed.xml, rss.xml — see src/lib/deferred-static.ts.
+        - A wordmark SVG — a real brand asset, still blocked by P-15.
         - Web fonts — `08` §8 budget is zero, and `07` §3 specifies a system stack.
         - Analytics — blocked by P-06.
         - Any executable script. This build ships zero bytes of client JavaScript;

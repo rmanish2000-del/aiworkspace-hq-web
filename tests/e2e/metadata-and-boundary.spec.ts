@@ -49,8 +49,16 @@ test('the home route emits the approved Open Graph tags', async ({ page }) => {
     'summary_large_image',
   );
 
-  // og:image is deliberately absent — it is a brand asset, blocked by P-15.
-  await expect(page.locator('meta[property="og:image"]')).toHaveCount(0);
+  // P1-L added the social card (`04` §8). It carries only the two approved
+  // strings set in the `07` §3 system stack — type, not a logotype.
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://aiworkspacehq.com/og-image.png',
+  );
+  await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+    'content',
+    'AI Workspace — Enterprise AI Operating Layer',
+  );
 });
 
 test('every route is noindex while ENVIRONMENT is not production', async ({ page }) => {

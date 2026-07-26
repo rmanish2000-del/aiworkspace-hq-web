@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Windows tile configuration.
+
+  Declares a tile COLOUR and no tile IMAGE, deliberately.
+
+  A pinned-tile image would be a brand asset, and AWHQ-AUT-P1F P-15 blocks
+  brand assets while 0 of 8 IP assets have evidenced ownership (Open Item E).
+  Windows falls back to a screenshot of the page, which asserts nothing.
+
+  The colour is `--bg` from P0 `07` §2, so the tile matches the page rather than
+  introducing a value this file decides on its own.
+
+  When P-15 lifts, add <square150x150logo> and friends here — do not invent a
+  tile image before then.
+-->
+<browserconfig>
+  <msapplication>
+    <tile>
+      <TileColor>#ffffff</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>

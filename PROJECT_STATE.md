@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.4.0`
+**Implementation version:** `0.5.0`
 **Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-K)
+**Last updated:** 2026-07-26 (P1-L)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -79,8 +79,10 @@ Six routes, per P1-J §3.
 | `/sitemap.xml`              | `src/pages/sitemap.xml.ts`   | Built — the five indexable routes                  |
 | `/docs`                     | —                            | **Deferred.** P1-J §13 — no approved platform spec |
 | `/research`                 | —                            | **Deferred.** P1-J §12 — no approved research      |
-| `/robots.txt`               | —                            | **Not built.** P-14                                |
-| `/.well-known/security.txt` | —                            | **Not built.** Open Item C; P-13                   |
+| `/robots.txt`               | `src/pages/robots.txt.ts`    | Built — `Disallow: /`, matching the noindex state  |
+| `/.well-known/security.txt` | —                            | Scaffolded, **not emitted.** Open Item C; P-13     |
+| `/humans.txt`               | —                            | Scaffolded, **not emitted.** No approved copy      |
+| `/feed.xml`, `/rss.xml`     | —                            | Scaffolded, **not emitted.** Nothing to syndicate  |
 | `/api/interest`             | —                            | **Not built.** MF-1 — and none is possible         |
 | `/api/form-token`           | —                            | **Not built.** MF-1                                |
 

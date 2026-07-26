@@ -485,6 +485,9 @@ describe('scope.prohibitions', () => {
     const ALLOWED_NON_FETCHED_URIS = [
       'https://schema.org',
       'http://www.sitemaps.org/schemas/sitemap/0.9',
+      // Atom namespace on <feed>. Required by the format, never dereferenced —
+      // and the feed is not even emitted (src/lib/deferred-static.ts).
+      'http://www.w3.org/2005/Atom',
     ];
 
     const forbiddenPatterns: Array<[RegExp, string]> = [

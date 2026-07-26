@@ -16,7 +16,82 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.4.0`.
+Nothing. `main` is at `0.5.0`.
+
+---
+
+## [0.5.0] — 2026-07-26
+
+**Implements:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
+**Authorized under:** AG-2-S, assignment P1-L
+**Released:** no. Still not deployed. AG-3 and AG-4 remain ungranted.
+
+Production infrastructure. **No public behaviour changed** — the six routes
+render exactly as they did at `0.4.0`.
+
+### Added
+
+- **`robots.txt`**, generated from the same constant as the `noindex` meta tag,
+  so the two cannot disagree. Currently `Disallow: /`, which is correct while
+  nothing is deployed (`08` §13, SEO-10).
+- **Icon set** — `favicon.ico` (32×32) and `apple-touch-icon.png` (180×180),
+  rasterised from the existing neutral glyph. Still no letterform, still not a
+  brand asset.
+- **Social card** — `og-image.png` (1200×630) per `04` §8, from a committed SVG
+  source, wired to `og:image` and `twitter:image` with alt text on every route.
+  See "Confirmation requested" below.
+- **`browserconfig.xml`** — tile colour only. A tile image would be a brand
+  asset, so Windows falls back to a screenshot, which asserts nothing.
+- **`src/lib/production.ts`** — `08` §9.2 headers and the cache policy as
+  machine-readable, host-agnostic data. Not a `_headers` or `vercel.json`,
+  because choosing one is the technology decision TDR-03 has not made.
+- **CSP hash for the JSON-LD.** `08` §9.2 sets `script-src 'self'` with no
+  `'unsafe-inline'`, and the page carries an inline `ld+json` block. A data
+  block is not executed, so strictly there is nothing to block — but engines
+  have differed, and a CSP fails silently. A `sha256` over the exact rendered
+  bytes removes the question for the cost of one directive.
+- **`scripts/check-headers.mjs`** — staged for AG-3; reads its expectations
+  from the same module the page does.
+- **Deferred scaffolds** in `src/lib/deferred-static.ts` — `security.txt`,
+  `humans.txt`, Atom feed. Complete and tested, deliberately **not routed**.
+  `atomFeed` throws on an empty list and `securityTxt` throws without a
+  contact, so wiring one early fails loudly instead of publishing a promise.
+- **Regression suites** — 27 production unit tests and 61 new e2e assertions:
+  header expectations, CSP-hash drift, cache rules, per-route byte budgets,
+  asset integrity, print on all six routes, structured-data shape, and that
+  every deferred URL still 404s.
+- [`docs/reviews/production-readiness.md`](docs/reviews/production-readiness.md)
+  — what is ready, what still blocks a deployment, and which checks cannot run
+  until one exists.
+
+### Manifest refinement
+
+Added `id`, `scope`, `lang`, `dir` and the 180×180 icon. Still **no `display`**
+— `07` §11: this is a page, not an app, and making it installable is a product
+decision nobody has taken.
+
+### Founder-gate corrections recorded
+
+[`ADR-0004`](docs/decisions/ADR-0004-founder-gate-corrections.md) records the
+three P1-K ratifications: the `/principles` heading hierarchy stands and P1-J
+§7.3 is corrected; the "single page" sentence is to be removed from `06` and
+stays withheld meanwhile; and P1-J supersedes the P0 single-page information
+architecture for Phase 1.
+
+### Confirmation requested
+
+The social card sets the approved wordmark **as type**, and P-15 prohibits
+"any logo, wordmark, ™ or ® symbol, or brand asset". The card was built on the
+reading that P-15 means brand _artwork_ rather than the typographic setting of
+a string already published on every page. If that reading is wrong, the card
+and its four meta tags come out in one commit — nothing else depends on them.
+
+### Verified
+
+100 unit · 336 e2e · axe **0 violations** on all six routes in both colour
+schemes · Lighthouse **100/100/100/100** on all five indexable routes ·
+4.4–6.1 KB gzipped per route · 3 requests · zero JS, fonts, cookies, storage
+and third-party requests.
 
 ---
 

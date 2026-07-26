@@ -15,9 +15,9 @@ import { expect, test } from '@playwright/test';
 test('the favicon is served and is referenced from the document', async ({ page, request }) => {
   await page.goto('/');
 
-  const icon = page.locator('link[rel="icon"]');
+  // P1-L added favicon.ico beside it, so this scopes to the SVG.
+  const icon = page.locator('link[rel="icon"][type="image/svg+xml"]');
   await expect(icon).toHaveAttribute('href', '/favicon.svg');
-  await expect(icon).toHaveAttribute('type', 'image/svg+xml');
 
   const response = await request.get('/favicon.svg');
   expect(response.status()).toBe(200);
