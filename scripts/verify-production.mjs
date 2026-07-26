@@ -280,14 +280,45 @@ for (const route of ROUTES) {
 /* ── 9. Redirects ────────────────────────────────────────────────────────── */
 
 {
-  // The www → apex rule is keyed on the custom-domain host, so it cannot fire
-  // on the .vercel.app origin. Reported as pending, never as a pass.
-  pending(
-    'redirects',
-    'www → apex (301) is configured in vercel.json but keyed on ' +
-      'www.aiworkspacehq.com, so it cannot be exercised on this origin. ' +
-      'Verify after DNS activation.',
-  );
+  /**
+   * The www → apex rule is keyed on the custom-domain host, so it can only be
+   * exercised when this runs against that domain. Against a `.vercel.app`
+   * origin it is reported PENDING rather than passed — an untestable check is
+   * not a passing one.
+   */
+  const host = new URL(origin).host;
+  if (host.endsWith('vercel.app')) {
+    pending(
+      'redirects',
+      'www → apex is configured but keyed on the custom domain, so it cannot ' +
+        'be exercised against a .vercel.app origin. Re-run against the domain.',
+    );
+  } else {
+    for (const path of ROUTES) {
+      const r = await fetch(`https://www.${host.replace(/^www\./, '')}${path}`, {
+        redirect: 'manual',
+        signal: AbortSignal.timeout(20_000),
+      });
+      const location = r.headers.get('location');
+      const expected = `https://${host.replace(/^www\./, '')}${path}`;
+      if ([301, 308].includes(r.status) && location === expected) {
+        pass('redirects', `www${path} → ${r.status} ${location}`);
+      } else {
+        fail('redirects', `www${path} → ${r.status} ${location}, expected 301/308 to ${expected}`);
+      }
+    }
+
+    // HTTP must not serve content, on any host.
+    const insecure = await fetch(`http://${host}/`, {
+      redirect: 'manual',
+      signal: AbortSignal.timeout(20_000),
+    });
+    if ([301, 308].includes(insecure.status)) {
+      pass('redirects', `http → ${insecure.status} ${insecure.headers.get('location')}`);
+    } else {
+      fail('redirects', `http returned ${insecure.status}, expected a redirect to https`);
+    }
+  }
 
   const trailing = await get('/platform/');
   if ([301, 308].includes(trailing.status)) {
