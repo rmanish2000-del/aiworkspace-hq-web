@@ -144,9 +144,21 @@ route.
 **Status: PASS.**
 
 The WCAG override values are injected — line-height 1.5×, letter-spacing 0.12em,
-word-spacing 0.16em, paragraph spacing 2em — and no content is clipped or lost on
-any route. This is the same transformation the standard bookmarklet applies, so
-it also discharges **M-6**.
+word-spacing 0.16em, paragraph spacing 2em — at a 320px viewport, on every route.
+This is the same transformation the standard bookmarklet applies, so it also
+discharges **M-6**.
+
+Two things are asserted, because the obvious one is not sufficient:
+
+1. **Nothing is clipped.** Only elements whose computed `overflow` is not
+   `visible` count. An element with visible overflow paints outside its box and
+   loses nothing — treating that as clipping flags a non-problem, and it did
+   (defect H-13, which failed in Gecko only and was never a real defect).
+2. **Nothing escapes the viewport.** No sideways document scroll, and no text
+   element extending past the viewport edge. On a site that sets
+   `overflow: hidden` nowhere, the first assertion alone would pass vacuously;
+   this is the failure that actually bites at 320px, where forced letter- and
+   word-spacing can push text out of reach.
 
 ## A11Y-07 · Form labels and descriptions
 

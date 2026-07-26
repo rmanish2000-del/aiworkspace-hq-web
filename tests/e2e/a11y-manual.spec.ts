@@ -570,13 +570,54 @@ test('A11Y-06 the WCAG text-spacing overrides clip nothing on any route', async 
     const clipped = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, a, li, label, dt, dd')]
         .filter((el) => el.clientHeight > 0)
-        .filter(
-          (el) => el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1,
-        )
+        .filter((el) => {
+          /**
+           * SC 1.4.12 is about content being LOST, not about a box being
+           * overflowed. An element whose overflow is `visible` — the default —
+           * paints outside its box and loses nothing, so comparing scroll size
+           * against client size there flags a non-problem.
+           *
+           * P1-M defect H-13: this check did exactly that. Giving `.link` 4px
+           * of vertical padding (A11Y-09-3) made the padded inline box taller
+           * than its paragraph's line box, and Firefox reported the paragraph
+           * as overflowing. Nothing was cut off — the text rendered fine — but
+           * `/contact` failed the check in Gecko and passed in Blink and
+           * WebKit, which is the signature of measuring the wrong thing.
+           *
+           * Content is only lost when the box actually clips it.
+           */
+          const style = getComputedStyle(el);
+          const clips = (value: string) => value !== 'visible';
+
+          return (
+            (clips(style.overflowY) && el.scrollHeight > el.clientHeight + 1) ||
+            (clips(style.overflowX) && el.scrollWidth > el.clientWidth + 1)
+          );
+        })
         .map((el) => `${el.tagName}.${el.className}`.slice(0, 50)),
     );
 
     expect(clipped, `${route} clips under text-spacing overrides`).toEqual([]);
+
+    /**
+     * The clip check above is necessary but not sufficient: with nothing on
+     * this site setting `overflow: hidden`, it would pass vacuously. The
+     * failure mode that actually bites at 320px is text growing wider than the
+     * viewport once letter- and word-spacing are forced up — content is then
+     * unreachable rather than merely overflowing a box.
+     */
+    const escaped = await page.evaluate(() => {
+      const limit = document.documentElement.clientWidth;
+      return {
+        documentScrolls: document.documentElement.scrollWidth > limit + 1,
+        offscreen: [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, li, label')]
+          .filter((el) => el.getBoundingClientRect().right > limit + 1)
+          .map((el) => `${el.tagName}.${el.className}`.slice(0, 50)),
+      };
+    });
+
+    expect(escaped.documentScrolls, `${route} scrolls sideways under text-spacing`).toBe(false);
+    expect(escaped.offscreen, `${route} pushes text past the viewport`).toEqual([]);
   }
 });
 
