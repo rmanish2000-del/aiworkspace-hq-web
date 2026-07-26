@@ -87,6 +87,35 @@ describe('security headers', () => {
     expect(scriptSrc).not.toContain("'unsafe-inline'");
   });
 
+  it('quotes hash sources, because bare ones are silently ignored', () => {
+    /**
+     * P2-B defect CSP-1, frozen as a regression.
+     *
+     * CSP hash sources are quoted — `'sha256-…'`. Emitted bare they are invalid
+     * syntax: Chrome logs "contains an invalid source … It will be ignored" and
+     * drops the source on every page. That was live in production and was only
+     * caught by loading the site in a real browser, because a string-equality
+     * check on the header sees nothing wrong with an unquoted hash.
+     */
+    const hash = cspHashFor(organizationJsonLd('example'));
+    const csp = securityHeaders([hash]).find((h) => h.name === 'Content-Security-Policy')!.value;
+    const scriptSrc = csp.split(';').find((d) => d.trim().startsWith('script-src'))!;
+
+    expect(scriptSrc).toContain(`'${hash}'`);
+    // Every non-keyword source in script-src must be a quoted hash.
+    for (const source of scriptSrc.trim().split(/\s+/).slice(1)) {
+      expect(source, `unquoted CSP source: ${source}`).toMatch(/^'.*'$/);
+    }
+  });
+
+  it('does not double-quote a hash that arrives already quoted', () => {
+    const csp = securityHeaders(["'sha256-abc='"]).find(
+      (h) => h.name === 'Content-Security-Policy',
+    )!.value;
+    expect(csp).toContain("'sha256-abc='");
+    expect(csp).not.toContain("''");
+  });
+
   it('names no bot-mitigation origin', () => {
     // P-08. `08` §9.2 would extend script-src and frame-src to exactly one
     // origin if Turnstile were enabled. It is not.

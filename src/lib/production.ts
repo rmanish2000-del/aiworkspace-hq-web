@@ -36,7 +36,24 @@ export interface HeaderRequirement {
  * It is not enabled (P-08), so it is not here.
  */
 export function securityHeaders(scriptHashes: readonly string[] = []): HeaderRequirement[] {
-  const scriptSrc = ["'self'", ...scriptHashes].join(' ');
+  /**
+   * P2-B defect CSP-1. Hash sources are QUOTED in CSP — `'sha256-…'`, not
+   * `sha256-…`. Emitted bare, Chrome reports
+   *
+   *   The source list for the Content Security Policy directive 'script-src'
+   *   contains an invalid source: 'sha256-…'. It will be ignored.
+   *
+   * and drops the source, on every page. The site stayed safe because dropping
+   * a source only makes the policy stricter and the JSON-LD is a data block
+   * that is never executed — but the directive did not do what it said, and a
+   * future inline script relying on its hash would have been silently blocked.
+   *
+   * Quoting is applied here rather than in `cspHashFor`, because the quotes are
+   * CSP syntax: the hash value itself is what a caller wants everywhere else.
+   * Already-quoted input is passed through so callers cannot double-quote it.
+   */
+  const quoted = scriptHashes.map((hash) => (hash.startsWith("'") ? hash : `'${hash}'`));
+  const scriptSrc = ["'self'", ...quoted].join(' ');
 
   return [
     {

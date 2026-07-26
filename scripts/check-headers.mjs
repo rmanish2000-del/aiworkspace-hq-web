@@ -19,13 +19,43 @@
  *
  * Exit code 0 = every required header present with the expected value.
  */
-import { securityHeaders } from '../src/lib/production.ts';
+import { execFileSync } from 'node:child_process';
+import esbuild from 'esbuild';
+
+/**
+ * `production.ts` imports `./site` without a file extension, which Node's
+ * type-stripping cannot resolve under ESM — so importing it directly threw
+ * ERR_MODULE_NOT_FOUND the first time this script was ever run, on deployment
+ * day (P2-B). Bundling with esbuild resolves it exactly as the real build does,
+ * so this evaluates the same code the site ships.
+ */
+function loadSecurityHeaders() {
+  const bundle = esbuild.buildSync({
+    stdin: {
+      contents: `
+        import { securityHeaders } from './src/lib/production';
+        process.stdout.write(JSON.stringify(securityHeaders()));
+      `,
+      resolveDir: process.cwd(),
+      loader: 'ts',
+    },
+    bundle: true,
+    platform: 'node',
+    format: 'cjs',
+    write: false,
+  });
+  return JSON.parse(
+    execFileSync(process.execPath, ['-e', bundle.outputFiles[0].text], { encoding: 'utf8' }),
+  );
+}
+
+const securityHeaders = loadSecurityHeaders;
 
 const target = process.argv[2];
 
 if (!target) {
   console.error('Usage: node scripts/check-headers.mjs <url>');
-  console.error('\nNo deployment exists yet. This script is staged for AG-3.');
+  console.error('\nRun from the repository root, against a deployed origin.');
   process.exit(2);
 }
 
