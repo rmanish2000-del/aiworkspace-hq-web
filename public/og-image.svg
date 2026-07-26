@@ -1,32 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="AI Workspace — Enterprise AI Operating Layer">
-  <!--
-    Social preview card — P0 `04` §8.
-
-    `04` §8 specifies the content exactly: "the wordmark 'AI Workspace' and the
-    line 'Enterprise AI Operating Layer' on a plain background, using the type
-    and colours in `07`. No photography, no product imagery, no claim text."
-
-    Both strings are approved copy, already published as text on every page.
-    Colours are the bg, fg and fg-muted tokens from `07` §2 (light theme; a
-    social card has no colour scheme to follow). The type is the `07` §3 system
-    stack, so this introduces no font and no vendor.
-
-    (Token names are written without their leading double hyphen because XML
-    comments may not contain one.)
-
-    ⚠️ PLACEHOLDER, pending ratification. AWHQ-AUT-P1F P-15 blocks "any logo,
-    wordmark, ™ or ® symbol, or brand asset". This card carries the wordmark as
-    TYPE, not as a logotype or monogram — there is no mark here, only the
-    approved words set in a system font. That reading is what makes it
-    emittable; it is flagged in the production-readiness report for
-    confirmation, and this file is replaced wholesale if a real brand asset
-    ever arrives.
-
-    Source of truth for the raster: `npm run assets` produces og-image.png.
-  -->
   <rect width="1200" height="630" fill="#FFFFFF"/>
-
-  <!-- A quiet left rule, echoing the stage-disclosure treatment in `07` §6.4. -->
   <rect x="100" y="243" width="4" height="144" fill="#111315"/>
 
   <text

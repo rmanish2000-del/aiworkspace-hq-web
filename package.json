@@ -1,6 +1,6 @@
 {
   "name": "aiworkspace-hq-web",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "description": "Public product surface. Scope-limited local build under AG-2-S. Not deployed.",
@@ -26,7 +26,8 @@
     "audit:deps": "npm audit --audit-level=high",
     "screenshots": "node scripts/screenshots.mjs",
     "assets": "node scripts/generate-assets.mjs",
-    "test": "npm run check:types && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run test:html && npm run test:e2e"
+    "test": "npm run check:types && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run test:html && npm run test:e2e",
+    "verify:release": "node scripts/verify-release.mjs"
   },
   "overrideNotes": {
     "playwright-core": "ARCH-05 reproducible build. @axe-core/playwright depends on its own playwright-core range, which resolves to a second copy and a second, incompatible set of Page types. Pinned to one version.",

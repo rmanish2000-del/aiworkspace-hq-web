@@ -16,7 +16,87 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.5.0`.
+Nothing. `main` is at `0.6.0`, frozen as the Phase 1 Release Candidate and
+tagged `v0.5.0-rc1` (P1-M.1).
+
+**The tag name and the version differ, deliberately recorded.** `v0.5.0-rc1` was
+specified by the founder in the P1-M.1 assignment; the tree it points at is
+`0.6.0`, since `0.5.0` was P1-L. The tag was created as instructed and the
+mismatch is noted in `PROJECT_STATE.md` rather than reconciled unilaterally.
+
+**A release candidate is not a release.** Nothing is deployed, no DNS record
+exists, no service is active, and no GitHub Release was created. AG-3 and AG-4
+remain expressly withheld.
+
+---
+
+## [0.6.0] — 2026-07-26
+
+**Implements:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
+**Authorized under:** AG-2-S, assignment P1-M
+**Released:** no. Still not deployed. AG-3 and AG-4 remain ungranted.
+
+Manual accessibility and release-candidate hardening. Six site defects fixed;
+no copy changed, no route added, no architecture changed.
+
+### Added
+
+- `npm run verify:release` — one command, 27 ordered gates, no configuration and
+  no credential. Stops at the first material failure. Probes each browser engine
+  by name and, in CI, treats a missing engine as a hard failure.
+- `tests/e2e/a11y-manual.spec.ts` — A11Y-02 … A11Y-11 and M-6 … M-9 automated
+  across every route and engine, including a new **A11Y-04b** measuring form
+  control boundary contrast (SC 1.4.11), which P0 `11` §9 required and nothing
+  had ever measured.
+- `tests/e2e/viewport-matrix.spec.ts` — 8 widths × 2 colour schemes × 6 routes,
+  plus orientation and the ≥16px input rule that prevents iOS auto-zoom.
+- `tests/e2e/cross-browser.spec.ts` — the engine-sensitive behaviours only.
+- Firefox and WebKit projects in `playwright.config.ts`; CI now installs all
+  three engines.
+- `docs/reviews/`: `manual-accessibility-report.md`, `cross-browser-matrix.md`,
+  `viewport-matrix.md`, `clean-build-report.md`, `release-candidate-report.md`,
+  `known-limitations.md`, `nvda-checklist.md`.
+
+### Fixed
+
+- **A11Y-09-1** — the wordmark link measured 104 × 20, under the SC 2.5.8 24px
+  minimum. As a standalone control the inline exception does not cover it.
+  `min-height: 44px` in `Logo.astro`; header height unchanged.
+- **A11Y-09-2 / A11Y-09-3** — three standalone text links were under the SC
+  2.5.8 24px minimum. `padding-block: 4px` in `Link.astro`; no layout and no
+  visual change, because vertical padding on an inline element does not affect
+  line-box height. The first attempt used 2px, which cleared the bar against
+  Windows font metrics (21px line box) but not Linux (18–19px) — caught only
+  because CI runs Linux.
+- **CONTACT-1** — `/contact` rendered "General enquiries" and "Where we are" as
+  headings with completely empty bodies, their content being withheld
+  placeholders. Both sections are now withheld rather than rendered headless.
+  Neither heading is edited or removed from the copy module.
+  **Confirmed by the founder** in the P1-M continuation decision.
+- `public/og-image.svg` shipped a 24-line internal governance comment to the
+  public output, and still called the card "pending ratification" after the
+  founder approved it. Comment removed; rationale moved to
+  `docs/public-assets.md`.
+- `docs/public-assets.md` listed five assets as absent that P1-L had shipped.
+
+### Changed
+
+- `playwright.config.ts` pins `workers` to 1 locally and 2 in CI. The default
+  oversubscribed a 4-core / 8 GB machine and produced four failures inside
+  `page.evaluate` that all passed on re-run. Local retries were **not** added —
+  they would have hidden the next real intermittent failure.
+- `manual-accessibility-checks.md` now records an explicit status for every
+  A11Y and M item. 15 of 21 discharged; 6 outstanding and named.
+
+### Not done, and recorded as such
+
+- **A11Y-12, M-1, M-2** — no screen reader has run. NVDA is not installed and
+  cannot be driven from the harness. `nvda-checklist.md` is the instrument.
+- **M-3, M-4, M-5** — no real High Contrast mode, no real iPhone, no real
+  Android.
+- **Firefox does not run on the Windows development machine** — a Win32
+  side-by-side activation failure, fully diagnosed. Gecko evidence comes from
+  CI on Linux.
 
 ---
 

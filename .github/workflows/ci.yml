@@ -159,12 +159,16 @@ jobs:
 
       - run: npm ci
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      # P1-M §3 requires all three engines. This is also the only place Firefox
+      # runs: Playwright's Firefox build will not start on the Windows
+      # development machine (Win32 side-by-side activation failure on the
+      # `mozglue` private assembly). See docs/reviews/known-limitations.md L-11.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - run: npm run build
 
-      - name: Playwright (axe-core, structure, metadata, boundary)
+      - name: Playwright (axe-core, manual a11y, viewports, three engines)
         run: npm run test:e2e
 
       - uses: actions/upload-artifact@v4

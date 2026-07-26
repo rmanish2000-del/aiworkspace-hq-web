@@ -44,7 +44,28 @@ const { href, external = false, 'aria-label': ariaLabel, class: className } = As
 >
 
 <style>
+  /*
+   * P1-M defect A11Y-09-2. A text link's box is only as tall as its line, which
+   * is under the SC 2.5.8 24px minimum. Links flowing inside a sentence are
+   * covered by the inline exception, but three of these sit alone in their own
+   * paragraph (`/contact` privacy link, `/privacy` back link, `/` footer link)
+   * where that exception is arguable at best.
+   *
+   * Vertical padding on a non-replaced INLINE element does not affect line-box
+   * height, so this grows the hit box without changing the rendered layout at
+   * all. No background is painted, so there is no visual change either.
+   *
+   * 4px, not 2px — defect A11Y-09-3. The first fix was calibrated against
+   * Windows font metrics, where the line box is 21px and 2px each side reached
+   * 25px. CI on Linux renders the same text at 18-19px, so the same rule landed
+   * at 22-23px and was still short. 4px clears 24px on both (26-29px) and holds
+   * for any font whose line box is at least 16px.
+   *
+   * The lesson is in the margin: a target-size fix measured on one platform's
+   * fonts is not a fix. This one was caught only because CI runs Linux.
+   */
   .link {
+    padding-block: 4px;
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 0.2em;

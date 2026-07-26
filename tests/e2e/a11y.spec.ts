@@ -34,10 +34,30 @@ for (const route of ROUTES) {
   });
 }
 
-test('the skip link is the first focusable element and targets main', async ({ page }) => {
+test('the skip link is the first focusable element and targets main', async ({
+  page,
+  browserName,
+}) => {
   // `03` Block 0 — first element in DOM inside <body>; `07` §6.1.
   await page.goto('/');
-  await page.keyboard.press('Tab');
+
+  /**
+   * WebKit tabs only between form controls unless Safari's "Press Tab to
+   * highlight each item on a webpage" preference is on, so pressing Tab there
+   * lands on the email input rather than the skip link. That is a browser
+   * preference no page can set.
+   *
+   * The claim being tested — the skip link is FIRST — is about DOM position, so
+   * in WebKit it is checked directly and then focused programmatically, which
+   * still proves it is reachable and becomes visible.
+   */
+  if (browserName === 'webkit') {
+    const first = page.locator('body a, body button, body input').first();
+    await expect(first).toHaveClass(/skip-link/);
+    await first.focus();
+  } else {
+    await page.keyboard.press('Tab');
+  }
 
   const focused = page.locator(':focus');
   await expect(focused).toHaveClass(/skip-link/);

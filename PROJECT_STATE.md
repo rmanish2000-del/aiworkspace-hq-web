@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.5.0`
+**Implementation version:** `0.6.0`
 **Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-L)
+**Last updated:** 2026-07-26 (P1-M.1 — release-candidate freeze)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -14,14 +14,35 @@ running system is the authority on reality, not the other way round.
 
 ## 1. Lifecycle state
 
-| #   | State       | Status                                                     |
-| --- | ----------- | ---------------------------------------------------------- |
-| 1   | Proposed    | passed                                                     |
-| 2   | Authorized  | passed                                                     |
-| 3   | Initialized | passed                                                     |
-| 4   | **Active**  | **current** — first assignment complete, no release tagged |
-| 5   | Maintained  | not reached                                                |
-| 6   | Archived    | not reached                                                |
+| #   | State       | Status                                                        |
+| --- | ----------- | ------------------------------------------------------------- |
+| 1   | Proposed    | passed                                                        |
+| 2   | Authorized  | passed                                                        |
+| 3   | Initialized | passed                                                        |
+| 4   | **Active**  | **current** — Phase 1 complete, frozen as a release candidate |
+| 5   | Maintained  | not reached                                                   |
+| 6   | Archived    | not reached                                                   |
+
+### Phase 1 Release Candidate — frozen
+
+|                        |                                                                    |
+| ---------------------- | ------------------------------------------------------------------ |
+| Assignment             | P1-M.1 — final merge, release-candidate freeze and project closure |
+| Tag                    | `v0.5.0-rc1`                                                       |
+| Implementation version | `0.6.0` (see the note below)                                       |
+| Deployment             | **Not authorized.** AG-3 and AG-4 remain expressly withheld        |
+| Publication            | **Not performed.** No DNS, no hosting, no services activated       |
+
+**A release candidate is not a release.** The tag marks a verified, frozen state
+of the repository. It authorizes nothing: nothing is deployed, no DNS record
+exists, no vendor account has been created, and `/privacy` remains
+unpublishable while Open Items A and B are open.
+
+**Version/tag mismatch, recorded rather than silently reconciled.** The tag name
+`v0.5.0-rc1` was specified by the founder in the P1-M.1 assignment. The tree it
+points at is version `0.6.0` — `0.5.0` was P1-L. The tag was created as
+instructed and the discrepancy is flagged here. Retagging costs one command and
+no GitHub Release exists, so this is recoverable at any time.
 
 ## 2. Gates
 
@@ -73,7 +94,7 @@ Six routes, per P1-J §3.
 | `/`                         | `src/pages/index.astro`      | Built — hero, principles, visual-only form         |
 | `/platform`                 | `src/pages/platform.astro`   | Built — P1-J §6                                    |
 | `/principles`               | `src/pages/principles.astro` | Built — P1-J §7                                    |
-| `/contact`                  | `src/pages/contact.astro`    | Built **as a shell** — every address withheld      |
+| `/contact`                  | `src/pages/contact.astro`    | Built **as a shell** — 2 of 4 sections withheld    |
 | `/privacy`                  | `src/pages/privacy.astro`    | Built — **not publishable**, Open Items A and B    |
 | `/404`                      | `src/pages/404.astro`        | Built — body string corrected by P1-J §10          |
 | `/sitemap.xml`              | `src/pages/sitemap.xml.ts`   | Built — the five indexable routes                  |
@@ -253,9 +274,19 @@ governance change.
 
 ## 8. Outstanding — carried to the next assignment
 
-1. Two provisional strings need founder ratification — GAP-01, GAP-02.
-2. All manual accessibility checks A11Y-02…A11Y-12 are outstanding.
+1. **Six manual accessibility checks remain outstanding** — A11Y-12, M-1, M-2
+   (no screen reader available), M-3 (no real High Contrast), M-4, M-5 (no real
+   devices). The other 15 are discharged and automated. The instrument for four
+   of the six is
+   [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md).
+2. Two provisional strings need founder ratification — GAP-01, GAP-02.
 3. Branch-protection status on the remote — see `HANDOFF.md`.
 4. Security response headers (`08` §9.2) cannot be configured without a host.
+5. **Firefox does not run on the Windows development machine** (Win32
+   side-by-side activation failure, fully diagnosed). Gecko evidence comes from
+   CI on Linux. See `docs/reviews/known-limitations.md` L-11.
+
+Everything this release candidate does **not** prove is enumerated in
+[`docs/reviews/known-limitations.md`](docs/reviews/known-limitations.md).
 
 Detail and required founder acts: [`HANDOFF.md`](HANDOFF.md).

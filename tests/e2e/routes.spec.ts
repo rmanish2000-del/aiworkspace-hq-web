@@ -291,14 +291,29 @@ test('/contact publishes no address and no form', async ({ page }) => {
   await expect(page.locator('form')).toHaveCount(0);
   await expect(page.locator('input, textarea, select')).toHaveCount(0);
 
-  // The four specified headings are all present.
+  /**
+   * P1-M defect CONTACT-1 — two of the four specified sections are withheld.
+   *
+   * "General enquiries" and "Where we are" have no body that is not a withheld
+   * placeholder ({{PRIVACY_EMAIL}}; {{LEGAL_ENTITY_NAME}} + {{REGISTERED_ADDRESS}}).
+   * They previously rendered as a heading followed by nothing — a gap on screen
+   * and silence to a screen reader.
+   *
+   * That is the same failure §8.1 names above, one step removed: a section that
+   * announces a contact route and then supplies none is worse than no section.
+   * Both headings remain untouched in the copy module and return the moment
+   * Open Items B and C resolve.
+   *
+   * FLAGGED FOR FOUNDER CONFIRMATION — see release-candidate-report.md.
+   */
   const headings = await page.locator('main h2').allTextContents();
-  expect(headings).toEqual([
-    'General enquiries',
-    'Privacy and data requests',
-    'Security',
-    'Where we are',
-  ]);
+  expect(headings).toEqual(['Privacy and data requests', 'Security']);
+
+  // The withheld headings are absent from the page, not merely hidden.
+  const html = await page.content();
+  for (const withheld of ['General enquiries', 'Where we are']) {
+    expect(html, `${withheld} still reaches the document`).not.toContain(withheld);
+  }
 });
 
 test('/privacy renders all twelve sections in order, with no leaked text', async ({ page }) => {
