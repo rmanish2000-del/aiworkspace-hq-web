@@ -99,9 +99,9 @@ test('print keeps the headline, principles and stage disclosure', async ({ page 
 
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('.stage-disclosure')).toBeVisible();
-  await expect(page.locator('.principles__list > li')).toHaveCount(5);
+  await expect(page.locator('.term-list--heading > li')).toHaveCount(5);
   for (let i = 0; i < 5; i += 1) {
-    await expect(page.locator('.principles__list > li').nth(i)).toBeVisible();
+    await expect(page.locator('.term-list--heading > li').nth(i)).toBeVisible();
   }
 });
 

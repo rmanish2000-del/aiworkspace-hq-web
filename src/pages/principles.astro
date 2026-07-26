@@ -38,8 +38,10 @@
  */
 import Base from '../layouts/Base.astro';
 import Section from '../components/ui/Section.astro';
-import Callout from '../components/ui/Callout.astro';
-import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import TermList from '../components/ui/TermList.astro';
+import CTASection from '../components/ui/CTASection.astro';
 import { hero, interest, nav, principles, principlesPage } from '../content/copy';
 
 const MEANING_ID = 'meaning-heading';
@@ -51,10 +53,7 @@ const MEANING_ID = 'meaning-heading';
   canonicalPath={principlesPage.canonicalPath}
   indexableInProduction={true}
 >
-  <section class="page-head">
-    <h1 class="page-head__title">{principlesPage.heading}</h1>
-    <p class="page-head__lead">{principlesPage.lead}</p>
-  </section>
+  <PageHeader heading={principlesPage.heading} lead={principlesPage.lead} />
 
   {
     /*
@@ -62,35 +61,34 @@ const MEANING_ID = 'meaning-heading';
     competing for attention (`03` §3).
   */
   }
-  <ul class="principles__list principles__list--page">
-    {
-      principles.items.map((principle) => (
-        <li class="principles__item">
-          {/* h2, not h3 — see the deviation note above. */}
-          <h2 class="principles__title">{principle.title}</h2>
-          <p class="principles__gloss">{principle.gloss}</p>
-        </li>
-      ))
-    }
-  </ul>
+  {
+    /*
+    Same five entries the home route renders. No icons, no numbering, no cards
+    competing for attention (`03` §3).
+
+    Level 2 here, level 3 on the home route: on this page the principles are
+    the top-level content, under the page's own h1. P1-K corrected that level;
+    P2-B corrects the SCALE to match it — see TermList and UX-1.
+  */
+  }
+  <TermList
+    variant="heading"
+    level={2}
+    class="term-list--page"
+    items={principles.items.map((principle) => ({ term: principle.title, body: principle.gloss }))}
+  />
 
   <Section headingId={MEANING_ID}>
-    <h2 class="section__heading" id={MEANING_ID}>{principlesPage.meaningHeading}</h2>
-    <ul class="statement-list">
-      {
-        principlesPage.meaningPoints.map((point) => (
-          <li class="statement">
-            <p class="statement__body">{point}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <SectionHeader id={MEANING_ID} heading={principlesPage.meaningHeading} />
+    <TermList
+      variant="statement"
+      items={principlesPage.meaningPoints.map((point) => ({ body: point }))}
+    />
   </Section>
 
-  <section class="page-close">
-    <Callout class="stage-disclosure">{hero.stageDisclosure}</Callout>
-    <Button as="a" href={nav.registerInterestHref} class="page-close__cta" block>
-      {interest.heading}
-    </Button>
-  </section>
+  <CTASection
+    disclosure={hero.stageDisclosure}
+    ctaLabel={interest.heading}
+    ctaHref={nav.registerInterestHref}
+  />
 </Base>

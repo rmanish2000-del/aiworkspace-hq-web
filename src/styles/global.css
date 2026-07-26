@@ -169,8 +169,23 @@ a:hover {
  * `.hero` does not carry the `.section` class, so it needs naming explicitly —
  * without it the CTA butts straight into the next heading.
  */
-.hero + .section,
-.section + .section {
+/*
+ * P2-B defect UX-2 — the rhythm is a FLOW rule, not a list of sibling pairs.
+ *
+ * It used to enumerate the pairs it knew about: `.hero + .section`,
+ * `.section + .section`, `.page-head + .section`, `.section + .page-close`.
+ * Any block whose type was not in that list broke the chain and collided with
+ * whatever followed. That shipped: on `/principles` the list of five
+ * principles is a direct child of `main` and is not a `.section`, so the
+ * "What this means for this site" heading butted straight against the last
+ * principle's final sentence, with no gap at all.
+ *
+ * Every top-level block in `main` now takes the same gap from the one before
+ * it, so a new block type cannot reintroduce the collision. Blocks that need
+ * to sit closer opt out below, which is a visible decision rather than an
+ * accident of which pairs someone remembered to enumerate.
+ */
+.page > main > * + * {
   margin-block-start: var(--space-11);
 }
 
@@ -179,8 +194,7 @@ a:hover {
 }
 
 @media (min-width: 1024px) {
-  .hero + .section,
-  .section + .section {
+  .page > main > * + * {
     margin-block-start: var(--space-12);
   }
 
@@ -268,27 +282,6 @@ a:hover {
 }
 
 /* §3 Block 3 — no icons, no numbering, no cards with competing borders. */
-.principles__list {
-  margin-block-start: var(--space-7);
-}
-
-.principles__item + .principles__item {
-  margin-block-start: var(--space-6);
-}
-
-.principles__title {
-  font-size: var(--type-h3);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-h3);
-}
-
-.principles__gloss {
-  margin-block-start: var(--space-2);
-  max-width: var(--measure-body);
-  color: var(--fg-muted);
-  text-wrap: pretty;
-}
-
 /* -------------------------------------------------------------------------- */
 /* §6.6 Form fields                                                           */
 /*                                                                            */
@@ -450,74 +443,14 @@ a:hover {
   text-wrap: pretty;
 }
 
-.page-head + .section,
-.section + .page-close {
-  margin-block-start: var(--space-11);
-}
-
-@media (min-width: 1024px) {
-  .page-head + .section,
-  .section + .page-close {
-    margin-block-start: var(--space-12);
-  }
-}
+/* Superseded by the flow rule above — kept as a note, not a duplicate rule. */
 
 /* A list of statements: a bold lead-in, then a sentence. No bullets, no cards. */
-.statement-list {
-  margin-block-start: var(--space-7);
-}
-
-.statement + .statement {
-  margin-block-start: var(--space-6);
-}
-
-.statement__lead-in {
-  display: block;
-  font-size: var(--type-h3);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-h3);
-  color: var(--fg);
-}
-
-.statement__body {
-  margin-block-start: var(--space-2);
-  max-width: var(--measure-body);
-  color: var(--fg-muted);
-  text-wrap: pretty;
-}
-
 /*
  * `07` §4 — the principles list on `/principles` carries the same rhythm it
  * has on `/`, but follows a page lead rather than a section heading.
  */
-.principles__list--page {
-  margin-block-start: var(--space-9);
-}
-
 /* A definition list: category paired with what distinguishes it. */
-.distinctions {
-  margin-block-start: var(--space-7);
-}
-
-.distinction + .distinction {
-  margin-block-start: var(--space-6);
-}
-
-.distinction__term {
-  font-size: var(--type-h3);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-h3);
-  color: var(--fg);
-}
-
-.distinction__body {
-  margin-block-start: var(--space-2);
-  margin-inline-start: 0;
-  max-width: var(--measure-body);
-  color: var(--fg-muted);
-  text-wrap: pretty;
-}
-
 .page-close__cta {
   margin-block-start: var(--space-6);
 }
@@ -526,6 +459,58 @@ a:hover {
   .page-close__cta {
     width: auto;
   }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Term lists — one rhythm for three shapes (see TermList.astro)              */
+/*                                                                            */
+/* Replaces `.statement-list`, `.principles__list` and `.distinctions`, which  */
+/* were byte-equivalent apart from their names across five call sites.         */
+/* -------------------------------------------------------------------------- */
+
+.term-list {
+  margin-block-start: var(--space-7);
+}
+
+.term-list__row + .term-list__row {
+  margin-block-start: var(--space-6);
+}
+
+.term-list__term {
+  display: block;
+  font-size: var(--type-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h3);
+  color: var(--fg);
+}
+
+/*
+ * P2-B defect UX-1 — a term that is a real `h2` takes `h2` scale.
+ *
+ * The `/principles` titles were semantic `h2` carrying `--type-h3`, so they
+ * rendered at 18px desktop and 16px mobile — SMALLER than the 17px body text
+ * beneath them, on the page whose whole substance is those five headings.
+ * TermList now derives tag and scale from one `level` prop, so the two cannot
+ * drift apart again.
+ */
+.term-list__term--h2 {
+  font-size: var(--type-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+
+/* Larger terms need more air between rows, or the list reads as one mass. */
+.term-list--heading:has(.term-list__term--h2) .term-list__row + .term-list__row {
+  margin-block-start: var(--space-8);
+}
+
+.term-list__body {
+  margin-block-start: var(--space-2);
+  margin-inline-start: 0;
+  max-width: var(--measure-body);
+  color: var(--fg-muted);
+  text-wrap: pretty;
 }
 
 /* -------------------------------------------------------------------------- */

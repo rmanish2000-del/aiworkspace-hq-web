@@ -1,0 +1,29 @@
+---
+/**
+ * SectionHeader — an `h2` that names a section, with an optional lead.
+ *
+ * Always paired with `Section`: the `id` given here is what `Section`'s
+ * `headingId` points at, which is what turns a plain `<section>` into a named
+ * landmark (`03` §2, §5). Passing the same string to both by hand is how a
+ * section silently loses its accessible name.
+ *
+ * Provenance: CANONICAL — `03` §2, `07` §6.4.
+ * Accessibility: the `id` is required, because a section heading that nothing
+ *   references is a heading the landmark cannot borrow a name from.
+ * JavaScript: none.
+ */
+export interface Props {
+  /** `id` for the heading. Pass the same value to `Section`'s `headingId`. */
+  id: string;
+  /** The heading text. */
+  heading: string;
+  /** Optional sentence introducing the section's content. */
+  lead?: string;
+  class?: string;
+}
+
+const { id, heading, lead, class: className } = Astro.props;
+---
+
+<h2 class:list={['section__heading', className]} id={id}>{heading}</h2>
+{lead && <p class="section__lead">{lead}</p>}

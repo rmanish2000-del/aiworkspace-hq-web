@@ -1,0 +1,80 @@
+---
+/**
+ * TermList — a list of term-and-body pairs, in the three shapes this site uses.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ WHY ONE COMPONENT FOR THREE SHAPES                                       │
+ * │                                                                           │
+ * │ Three near-identical implementations existed — `.statement-list`,         │
+ * │ `.principles__list` and `.distinctions` — across five call sites on three │
+ * │ routes. They shared their rhythm and differed only in what the term IS:   │
+ * │ emphasised text, a heading, or a defined term. That difference is         │
+ * │ semantic and worth keeping; the triplicated spacing was not.              │
+ * │                                                                           │
+ * │ Variants, not a single flattened list, because a `<dl>` states a          │
+ * │ relationship a `<ul>` leaves a screen-reader user to infer from visual    │
+ * │ adjacency.                                                                │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * ── P2-B defect UX-1, fixed structurally ───────────────────────────────────
+ *
+ * On `/principles` the five principle titles were semantic `h2` but carried
+ * `--type-h3`, so they rendered at 18px desktop and **16px mobile — smaller
+ * than the 17px body text they headed**. P1-K corrected the heading LEVEL when
+ * it fixed an h1→h3 skip; the visual scale never followed. axe checks
+ * semantics, not visual weight, so every gate stayed green over an inverted
+ * hierarchy on the page whose entire substance is those five headings.
+ *
+ * Here `level` sets the tag AND the scale together. They cannot diverge again,
+ * because there is no way to pass one without the other.
+ *
+ * Provenance: CANONICAL — `03` §3, `07` §6.4.
+ * JavaScript: none.
+ */
+import type { TermItem } from './types';
+
+export interface Props {
+  readonly items: readonly TermItem[];
+  /**
+   * `statement`  — `<ul>`, term emphasised inline. A claim and its expansion.
+   * `heading`    — `<ul>`, term is a real heading. Enters the outline.
+   * `definition` — `<dl>`, term defines the body. States the relationship.
+   */
+  variant?: 'statement' | 'heading' | 'definition';
+  /** Heading level for `variant="heading"`. Drives the tag and the type scale. */
+  level?: 2 | 3;
+  class?: string;
+}
+
+const { items, variant = 'statement', level = 3, class: className } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+{
+  variant === 'definition' ? (
+    <dl class:list={['term-list', 'term-list--definition', className]}>
+      {items.map((item) => (
+        <div class="term-list__row">
+          <dt class="term-list__term">{item.term}</dt>
+          <dd class="term-list__body">{item.body}</dd>
+        </div>
+      ))}
+    </dl>
+  ) : (
+    <ul class:list={['term-list', `term-list--${variant}`, className]}>
+      {items.map((item) => (
+        <li class="term-list__row">
+          {item.term &&
+            (variant === 'heading' ? (
+              <Heading class:list={['term-list__term', `term-list__term--h${level}`]}>
+                {item.term}
+              </Heading>
+            ) : (
+              <strong class="term-list__term">{item.term}</strong>
+            ))}
+          <p class="term-list__body">{item.body}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}

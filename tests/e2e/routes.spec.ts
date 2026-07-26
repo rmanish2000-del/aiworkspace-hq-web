@@ -260,12 +260,12 @@ test('the five principles are byte-identical on / and /principles', async ({ pag
   // P1-J §7.3 / §11 — one copy entry, referenced twice. Divergence here is
   // exactly the failure the single-entry rule exists to prevent.
   await page.goto('/');
-  const onHome = await page.locator('.principles__list .principles__title').allTextContents();
-  const glossHome = await page.locator('.principles__list .principles__gloss').allTextContents();
+  const onHome = await page.locator('.term-list--heading .term-list__term').allTextContents();
+  const glossHome = await page.locator('.term-list--heading .term-list__body').allTextContents();
 
   await page.goto('/principles');
-  const onPage = await page.locator('.principles__list .principles__title').allTextContents();
-  const glossPage = await page.locator('.principles__list .principles__gloss').allTextContents();
+  const onPage = await page.locator('.term-list--heading .term-list__term').allTextContents();
+  const glossPage = await page.locator('.term-list--heading .term-list__body').allTextContents();
 
   expect(onPage).toEqual(onHome);
   expect(glossPage).toEqual(glossHome);
@@ -275,7 +275,7 @@ test('the five principles are byte-identical on / and /principles', async ({ pag
 test('/platform makes no present-tense capability claim', async ({ page }) => {
   // P1-J §6.4 — every pillar reads "is designed to".
   await page.goto('/platform');
-  const pillars = await page.locator('.principles__gloss').allTextContents();
+  const pillars = await page.locator('.term-list--heading .term-list__body').allTextContents();
   expect(pillars).toHaveLength(3);
   for (const body of pillars) {
     expect(body).toContain('is designed to');

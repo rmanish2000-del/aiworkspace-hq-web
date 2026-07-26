@@ -32,6 +32,7 @@
  */
 
 export { default as Button } from './Button.astro';
+export { default as CTASection } from './CTASection.astro';
 export { default as Callout } from './Callout.astro';
 export { default as Container } from './Container.astro';
 export { default as Divider } from './Divider.astro';
@@ -39,11 +40,14 @@ export { default as Footer } from './Footer.astro';
 export { default as Hero } from './Hero.astro';
 export { default as Link } from './Link.astro';
 export { default as Logo } from './Logo.astro';
+export { default as PageHeader } from './PageHeader.astro';
 export { default as Navigation } from './Navigation.astro';
 export { default as Section } from './Section.astro';
+export { default as SectionHeader } from './SectionHeader.astro';
 export { default as Stack } from './Stack.astro';
+export { default as TermList } from './TermList.astro';
 
-export type { NavigationItem } from './types';
+export type { NavigationItem, TermItem } from './types';
 
 /**
  * Components removed by the P1-J §0 cleanup. Kept as a list so the removal is
@@ -55,6 +59,7 @@ export const REMOVED_BY_P1J_CLEANUP = ['Badge', 'Card', 'Grid', 'Tag'] as const;
 /** Every component the system ships, for the catalog completeness test. */
 export const COMPONENT_NAMES = [
   'Button',
+  'CTASection',
   'Callout',
   'Container',
   'Divider',
@@ -62,9 +67,12 @@ export const COMPONENT_NAMES = [
   'Hero',
   'Link',
   'Logo',
-  'Navigation',
+  'PageHeader',
   'Section',
+  'SectionHeader',
   'Stack',
+  'TermList',
+  'Navigation',
 ] as const;
 
 export type ComponentName = (typeof COMPONENT_NAMES)[number];

@@ -22,8 +22,10 @@
  */
 import Base from '../layouts/Base.astro';
 import Section from '../components/ui/Section.astro';
-import Callout from '../components/ui/Callout.astro';
-import Button from '../components/ui/Button.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import TermList from '../components/ui/TermList.astro';
+import CTASection from '../components/ui/CTASection.astro';
 import { hero, interest, nav, platform } from '../content/copy';
 
 const PROBLEM_ID = 'problem-heading';
@@ -37,44 +39,31 @@ const DISTINCTIONS_ID = 'distinctions-heading';
   canonicalPath={platform.canonicalPath}
   indexableInProduction={true}
 >
-  <section class="page-head">
-    <p class="eyebrow">{platform.eyebrow}</p>
-    <h1 class="page-head__title">{platform.heading}</h1>
-    <p class="page-head__lead">{platform.lead}</p>
-  </section>
+  <PageHeader eyebrow={platform.eyebrow} heading={platform.heading} lead={platform.lead} />
 
   <Section headingId={PROBLEM_ID}>
-    <h2 class="section__heading" id={PROBLEM_ID}>{platform.problemHeading}</h2>
-    <ul class="statement-list">
-      {
-        platform.problems.map((problem) => (
-          <li class="statement">
-            <strong class="statement__lead-in">{problem.leadIn}</strong>
-            <p class="statement__body">{problem.body}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <SectionHeader id={PROBLEM_ID} heading={platform.problemHeading} />
+    <TermList
+      variant="statement"
+      items={platform.problems.map((problem) => ({ term: problem.leadIn, body: problem.body }))}
+    />
   </Section>
 
   <Section headingId={PILLARS_ID}>
-    <h2 class="section__heading" id={PILLARS_ID}>{platform.pillarsHeading}</h2>
-    <p class="section__lead">{platform.pillarsLead}</p>
-    <ul class="principles__list">
-      {
-        platform.pillars.map((pillar) => (
-          <li class="principles__item">
-            <h3 class="principles__title">{pillar.title}</h3>
-            <p class="principles__gloss">{pillar.body}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <SectionHeader id={PILLARS_ID} heading={platform.pillarsHeading} lead={platform.pillarsLead} />
+    <TermList
+      variant="heading"
+      level={3}
+      items={platform.pillars.map((pillar) => ({ term: pillar.title, body: pillar.body }))}
+    />
   </Section>
 
   <Section headingId={DISTINCTIONS_ID}>
-    <h2 class="section__heading" id={DISTINCTIONS_ID}>{platform.distinctionsHeading}</h2>
-    <p class="section__lead">{platform.distinctionsLead}</p>
+    <SectionHeader
+      id={DISTINCTIONS_ID}
+      heading={platform.distinctionsHeading}
+      lead={platform.distinctionsLead}
+    />
     {
       /*
       A definition list: each row pairs a category with what distinguishes it.
@@ -82,23 +71,16 @@ const DISTINCTIONS_ID = 'distinctions-heading';
       screen-reader user to infer it from visual adjacency.
     */
     }
-    <dl class="distinctions">
-      {
-        platform.distinctions.map((distinction) => (
-          <div class="distinction">
-            <dt class="distinction__term">{distinction.category}</dt>
-            <dd class="distinction__body">{distinction.body}</dd>
-          </div>
-        ))
-      }
-    </dl>
+    <TermList
+      variant="definition"
+      items={platform.distinctions.map((d) => ({ term: d.category, body: d.body }))}
+    />
   </Section>
 
-  <section class="page-close">
-    {/* Binding commitment C-11, one copy entry shared with `/`. */}
-    <Callout class="stage-disclosure">{hero.stageDisclosure}</Callout>
-    <Button as="a" href={nav.registerInterestHref} class="page-close__cta" block>
-      {interest.heading}
-    </Button>
-  </section>
+  {/* Binding commitment C-11, one copy entry shared with `/`. */}
+  <CTASection
+    disclosure={hero.stageDisclosure}
+    ctaLabel={interest.heading}
+    ctaHref={nav.registerInterestHref}
+  />
 </Base>

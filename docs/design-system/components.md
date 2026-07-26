@@ -96,6 +96,104 @@ A `<section>` becomes a landmark only when it has an accessible name, so
 `headingId` is how it earns one. The heading level stays with the caller, so the
 document outline is never guessed here.
 
+### `PageHeader`
+
+The opening block of a content route: eyebrow, `h1`, lead.
+
+| Prop        | Type     | Notes                                                       |
+| ----------- | -------- | ----------------------------------------------------------- |
+| `eyebrow`   | `string` | Optional. A `<p>`, never a heading and never a badge        |
+| `heading`   | `string` | The route's single `h1`                                     |
+| `lead`      | `string` | Optional. For a lead with inline markup use the `lead` slot |
+| `headingId` | `string` | Optional `id` for the `h1`                                  |
+
+```astro
+<PageHeader
+  eyebrow={platform.eyebrow}
+  heading={platform.heading}
+  lead={platform.lead}
+/>
+```
+
+Four routes repeated this markup by hand, which is how an eyebrow becomes a
+`<span>` on one page and a `<p>` on another. `/contact` uses the `lead` slot
+because its sentence ends in a link and must be rendered whole.
+
+---
+
+### `SectionHeader`
+
+An `h2` that names a section, with an optional lead.
+
+| Prop      | Type     | Notes                                                    |
+| --------- | -------- | -------------------------------------------------------- |
+| `id`      | `string` | Required. Pass the same value to `Section`'s `headingId` |
+| `heading` | `string` | Heading text                                             |
+| `lead`    | `string` | Optional introductory sentence                           |
+
+```astro
+<Section headingId={PROBLEM_ID}>
+  <SectionHeader id={PROBLEM_ID} heading={platform.problemHeading} />
+</Section>
+```
+
+The `id` is required because a section heading nothing references is a heading
+the landmark cannot borrow a name from.
+
+---
+
+### `TermList`
+
+A list of term-and-body pairs, in the three shapes this site uses.
+
+| Prop      | Type                                     | Notes                                         |
+| --------- | ---------------------------------------- | --------------------------------------------- |
+| `items`   | `TermItem[]`                             | `{ term?, body }`                             |
+| `variant` | `statement` \| `heading` \| `definition` | Default `statement`                           |
+| `level`   | `2 \| 3`                                 | For `heading`. Sets the tag **and** the scale |
+
+```astro
+<TermList
+  variant="heading"
+  level={2}
+  items={principles.items.map((p) => ({ term: p.title, body: p.gloss }))}
+/>
+```
+
+Replaces `.statement-list`, `.principles__list` and `.distinctions`, which were
+byte-equivalent apart from their names across five call sites.
+
+`variant="definition"` renders a real `<dl>`: it states a relationship a `<ul>`
+would leave a screen-reader user to infer from visual adjacency.
+
+**`level` drives tag and type scale together.** That is deliberate — P2-B defect
+UX-1 was a semantic `h2` carrying `h3` scale, rendering headings smaller than
+the body beneath them. There is no way to pass one without the other.
+
+---
+
+### `CTASection`
+
+The closing block of an inner route: stage disclosure, then the call to action.
+
+| Prop         | Type     | Notes                                     |
+| ------------ | -------- | ----------------------------------------- |
+| `disclosure` | `string` | C-11 stage disclosure. Rendered **first** |
+| `ctaLabel`   | `string` | Call-to-action label                      |
+| `ctaHref`    | `string` | Destination                               |
+
+```astro
+<CTASection
+  disclosure={hero.stageDisclosure}
+  ctaLabel={interest.heading}
+  ctaHref={nav.registerInterestHref}
+/>
+```
+
+Order matters and is fixed here: C-11 requires the development stage to be
+stated, and a reader should meet it before the invitation, not after acting on
+one. Hand-building this on each route is how that order eventually reverses.
+
 ---
 
 ## Controls

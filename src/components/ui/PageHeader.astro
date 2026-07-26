@@ -1,0 +1,53 @@
+---
+/**
+ * PageHeader — the opening block of a content route: eyebrow, `h1`, lead.
+ *
+ * Four routes (`/platform`, `/principles`, `/contact`, `/privacy`) repeated
+ * this markup by hand. Repeating it is how the eyebrow ends up a `<span>` on
+ * one page and a `<p>` on another, or how one route quietly loses its lead.
+ *
+ * Provenance: CANONICAL — `03` §2 Block 1, `07` §6.3.
+ * Accessibility:
+ *   - the eyebrow is a `<p>`, never a heading: it labels the page for a
+ *     sighted reader but must not appear in the document outline, and it is
+ *     never a badge or a pill (`07` §6.3).
+ *   - exactly one `h1` per route, which this makes hard to get wrong.
+ * JavaScript: none.
+ *
+ * Renders the existing `.page-head` class names, so the vertical rhythm in
+ * global.css continues to own spacing between this block and what follows.
+ * The component owns the markup; the stylesheet owns the layout system.
+ */
+export interface Props {
+  /** Optional short label above the title. Not a heading, not a badge. */
+  eyebrow?: string;
+  /** The route's single `h1`. */
+  heading: string;
+  /**
+   * Optional supporting sentence beneath the title.
+   *
+   * For a lead containing inline markup — `/contact`'s ends in a link — omit
+   * this and pass a `lead` slot instead, so the sentence is rendered whole
+   * rather than split into strings the component would have to reassemble.
+   */
+  lead?: string;
+  /** `id` for the `h1`, when a landmark needs to reference it. */
+  headingId?: string;
+  class?: string;
+}
+
+const { eyebrow, heading, lead, headingId, class: className } = Astro.props;
+---
+
+<section class:list={['page-head', className]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h1 class="page-head__title" id={headingId}>{heading}</h1>
+  {lead && <p class="page-head__lead">{lead}</p>}
+  {
+    Astro.slots.has('lead') && (
+      <p class="page-head__lead">
+        <slot name="lead" />
+      </p>
+    )
+  }
+</section>
