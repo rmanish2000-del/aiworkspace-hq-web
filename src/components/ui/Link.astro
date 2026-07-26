@@ -44,7 +44,19 @@ const { href, external = false, 'aria-label': ariaLabel, class: className } = As
 >
 
 <style>
+  /*
+   * P1-M defect A11Y-09-2. A text link's box is only as tall as its line — 21px
+   * at lead size — which is under the SC 2.5.8 24px minimum. Links flowing
+   * inside a sentence are covered by the inline exception, but three of these
+   * sit alone in their own paragraph (`/contact` privacy link, `/privacy` back
+   * link, `/` footer link) where that exception is arguable at best.
+   *
+   * Vertical padding on a non-replaced INLINE element does not affect line-box
+   * height, so this grows the hit box to >=25px and changes the rendered layout
+   * by nothing. No background is painted, so there is no visual change either.
+   */
   .link {
+    padding-block: 2px;
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 0.2em;

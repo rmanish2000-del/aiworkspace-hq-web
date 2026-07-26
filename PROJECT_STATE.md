@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.5.0`
+**Implementation version:** `0.6.0`
 **Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-L)
+**Last updated:** 2026-07-26 (P1-M)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -73,7 +73,7 @@ Six routes, per P1-J §3.
 | `/`                         | `src/pages/index.astro`      | Built — hero, principles, visual-only form         |
 | `/platform`                 | `src/pages/platform.astro`   | Built — P1-J §6                                    |
 | `/principles`               | `src/pages/principles.astro` | Built — P1-J §7                                    |
-| `/contact`                  | `src/pages/contact.astro`    | Built **as a shell** — every address withheld      |
+| `/contact`                  | `src/pages/contact.astro`    | Built **as a shell** — 2 of 4 sections withheld    |
 | `/privacy`                  | `src/pages/privacy.astro`    | Built — **not publishable**, Open Items A and B    |
 | `/404`                      | `src/pages/404.astro`        | Built — body string corrected by P1-J §10          |
 | `/sitemap.xml`              | `src/pages/sitemap.xml.ts`   | Built — the five indexable routes                  |
@@ -253,9 +253,24 @@ governance change.
 
 ## 8. Outstanding — carried to the next assignment
 
-1. Two provisional strings need founder ratification — GAP-01, GAP-02.
-2. All manual accessibility checks A11Y-02…A11Y-12 are outstanding.
-3. Branch-protection status on the remote — see `HANDOFF.md`.
-4. Security response headers (`08` §9.2) cannot be configured without a host.
+1. **CONTACT-1 needs founder confirmation.** `/contact` no longer renders
+   "General enquiries" and "Where we are"; both bodies were withheld
+   placeholders and the headings rendered into empty space. Neither heading was
+   edited or removed from the copy module. See
+   [`docs/reviews/release-candidate-report.md`](docs/reviews/release-candidate-report.md).
+2. **Six manual accessibility checks remain outstanding** — A11Y-12, M-1, M-2
+   (no screen reader available), M-3 (no real High Contrast), M-4, M-5 (no real
+   devices). The other 15 are discharged and automated. The instrument for four
+   of the six is
+   [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md).
+3. Two provisional strings need founder ratification — GAP-01, GAP-02.
+4. Branch-protection status on the remote — see `HANDOFF.md`.
+5. Security response headers (`08` §9.2) cannot be configured without a host.
+6. **Firefox does not run on the Windows development machine** (Win32
+   side-by-side activation failure, fully diagnosed). Gecko evidence comes from
+   CI on Linux. See `docs/reviews/known-limitations.md` L-11.
+
+Everything this release candidate does **not** prove is enumerated in
+[`docs/reviews/known-limitations.md`](docs/reviews/known-limitations.md).
 
 Detail and required founder acts: [`HANDOFF.md`](HANDOFF.md).

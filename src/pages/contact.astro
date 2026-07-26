@@ -35,10 +35,10 @@ import Section from '../components/ui/Section.astro';
 import Link from '../components/ui/Link.astro';
 import { contact, nav } from '../content/copy';
 
-const GENERAL_ID = 'general-heading';
 const PRIVACY_ID = 'privacy-heading';
 const SECURITY_ID = 'security-heading';
-const LOCATION_ID = 'location-heading';
+// `general-heading` and `location-heading` are absent while those two sections
+// are withheld — see the CONTACT-1 notes below.
 
 /**
  * The lead sentence ends with "…the fastest route is to register interest.",
@@ -62,15 +62,26 @@ const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
     </p>
   </section>
 
-  <Section headingId={GENERAL_ID}>
-    <h2 class="section__heading" id={GENERAL_ID}>{contact.generalHeading}</h2>
-    {
-      /*
-      {{PRIVACY_EMAIL}} withheld — Open Item C. P1-J §8.2 specifies a single
-      published address at Phase 1; it does not exist yet.
-    */
-    }
-  </Section>
+  {
+    /*
+     * P1-M defect CONTACT-1 — "General enquiries" is NOT rendered.
+     *
+     * Its entire body is {{PRIVACY_EMAIL}}, withheld under Open Item C (P1-J
+     * §8.2 specifies a single published address at Phase 1; it does not exist
+     * yet). Rendering the heading on its own produced a heading followed by
+     * nothing — a visible gap on screen, and silence to a screen reader.
+     *
+     * The withholding pattern approved in P1-K holds a placeholder-bearing
+     * string verbatim and does not render it. A section that exists only to
+     * present such a string falls under the same rule; rendering its heading
+     * alone applied the pattern halfway. No copy is added and none is edited —
+     * `contact.generalHeading` is untouched in the copy module and the section
+     * returns unchanged the moment Open Item C is resolved.
+     *
+     * FLAGGED FOR FOUNDER CONFIRMATION: this changes the rendered structure of
+     * an approved page. See docs/reviews/release-candidate-report.md.
+     */
+  }
 
   <Section headingId={PRIVACY_ID}>
     <h2 class="section__heading" id={PRIVACY_ID}>{contact.privacyHeading}</h2>
@@ -93,14 +104,16 @@ const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
     {/* {{PRIVACY_EMAIL}} withheld — Open Item C, and R-8 unallocated. */}
   </Section>
 
-  <Section headingId={LOCATION_ID}>
-    <h2 class="section__heading" id={LOCATION_ID}>{contact.locationHeading}</h2>
-    {
-      /*
-      {{LEGAL_ENTITY_NAME}} and {{REGISTERED_ADDRESS}} withheld — Open Item B
-      and P1-E B-F04. Publishing a care-of residential address is a counsel
-      question, not an implementation detail.
-    */
-    }
-  </Section>
+  {
+    /*
+     * P1-M defect CONTACT-1 — "Where we are" is NOT rendered, for the same
+     * reason as "General enquiries" above.
+     *
+     * Its entire body is {{LEGAL_ENTITY_NAME}} and {{REGISTERED_ADDRESS}},
+     * withheld under Open Item B and P1-E B-F04: publishing a care-of
+     * residential address is a counsel question, not an implementation detail.
+     *
+     * `contact.locationHeading` is untouched in the copy module.
+     */
+  }
 </Base>

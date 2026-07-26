@@ -223,19 +223,38 @@ This assignment produced **no** deployment, **no** vendor account, **no** DNS
 change, **no** secret, **no** personal data, **no** public URL, and **no**
 governance change. Nothing here authorizes any of those.
 
-The manual accessibility checks A11Y-02 through A11Y-12 are **all outstanding**.
-A green CI run does not discharge them — that is recorded explicitly in TDR-12's
-condition and in [`docs/reviews/manual-accessibility-checks.md`](docs/reviews/manual-accessibility-checks.md).
+**Manual accessibility, as of P1-M: 15 of 21 discharged, 6 outstanding.** A
+green CI run still does not discharge them — TDR-12's condition stands — but
+most are now checked mechanically on every route and engine rather than being
+waited on. The six that remain need software or hardware that is not available
+here:
+
+- **A11Y-12, M-1, M-2** — no screen reader has read this site aloud. NVDA is not
+  installed and cannot be driven from the harness. The accessibility _tree_ is
+  asserted in every engine, which is strong evidence and **not** a substitute.
+- **M-3** — real Windows High Contrast, as opposed to the emulation that passes.
+- **M-4, M-5** — a real iPhone and a real Android handset.
+
+Status per item: [`docs/reviews/manual-accessibility-checks.md`](docs/reviews/manual-accessibility-checks.md).
+Evidence and method: [`docs/reviews/manual-accessibility-report.md`](docs/reviews/manual-accessibility-report.md).
+Everything the release candidate does **not** prove: [`docs/reviews/known-limitations.md`](docs/reviews/known-limitations.md).
 
 ---
 
 ## 5. Next founder acts, in order
 
-1. Resolve **E-1** — ratify or replace the two provisional strings.
-2. Confirm **E-2**, **E-3**, **E-4**.
-3. Verify remote repository settings — see §6 below.
-4. Perform, or delegate, manual accessibility checks A11Y-02…A11Y-12.
-5. Continue closing Open Items A, B, C, D. Nothing further should be built on
+1. **Confirm CONTACT-1** (P1-M) — `/contact` no longer renders "General
+   enquiries" and "Where we are", because both bodies were withheld placeholders
+   and the headings rendered into empty space. Neither heading was edited or
+   removed from the copy module. Rationale:
+   [`docs/reviews/release-candidate-report.md`](docs/reviews/release-candidate-report.md).
+2. **Run the NVDA checklist** — [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md),
+   38 checks, ~45 minutes. Closes A11Y-12, M-1, M-2 and M-3, the four largest
+   remaining gaps.
+3. Resolve **E-1** — ratify or replace the two provisional strings.
+4. Confirm **E-2**, **E-3**, **E-4**.
+5. Verify remote repository settings — see §6 below.
+6. Continue closing Open Items A, B, C, D. Nothing further should be built on
    the public surface until the relevant item is closed.
 
 ---
