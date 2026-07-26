@@ -26,12 +26,12 @@ Nothing. `main` is at `0.6.0`.
 **Authorized under:** AG-2-S, assignment P1-M
 **Released:** no. Still not deployed. AG-3 and AG-4 remain ungranted.
 
-Manual accessibility and release-candidate hardening. Three site defects fixed;
+Manual accessibility and release-candidate hardening. Six site defects fixed;
 no copy changed, no route added, no architecture changed.
 
 ### Added
 
-- `npm run verify:release` — one command, 26 ordered gates, no configuration and
+- `npm run verify:release` — one command, 27 ordered gates, no configuration and
   no credential. Stops at the first material failure. Probes each browser engine
   by name and, in CI, treats a missing engine as a hard failure.
 - `tests/e2e/a11y-manual.spec.ts` — A11Y-02 … A11Y-11 and M-6 … M-9 automated
@@ -52,14 +52,17 @@ no copy changed, no route added, no architecture changed.
 - **A11Y-09-1** — the wordmark link measured 104 × 20, under the SC 2.5.8 24px
   minimum. As a standalone control the inline exception does not cover it.
   `min-height: 44px` in `Logo.astro`; header height unchanged.
-- **A11Y-09-2** — three standalone text links measured 21px tall.
-  `padding-block: 2px` in `Link.astro`; no layout and no visual change, because
-  vertical padding on an inline element does not affect line-box height.
+- **A11Y-09-2 / A11Y-09-3** — three standalone text links were under the SC
+  2.5.8 24px minimum. `padding-block: 4px` in `Link.astro`; no layout and no
+  visual change, because vertical padding on an inline element does not affect
+  line-box height. The first attempt used 2px, which cleared the bar against
+  Windows font metrics (21px line box) but not Linux (18–19px) — caught only
+  because CI runs Linux.
 - **CONTACT-1** — `/contact` rendered "General enquiries" and "Where we are" as
   headings with completely empty bodies, their content being withheld
   placeholders. Both sections are now withheld rather than rendered headless.
   Neither heading is edited or removed from the copy module.
-  **Awaiting founder confirmation** — see `release-candidate-report.md`.
+  **Confirmed by the founder** in the P1-M continuation decision.
 - `public/og-image.svg` shipped a 24-line internal governance comment to the
   public output, and still called the card "pending ratification" after the
   founder approved it. Comment removed; rationale moved to

@@ -9,30 +9,29 @@ release, and it authorizes no deployment.
 
 ## Verdict
 
-The site is a **release candidate with six outstanding manual checks and one
-decision awaiting founder confirmation.**
+The site is a **release candidate with six outstanding manual checks.** The one
+decision that needed a founder call — CONTACT-1 — has been confirmed.
 
-|                               |                                                               |
-| ----------------------------- | ------------------------------------------------------------- |
-| Automated gates               | `npm run verify:release` — **27 gates, 0 failed**             |
-| Browser matrix                | Chromium and WebKit pass locally; Firefox via CI (Linux)      |
-| Manual accessibility          | 15 of 21 discharged; **6 outstanding**, none of them silently |
-| Site defects found            | **5**, all fixed                                              |
-| Harness defects found         | **12**, all fixed                                             |
-| Awaiting founder confirmation | **1** — CONTACT-1                                             |
-| Client JavaScript shipped     | 0 bytes                                                       |
-| Deployment performed          | none                                                          |
+|                           |                                                               |
+| ------------------------- | ------------------------------------------------------------- |
+| Automated gates           | `npm run verify:release` — **27 gates, 0 failed**             |
+| Browser matrix            | Chromium and WebKit pass locally; Firefox via CI (Linux)      |
+| Manual accessibility      | 15 of 21 discharged; **6 outstanding**, none of them silently |
+| Site defects found        | **6**, all fixed                                              |
+| Harness defects found     | **12**, all fixed                                             |
+| Founder decisions         | CONTACT-1 **confirmed**                                       |
+| Client JavaScript shipped | 0 bytes                                                       |
+| Deployment performed      | none                                                          |
 
 **It is not ready to publish.** `/privacy` cannot be published while legal
-placeholders are withheld, six manual accessibility checks are outstanding, and
-`/contact` needs the CONTACT-1 decision confirmed. Those are recorded in
-`known-limitations.md`, not glossed.
+placeholders are withheld, and six manual accessibility checks are outstanding.
+Those are recorded in `known-limitations.md`, not glossed.
 
 ---
 
-## The one decision that needs founder confirmation
+## CONTACT-1 — confirmed by the founder
 
-### CONTACT-1 — two `/contact` sections are no longer rendered
+### Two `/contact` sections are no longer rendered
 
 **What was found.** `/contact` shipped two `<h2>` headings — **"General
 enquiries"** and **"Where we are"** — with completely empty bodies. Their entire
@@ -54,9 +53,11 @@ placeholder-bearing string verbatim and does not render it; a section existing
 only to present such a string falls under the same rule. Rendering its heading
 alone applied the pattern halfway.
 
-**Why it needs confirmation.** It changes the rendered structure of a page
-approved in P1-K, and `/contact` is intended for publication. That is the
-founder's call, not the implementer's.
+**Founder decision, P1-M continuation:** _"I approve CONTACT-1: hide the two
+`/contact` sections whose actual content is unavailable, rather than render empty
+headings. That is the correct accessibility and content-integrity decision. The
+`/privacy` headings may remain because the page is explicitly non-publishable and
+its structure is frozen for legal completion."_
 
 **Why `/privacy` was NOT changed the same way.** `/privacy` has the same
 condition — "Who we are" and "Where your information is held" render empty — but
@@ -69,13 +70,14 @@ two, so a third emptying out fails the build.
 
 ## Site defects found and fixed
 
-| ID            | Defect                                                                                                                                                                                                                                                                                                       | Fix                                                                                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **A11Y-09-1** | The wordmark link measured 104 × 20 — as a standalone control the SC 2.5.8 inline exception does not cover it, so it was 4px under the AA minimum.                                                                                                                                                           | `min-height: 44px` + `inline-flex` in `Logo.astro`, matching `.site-nav__link`. In the centred flex row the two agree, so header height is unchanged. Home is unaffected — there the wordmark is a `<p>`. |
-| **A11Y-09-2** | Three standalone text links measured 21px tall (`/contact` privacy link, `/privacy` back link, `/` footer link), each alone in its own paragraph where the inline exception is arguable at best.                                                                                                             | `padding-block: 2px` in `Link.astro`. Vertical padding on a non-replaced inline element does not affect line-box height, so the hit box grows to ≥25px with **no layout change and no visual change**.    |
-| **CONTACT-1** | `/contact` rendered two headings with empty bodies.                                                                                                                                                                                                                                                          | Sections withheld rather than rendered headless. Frozen by a regression test that runs on every route. See above.                                                                                         |
-| **ASSET-1**   | `public/og-image.svg` carried a 24-line internal governance comment — quoting P-15 including the `™` and `®` characters — and `public/` ships verbatim, so it was served publicly. It also still described the card as "PLACEHOLDER, pending ratification" after the founder approved it in the P1-L review. | Comment removed; the rationale and the founder's decision moved to `docs/public-assets.md`. The release check that flags `™`/`®` in the card now tests only rendered content, and passes honestly.        |
-| **DOC-1**     | `docs/public-assets.md` listed `favicon.ico`, `apple-touch-icon.png`, `og-image.png`, `robots.txt` and `sitemap.xml` as "still absent, each with a reason" — all five had shipped in P1-L.                                                                                                                   | Rewritten to describe what is actually present, including that `robots.txt` and `sitemap.xml` are build-time generated from `IS_INDEXABLE` rather than stored files.                                      |
+| ID            | Defect                                                                                                                                                                                                                                                                                                       | Fix                                                                                                                                                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A11Y-09-1** | The wordmark link measured 104 × 20 — as a standalone control the SC 2.5.8 inline exception does not cover it, so it was 4px under the AA minimum.                                                                                                                                                           | `min-height: 44px` + `inline-flex` in `Logo.astro`, matching `.site-nav__link`. In the centred flex row the two agree, so header height is unchanged. Home is unaffected — there the wordmark is a `<p>`.                                                                       |
+| **A11Y-09-2** | Three standalone text links measured 21px tall (`/contact` privacy link, `/privacy` back link, `/` footer link), each alone in its own paragraph where the inline exception is arguable at best.                                                                                                             | `padding-block: 2px` in `Link.astro`. Vertical padding on a non-replaced inline element does not affect line-box height, so the hit box grows to ≥25px with **no layout change and no visual change**.                                                                          |
+| **A11Y-09-3** | The A11Y-09-2 fix above was calibrated on Windows font metrics (21px line box + 2px each side = 25px). CI on Linux renders the same text at 18-19px, so the identical rule landed at **22-23px** — still under the 24px minimum. Every engine failed on `/contact` and `/privacy`.                           | `padding-block` raised from 2px to 4px: 26-29px on both platforms, and holds for any font whose line box is at least 16px. Still no layout and no visual change. **Only CI on Linux could have caught this** — a target-size fix measured on one platform's fonts is not a fix. |
+| **CONTACT-1** | `/contact` rendered two headings with empty bodies.                                                                                                                                                                                                                                                          | Sections withheld rather than rendered headless. Frozen by a regression test that runs on every route. See above.                                                                                                                                                               |
+| **ASSET-1**   | `public/og-image.svg` carried a 24-line internal governance comment — quoting P-15 including the `™` and `®` characters — and `public/` ships verbatim, so it was served publicly. It also still described the card as "PLACEHOLDER, pending ratification" after the founder approved it in the P1-L review. | Comment removed; the rationale and the founder's decision moved to `docs/public-assets.md`. The release check that flags `™`/`®` in the card now tests only rendered content, and passes honestly.                                                                              |
+| **DOC-1**     | `docs/public-assets.md` listed `favicon.ico`, `apple-touch-icon.png`, `og-image.png`, `robots.txt` and `sitemap.xml` as "still absent, each with a reason" — all five had shipped in P1-L.                                                                                                                   | Rewritten to describe what is actually present, including that `robots.txt` and `sitemap.xml` are build-time generated from `IS_INDEXABLE` rather than stored files.                                                                                                            |
 
 ## Harness defects found and fixed
 
@@ -166,13 +168,12 @@ target.
 
 ## What must happen before this can be published
 
-1. **Founder confirms CONTACT-1** — or directs otherwise.
-2. **Run `nvda-checklist.md`** — closes A11Y-12, M-1, M-2 and M-3.
-3. **Legal approval of the withheld entity details** — closes L-7 and returns
+1. **Run `nvda-checklist.md`** — closes A11Y-12, M-1, M-2 and M-3.
+2. **Legal approval of the withheld entity details** — closes L-7 and returns
    the two `/contact` sections and the three `/privacy` sections.
-4. **Founder ratifies the two provisional strings** — GAP-01, GAP-02 (L-8).
-5. **A real device pass** — M-4, M-5, if the founder judges it needed.
-6. **A second reader for M-10** — `02` §3 is non-exhaustive of phrasings, and
+3. **Founder ratifies the two provisional strings** — GAP-01, GAP-02 (L-8).
+4. **A real device pass** — M-4, M-5, if the founder judges it needed.
+5. **A second reader for M-10** — `02` §3 is non-exhaustive of phrasings, and
    the read was done by the implementing agent, not independently.
 
 Deployment, DNS, hosting and analytics remain out of scope and untouched.

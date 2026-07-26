@@ -243,18 +243,13 @@ Everything the release candidate does **not** prove: [`docs/reviews/known-limita
 
 ## 5. Next founder acts, in order
 
-1. **Confirm CONTACT-1** (P1-M) — `/contact` no longer renders "General
-   enquiries" and "Where we are", because both bodies were withheld placeholders
-   and the headings rendered into empty space. Neither heading was edited or
-   removed from the copy module. Rationale:
-   [`docs/reviews/release-candidate-report.md`](docs/reviews/release-candidate-report.md).
-2. **Run the NVDA checklist** — [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md),
+1. **Run the NVDA checklist** — [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md),
    38 checks, ~45 minutes. Closes A11Y-12, M-1, M-2 and M-3, the four largest
    remaining gaps.
-3. Resolve **E-1** — ratify or replace the two provisional strings.
-4. Confirm **E-2**, **E-3**, **E-4**.
-5. Verify remote repository settings — see §6 below.
-6. Continue closing Open Items A, B, C, D. Nothing further should be built on
+2. Resolve **E-1** — ratify or replace the two provisional strings.
+3. Confirm **E-2**, **E-3**, **E-4**.
+4. Verify remote repository settings — see §6 below.
+5. Continue closing Open Items A, B, C, D. Nothing further should be built on
    the public surface until the relevant item is closed.
 
 ---

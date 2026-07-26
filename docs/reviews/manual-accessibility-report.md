@@ -208,8 +208,15 @@ its height. Only inner routes are affected — on `/` the wordmark is a `<p>`.
 sit alone in their own paragraph, where the inline exception is arguable at
 best. Fixed in `Link.astro` with `padding-block: 2px`. Vertical padding on a
 non-replaced inline element does not affect line-box height, so the hit box
-grows to ≥25px with **no layout change and no visual change** — the element
-paints no background.
+grows with **no layout change and no visual change** — the element paints no
+background.
+
+**Defect A11Y-09-3 — that fix was calibrated on one platform's fonts.** 2px
+each side reached 25px against Windows' 21px line box. CI on Linux renders the
+same text at 18–19px, so the identical rule landed at **22–23px** and every
+engine failed `/contact` and `/privacy`. Raised to 4px: 26–29px on both, and
+sound for any font whose line box is at least 16px. Only CI on Linux could have
+caught it — a target-size fix measured on one platform is not a fix.
 
 ## A11Y-10 · `prefers-reduced-motion`
 

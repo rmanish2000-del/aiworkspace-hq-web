@@ -253,20 +253,15 @@ governance change.
 
 ## 8. Outstanding — carried to the next assignment
 
-1. **CONTACT-1 needs founder confirmation.** `/contact` no longer renders
-   "General enquiries" and "Where we are"; both bodies were withheld
-   placeholders and the headings rendered into empty space. Neither heading was
-   edited or removed from the copy module. See
-   [`docs/reviews/release-candidate-report.md`](docs/reviews/release-candidate-report.md).
-2. **Six manual accessibility checks remain outstanding** — A11Y-12, M-1, M-2
+1. **Six manual accessibility checks remain outstanding** — A11Y-12, M-1, M-2
    (no screen reader available), M-3 (no real High Contrast), M-4, M-5 (no real
    devices). The other 15 are discharged and automated. The instrument for four
    of the six is
    [`docs/reviews/nvda-checklist.md`](docs/reviews/nvda-checklist.md).
-3. Two provisional strings need founder ratification — GAP-01, GAP-02.
-4. Branch-protection status on the remote — see `HANDOFF.md`.
-5. Security response headers (`08` §9.2) cannot be configured without a host.
-6. **Firefox does not run on the Windows development machine** (Win32
+2. Two provisional strings need founder ratification — GAP-01, GAP-02.
+3. Branch-protection status on the remote — see `HANDOFF.md`.
+4. Security response headers (`08` §9.2) cannot be configured without a host.
+5. **Firefox does not run on the Windows development machine** (Win32
    side-by-side activation failure, fully diagnosed). Gecko evidence comes from
    CI on Linux. See `docs/reviews/known-limitations.md` L-11.
 
