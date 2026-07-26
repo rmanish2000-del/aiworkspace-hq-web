@@ -1,9 +1,6 @@
-import { readFileSync, statSync } from 'node:fs';
-import { gzipSync } from 'node:zlib';
-import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { CACHE_RULES, CRAWLABLE, securityHeaders } from '../../src/lib/production';
+import { CACHE_RULES, securityHeaders } from '../../src/lib/production';
 import {
   DEFERRED_URLS,
   SECURITY_TXT_VALIDITY_DAYS,
@@ -14,14 +11,16 @@ import {
 import { cspHashFor, organizationJsonLd } from '../../src/lib/structured-data';
 
 /**
- * Production-readiness regressions.
+ * Production-readiness regressions — the parts that are pure logic.
  *
- * These assert the things that are cheap to get right now and expensive to
- * discover on deployment day: header expectations, byte budgets, and the
- * scaffolds that must stay unemitted until their blocker clears.
+ * ⚠️ Nothing here reads `dist/`. An earlier revision did, and it passed locally
+ * only because a previous build had left the directory behind — on a clean
+ * checkout the unit job runs before any build, so those assertions were a false
+ * green. Everything that inspects built output now lives in
+ * `tests/e2e/production.spec.ts`, which runs against a served build.
+ *
+ * The rule this encodes: a unit test must not depend on a build artifact.
  */
-
-const DIST = resolve(process.cwd(), 'dist');
 
 /* -------------------------------------------------------------------------- */
 /* Security headers — `08` §9.2                                               */
@@ -98,31 +97,6 @@ describe('security headers', () => {
 });
 
 /* -------------------------------------------------------------------------- */
-/* CSP hash covers the block the page actually renders                        */
-/* -------------------------------------------------------------------------- */
-
-describe('CSP hash', () => {
-  it('is computed over the exact bytes rendered into the page', () => {
-    // If these ever diverge, the CSP silently stops covering the block — and a
-    // page that loses its structured data reports nothing to a visitor.
-    const html = readFileSync(join(DIST, 'index.html'), 'utf8');
-    const rendered = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
-
-    expect(rendered, 'no JSON-LD block found in dist/index.html').toBeTruthy();
-
-    const description = JSON.parse(rendered!).description;
-    expect(organizationJsonLd(description)).toBe(rendered);
-  });
-
-  it('produces a stable hash for identical input', () => {
-    const a = cspHashFor(organizationJsonLd('x'));
-    const b = cspHashFor(organizationJsonLd('x'));
-    expect(a).toBe(b);
-    expect(cspHashFor(organizationJsonLd('y'))).not.toBe(a);
-  });
-});
-
-/* -------------------------------------------------------------------------- */
 /* Cache policy                                                               */
 /* -------------------------------------------------------------------------- */
 
@@ -194,81 +168,14 @@ describe('deferred static files', () => {
     expect(() => humansTxt([])).toThrow();
   });
 
-  it('emits none of the deferred files', () => {
-    // The scaffolds exist; the routes do not.
-    for (const { url } of DEFERRED_URLS) {
-      const path = join(DIST, url.replace(/^\//, ''));
-      let exists = true;
-      try {
-        statSync(path);
-      } catch {
-        exists = false;
-      }
-      expect(exists, `${url} was emitted but is still blocked`).toBe(false);
+  it('gives every deferred URL a stated blocker', () => {
+    // That none of them is EMITTED is asserted in tests/e2e/production.spec.ts,
+    // against a served build. Checking for an absent file here would pass
+    // vacuously on a clean checkout, which is not a check.
+    expect(DEFERRED_URLS.length).toBeGreaterThan(0);
+    for (const { url, blockedBy } of DEFERRED_URLS) {
+      expect(url.startsWith('/'), url).toBe(true);
+      expect(blockedBy.length, `${url} has no stated blocker`).toBeGreaterThan(10);
     }
-  });
-});
-
-/* -------------------------------------------------------------------------- */
-/* Crawler-facing files agree with the indexability constant                  */
-/* -------------------------------------------------------------------------- */
-
-describe('crawl directives', () => {
-  it('keeps robots.txt and the noindex meta tag in agreement', () => {
-    // `08` SEO-10 names indexing mistakes in BOTH directions as the common
-    // failure. One constant drives both, so they cannot disagree.
-    const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
-    const html = readFileSync(join(DIST, 'index.html'), 'utf8');
-
-    if (CRAWLABLE) {
-      expect(robots).toContain('Allow: /');
-      expect(html).not.toMatch(/name="robots" content="[^"]*noindex/);
-    } else {
-      expect(robots).toContain('Disallow: /');
-      expect(html).toMatch(/name="robots" content="[^"]*noindex/);
-    }
-  });
-
-  it('references the sitemap either way', () => {
-    const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
-    expect(robots).toContain('Sitemap: https://aiworkspacehq.com/sitemap.xml');
-  });
-});
-
-/* -------------------------------------------------------------------------- */
-/* Bundle regression — `08` §8                                                */
-/* -------------------------------------------------------------------------- */
-
-describe('bundle budgets', () => {
-  const ROUTES = ['index', 'platform', 'principles', 'contact', 'privacy', '404'];
-
-  /** `08` §8: total transferred (HTML+CSS+JS, gzipped) <= 60 KB, target <= 35 KB. */
-  const TOTAL_BUDGET_GZ = 60 * 1024;
-  const TOTAL_TARGET_GZ = 35 * 1024;
-
-  it.each(ROUTES)('%s.html stays inside the transfer budget', (route) => {
-    const bytes = readFileSync(join(DIST, `${route}.html`));
-    const gz = gzipSync(bytes).length;
-
-    expect(gz, `${route}.html is ${gz} B gzipped`).toBeLessThanOrEqual(TOTAL_BUDGET_GZ);
-    // Not an assertion — a tripwire. If a route crosses the target, the budget
-    // is still met but the headroom is worth knowing about.
-    expect(gz).toBeLessThanOrEqual(TOTAL_TARGET_GZ);
-  });
-
-  it('ships zero client JavaScript', () => {
-    // `08` ARCH-06 — <=10 KB gzipped. This build meets it by shipping nothing.
-    const html = readFileSync(join(DIST, 'index.html'), 'utf8');
-    const scripts = [...html.matchAll(/<script([^>]*)>/g)].map((m) => m[1] ?? '');
-    const executable = scripts.filter((attrs) => !attrs.includes('application/ld+json'));
-
-    expect(executable).toEqual([]);
-  });
-
-  it('ships zero web fonts', () => {
-    // `08` §8 budget is 0, and `07` §3 specifies a system stack.
-    const html = readFileSync(join(DIST, 'index.html'), 'utf8');
-    expect(html).not.toMatch(/@font-face/);
-    expect(html).not.toMatch(/\.woff2?/);
   });
 });

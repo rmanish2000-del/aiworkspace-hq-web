@@ -1,4 +1,8 @@
+import { gzipSync } from 'node:zlib';
+
 import { expect, test } from '@playwright/test';
+
+import { organizationJsonLd } from '../../src/lib/structured-data';
 
 /**
  * Production support files, served and correct.
@@ -177,4 +181,60 @@ test('the JSON-LD parses and asserts only what `08` SEO-07 permits', async ({ pa
 
   // `logo` is a brand asset — P-15.
   expect(data.logo).toBeUndefined();
+});
+
+/* -------------------------------------------------------------------------- */
+/* Bundle budgets — `08` §8, measured on what is actually served              */
+/* -------------------------------------------------------------------------- */
+
+/** `08` §8: total transferred (HTML+CSS+JS, gzipped) <= 60 KB, target <= 35 KB. */
+const TRANSFER_BUDGET_GZ = 60 * 1024;
+const TRANSFER_TARGET_GZ = 35 * 1024;
+
+for (const route of ROUTES) {
+  test(`${route} stays inside the transfer budget`, async ({ request }) => {
+    const body = await (await request.get(route)).body();
+    const gz = gzipSync(body).length;
+
+    expect(gz, `${route} is ${gz} B gzipped`).toBeLessThanOrEqual(TRANSFER_BUDGET_GZ);
+    // Not merely the budget — the target. Crossing it still passes `08` §8 but
+    // means the headroom has gone, which is worth failing on while it is cheap.
+    expect(gz, `${route} exceeded the 35 KB target`).toBeLessThanOrEqual(TRANSFER_TARGET_GZ);
+  });
+}
+
+test('no route ships client JavaScript or a web font', async ({ page, request }) => {
+  // `08` ARCH-06 (<=10 KB gz) is met by shipping nothing at all.
+  for (const route of ROUTES) {
+    await page.goto(route);
+
+    const executable = await page.evaluate(() =>
+      [...document.querySelectorAll('script')]
+        .filter((s) => s.type !== 'application/ld+json')
+        .map((s) => s.src || 'inline'),
+    );
+    expect(executable, route).toEqual([]);
+
+    const html = await (await request.get(route)).text();
+    expect(html, route).not.toMatch(/@font-face/);
+    expect(html, route).not.toMatch(/\.woff2?/);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* The CSP hash must cover the block that is actually served                  */
+/* -------------------------------------------------------------------------- */
+
+test('the served JSON-LD is byte-identical to what the CSP hash is computed over', async ({
+  request,
+}) => {
+  // If these drift, the CSP silently stops covering the block — and a page that
+  // loses its structured data reports nothing a visitor would notice.
+  const html = await (await request.get('/')).text();
+  const served = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
+
+  expect(served, 'no JSON-LD block served on /').toBeTruthy();
+
+  const description = JSON.parse(served!).description;
+  expect(organizationJsonLd(description)).toBe(served);
 });
