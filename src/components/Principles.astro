@@ -17,30 +17,29 @@
  */
 import { principles } from '../content/copy';
 import Section from './ui/Section.astro';
+import SectionHeader from './ui/SectionHeader.astro';
+import TermList from './ui/TermList.astro';
 
 const HEADING_ID = 'principles-heading';
 ---
 
 <Section headingId={HEADING_ID}>
-  <h2 class="section__heading" id={HEADING_ID}>{principles.heading}</h2>
-
-  <p class="section__lead">{principles.lead}</p>
+  <SectionHeader id={HEADING_ID} heading={principles.heading} lead={principles.lead} />
 
   {
     /*
-    A plain <ul>, not the design system's Grid or Card. `03` §3 rules both out
+    A plain list, not the design system's Grid or Card. `03` §3 rules both out
     for this block by name: "No icons. No numbering. No cards with borders
     competing for attention."
+
+    Level 3 here — these sit under the section's own h2, so the outline reads
+    h2 → h3. On `/principles` the same five entries are level 2, because there
+    they are the page's top-level content.
   */
   }
-  <ul class="principles__list">
-    {
-      principles.items.map((principle) => (
-        <li class="principles__item">
-          <h3 class="principles__title">{principle.title}</h3>
-          <p class="principles__gloss">{principle.gloss}</p>
-        </li>
-      ))
-    }
-  </ul>
+  <TermList
+    variant="heading"
+    level={3}
+    items={principles.items.map((principle) => ({ term: principle.title, body: principle.gloss }))}
+  />
 </Section>

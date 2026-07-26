@@ -127,6 +127,37 @@ is not a landmark, so a screen-reader user cannot jump to it.
 Do not use `Section` for the hero: `03` §2 lists the hero as its own block, and
 `Hero` renders the `<section>` itself.
 
+### `PageHeader`
+
+Use on every content route that opens with a title. Do not hand-roll the block:
+the eyebrow must stay a `<p>` so it never enters the document outline, and each
+route must have exactly one `h1`.
+
+Pass the `lead` slot rather than the `lead` prop when the sentence contains a
+link, so approved copy is rendered whole instead of split and reassembled.
+
+### `SectionHeader`
+
+Always pair with `Section`, passing the same `id` to both. A `<section>` whose
+heading nothing references is not a landmark.
+
+### `TermList`
+
+Pick the variant by what the term _is_, not by how it should look:
+
+- `statement` — a claim and its expansion
+- `heading` — a real heading that belongs in the outline
+- `definition` — a term the body defines; renders `<dl>`
+
+Never restyle a term to look like a different level. `level` sets the tag and
+the scale together precisely so they cannot drift apart — that drift was defect
+UX-1, where `/principles` headings rendered smaller than their own body text.
+
+### `CTASection`
+
+Do not reorder the disclosure and the call to action. C-11 requires the stage to
+be stated, and it belongs before the invitation.
+
 ### `Button`
 
 One primary action per view. `03` §3 omits a secondary CTA at P0, so two

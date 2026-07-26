@@ -12,3 +12,14 @@ export interface NavigationItem {
   href: string;
   label: string;
 }
+
+/**
+ * One row in a `TermList`: a term and the prose that belongs to it.
+ *
+ * `term` is optional because `/principles` renders a body-only variant — a
+ * statement with no lead-in.
+ */
+export interface TermItem {
+  readonly term?: string;
+  readonly body: string;
+}

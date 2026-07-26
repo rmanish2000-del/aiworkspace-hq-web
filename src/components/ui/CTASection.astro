@@ -1,0 +1,39 @@
+---
+/**
+ * CTASection — the closing block of an inner route: stage disclosure, then the
+ * single call to action.
+ *
+ * `/platform` and `/principles` both end this way, and the order matters: the
+ * disclosure comes FIRST. Binding commitment C-11 requires the development
+ * stage to be stated, and a reader should meet it before the invitation, not
+ * after acting on one. Building this by hand on each route is how that order
+ * eventually gets reversed.
+ *
+ * Provenance: CANONICAL — `03` §6, C-11.
+ * Accessibility: no heading, so it adds nothing to the outline — it closes a
+ *   page rather than opening a topic.
+ * JavaScript: none.
+ *
+ * Takes no copy of its own: both strings are passed in from the copy module,
+ * so this component contains no public wording.
+ */
+import Button from './Button.astro';
+import Callout from './Callout.astro';
+
+export interface Props {
+  /** C-11 stage disclosure. Shown before the call to action, never after. */
+  disclosure: string;
+  /** Call-to-action label. */
+  ctaLabel: string;
+  /** Where the call to action goes. */
+  ctaHref: string;
+  class?: string;
+}
+
+const { disclosure, ctaLabel, ctaHref, class: className } = Astro.props;
+---
+
+<section class:list={['page-close', className]}>
+  <Callout class="stage-disclosure">{disclosure}</Callout>
+  <Button as="a" href={ctaHref} class="page-close__cta" block>{ctaLabel}</Button>
+</section>

@@ -160,7 +160,7 @@ test('primary content is present without executing JavaScript', async ({ browser
   await expect(page.locator('h1')).toHaveText(
     'The layer between your enterprise systems and your AI agents',
   );
-  await expect(page.locator('.principles__list > li')).toHaveCount(5);
+  await expect(page.locator('.term-list--heading > li')).toHaveCount(5);
 
   await context.close();
 });

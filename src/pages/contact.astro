@@ -32,7 +32,9 @@
  */
 import Base from '../layouts/Base.astro';
 import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
 import Link from '../components/ui/Link.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
 import { contact, nav } from '../content/copy';
 
 const PRIVACY_ID = 'privacy-heading';
@@ -55,12 +57,13 @@ const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
   canonicalPath={contact.canonicalPath}
   indexableInProduction={true}
 >
-  <section class="page-head">
-    <h1 class="page-head__title">{contact.heading}</h1>
-    <p class="page-head__lead">
-      {leadBefore}<Link href={nav.registerInterestHref}>{contact.leadLinkText}</Link>{leadAfter}
-    </p>
-  </section>
+  <PageHeader heading={contact.heading}>
+    <Fragment slot="lead"
+      >{leadBefore}<Link href={nav.registerInterestHref}>{contact.leadLinkText}</Link>{
+        leadAfter
+      }</Fragment
+    >
+  </PageHeader>
 
   {
     /*
@@ -84,7 +87,7 @@ const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
   }
 
   <Section headingId={PRIVACY_ID}>
-    <h2 class="section__heading" id={PRIVACY_ID}>{contact.privacyHeading}</h2>
+    <SectionHeader id={PRIVACY_ID} heading={contact.privacyHeading} />
     {
       /*
       Both timeframes below are transcribed from P0 `05` §10 and `06` §8. They
@@ -99,7 +102,7 @@ const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
   </Section>
 
   <Section headingId={SECURITY_ID}>
-    <h2 class="section__heading" id={SECURITY_ID}>{contact.securityHeading}</h2>
+    <SectionHeader id={SECURITY_ID} heading={contact.securityHeading} />
     <p class="section__lead">{contact.securityBody}</p>
     {/* {{PRIVACY_EMAIL}} withheld — Open Item C, and R-8 unallocated. */}
   </Section>

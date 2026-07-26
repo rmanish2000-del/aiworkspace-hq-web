@@ -80,7 +80,7 @@ test('the five principles are h3 elements inside list items, in order', async ({
   // `03` §3 Block 3 — h3, NOT <strong>, because `03` §4 requires five h3s.
   await page.goto('/');
 
-  const titles = await page.locator('.principles__list > li > h3').allTextContents();
+  const titles = await page.locator('.term-list--heading > li > h3').allTextContents();
 
   expect(titles).toEqual([
     'Connect before migrate',
