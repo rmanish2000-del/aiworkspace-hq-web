@@ -81,7 +81,16 @@ for (const [engineName, engine] of ENGINES) {
     if (cookies.length) problems.push(`${cookies.length} cookie(s) set`);
 
     const storage = await page.evaluate(() => ({
+      /**
+       * The `no-restricted-globals` ban on storage exists to keep it out of
+       * page code (P-07). This runs inside the BROWSER, in a verification
+       * script, and reads the counts precisely to prove they are zero —
+       * the opposite of what the rule guards against. Scoped to these two
+       * reads; the ban stays in force everywhere else.
+       */
+      // eslint-disable-next-line no-restricted-globals
       local: localStorage.length,
+      // eslint-disable-next-line no-restricted-globals
       session: sessionStorage.length,
     }));
     if (storage.local || storage.session) {
