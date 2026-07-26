@@ -1,8 +1,11 @@
 # Cross-browser matrix — P1-M §3
 
 **Method:** automated, Playwright, seven projects across three engines.
-**Result:** Chromium and WebKit pass locally with no failures. Firefox does not
-run on the Windows development machine and is covered by CI on Linux.
+**Result:** all three engines pass. Chromium and WebKit locally on Windows;
+Firefox on Linux in CI, where all three run together.
+
+**CI evidence — run [30203208299](https://github.com/rmanish2000-del/aiworkspace-hq-web/actions/runs/30203208299), commit `22c210f`, `ubuntu-latest`:
+1242 passed, 52 skipped, 0 failed** across all seven projects.
 
 ---
 
@@ -26,11 +29,22 @@ would treble CI for no signal.
 
 ## Results
 
-| Engine   | Passed | Skipped | Failed | Run                                             |
-| -------- | ------ | ------- | ------ | ----------------------------------------------- |
-| Chromium | 648    | 0       | **0**  | Local, Windows 11, 3 projects                   |
-| WebKit   | 264    | 52      | **0**  | Local, Windows 11, 2 projects                   |
-| Firefox  | —      | —       | —      | **Did not launch locally.** CI, `ubuntu-latest` |
+| Engine    | Where                           | Result                                |
+| --------- | ------------------------------- | ------------------------------------- |
+| Chromium  | Local, Windows 11, 3 projects   | 648 passed, 0 skipped, **0 failed**   |
+| WebKit    | Local, Windows 11, 2 projects   | 264 passed, 52 skipped, **0 failed**  |
+| Firefox   | **CI only**, `ubuntu-latest`    | Passes — will not launch on Windows   |
+| All three | CI, `ubuntu-latest`, 7 projects | **1242 passed, 52 skipped, 0 failed** |
+
+### What Firefox caught that nothing else did
+
+Firefox ran for the first time in this assignment, and CI on Linux produced two
+findings no Windows run could have:
+
+| Finding                               | Detail                                                                                                                                                                                                                             |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A11Y-09-3** — real site defect      | Text-link target size was fixed against Windows font metrics (21px line box). Linux renders the same text at 18–19px, so the fix landed at 22–23px and was still under the 24px minimum. Failed in **all three** engines on Linux. |
+| **H-13** — harness defect, Gecko only | A11Y-06 counted any `scrollHeight > clientHeight` as clipping. With `overflow: visible` nothing is lost; Gecko reported the padded inline link's paragraph as overflowing where Blink and WebKit did not.                          |
 
 ### Firefox
 

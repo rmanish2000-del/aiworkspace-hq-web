@@ -213,7 +213,9 @@ lapse.
 
 **What is therefore not covered anywhere.** Firefox **on Windows**
 specifically — Windows font rendering and Gecko's Windows focus handling. Gecko
-itself is covered on Linux.
+itself is covered on Linux, and covered properly: its first CI run caught a real
+target-size defect (A11Y-09-3) that every Windows run had passed, plus a harness
+defect that only Gecko exposed (H-13).
 
 **To close.** Resolve the SxS activation on this machine, or run the matrix on a
 second Windows machine.
