@@ -220,25 +220,67 @@ for (const route of ROUTES) {
   else fail('compression', 'HTML served uncompressed');
 }
 
-/* ── 7. robots / noindex — AG-4 is withheld, so both must be closed ──────── */
+/* ── 7. Indexing — robots.txt, meta tags and the constant must all agree ─── */
 
 {
+  /**
+   * `08` SEO-10 names indexing mistakes in BOTH directions: a live site nobody
+   * can find, and a staging site everybody can. So this asserts AGREEMENT
+   * between the three places the answer is expressed — the constant, the crawl
+   * directive and the per-route meta tag — rather than one fixed expectation.
+   * `/404` is the deliberate exception and is checked separately.
+   */
   const robots = await (await get('/robots.txt')).text();
   const disallowed = /^\s*Disallow:\s*\/\s*$/m.test(robots);
+  const allowed = /^\s*Allow:\s*\/\s*$/m.test(robots);
 
-  if (spec.indexable) {
-    fail('indexing', 'IS_INDEXABLE is true — AG-4 is withheld, this must stay false');
-  } else if (disallowed) {
-    pass('indexing', 'robots.txt disallows all crawling, matching the withheld AG-4');
+  if (spec.indexable && allowed && !disallowed) {
+    pass('indexing', 'robots.txt permits crawling, matching the granted AG-4');
+  } else if (!spec.indexable && disallowed && !allowed) {
+    pass('indexing', 'robots.txt disallows all crawling, matching a withheld AG-4');
   } else {
-    fail('indexing', `robots.txt does not disallow crawling:\n${robots}`);
+    fail(
+      'indexing',
+      `robots.txt and IS_INDEXABLE disagree — IS_INDEXABLE=${spec.indexable}, ` +
+        `Allow=${allowed}, Disallow=${disallowed}`,
+    );
   }
 
-  for (const route of [...ROUTES, '/this-route-does-not-exist']) {
+  const sitemapRef = /^Sitemap:\s*(\S+)/m.exec(robots)?.[1];
+  if (sitemapRef === `${spec.canonical}/sitemap.xml`) {
+    pass('indexing', `robots.txt points at ${sitemapRef}`);
+  } else {
+    fail('indexing', `robots.txt sitemap reference is "${sitemapRef}"`);
+  }
+
+  /**
+   * A correct meta tag with an `X-Robots-Tag: noindex` above it is a page that
+   * silently never gets indexed — the header wins, and nothing in the HTML
+   * shows it.
+   */
+  const xRobots = (await get('/')).headers.get('x-robots-tag');
+  if (!xRobots || !/noindex/i.test(xRobots)) {
+    pass('indexing', `no X-Robots-Tag block (${xRobots ?? 'header absent'})`);
+  } else {
+    fail('indexing', `X-Robots-Tag blocks indexing: "${xRobots}"`);
+  }
+
+  const expected = spec.indexable ? 'index, follow' : 'noindex, follow';
+
+  for (const route of ROUTES) {
     const html = await (await get(route)).text();
     const meta = html.match(/<meta name="robots" content="([^"]*)"/)?.[1];
-    if (meta?.includes('noindex')) pass('indexing', `${route}: meta robots "${meta}"`);
-    else fail('indexing', `${route}: meta robots is "${meta}", expected noindex`);
+    if (meta === expected) pass('indexing', `${route}: robots "${meta}"`);
+    else fail('indexing', `${route}: robots is "${meta}", expected "${expected}"`);
+  }
+
+  // The 404 stays out of the index whatever the site-wide answer is.
+  const notFound = await (await get('/this-route-does-not-exist')).text();
+  const notFoundMeta = notFound.match(/<meta name="robots" content="([^"]*)"/)?.[1];
+  if (notFoundMeta?.includes('noindex')) {
+    pass('indexing', `404: robots "${notFoundMeta}" — an indexed error page is a defect`);
+  } else {
+    fail('indexing', `404: robots is "${notFoundMeta}", expected noindex`);
   }
 }
 
@@ -287,11 +329,23 @@ for (const route of ROUTES) {
    * not a passing one.
    */
   const host = new URL(origin).host;
-  if (host.endsWith('vercel.app')) {
+
+  /**
+   * The www rule is keyed on the custom-domain host, so it can only be
+   * exercised against that domain. A `.vercel.app` origin, a localhost preview
+   * or a bare IP has no `www.` counterpart to redirect — deriving one produced
+   * `https://www.127.0.0.1:4321/` and threw.
+   */
+  const isCustomDomain =
+    !host.endsWith('vercel.app') &&
+    !/^(localhost|127\.0\.0\.1|\[?::1\]?)(:\d+)?$/.test(host) &&
+    !/^\d{1,3}(\.\d{1,3}){3}(:\d+)?$/.test(host);
+
+  if (!isCustomDomain) {
     pending(
       'redirects',
-      'www → apex is configured but keyed on the custom domain, so it cannot ' +
-        'be exercised against a .vercel.app origin. Re-run against the domain.',
+      `www → apex is configured but keyed on the custom domain, so it cannot ` +
+        `be exercised against ${host}. Re-run against the domain.`,
     );
   } else {
     for (const path of ROUTES) {

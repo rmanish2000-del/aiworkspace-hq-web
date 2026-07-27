@@ -141,9 +141,17 @@ yet exist. P1-M forbids completing them.
 approved, never edited, and never rendered. The release run asserts that no
 `{{placeholder}}` and no `[LEGAL]` marker reaches any built page.
 
-**Consequence.** `/privacy` must not be published in its current state. The site
-is `noindex` and `robots.txt` disallows all crawling; both are driven by the
-single `IS_INDEXABLE` constant so they cannot disagree.
+**Consequence, and it changed at P2-E.** Until the public launch the site was
+`noindex` with `robots.txt` disallowing all crawling, so this limitation was
+contained. **The founder granted AG-4 at P2-E and `/privacy` is now indexable.**
+
+The limitation itself is unchanged: the notice still holds withheld placeholders,
+two of its twelve sections still render with no body, and it still describes
+operational behaviour that does not exist yet (30-day server logs, MFA-limited
+access to submissions) because there is no form backend to produce it. That was
+raised before launch and the founder proceeded, which is recorded here rather
+than resolved. It is not a defect in the implementation — it is a legal item
+awaiting Open Items A and B.
 
 **To close.** Legal approval of the entity details, then a copy assignment — not
 an implementation one.

@@ -17,16 +17,17 @@ const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy
 /* Crawler-facing files                                                       */
 /* -------------------------------------------------------------------------- */
 
-test('robots.txt disallows crawling and points at the sitemap', async ({ request }) => {
-  // Nothing is deployed and every route is noindex, so the two must agree.
+test('robots.txt permits crawling and points at the sitemap', async ({ request }) => {
+  // P2-E: AG-4 granted. robots.txt and the per-route meta tag are generated
+  // from one constant, so they cannot disagree — which is the SEO-10 failure.
   const res = await request.get('/robots.txt');
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toContain('text/plain');
 
   const body = await res.text();
   expect(body).toContain('User-agent: *');
-  expect(body).toContain('Disallow: /');
-  expect(body).not.toContain('Allow: /');
+  expect(body).toContain('Allow: /');
+  expect(body).not.toMatch(/^\s*Disallow:\s*\/\s*$/m);
   expect(body).toContain('Sitemap: https://aiworkspacehq.com/sitemap.xml');
 });
 
