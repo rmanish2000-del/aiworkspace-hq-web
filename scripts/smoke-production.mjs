@@ -23,7 +23,15 @@ if (!origin) {
   process.exit(2);
 }
 
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy', '/this-route-404s'];
+const ROUTES = [
+  '/',
+  '/platform',
+  '/principles',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/this-route-404s',
+];
 const ENGINES = [
   ['chromium', chromium],
   ['firefox', firefox],

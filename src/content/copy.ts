@@ -68,6 +68,47 @@ export const header = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
+/* 2b. Shared strings — one entry, many references (P2-C §5)                  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Strings that appear on more than one route.
+ *
+ * P2-C §5 is explicit: these have **one canonical key** and are referenced,
+ * never duplicated. A copied string is a string that can drift — and two
+ * versions of a binding commitment is the failure this whole copy module
+ * exists to prevent.
+ *
+ * The entries below are the definitions. `hero`, `principlesPage` and `about`
+ * point at them rather than restating them, so a change here changes every
+ * route at once and a change on one route is impossible.
+ */
+export const shared = {
+  /**
+   * [AD] P0 `04` §3, verbatim. The core proposition.
+   * Referenced by: `/` hero supporting text, `/about` lead.
+   */
+  coreProposition:
+    'AI Workspace is designed to connect the enterprise systems you already run, understand how your organization actually works, and give AI agents a governed place to operate — without asking you to migrate the systems you already depend on.',
+
+  /**
+   * [V] P0 `04` §3, verbatim. **Binding commitment C-11.**
+   * Referenced by: `/`, `/platform`, `/principles`, `/about`.
+   */
+  stageDisclosure: 'AI Workspace is in development. Early access is not yet open.',
+
+  /**
+   * [V] P1-J §7.1. Referenced by: `/principles`, `/about`.
+   *
+   * The wording deliberately avoids `pricing` and `roadmap`, which the
+   * whole-word prohibited-term test matches even inside a denial. **Do not
+   * "improve" it back** (P2-C §5, §12.2).
+   */
+  noPricePlan:
+    'We publish no price, no availability date, and no forward plan, because none of those has been decided.',
+} as const;
+
+/* -------------------------------------------------------------------------- */
 /* 3. Hero — `04` §3                                                          */
 /* -------------------------------------------------------------------------- */
 
@@ -78,11 +119,11 @@ export const hero = {
   /** The single `h1` on the page. */
   headline: 'The layer between your enterprise systems and your AI agents',
 
-  supporting:
-    'AI Workspace is designed to connect the enterprise systems you already run, understand how your organization actually works, and give AI agents a governed place to operate — without asking you to migrate the systems you already depend on.',
+  /** The core proposition. One definition, in `shared` — see P2-C §5. */
+  supporting: shared.coreProposition,
 
-  /** Binding commitment C-11. */
-  stageDisclosure: 'AI Workspace is in development. Early access is not yet open.',
+  /** Binding commitment C-11. One definition, in `shared`. */
+  stageDisclosure: shared.stageDisclosure,
 
   /** Not rendered in the current scope — the form section it targets is not built. */
   ctaLabel: 'Register interest',
@@ -325,6 +366,15 @@ export const nav = {
    * the home route. Its label is `interest.heading` — one entry, referenced.
    */
   registerInterestHref: '/#interest',
+
+  /**
+   * P2-C §5 `nav.about`. **Footer only** — not primary nav (P2-C §8.1).
+   *
+   * §8.2: primary nav is a promise of substance, and `/about`'s distinguishing
+   * section is withheld. The promotion trigger is recorded so the decision does
+   * not need remaking: promote when the withheld section publishes.
+   */
+  about: 'About',
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -467,7 +517,7 @@ export const principlesPage = {
   meaningPoints: [
     'No claim appears here that we cannot evidence today.',
     'Where something is a design intention rather than a delivered capability, it is written as one.',
-    'We publish no price, no availability date, and no forward plan, because none of those has been decided.',
+    shared.noPricePlan,
   ],
 
   /** P1-J §7.2. 149 characters. */
@@ -635,6 +685,113 @@ export const privacy = {
 /* -------------------------------------------------------------------------- */
 /* Withheld strings — held verbatim, deliberately not rendered                */
 /* -------------------------------------------------------------------------- */
+/* 12. About — `AWHQ-WEB-P2C` §2, §5                                          */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * `/about` — P2-C §2. **Four sections. One withheld.**
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ THE FIFTH SECTION IS NOT HERE, AND THAT IS THE SPECIFICATION.            │
+ * │                                                                           │
+ * │ P2-C §2.3 withholds "Who is behind this" — legal entity name, registered  │
+ * │ address, founding date, founder name, location. Blocked by Open Item B,   │
+ * │ by P1-E's finding that the operating entity's capacity is unevidenced,    │
+ * │ and by 0 of 8 IP assets having evidenced ownership: naming an owner of AI │
+ * │ Workspace would assert something no instrument supports.                  │
+ * │                                                                           │
+ * │ §2.3: "The section is omitted, not explained. No 'coming soon', no        │
+ * │ placeholder, no acknowledgement that something is missing. Omitting       │
+ * │ silently is correct; announcing an omission reveals internal state and    │
+ * │ invites the question."                                                    │
+ * │                                                                           │
+ * │ So there is no key for it here, no heading, and no comment in the         │
+ * │ rendered markup. A test asserts its absence.                              │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * Outline: `h1` → `h2` ×4. No `h3`. No image, diagram, timeline or statistic.
+ */
+export const about = {
+  /** P2-C §5 `about.h1`. */
+  heading: 'About AI Workspace',
+
+  /**
+   * The lead reuses `shared.coreProposition` — one entry, referenced by `/`
+   * and `/about`. Not restated here.
+   */
+
+  /** P2-C §5 `about.whyH2`. */
+  whyHeading: 'Why this is being built',
+
+  /**
+   * [D] P0 `01` §2, condensed to a single paragraph. **Not** the five-point
+   * list — that belongs to `/platform`.
+   *
+   * Contains "clean slate", which a naive substring term-check would flag for
+   * `sla`. The check is whole-word, so it passes; P2-C §12.2 records this.
+   */
+  whyBody:
+    'Organizations already run on dozens of systems, chosen over many years for good reasons. Most AI tools arrive assuming a clean slate, and ask for data to be moved or re-platformed before they become useful. AI Workspace starts from the opposite assumption: that those systems are staying, and the layer has to fit around them.',
+
+  /** P2-C §5 `about.todayH2`. */
+  todayHeading: 'Where this programme is today',
+
+  /**
+   * The stage disclosure opens this section — `shared.stageDisclosure`, not a
+   * copy. P2-C UX-7: it sits in its own section with its own `h2`, not buried
+   * in a footer line.
+   */
+
+  /** [V] P2-C §5 `about.todayBody`. A fact about the site, not the product. */
+  todayBody:
+    'This site exists before the product does. It is here to explain the problem and the approach, and to let people who recognize that problem tell us so.',
+
+  /** P2-C §5 `about.claimsH2`. */
+  claimsHeading: 'What this site will and will not claim',
+
+  /**
+   * [OP] P0 `04` §4, principle 5. No inline link to `/principles` — P2-C §5:
+   * that would put a second exit in one sentence.
+   */
+  claimsLead:
+    'Evidence before claims is one of the five principles, and it constrains this site more than any of the others.',
+
+  /**
+   * The three claim bullets. A real `<ul>` (P2-C A-2), not styled paragraphs.
+   *
+   * The middle entry is `shared.noPricePlan` — referenced, not duplicated.
+   * The third must not be reworded to use `customers`, `clients` or `users`:
+   * all three fail the whole-word term test, including inside a denial
+   * (P2-C §5, §12.2).
+   */
+  claims: [
+    'Where something is a design intention rather than something we can demonstrate, it is written as one.',
+    shared.noPricePlan,
+    'No organization is named here as having adopted AI Workspace, because none has.',
+  ],
+
+  /** P2-C §5 `about.contactH2`. */
+  contactHeading: 'Getting in touch',
+
+  /**
+   * Two inline links: `register interest` → `/#interest`, `contact us` →
+   * `/contact`. Both link texts are meaningful out of context (P2-C A-3).
+   */
+  contactBody:
+    'If you want to hear from us when early access opens, register interest. For anything else, contact us.',
+
+  /** The two link texts, split out so the sentence is never rebuilt by hand. */
+  contactRegisterLinkText: 'register interest',
+  contactContactLinkText: 'contact us',
+
+  /** P2-C §7.1. */
+  metaTitle: 'About — AI Workspace',
+  metaDescription:
+    'Why AI Workspace is being built, where the programme is today, and what this site will and will not claim while the product is still in development.',
+  canonicalPath: '/about',
+} as const;
+
+/* -------------------------------------------------------------------------- */
 
 /**
  * Every approved string this build holds but does not render, with the reason.
@@ -783,6 +940,7 @@ export const RUNTIME_PLACEHOLDER_KEYS = [
 ] as const;
 
 export const copy = {
+  about,
   meta,
   header,
   hero,

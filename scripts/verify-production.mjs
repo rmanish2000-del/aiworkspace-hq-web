@@ -29,7 +29,7 @@ const pass = (area, detail) => results.push({ status: 'PASS', area, detail });
 const fail = (area, detail) => results.push({ status: 'FAIL', area, detail });
 const pending = (area, detail) => results.push({ status: 'PENDING', area, detail });
 
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy'];
+const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy'];
 
 function specModule() {
   const bundle = esbuild.buildSync({
@@ -268,8 +268,8 @@ for (const route of ROUTES) {
 
   const sitemap = await (await get('/sitemap.xml')).text();
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  if (locs.length === 5) pass('seo', `sitemap lists ${locs.length} URLs`);
-  else fail('seo', `sitemap lists ${locs.length} URLs, expected 5`);
+  if (locs.length === 6) pass('seo', `sitemap lists ${locs.length} URLs`);
+  else fail('seo', `sitemap lists ${locs.length} URLs, expected 6`);
   if (locs.every((l) => l.startsWith(spec.canonical))) {
     pass('seo', `every sitemap URL uses the canonical origin ${spec.canonical}`);
   } else {

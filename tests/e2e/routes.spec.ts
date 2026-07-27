@@ -20,6 +20,7 @@ const ROUTES = [
     h1: 'What an Enterprise AI Operating Layer is',
   },
   { path: '/principles', title: 'Principles — AI Workspace', h1: 'How we are building it' },
+  { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
   { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
   { path: '/privacy', title: 'Privacy notice — AI Workspace', h1: 'Privacy notice' },
   { path: '/404', title: 'Page not found — AI Workspace', h1: 'Page not found' },

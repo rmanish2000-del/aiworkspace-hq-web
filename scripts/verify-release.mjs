@@ -159,8 +159,8 @@ const htmlFiles = () =>
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 6) {
-    throw new Error(`expected 6 route documents, found ${files.length}`);
+  if (files.length !== 7) {
+    throw new Error(`expected 7 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
@@ -250,7 +250,7 @@ check('the sitemap lists exactly the indexable routes', () => {
   const xml = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
-  if (locs.length !== 5) throw new Error(`expected 5 URLs, found ${locs.length}`);
+  if (locs.length !== 6) throw new Error(`expected 6 URLs, found ${locs.length}`);
   for (const forbidden of ['/404', '/docs', '/research']) {
     if (xml.includes(forbidden)) throw new Error(`sitemap contains ${forbidden}`);
   }

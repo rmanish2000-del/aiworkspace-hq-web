@@ -47,7 +47,7 @@ import {
  * └───────────────────────────────────────────────────────────────────────────┘
  */
 
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy', '/404'] as const;
+const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy', '/404'] as const;
 
 /**
  * WebKit tabs only between FORM CONTROLS.

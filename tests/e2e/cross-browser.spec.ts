@@ -9,7 +9,7 @@ import { expect, test } from '@playwright/test';
  * CI time and buy no signal.
  */
 
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy', '/404'] as const;
+const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy', '/404'] as const;
 
 test('no route logs a console error or a page error', async ({ page }) => {
   const problems: string[] = [];
