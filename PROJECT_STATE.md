@@ -1,10 +1,10 @@
 # PROJECT_STATE
 
 **Repository:** `aiworkspace-hq-web`
-**Implementation version:** `0.6.0`
+**Implementation version:** `0.7.0`
 **Specification version implemented:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0
 **Authorization operated under:** AG-1 + AG-2-S, scope-limited (`AWHQ-AUT-P1F` v1.0 §7)
-**Last updated:** 2026-07-26 (P1-M.1 — release-candidate freeze)
+**Last updated:** 2026-07-27 (P2-E — public launch)
 
 This file records what is actually true of this repository. Where it disagrees
 with any planning document, this file is wrong and should be corrected — the
@@ -22,6 +22,20 @@ running system is the authority on reality, not the other way round.
 | 4   | **Active**  | **current** — Phase 1 complete, frozen as a release candidate |
 | 5   | Maintained  | not reached                                                   |
 | 6   | Archived    | not reached                                                   |
+
+### Public launch — P2-E
+
+|                  |                                                                   |
+| ---------------- | ----------------------------------------------------------------- |
+| Assignment       | P2-E — public launch, indexing and post-launch verification       |
+| Indexing         | **Enabled.** `IS_INDEXABLE = true`; `robots.txt` `Allow: /`       |
+| Indexable routes | `/`, `/platform`, `/principles`, `/about`, `/contact`, `/privacy` |
+| Not indexed      | `/404` — an indexed error page is a defect                        |
+| Still deferred   | `/trust`, `/developers`, `/docs`, `/research` — none exists       |
+| Not activated    | No analytics, no form backend, no Turnstile, no storage, no API   |
+
+Indexing is the **only** intended public-behaviour change at P2-E. Copy, routes,
+architecture, security headers and the design system are untouched.
 
 ### Phase 1 Release Candidate — frozen
 
@@ -46,13 +60,13 @@ remote. No GitHub Release was ever created, so nothing downstream referenced it.
 
 ## 2. Gates
 
-| Gate   | Authorizes                             | State                                                                      |
-| ------ | -------------------------------------- | -------------------------------------------------------------------------- |
-| AG-1   | Repository existence and configuration | Granted                                                                    |
-| AG-2-S | Scope-limited implementation           | Granted — **this assignment**                                              |
-| AG-2   | Unrestricted implementation            | **Not granted.** Requires Open Item D closed                               |
-| AG-3   | Deployment                             | **GRANTED** — founder override, P2-A.1                                     |
-| AG-4   | Publication                            | **Not granted.** `noindex` stays until a separate Public Launch assignment |
+| Gate   | Authorizes                             | State                                        |
+| ------ | -------------------------------------- | -------------------------------------------- |
+| AG-1   | Repository existence and configuration | Granted                                      |
+| AG-2-S | Scope-limited implementation           | Granted — **this assignment**                |
+| AG-2   | Unrestricted implementation            | **Not granted.** Requires Open Item D closed |
+| AG-3   | Deployment                             | **GRANTED** — founder override, P2-A.1       |
+| AG-4   | Publication                            | **GRANTED** — P2-E. Search indexing enabled  |
 
 ## 3. Open items
 

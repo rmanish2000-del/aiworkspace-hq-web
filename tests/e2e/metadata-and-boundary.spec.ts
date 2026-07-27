@@ -61,13 +61,17 @@ test('the home route emits the approved Open Graph tags', async ({ page }) => {
   );
 });
 
-test('every route is noindex while ENVIRONMENT is not production', async ({ page }) => {
-  // `08` SEO-10. An unconfigured build must never be indexable, and nothing is
-  // deployed in this phase (P-01), so `production` is never set here.
-  for (const route of ['/', '/404']) {
-    await page.goto(route);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-  }
+test('public routes are indexable and /404 is not', async ({ page }) => {
+  /**
+   * `08` SEO-10 names indexing mistakes in BOTH directions — a live site nobody
+   * can find, and an error page that gets indexed. P2-E enabled indexing, so
+   * this asserts the shape rather than a single global answer.
+   */
+  await page.goto('/');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
+
+  await page.goto('/404');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
 });
 
 test('the viewport meta imposes no scale restriction', async ({ page }) => {

@@ -19,15 +19,23 @@
 export const CANONICAL_ORIGIN = 'https://aiworkspacehq.com';
 
 /**
- * P0 `08` SEO-10 requires `noindex` on every non-production deployment, and
- * SEO-10 is called out as a mistake made in both directions.
+ * Whether this build describes an indexable site.
  *
- * There is no production deployment, and AWHQ-AUT-P1F P-01 forbids creating
- * one. So this is a constant, not a condition: every route this build emits is
- * `noindex`. The value flips only when a deployment exists to flip it for, and
- * that requires AG-3.
+ * P0 `08` SEO-10 requires `noindex` on every non-production deployment, and
+ * names indexing mistakes in BOTH directions as the common failure — a live
+ * site nobody can find, and a staging site everybody can.
+ *
+ * **`true` since P2-E: AG-4 public launch granted, search indexing authorized.**
+ * It was `false` from P1-G through P2-D, when the site was deployed but
+ * deliberately hidden.
+ *
+ * This is the single source of truth. `robots.txt`, the per-route `robots` meta
+ * tag and the sitemap are all derived from it, so they cannot contradict one
+ * another — which is exactly the failure SEO-10 warns about. A route that must
+ * stay out of the index says so per-route via `indexableInProduction`, and
+ * `/404` does.
  */
-export const IS_INDEXABLE = false as const;
+export const IS_INDEXABLE = true as const;
 
 export type RouteMeta = {
   readonly title: string;

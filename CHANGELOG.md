@@ -16,18 +16,54 @@ releasable.
 
 ## [Unreleased]
 
-Nothing. `main` is at `0.6.0`, frozen as the Phase 1 Release Candidate and
-tagged `v0.6.0-rc1` (P1-M.1).
+Nothing. `main` is at `0.7.0`.
 
-**Tag naming, resolved.** P1-M.1 first specified `v0.5.0-rc1`, which did not
-match the `0.6.0` tree — `0.5.0` was P1-L. The mismatch was flagged rather than
-silently reconciled; the founder confirmed `v0.6.0-rc1` and the tag was
-corrected. `v0.5.0-rc1` no longer exists locally or on the remote, and no
-GitHub Release ever referenced it.
+---
 
-**A release candidate is not a release.** Nothing is deployed, no DNS record
-exists, no service is active, and no GitHub Release was created. AG-3 and AG-4
-remain expressly withheld.
+## [0.7.0] — 2026-07-27
+
+**Implements:** P0 v1.1.1 + `AWHQ-WEB-P1J` v1.0 + `AWHQ-WEB-P2C` v1.0
+**Authorized under:** AG-2-S, AG-3, **AG-4**, assignment P2-E
+**Released:** **yes — publicly launched and indexable.**
+
+Public launch. **Indexing is the only intended public-behaviour change.** No
+copy, route, component, header or design token differs from `0.6.0`.
+
+### Changed
+
+- **`IS_INDEXABLE` flipped `false` → `true`.** It is the single source of truth:
+  `robots.txt`, the per-route `robots` meta tag and the sitemap are all derived
+  from it, so they cannot contradict one another — which is precisely the
+  failure `08` SEO-10 names in both directions.
+- `robots.txt` now `Allow: /`, still referencing the canonical sitemap.
+- The six public routes emit `index, follow`. **`/404` stays `noindex`** — an
+  indexed error page is a defect, and that is enforced per route rather than
+  globally.
+- **AG-4 recorded as granted** in `PROJECT_STATE.md`.
+
+### Verification hardened
+
+- `verify-production.mjs` now asserts **agreement** between the constant, the
+  crawl directive and the per-route meta tag, rather than one fixed expectation
+  — so it stays meaningful in either direction. It also checks the `Sitemap:`
+  reference and that **no `X-Robots-Tag` header silently overrides** a correct
+  meta tag.
+- Fixed a robustness bug in that script: the `www` → apex check derived a host
+  from the origin and produced `https://www.127.0.0.1:4321/` against a local
+  preview. It now recognises localhost, bare IPs and `.vercel.app` and reports
+  the check as pending rather than throwing.
+
+### Not activated
+
+No analytics, no form backend, no Turnstile, no storage, no API, no
+authentication. `/trust`, `/developers`, `/docs` and `/research` remain absent.
+
+### Known limitation carried into launch
+
+`/privacy` is now indexable while Open Items A and B remain open — it still
+holds withheld placeholders and describes operational behaviour that does not
+exist yet. Raised before launch; the founder proceeded. Recorded in
+`known-limitations.md` L-7 rather than resolved.
 
 ---
 

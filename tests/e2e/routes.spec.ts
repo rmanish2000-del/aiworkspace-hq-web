@@ -74,15 +74,22 @@ for (const route of ROUTES) {
     }
   });
 
-  test(`${route.path} emits a self-referencing canonical and is noindex`, async ({ page }) => {
+  test(`${route.path} emits a self-referencing canonical and the right robots directive`, async ({
+    page,
+  }) => {
     await page.goto(route.path);
 
     const expected =
       route.path === '/' ? 'https://aiworkspacehq.com/' : `https://aiworkspacehq.com${route.path}`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', expected);
 
-    // Nothing is deployed, so every route is noindex (`08` SEO-10, P-01).
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    /**
+     * P2-E: AG-4 granted, indexing enabled. The six public routes are
+     * `index, follow`; `/404` stays `noindex` — an error page in the index is
+     * a defect, and `08` SEO-10 names indexing mistakes in BOTH directions.
+     */
+    const expectedRobots = route.path === '/404' ? /noindex/ : /^index, follow$/;
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', expectedRobots);
   });
 
   test(`${route.path} leaks no build-time placeholder and ships no script`, async ({ page }) => {
