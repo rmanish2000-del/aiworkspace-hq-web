@@ -31,10 +31,20 @@ export interface Props {
 
 const { currentPath } = Astro.props;
 
-/** P1-J §4.2 order: Platform · Principles · Contact · Privacy. */
+/**
+ * P1-J §4.2 order, extended by P2-C §8.3:
+ * Platform · Principles · **About** · Contact · Privacy.
+ *
+ * `/about` sits between Principles and Contact and appears in the footer ONLY.
+ * P2-C §8.1 keeps it out of primary nav until its withheld section publishes —
+ * §8.2: "Primary nav is a promise of substance." Five footer links; §8.3 caps
+ * further growth, because a footer that lists every route is a sitemap, and a
+ * sitemap is not navigation.
+ */
 const links = [
   { href: '/platform', label: nav.items[0].label },
   { href: '/principles', label: principlesPage.metaTitle.split(' — ')[0] },
+  { href: '/about', label: nav.about },
   { href: '/contact', label: contact.heading },
   { href: '/privacy', label: privacy.heading },
 ] as const;

@@ -11,7 +11,7 @@ import { organizationJsonLd } from '../../src/lib/structured-data';
  * built site actually serves, which is the thing a crawler or a browser sees.
  */
 
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy', '/404'] as const;
+const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy', '/404'] as const;
 
 /* -------------------------------------------------------------------------- */
 /* Crawler-facing files                                                       */

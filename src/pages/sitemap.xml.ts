@@ -22,7 +22,7 @@ import { canonicalUrl } from '../lib/site';
  * (P-01), so this file describes a site that is not yet reachable — which is
  * consistent with every route also being `noindex` in this build.
  */
-const ROUTES = ['/', '/platform', '/principles', '/contact', '/privacy'] as const;
+const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy'] as const;
 
 export const GET: APIRoute = () => {
   const urls = ROUTES.map(
