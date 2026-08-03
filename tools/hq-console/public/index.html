@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HQ Console — aiworkspace-hq-web</title>
+    <meta
+      name="description"
+      content="Local operator console: a live, read-only view of this repository's governance state, routes, design tokens and activity."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/tokens.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script>
+      // Resolve the theme before first paint so there is no flash on load.
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('hq-theme');
+        } catch (error) {
+          /* storage unavailable — fall back to system */
+        }
+        var mode = stored === 'light' || stored === 'dark' ? stored : 'system';
+        var dark =
+          mode === 'dark' ||
+          (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themeMode = mode;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <div class="topbar__inner">
+        <p class="wordmark">
+          <span class="wordmark__mark" aria-hidden="true"></span>
+          <span class="wordmark__text">HQ&nbsp;Console</span>
+        </p>
+        <p class="conn" id="conn" data-state="loading">
+          <span class="conn__dot" aria-hidden="true"></span>
+          <span class="conn__label" id="conn-label">Connecting…</span>
+        </p>
+        <div class="topbar__actions">
+          <button class="btn" id="refresh" type="button">Refresh</button>
+          <button class="btn" id="theme-toggle" type="button">
+            Theme: <span id="theme-label">System</span>
+          </button>
+        </div>
+      </div>
+      <nav class="sectionnav" aria-label="Sections">
+        <ul class="sectionnav__list">
+          <li><a class="sectionnav__link" href="#overview">Overview</a></li>
+          <li><a class="sectionnav__link" href="#governance">Governance</a></li>
+          <li><a class="sectionnav__link" href="#routes">Routes</a></li>
+          <li><a class="sectionnav__link" href="#tokens">Design tokens</a></li>
+          <li><a class="sectionnav__link" href="#quality">Quality</a></li>
+          <li><a class="sectionnav__link" href="#activity">Activity</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main" class="page">
+      <section class="band" aria-labelledby="band-title">
+        <p class="band__eyebrow">aiworkspace-hq-web</p>
+        <h1 class="band__title" id="band-title">Operator console</h1>
+        <p class="band__sub">
+          A live, read-only view of what this repository actually is right now — its governance
+          state, routes, design tokens and activity — read from the working tree, the built output
+          and git. Nothing here is mocked, and nothing leaves this machine.
+        </p>
+      </section>
+
+      <section class="section" id="overview" aria-labelledby="overview-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="overview-h">Overview</h2>
+          <p class="section__sub" id="overview-sub"></p>
+        </div>
+        <div class="section__body" id="overview-body"></div>
+      </section>
+
+      <section class="section" id="governance" aria-labelledby="governance-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="governance-h">Governance</h2>
+          <p class="section__sub">
+            Authorization gates and open items, parsed live from
+            <code>PROJECT_STATE.md</code>.
+          </p>
+        </div>
+        <div class="section__body" id="governance-body"></div>
+      </section>
+
+      <section class="section" id="routes" aria-labelledby="routes-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="routes-h">Routes</h2>
+          <p class="section__sub">
+            Every route in <code>src/pages/</code>, checked against the built output in
+            <code>dist/</code>.
+          </p>
+        </div>
+        <div class="section__body" id="routes-body"></div>
+      </section>
+
+      <section class="section" id="tokens" aria-labelledby="tokens-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="tokens-h">Design tokens</h2>
+          <p class="section__sub">
+            The site's actual tokens from <code>src/styles/tokens.css</code>, with computed contrast
+            for every colour in both themes.
+          </p>
+        </div>
+        <div class="section__body" id="tokens-body"></div>
+      </section>
+
+      <section class="section" id="quality" aria-labelledby="quality-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="quality-h">Quality</h2>
+          <p class="section__sub">
+            Recorded gate results and verified facts about the running system, from
+            <code>PROJECT_STATE.md</code>.
+          </p>
+        </div>
+        <div class="section__body" id="quality-body"></div>
+      </section>
+
+      <section class="section" id="activity" aria-labelledby="activity-h" tabindex="-1">
+        <div class="section__head">
+          <h2 class="section__title" id="activity-h">Activity</h2>
+          <p class="section__sub" id="activity-sub">Recent commits on the current branch.</p>
+        </div>
+        <div class="section__body" id="activity-body"></div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p class="foot__line">
+        hq-console · zero dependencies · reads <code>PROJECT_STATE.md</code>,
+        <code>src/styles/tokens.css</code>, <code>dist/</code> and git · loopback only, read-only,
+        no external requests.
+      </p>
+    </footer>
+
+    <p class="sr-only" role="status" aria-live="polite" id="announce"></p>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

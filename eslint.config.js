@@ -70,6 +70,22 @@ export default tseslint.config(
   },
 
   {
+    /**
+     * tools/hq-console is operator tooling in the same sense as `scripts/`:
+     * a local-only, read-only console over this repository's own state. Its
+     * browser UI queries its own loopback server (`fetch`) and persists a
+     * theme preference (`localStorage`). Neither touches the delivered page,
+     * so the page-scope prohibitions (MF-1, P-07) do not apply to it.
+     * `document.cookie` and `innerHTML` stay banned there like everywhere.
+     */
+    files: ['tools/**/*.{js,mjs}'],
+    rules: {
+      'no-console': 'off',
+      'no-restricted-globals': 'off',
+    },
+  },
+
+  {
     files: ['**/*.config.{js,mjs,ts}', 'scripts/**/*.{js,mjs}'],
     rules: {
       'no-console': 'off',

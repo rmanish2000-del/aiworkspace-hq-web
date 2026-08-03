@@ -1,0 +1,145 @@
+/*
+ * hq-console design tokens.
+ *
+ * The ONLY file in this tool where a colour literal may appear. Everything in
+ * styles.css references these custom properties. The console deliberately does
+ * not reuse the site's palette: the site is the product surface, this is the
+ * operator's instrument panel, and the two should never be mistaken for each
+ * other. Palette: warm paper + verdigris (light), deep pine (dark).
+ *
+ * Theme switching: an inline script in index.html resolves the stored
+ * preference (system / light / dark) to data-theme="light" or "dark" on <html>
+ * before first paint, so each token is defined exactly once per theme and
+ * there is no flash on load.
+ */
+
+:root {
+  /* --- Surfaces ---------------------------------------------------------- */
+  --bg-0: #f6f4ee;
+  --bg-1: #fdfcf9;
+  --bg-2: #edeae1;
+  --bg-3: #e3e0d5;
+
+  /* --- Ink --------------------------------------------------------------- */
+  --ink: #1d221e;
+  --ink-muted: #576058;
+
+  /* --- Lines (decorative) ------------------------------------------------ */
+  --line: #ddd9cc;
+  --line-strong: #7d857d;
+
+  /* --- Accent ------------------------------------------------------------ */
+  --accent: #0b6b57;
+  --accent-strong: #094f41;
+  --accent-contrast: #ffffff;
+
+  /* --- Status ------------------------------------------------------------ */
+  --ok: #146c3c;
+  --warn: #8a5a00;
+  --danger: #a02c20;
+  --neutral: #576058;
+
+  /* --- Gradients — surfaces and accents only, never body text ------------ */
+  --grad-band: linear-gradient(125deg, #0b6b57 0%, #0d4b52 55%, #14384a 100%);
+  --grad-accent: linear-gradient(90deg, #0b6b57, #2a8f6d 60%, #b8860b);
+  --grad-page: radial-gradient(1100px 520px at 85% -8%, rgba(11, 107, 87, 0.09), transparent 70%);
+  --band-ink: #f1f7f3;
+  --band-ink-muted: #c3dcd2;
+
+  /* --- Shadow ------------------------------------------------------------ */
+  --shadow-1: 0 1px 2px rgba(24, 30, 26, 0.05), 0 4px 14px rgba(24, 30, 26, 0.06);
+  --shadow-2: 0 2px 4px rgba(24, 30, 26, 0.07), 0 12px 32px rgba(24, 30, 26, 0.1);
+
+  /* --- Typography -------------------------------------------------------- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Menlo, Consolas, monospace;
+
+  --text-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --text-sm: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
+  --text-md: clamp(0.95rem, 0.92rem + 0.16vw, 1.05rem);
+  --text-lg: clamp(1.12rem, 1.06rem + 0.3vw, 1.3rem);
+  --text-xl: clamp(1.35rem, 1.22rem + 0.65vw, 1.75rem);
+  --text-2xl: clamp(1.7rem, 1.45rem + 1.3vw, 2.5rem);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-body: 1.55;
+
+  --tracking-caps: 0.07em;
+
+  /* --- Spacing — 4px base ------------------------------------------------ */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 40px;
+  --sp-8: 56px;
+  --sp-9: 80px;
+
+  /* --- Shape -------------------------------------------------------------- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-full: 9999px;
+
+  /* --- Layout ------------------------------------------------------------- */
+  --page-max: 1360px;
+  --page-pad: clamp(16px, 4vw, 48px);
+
+  /* --- Motion — transform and opacity only -------------------------------- */
+  --t-fast: 140ms;
+  --t-med: 260ms;
+  --t-slow: 420ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg-0: #0c1210;
+  --bg-1: #131a17;
+  --bg-2: #1a231f;
+  --bg-3: #212c27;
+
+  --ink: #e9efe9;
+  --ink-muted: #a2b2a8;
+
+  --line: #24302a;
+  --line-strong: #4f5e56;
+
+  --accent: #4ed4b2;
+  --accent-strong: #79e2c8;
+  --accent-contrast: #07211b;
+
+  --ok: #66d695;
+  --warn: #e5b163;
+  --danger: #ff9187;
+  --neutral: #a2b2a8;
+
+  --grad-band: linear-gradient(125deg, #0f2f28 0%, #0e2733 55%, #101c26 100%);
+  --grad-accent: linear-gradient(90deg, #4ed4b2, #2a8f6d 60%, #e5b163);
+  --grad-page: radial-gradient(1100px 520px at 85% -8%, rgba(78, 212, 178, 0.07), transparent 70%);
+  --band-ink: #e9efe9;
+  --band-ink-muted: #9fb8ae;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
+/* Wider canvas on very large displays. */
+@media (min-width: 1920px) {
+  :root {
+    --page-max: 1680px;
+  }
+}
