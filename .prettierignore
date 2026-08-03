@@ -2,10 +2,11 @@ dist/
 dist-ds/
 .astro/
 
-# Canon documents dropped in verbatim (CC register) — never reformatted
+# Canon documents dropped in verbatim (CC register, HQ-10 pack) — never reformatted
 artifacts/
 cc-web-architecture/
 docs/specs/
+hq10-website-content/
 
 # Generated evidence artifacts
 docs/reviews/cc005-evidence/*.json

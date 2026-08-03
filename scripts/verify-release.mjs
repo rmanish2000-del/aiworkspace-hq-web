@@ -345,6 +345,21 @@ check('the CSP hash covers the JSON-LD actually served', () => {
 run('design-system gates (CC-004 §9)', 'npm run ds:gates');
 
 /* -------------------------------------------------------------------------- */
+/* 4b. G-C13 — C-13 verified, not asserted (CC-006)                           */
+/*                                                                            */
+/* Zero cookies and zero client storage beyond DS-D1's single `theme` key,    */
+/* empty sessionStorage/indexedDB/CacheStorage, zero third-party origins and  */
+/* no Set-Cookie header — on every route and on the gallery, on load and      */
+/* after a full interaction pass. The same spec also runs inside the browser  */
+/* matrix; this named gate keeps its result visible on its own line.          */
+/* -------------------------------------------------------------------------- */
+
+run(
+  'C-13 verification (G-C13)',
+  'npx playwright test tests/e2e/c13-verification.spec.ts --project=chromium-light --project=chromium-dark',
+);
+
+/* -------------------------------------------------------------------------- */
 /* 5. Browser matrix — accessibility, routes, viewports, three engines        */
 /* -------------------------------------------------------------------------- */
 
