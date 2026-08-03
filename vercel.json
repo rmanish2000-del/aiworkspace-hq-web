@@ -11,10 +11,6 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-i06V+iPgXL/YWuR5j3oaD5n11jRqF1RbVdc0I0753KE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests"
-        },
-        {
           "key": "Strict-Transport-Security",
           "value": "max-age=31536000; includeSubDomains"
         },
@@ -41,6 +37,15 @@
         {
           "key": "Cross-Origin-Resource-Policy",
           "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/((?!warrant/|warrant$).*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-i06V+iPgXL/YWuR5j3oaD5n11jRqF1RbVdc0I0753KE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'; upgrade-insecure-requests"
         }
       ]
     },
@@ -81,7 +86,22 @@
       ]
     }
   ],
+  "rewrites": [
+    {
+      "source": "/warrant/console",
+      "destination": "https://warrant-t1bh.onrender.com/"
+    },
+    {
+      "source": "/warrant/:path*",
+      "destination": "https://warrant-t1bh.onrender.com/:path*"
+    }
+  ],
   "redirects": [
+    {
+      "source": "/warrant",
+      "destination": "/warrant/console",
+      "permanent": false
+    },
     {
       "source": "/(.*)",
       "has": [
