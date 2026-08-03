@@ -1,0 +1,95 @@
+---
+/**
+ * ClaimCard — CC-004 §7 item 5: statement (sans) + tier badge + source line
+ * (mono) + evidence expand. The source line "draws in from the claim it
+ * supports" — provenance as motion (CC-004 §5.3), no-preference only.
+ * Mock content only.
+ */
+import DsDisclosure from './DsDisclosure.astro';
+import TierBadge from './TierBadge.astro';
+
+export interface Props {
+  tier?: 'verified' | 'approved' | 'reported' | 'under-design' | 'gated';
+}
+
+const { tier = 'verified' } = Astro.props;
+---
+
+<article class="ds-claim">
+  <div class="ds-claim__head">
+    <p class="ds-claim__statement">
+      A specimen claim: the build pipeline recomputes every declared color pair before anything
+      ships.
+    </p>
+    <TierBadge {tier} date="2026-08-03" />
+  </div>
+  <p class="ds-claim__source ds-stamp">SOURCE · REG-014 · RECORDED 2026-08-03</p>
+  <div class="ds-claim__evidence">
+    <DsDisclosure summary="Show the evidence line">
+      <p class="ds-claim__evidence-text">
+        Specimen evidence body. The gate output for this claim would be reproduced here, dated, in
+        the ledger voice.
+      </p>
+    </DsDisclosure>
+  </div>
+</article>
+
+<style>
+  .ds-claim {
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-m);
+    background-color: var(--bg-subtle);
+    box-shadow: var(--elev-1);
+    transition: border-color var(--dur-base) var(--ease-standard);
+  }
+
+  .ds-claim:hover {
+    border-color: var(--border-strong);
+  }
+
+  .ds-claim__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--s-3);
+    justify-content: space-between;
+  }
+
+  .ds-claim__statement {
+    max-width: var(--measure-body);
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+    text-wrap: pretty;
+  }
+
+  .ds-claim__source {
+    margin-block-start: var(--s-3);
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  .ds-claim__evidence {
+    margin-block-start: var(--s-4);
+  }
+
+  .ds-claim__evidence-text {
+    max-width: var(--measure-body);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  /* Provenance as motion — the source line draws in from its claim. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html[data-motion='on']) .ds-claim.ds-reveal .ds-claim__source {
+      transition:
+        opacity var(--dur-base) var(--ease-enter) var(--dur-fast),
+        transform var(--dur-base) var(--ease-enter) var(--dur-fast);
+    }
+
+    :global(html[data-motion='on']) .ds-claim.ds-reveal:not(.is-in) .ds-claim__source {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+</style>

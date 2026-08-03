@@ -498,12 +498,29 @@ describe('scope.prohibitions', () => {
       [/https?:\/\/(?!aiworkspacehq\.com)[a-z0-9.-]+\.[a-z]{2,}/i, 'zero third-party origins'],
     ];
 
+    /**
+     * CC-005 DS-D1 (founder decision of record, 2026-08-03) amended the
+     * storage line: "zero cookies; no client storage except a single
+     * first-party `theme` preference key, readable by no one but the
+     * browser." C-13 is unaffected — the key is neither a cookie nor
+     * tracking.
+     *
+     * The allowance is exactly as narrow as the amendment: only inside
+     * src/design-system/, and only the literal `theme`-key get/set calls.
+     * Any other key, any dynamic key expression, sessionStorage, or a cookie
+     * still fails — everywhere, including the design system.
+     */
+    const DS_DIR = join(SRC_DIR, 'design-system');
+    const DS_THEME_KEY_CALLS =
+      /localStorage\.(?:getItem\(\s*'theme'\s*\)|setItem\(\s*'theme'\s*,)/g;
+
     // Comments are stripped: this guard looks for the construct, not for prose
     // explaining its absence. The programme-name guard above deliberately does
     // NOT strip them — P-16 covers comments and metadata too.
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
       let source = stripComments(readFileSync(file, 'utf8'));
       for (const uri of ALLOWED_NON_FETCHED_URIS) source = source.split(uri).join('');
+      if (file.startsWith(DS_DIR)) source = source.replace(DS_THEME_KEY_CALLS, '');
 
       return forbiddenPatterns
         .filter(([pattern]) => pattern.test(source))
@@ -511,6 +528,18 @@ describe('scope.prohibitions', () => {
     });
 
     expect(violations).toEqual([]);
+  });
+
+  it('still rejects any storage use beyond the DS-D1 theme key', () => {
+    // Guards the allowance: the stripper must remove ONLY the approved calls.
+    const strip = (code: string): string =>
+      code.replace(/localStorage\.(?:getItem\(\s*'theme'\s*\)|setItem\(\s*'theme'\s*,)/g, '');
+
+    expect(strip("localStorage.getItem('theme')")).not.toMatch(/localStorage/);
+    expect(strip("localStorage.setItem('theme', next)")).not.toMatch(/localStorage/);
+    expect(strip("localStorage.setItem('visitor-id', id)")).toMatch(/localStorage/);
+    expect(strip('localStorage.getItem(key)')).toMatch(/localStorage/);
+    expect(strip("localStorage.removeItem('theme')")).toMatch(/localStorage/);
   });
 
   it('still rejects a genuine third-party origin', () => {

@@ -1,0 +1,59 @@
+---
+/**
+ * GapItem — CC-004 §7 item 6: a dated absence with its saffron stamp and
+ * re-verification line. The differentiator component: it renders what has
+ * deliberately NOT been built. Mock content only.
+ */
+import DateStamp from './DateStamp.astro';
+---
+
+<article class="ds-gap">
+  <p class="ds-gap__statement">Specimen absence: no uptime instrumentation exists.</p>
+  <p class="ds-gap__why">
+    Specimen reason: nothing is deployed, so an uptime number would be an invention.
+  </p>
+  <p class="ds-gap__stamps">
+    <DateStamp label="RECORDED" date="2026-08-03" />
+    <span class="ds-gap__cadence ds-stamp">RE-VERIFIED QUARTERLY · LAST 2026-08-03</span>
+  </p>
+</article>
+
+<style>
+  .ds-gap {
+    padding: var(--s-5);
+    border-inline-start: 3px solid var(--saffron);
+    border-radius: var(--r-s);
+    background-color: var(--bg-subtle);
+  }
+
+  .ds-gap__statement {
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+    max-width: var(--measure-body);
+  }
+
+  .ds-gap__why {
+    margin-block-start: var(--s-2);
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+    font-size: var(--text-small);
+  }
+
+  .ds-gap__stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    margin-block-start: var(--s-4);
+  }
+
+  .ds-gap__cadence {
+    color: var(--saffron);
+    text-transform: uppercase;
+  }
+
+  @media (forced-colors: active) {
+    .ds-gap {
+      border-inline-start-color: CanvasText;
+    }
+  }
+</style>

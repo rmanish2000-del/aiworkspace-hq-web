@@ -1,0 +1,24 @@
+---
+/**
+ * DateStamp — CC-004 §7 item 15, the T-3 carrier: mono + saffron. Dates are
+ * data, so they speak in the ledger voice.
+ */
+export interface Props {
+  label?: string;
+  date: string;
+}
+
+const { label = 'RECORDED', date } = Astro.props;
+---
+
+<span class="ds-date ds-stamp">{label} {date}</span>
+
+<style>
+  .ds-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    color: var(--saffron);
+    text-transform: uppercase;
+  }
+</style>

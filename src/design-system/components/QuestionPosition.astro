@@ -1,0 +1,41 @@
+---
+/**
+ * QuestionPosition — CC-004 §7 item 7: question (h3) + position + badge.
+ * Questions framing, never readiness — F-10 is held in the component's own
+ * shape: the heading is always a question. Mock content only.
+ */
+import TierBadge from './TierBadge.astro';
+---
+
+<article class="ds-qp">
+  <h3 class="ds-qp__question">Specimen question: how is a stated position verified?</h3>
+  <p class="ds-qp__position">
+    Specimen position: the position is stated, dated, and carries the tier its evidence supports —
+    nothing further is implied.
+  </p>
+  <p class="ds-qp__badge"><TierBadge tier="approved" /></p>
+</article>
+
+<style>
+  .ds-qp {
+    padding-block: var(--s-5);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .ds-qp__question {
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+    max-width: var(--measure-body);
+    text-wrap: balance;
+  }
+
+  .ds-qp__position {
+    margin-block-start: var(--s-3);
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+  }
+
+  .ds-qp__badge {
+    margin-block-start: var(--s-3);
+  }
+</style>

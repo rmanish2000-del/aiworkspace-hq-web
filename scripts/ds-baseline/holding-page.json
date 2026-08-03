@@ -1,0 +1,13 @@
+{
+  "recordedFrom": "main @ 2b8a9a5",
+  "note": "sha256 of every built route document — CC-005 DS-D2: the holding page and the six other routes must remain byte-identical while the design-system layer lands.",
+  "hashes": {
+    "404.html": "e744dc1fb10ca4cc7fa85243d48a1953e0abf14a0edcef5aa4f9571674117742",
+    "about.html": "7574e122f8a25203f7b29dca47d2995baf2ecd0a2b27587a049ba0f271b00ac0",
+    "contact.html": "267d21f1ee3cfc761aab634b0530691f3d981d45c2e670a44f99ff0e525410a9",
+    "index.html": "77163b259e38a853c3359580d885f45989051fba80eb9a80a13224af2d8ffe55",
+    "platform.html": "772bbadacf2d98a2bb5f47eb4090769e01654396c9fd44255a4e81346ea11d26",
+    "principles.html": "44f08e262384787b0c3ebdf6f060db9e7d7aebc1aa5737218aaf171740a7c8fc",
+    "privacy.html": "715939520f7ab3a54c91cd76755a27c8ba910c55a4d5b0c494778715d7822d46"
+  }
+}

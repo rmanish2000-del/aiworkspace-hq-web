@@ -1,0 +1,183 @@
+/*
+ * Design-system tokens — implements AWHQ-WEB-CC004 §2–§5. CC-005 scope 1.
+ *
+ * EVERY value here is transcribed from CC-004; none is invented. The contrast
+ * gate (scripts/ds-gates.mjs, G-C1/G-C2) recomputes every declared pair from
+ * this file — 38 pairs, both themes, both background levels — and fails the
+ * build below 4.5:1 text / 3:1 UI.
+ *
+ * Scope: the design-system layer and its local gallery ONLY. Nothing under
+ * src/styles/ imports this file, and the built holding page must remain
+ * byte-identical (CC-005 DS-D2; asserted against scripts/ds-baseline/).
+ *
+ * Theming (CC-004 §8): default follows the OS; `data-theme` on <html>
+ * overrides. CSS cannot express "OS dark unless overridden" without stating
+ * the dark values twice, so the dark block appears twice below. The two MUST
+ * stay identical — ds-gates asserts they do.
+ */
+
+:root {
+  /* --- CC-004 §2.1 Neutrals — "Ink & Paper", green-cast (light) ----------- */
+  --bg: #f7faf8;
+  --bg-subtle: #ecf2ef;
+  --fg: #10201b;
+  --fg-muted: #48594f;
+  --border: #d6e0db; /* decorative rules ONLY — never a component boundary */
+  --border-input: #6e7d77; /* ALL component boundaries — >=3:1 on both bg levels */
+  --border-strong: #586760;
+
+  /* --- CC-004 §2.2 The three hues + support ------------------------------- */
+  --verdigris: #0b6b57; /* evidence · verified · the primary */
+  --iris: #3d45c4; /* direction · approved design intent */
+  --saffron: #8a5800; /* time · dates · gated-withheld */
+  --danger: #b3261e; /* errors only */
+  --on-hue: #ffffff; /* text on solid hue fills */
+  /* Text over the shared deep gradient stops (CC-004 §2.3 verifies WHITE at
+     every stop). The stops do not flip with the theme, so this must stay
+     light in both — dark value equals dark --fg. Gate G-C2 tests it per
+     theme against every stop. */
+  --on-gradient: #ffffff;
+
+  /* --- CC-004 §2.3 Gradients — two tested stops each, worst-stop verified -- */
+  --g-thesis: linear-gradient(135deg, #3d45c4, #0b6b57);
+  --g-evidence: linear-gradient(135deg, #07473a, #0d7c64);
+  /* Either gradient at <=8% opacity over --bg; re-verified COMPOSITED in CI. */
+  --g-veil: linear-gradient(135deg, rgb(61 69 196 / 0.08), rgb(11 107 87 / 0.08));
+
+  /* --- CC-004 §3 Typography — two voices, zero web fonts (TDR-13) --------- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
+  --text-display: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+  --text-h1: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --text-h2: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-body: 1rem; /* 16px floor — never below */
+  --text-small: 0.875rem;
+  --text-stamp: 0.8125rem; /* mono; uppercase for tier labels only */
+
+  --w-display: 680;
+  --w-h1: 650;
+  --w-h2: 620;
+  --w-h3: 600;
+  --w-body: 400;
+  --w-small: 450;
+  --w-stamp: 500;
+
+  --track-display: -0.02em;
+  --track-h1: -0.015em;
+  --track-stamp: 0.02em;
+
+  --leading-body: 1.6;
+  --measure-body: 70ch;
+
+  /* --- CC-004 §4 Space · shape · elevation · layout ------------------------ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 160px;
+  --s-12: 192px;
+
+  --r-s: 6px;
+  --r-m: 10px;
+  --r-l: 16px;
+  --r-full: 9999px;
+
+  /* Light: two-layer soft shadow. Dark overrides to none — elevation there is
+     surface lightening + 1px border, never shadow (CC-004 §4). */
+  --elev-1: 0 1px 2px rgb(16 32 27 / 0.06), 0 4px 16px rgb(16 32 27 / 0.07);
+
+  --container: 72rem;
+  --gutter: var(--s-4); /* --s-5 from 640px up, below */
+
+  /* Focus ring — CC-004 §2.2: verdigris, 2px, 2px offset, 1px --bg inner. */
+  --ring-width: 2px;
+  --ring-offset: 2px;
+
+  /* --- CC-004 §5.2 Motion -------------------------------------------------- */
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+  --dur-hero: 600ms; /* once per load */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  color-scheme: light;
+}
+
+/*
+ * Dark theme — explicit override. KEEP IDENTICAL to the media block below;
+ * scripts/ds-gates.mjs fails the build if the two blocks disagree.
+ */
+:root[data-theme='dark'] {
+  --bg: #0a1512;
+  --bg-subtle: #12201b;
+  --fg: #ecf2ef;
+  --fg-muted: #95a8a0;
+  --border: #1e2e28;
+  --border-input: #5e7268; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+  --border-strong: #7e938a;
+  --verdigris: #43d6a9;
+  --iris: #9ba5ff;
+  --saffron: #f0bc5e;
+  --danger: #ff8a80;
+  --on-hue: #0a1512;
+  --on-gradient: #ecf2ef;
+  --elev-1: none;
+  color-scheme: dark;
+}
+
+/* Dark theme — OS default when no explicit choice has been made. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0a1512;
+    --bg-subtle: #12201b;
+    --fg: #ecf2ef;
+    --fg-muted: #95a8a0;
+    --border: #1e2e28;
+    --border-input: #5e7268; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+    --border-strong: #7e938a;
+    --verdigris: #43d6a9;
+    --iris: #9ba5ff;
+    --saffron: #f0bc5e;
+    --danger: #ff8a80;
+    --on-hue: #0a1512;
+    --on-gradient: #ecf2ef;
+    --elev-1: none;
+    color-scheme: dark;
+  }
+}
+
+/* CC-004 §4 — gutters step up with the layout. */
+@media (min-width: 640px) {
+  :root {
+    --gutter: var(--s-5);
+  }
+}
+
+/*
+ * CC-004 §5.4 — reduced motion is a first-class build. Durations collapse to
+ * near-zero (transitionend survives); every transform-bearing animation in the
+ * design system is additionally declared ONLY inside
+ * `@media (prefers-reduced-motion: no-preference)` blocks, and gate G-M
+ * asserts the built gallery contains zero transform transitions outside them.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0.01ms;
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-hero: 0.01ms;
+  }
+}

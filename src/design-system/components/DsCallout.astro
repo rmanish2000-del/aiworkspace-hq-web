@@ -1,0 +1,58 @@
+---
+/**
+ * DsCallout — CC-004 §7 item 14: info (iris) · caution (saffron). Never
+ * marketing. Color is never the sole carrier: each tone declares itself in a
+ * mono lead-in as well.
+ */
+export interface Props {
+  tone?: 'info' | 'caution';
+}
+
+const { tone = 'info' } = Astro.props;
+const LEAD = tone === 'info' ? 'NOTE' : 'CAUTION';
+---
+
+<aside class:list={['ds-callout', `ds-callout--${tone}`]}>
+  <p class="ds-callout__lead ds-stamp">{LEAD}</p>
+  <p class="ds-callout__body"><slot /></p>
+</aside>
+
+<style>
+  .ds-callout {
+    padding: var(--s-4) var(--s-5);
+    border-inline-start: 3px solid var(--iris);
+    border-radius: var(--r-s);
+    background-color: var(--bg-subtle);
+  }
+
+  .ds-callout--info {
+    border-inline-start-color: var(--iris);
+  }
+
+  .ds-callout--info .ds-callout__lead {
+    color: var(--iris);
+  }
+
+  .ds-callout--caution {
+    border-inline-start-color: var(--saffron);
+  }
+
+  .ds-callout--caution .ds-callout__lead {
+    color: var(--saffron);
+  }
+
+  .ds-callout__lead {
+    text-transform: uppercase;
+  }
+
+  .ds-callout__body {
+    margin-block-start: var(--s-2);
+    max-width: var(--measure-body);
+  }
+
+  @media (forced-colors: active) {
+    .ds-callout {
+      border-inline-start-color: CanvasText;
+    }
+  }
+</style>

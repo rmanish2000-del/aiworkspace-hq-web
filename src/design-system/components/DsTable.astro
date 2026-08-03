@@ -1,0 +1,85 @@
+---
+/**
+ * DsTable — CC-004 §7 item 13: register rendering. Mono numerics
+ * (tabular-nums), row hover, honest mock rows.
+ */
+---
+
+<div class="ds-table-wrap">
+  <table class="ds-table">
+    <caption class="ds-table__caption">Specimen register — mock rows</caption>
+    <thead>
+      <tr>
+        <th scope="col">Entry</th>
+        <th scope="col">Recorded</th>
+        <th scope="col">Pairs checked</th>
+        <th scope="col">State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ds-mono">REG-012</td>
+        <td class="ds-mono">2026-08-01</td>
+        <td class="ds-mono">38</td>
+        <td>Recorded</td>
+      </tr>
+      <tr>
+        <td class="ds-mono">REG-013</td>
+        <td class="ds-mono">2026-08-02</td>
+        <td class="ds-mono">38</td>
+        <td>Recorded</td>
+      </tr>
+      <tr>
+        <td class="ds-mono">REG-014</td>
+        <td class="ds-mono">2026-08-03</td>
+        <td class="ds-mono">38</td>
+        <td>Recorded</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .ds-table-wrap {
+    overflow-x: auto;
+  }
+
+  .ds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-small);
+  }
+
+  .ds-table__caption {
+    text-align: start;
+    font-size: var(--text-stamp);
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    padding-block-end: var(--s-3);
+  }
+
+  .ds-table th {
+    text-align: start;
+    font-family: var(--font-mono);
+    font-size: var(--text-stamp);
+    font-weight: var(--w-stamp);
+    letter-spacing: var(--track-stamp);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    padding: var(--s-2) var(--s-3);
+    border-block-end: 1px solid var(--border-input);
+  }
+
+  .ds-table td {
+    padding: var(--s-3);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .ds-table tbody tr {
+    transition: background-color var(--dur-instant) var(--ease-standard);
+  }
+
+  .ds-table tbody tr:hover {
+    background-color: var(--bg-subtle);
+  }
+</style>

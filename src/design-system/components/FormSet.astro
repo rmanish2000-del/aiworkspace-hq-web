@@ -1,0 +1,267 @@
+---
+/**
+ * FormSet — CC-004 §7 item 10: input, label, hint, error (icon + text),
+ * consent check, button — shown in the six mock states MF-1…MF-6.
+ *
+ * VISUAL SPECIMENS ONLY (P1-F): `method="dialog"`, no endpoint, no storage,
+ * no name attributes that could ever be submitted anywhere. Error states are
+ * still — the shake is prohibited (CC-004 §5.3). The submitting spinner is
+ * suppressed under reduced motion (P0 kept).
+ */
+const STATES = [
+  { id: 'mf-1', name: 'MF-1 · Default', state: 'default' },
+  { id: 'mf-2', name: 'MF-2 · Focus', state: 'focus' },
+  { id: 'mf-3', name: 'MF-3 · Invalid', state: 'invalid' },
+  { id: 'mf-4', name: 'MF-4 · Submitting', state: 'submitting' },
+  { id: 'mf-5', name: 'MF-5 · Success', state: 'success' },
+  { id: 'mf-6', name: 'MF-6 · Unavailable', state: 'unavailable' },
+] as const;
+---
+
+<div class="ds-formset">
+  {
+    STATES.map(({ id, name, state }) => (
+      <section class="ds-formspec" aria-label={name}>
+        <p class="ds-formspec__name ds-stamp">{name}</p>
+
+        {state === 'success' ? (
+          <div class="ds-formspec__success" role="presentation">
+            <p class="ds-formspec__success-head">Specimen success heading</p>
+            <p class="ds-formspec__success-body">
+              Specimen success body — what happens next, stated plainly.
+            </p>
+          </div>
+        ) : state === 'unavailable' ? (
+          <div class="ds-formspec__success" role="presentation">
+            <p class="ds-formspec__success-head">Specimen notice heading</p>
+            <p class="ds-formspec__success-body">
+              This specimen form is a visual shell; nothing can be sent from it.
+            </p>
+          </div>
+        ) : (
+          <form class="ds-form" method="dialog" aria-label={`${name} specimen`}>
+            <div class="ds-field">
+              <label class="ds-field__label" for={`${id}-input`}>
+                Specimen field
+              </label>
+              <p class="ds-field__hint" id={`${id}-hint`}>
+                A hint line. Always visible, never a placeholder.
+              </p>
+              <input
+                class:list={[
+                  'ds-field__input',
+                  state === 'focus' && 'ds-field__input--focus',
+                  state === 'invalid' && 'ds-field__input--invalid',
+                ]}
+                type="text"
+                id={`${id}-input`}
+                aria-describedby={state === 'invalid' ? `${id}-error` : `${id}-hint`}
+                aria-invalid={state === 'invalid' ? 'true' : undefined}
+                disabled={state === 'submitting'}
+              />
+              {state === 'invalid' && (
+                <p class="ds-field__error" id={`${id}-error`}>
+                  <svg
+                    class="ds-field__error-glyph"
+                    aria-hidden="true"
+                    focusable="false"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    height="16"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M8 1 15 14H1L8 1Zm-.75 5h1.5v4h-1.5V6Zm0 5h1.5v1.5h-1.5V11Z"
+                    />
+                  </svg>
+                  Specimen error text — what is wrong and how to fix it.
+                </p>
+              )}
+            </div>
+
+            <div class="ds-consent">
+              <input class="ds-consent__box" type="checkbox" id={`${id}-consent`} />
+              <label class="ds-consent__label" for={`${id}-consent`}>
+                Specimen consent line for this shell.
+              </label>
+            </div>
+
+            <button class="ds-form__submit" type="submit" aria-disabled={state === 'submitting'}>
+              {state === 'submitting' && <span class="ds-form__spinner" aria-hidden="true" />}
+              {state === 'submitting' ? 'Sending…' : 'Specimen submit'}
+            </button>
+          </form>
+        )}
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .ds-formset {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 900px) {
+    .ds-formset {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .ds-formspec {
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-m);
+    background-color: var(--bg-subtle);
+  }
+
+  .ds-formspec__name {
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  .ds-form,
+  .ds-formspec__success {
+    margin-block-start: var(--s-4);
+  }
+
+  .ds-field__label {
+    display: block;
+    font-weight: var(--w-h3);
+  }
+
+  .ds-field__hint {
+    margin-block-start: var(--s-1);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .ds-field__input {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-block-start: var(--s-2);
+    padding: var(--s-3) var(--s-4);
+    border: 1px solid var(--border-input);
+    border-radius: var(--r-s);
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: var(--text-body); /* 16px floor — iOS auto-zoom */
+    transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .ds-field__input:hover {
+    border-color: var(--border-strong);
+  }
+
+  .ds-field__input:focus-visible,
+  .ds-field__input--focus {
+    border-color: var(--verdigris);
+    outline: var(--ring-width) solid var(--verdigris);
+    outline-offset: 1px;
+  }
+
+  .ds-field__input--invalid {
+    border-color: var(--danger);
+  }
+
+  /* Errors appear with icon + text, STILL — the shake is prohibited. */
+  .ds-field__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-block-start: var(--s-2);
+    color: var(--danger);
+    font-size: var(--text-small);
+  }
+
+  .ds-field__error-glyph {
+    flex: none;
+    margin-block-start: 2px;
+  }
+
+  .ds-consent {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    min-height: 44px;
+    margin-block-start: var(--s-4);
+    padding-block: var(--s-2);
+  }
+
+  .ds-consent__box {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    accent-color: var(--verdigris);
+  }
+
+  .ds-consent__label {
+    font-size: var(--text-small);
+  }
+
+  .ds-form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    margin-block-start: var(--s-4);
+    padding: var(--s-3) var(--s-5);
+    border: 1px solid transparent;
+    border-radius: var(--r-s);
+    background-color: var(--verdigris);
+    color: var(--on-hue);
+    font-family: inherit;
+    font-size: var(--text-body);
+    font-weight: var(--w-h3);
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .ds-form__submit[aria-disabled='true'] {
+    opacity: 0.75;
+    cursor: progress;
+  }
+
+  .ds-form__spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid color-mix(in srgb, var(--on-hue) 35%, transparent);
+    border-block-start-color: var(--on-hue);
+    border-radius: var(--r-full);
+  }
+
+  /* Spinner spins only when motion is welcome (P0 kept: suppressed on reduce). */
+  @media (prefers-reduced-motion: no-preference) {
+    .ds-form__spinner {
+      animation: ds-spin 800ms linear infinite;
+    }
+
+    @keyframes ds-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .ds-formspec__success-head {
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+  }
+
+  .ds-formspec__success-body {
+    margin-block-start: var(--s-2);
+    color: var(--fg-muted);
+    font-size: var(--text-small);
+  }
+
+  @media (forced-colors: active) {
+    .ds-formspec,
+    .ds-form__submit {
+      border-color: CanvasText;
+    }
+  }
+</style>

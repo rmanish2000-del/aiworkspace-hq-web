@@ -1,0 +1,150 @@
+---
+/**
+ * DsHero — CC-004 §7 item 3: display headline over the `--g-thesis` wash, a
+ * tier legend, one CTA. Mock content only (CC-005 scope 4).
+ *
+ * Entrance (CC-004 §5.3): headline → sub → legend → CTA, 60ms stagger,
+ * opacity 0→1 + translateY 12px→0 across --dur-hero, once per load; the
+ * gradient's background position eases 8% over the same window. All of it
+ * inside no-preference and gated on html[data-motion='on'] — without JS or
+ * with reduced motion the hero renders assembled (CC-004 §5.4).
+ *
+ * White-on-gradient is legal here because both `--g-thesis` stops passed the
+ * worst-stop gate at >=6.45:1 against white (G-C2 recomputes this).
+ */
+import DsButton from './DsButton.astro';
+import TierBadge from './TierBadge.astro';
+---
+
+<section class="ds-hero" aria-label="Specimen hero">
+  <p class="ds-hero__eyebrow ds-stamp">SPECIMEN · MOCK CONTENT</p>
+  <h2 class="ds-hero__headline">Claims move from intended to proven</h2>
+  <p class="ds-hero__sub">
+    A specimen supporting line. Every statement on a page built from this system carries a tier
+    badge, and the badge carries its date.
+  </p>
+  <div class="ds-hero__legend" aria-label="Tier legend">
+    <TierBadge tier="verified" date="2026-08-03" />
+    <TierBadge tier="approved" />
+    <TierBadge tier="gated" />
+  </div>
+  <div class="ds-hero__cta">
+    <DsButton variant="primary">Specimen action</DsButton>
+  </div>
+</section>
+
+<style>
+  .ds-hero {
+    padding: var(--s-7) var(--s-5);
+    border-radius: var(--r-l);
+    background-image: var(--g-thesis);
+    background-size: 116% 116%;
+    background-position: 0% 0%;
+
+    /* The gradient stops are shared across themes, so the text carrier is
+       --on-gradient (light in BOTH themes), not --on-hue — G-C2 verifies it
+       against every stop, per theme. */
+    color: var(--on-gradient);
+  }
+
+  .ds-hero__eyebrow {
+    color: var(--on-gradient);
+    opacity: 0.85;
+  }
+
+  .ds-hero__headline {
+    margin-block-start: var(--s-3);
+    font-size: var(--text-display);
+    font-weight: var(--w-display);
+    letter-spacing: var(--track-display);
+    line-height: 1.05;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+
+  .ds-hero__sub {
+    margin-block-start: var(--s-4);
+    max-width: 52ch;
+    font-size: var(--text-h3);
+    font-weight: var(--w-body);
+  }
+
+  .ds-hero__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-5);
+  }
+
+  /* The legend's outline/tint variants sit on the gradient — give them the
+     on-hue treatment so every channel stays visible on the dark wash. */
+  .ds-hero__legend :global(.ds-tier--approved) {
+    border-color: var(--on-gradient);
+    color: var(--on-gradient);
+  }
+
+  .ds-hero__legend :global(.ds-tier--gated) {
+    background-color: color-mix(in srgb, var(--on-gradient) 14%, transparent);
+    color: var(--on-gradient);
+  }
+
+  .ds-hero__cta {
+    margin-block-start: var(--s-6);
+  }
+
+  /* The CTA keeps the verified primary pairing (on-hue on verdigris, both
+     themes); the on-gradient border supplies its boundary against the wash. */
+  .ds-hero__cta :global(.ds-button--primary) {
+    border-color: var(--on-gradient);
+  }
+
+  /* Entrance orchestration — once, in reading order (CC-004 §5.3). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html[data-motion='on']) .ds-hero > * {
+      animation: ds-hero-rise var(--dur-hero) var(--ease-enter) both;
+    }
+
+    :global(html[data-motion='on']) .ds-hero > :nth-child(2) {
+      animation-delay: 60ms;
+    }
+
+    :global(html[data-motion='on']) .ds-hero > :nth-child(3) {
+      animation-delay: 120ms;
+    }
+
+    :global(html[data-motion='on']) .ds-hero > :nth-child(4) {
+      animation-delay: 180ms;
+    }
+
+    :global(html[data-motion='on']) .ds-hero > :nth-child(5) {
+      animation-delay: 240ms;
+    }
+
+    :global(html[data-motion='on']) .ds-hero {
+      animation: ds-hero-drift var(--dur-hero) var(--ease-standard) both;
+    }
+
+    @keyframes ds-hero-rise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* "The argument literally resolving" — the gradient eases 8%. */
+    @keyframes ds-hero-drift {
+      from {
+        background-position: 8% 8%;
+      }
+
+      to {
+        background-position: 0% 0%;
+      }
+    }
+  }
+</style>

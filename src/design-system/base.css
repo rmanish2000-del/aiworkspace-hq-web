@@ -1,0 +1,115 @@
+/*
+ * Design-system base — focus treatment, the two type voices, and the motion
+ * vocabulary of CC-004 §5.3. Imported by the gallery layout only; the holding
+ * page never sees this file.
+ */
+
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--w-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  min-width: 320px;
+
+  /* CC-004 §5.3 theme switch — 220ms cross-fade on the root. */
+  transition:
+    background-color var(--dur-base) var(--ease-standard),
+    color var(--dur-base) var(--ease-standard);
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+/* --- Focus — CC-004 §2.2: verdigris ring + 1px --bg inner ring ------------- */
+:focus-visible {
+  outline: var(--ring-width) solid var(--verdigris);
+  outline-offset: var(--ring-offset);
+  box-shadow: 0 0 0 1px var(--bg);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* --- Links — CC-004 §5.3: underline thickens at --dur-instant -------------- */
+a {
+  color: var(--verdigris);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness var(--dur-instant) var(--ease-standard);
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* --- The ledger voice — CC-004 §3 ------------------------------------------ */
+.ds-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-stamp {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-stamp);
+  font-weight: var(--w-stamp);
+  letter-spacing: var(--track-stamp);
+}
+
+/* --- Scroll reveal — CC-004 §5.3, once per element ------------------------- */
+/*
+ * No-JS-safe: the hidden initial state applies only after the reveal script
+ * stamps `data-motion="on"` on <html>. Without JS everything renders visible.
+ * Under prefers-reduced-motion: reduce, none of this block applies — the page
+ * renders assembled (CC-004 §5.4), and G-M asserts the built CSS keeps every
+ * transform transition inside this media block.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-motion='on'] .ds-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-slow) var(--ease-enter),
+      transform var(--dur-slow) var(--ease-enter);
+  }
+
+  html[data-motion='on'] .ds-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}

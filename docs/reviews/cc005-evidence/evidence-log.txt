@@ -1,0 +1,12 @@
+screenshot: gallery-375-light.png
+screenshot: gallery-1280-light.png
+screenshot: gallery-375-dark.png
+screenshot: gallery-1280-dark.png
+targets: 20 interactive elements measured
+  UNDER 44px: input#mf-1-consent.ds-consent__box 24x24
+  UNDER 44px: input#mf-2-consent.ds-consent__box 24x24
+  UNDER 44px: input#mf-3-consent.ds-consent__box 24x24
+  UNDER 44px: input#mf-4-consent.ds-consent__box 24x24
+keyboard pass: every focused element painted a visible ring
+reduced motion: observer armed=false · transform animations running=0 · hidden reveal elements=0
+  page renders assembled with zero transform animation

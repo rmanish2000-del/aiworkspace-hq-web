@@ -1,0 +1,69 @@
+---
+/**
+ * DsDisclosure — CC-004 §7 item 12. `<details>`-based, so it works with zero
+ * JavaScript; the open transition is CSS only and collapses under reduced
+ * motion with every other duration.
+ */
+export interface Props {
+  summary: string;
+}
+
+const { summary } = Astro.props;
+---
+
+<details class="ds-disclosure">
+  <summary class="ds-disclosure__summary">{summary}</summary>
+  <div class="ds-disclosure__body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .ds-disclosure {
+    border: 1px solid var(--border-input);
+    border-radius: var(--r-m);
+    background-color: var(--bg);
+  }
+
+  .ds-disclosure__summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--s-3) var(--s-4);
+    font-weight: var(--w-h3);
+    cursor: pointer;
+    border-radius: var(--r-m);
+  }
+
+  .ds-disclosure__summary:hover {
+    color: var(--verdigris);
+  }
+
+  .ds-disclosure__body {
+    padding: 0 var(--s-4) var(--s-4);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ds-disclosure__body {
+      animation: ds-disclosure-open var(--dur-base) var(--ease-enter);
+    }
+
+    @keyframes ds-disclosure-open {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ds-disclosure {
+      border-color: CanvasText;
+    }
+  }
+</style>

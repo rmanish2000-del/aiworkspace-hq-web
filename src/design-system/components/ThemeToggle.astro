@@ -1,0 +1,63 @@
+---
+/**
+ * ThemeToggle — CC-005 scope 2.
+ *
+ * A real toggle: `aria-pressed` reflects whether dark is active. Persists the
+ * choice under the single first-party `theme` key that DS-D1 approved —
+ * nothing else is ever written, and clearing back to the OS default removes
+ * the key. 44×44px minimum target; visible focus ring from base.css.
+ *
+ * The click handler lives in the gallery layout's inline script so the page
+ * carries exactly one script block for theme + motion (budget G-P).
+ */
+---
+
+<button class="ds-theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+  <span class="ds-theme-toggle__glyph" aria-hidden="true"></span>
+  <span data-theme-toggle-label>Dark theme</span>
+</button>
+
+<style>
+  .ds-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    min-width: 44px;
+    padding: var(--s-2) var(--s-4);
+    border: 1px solid var(--border-input);
+    border-radius: var(--r-full);
+    background-color: var(--bg-subtle);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: var(--text-small);
+    font-weight: var(--w-small);
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .ds-theme-toggle:hover {
+    border-color: var(--border-strong);
+  }
+
+  .ds-theme-toggle[aria-pressed='true'] .ds-theme-toggle__glyph {
+    background-color: var(--verdigris);
+    border-color: var(--verdigris);
+  }
+
+  .ds-theme-toggle__glyph {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--border-input);
+    border-radius: var(--r-full);
+    transition:
+      background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard);
+  }
+
+  @media (forced-colors: active) {
+    .ds-theme-toggle {
+      border-color: ButtonText;
+    }
+  }
+</style>
