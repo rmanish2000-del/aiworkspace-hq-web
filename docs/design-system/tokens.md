@@ -13,28 +13,40 @@ and [`src/lib/tokens.ts`](../../src/lib/tokens.ts) (typed values).
 
 ---
 
-## Colour — CANONICAL (`07` §2)
+## Colour — roles CANONICAL (`07` §2), values revised by ADR-0005
 
 Two themes, both first-class, following the OS via `prefers-color-scheme`. No
 theme toggle: `07` §2 — "a control with no other controls around it is a stray".
 
+The token names, roles and contrast obligations are `07` §2's. The **values**
+were revised by founder direction on 2026-08-03 (warm paper + verdigris,
+replacing blue-on-white) —
+[ADR-0005](../decisions/ADR-0005-visual-refresh.md). Every ratio `07` §2
+requires is re-verified there and measured by `tests/e2e/a11y-manual.spec.ts`.
+
 | Token             | Light     | Dark      | Use                                    |
 | ----------------- | --------- | --------- | -------------------------------------- |
-| `--bg`            | `#FFFFFF` | `#0B0D0E` | Page background                        |
-| `--bg-subtle`     | `#F6F7F8` | `#141719` | Form panel, success panel              |
-| `--fg`            | `#111315` | `#F2F4F5` | Body text, headings                    |
-| `--fg-muted`      | `#5A6167` | `#A2AAB1` | Hints, footer, eyebrow                 |
-| `--border`        | `#DFE3E6` | `#262B2F` | **Decorative rules and dividers only** |
-| `--border-input`  | `#848B92` | `#7A8288` | **All form-control borders**           |
-| `--border-strong` | `#6B7278` | `#99A1A8` | Hovered control borders; Callout rule  |
-| `--accent`        | `#1B4DE4` | `#7A9BFF` | Links, primary button, focus ring      |
-| `--accent-fg`     | `#FFFFFF` | `#0B0D0E` | Text on the accent button              |
+| `--bg`            | `#FBFAF7` | `#0C1210` | Page background                        |
+| `--bg-subtle`     | `#F3F1EA` | `#151D19` | Form panel, success panel              |
+| `--fg`            | `#191D1A` | `#EEF3EE` | Body text, headings                    |
+| `--fg-muted`      | `#555E57` | `#A4B4AA` | Hints, footer, eyebrow                 |
+| `--border`        | `#E0DCD0` | `#263029` | **Decorative rules and dividers only** |
+| `--border-input`  | `#7F887F` | `#78857C` | **All form-control borders**           |
+| `--border-strong` | `#67706A` | `#97A59B` | Hovered control borders; Callout rule  |
+| `--accent`        | `#0B6B57` | `#57D6B4` | Links, primary button, focus ring      |
+| `--accent-fg`     | `#FFFFFF` | `#0C1210` | Text on the accent button              |
 | `--danger`        | `#B3261E` | `#FF8A80` | Error text and error borders           |
 | `--success`       | `#0F6E3D` | `#5FD39B` | Success panel accent                   |
 
 `--accent-hover` and `--accent-active` are EXTENSION: `07` §6.5 specifies
 "darkens ~8%" and "~14%" rather than values, so the two were computed and named
-so the arithmetic is not repeated at each call site.
+so the arithmetic is not repeated at each call site. In dark mode the accent is
+already light, so the pair brightens instead.
+
+`--grad-accent` and `--grad-wash` are EXTENSION (ADR-0005): decorative
+gradients for the top brand line, heading rules and page wash. Never a text
+colour, never a control fill; they strip to nothing under forced-colors, which
+is acceptable because every use is decorative.
 
 ### The `--border` / `--border-input` distinction is load-bearing
 

@@ -57,6 +57,12 @@ html {
 
 body {
   background-color: var(--bg);
+
+  /* ADR-0005 — a faint accent wash in the top corner. Decorative: contrast is
+     computed against --bg, which the wash's low alpha does not meaningfully
+     shift, and print.css never paints it. */
+  background-image: var(--grad-wash);
+  background-repeat: no-repeat;
   color: var(--fg);
   font-family: var(--font-sans);
   font-size: var(--type-body);
@@ -75,6 +81,27 @@ body {
  */
 .page {
   padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
+}
+
+/*
+ * ADR-0005 — a 3px brand line across the very top of the document. Decorative;
+ * absolute against the initial containing block, so it cannot cause horizontal
+ * scroll (§5) and occupies no layout space (CLS 0).
+ */
+body::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 3px;
+  background-image: var(--grad-accent);
+  z-index: var(--z-raised);
+}
+
+/* ADR-0005 — selection in the accent pair; both directions are >=4.5:1. */
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-fg);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -273,6 +300,22 @@ a:hover {
   line-height: var(--leading-h2);
   letter-spacing: var(--tracking-h2);
   text-wrap: balance;
+}
+
+/*
+ * ADR-0005 — a short gradient rule above section headings and page titles.
+ * Decorative only: it disappears under forced-colors, and the heading remains
+ * the heading without it.
+ */
+.section__heading::before,
+.page-head__title::before {
+  content: '';
+  display: block;
+  inline-size: 44px;
+  block-size: 3px;
+  margin-block-end: var(--space-3);
+  border-radius: var(--radius-full);
+  background-image: var(--grad-accent);
 }
 
 .section__lead {
@@ -604,5 +647,58 @@ a:hover {
 @media (min-width: 1024px) {
   .notfound {
     padding-block-start: var(--space-11);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* ADR-0005 — entrance motion on the opening block of each route              */
+/*                                                                            */
+/* Transform ONLY, deliberately without an opacity fade: text stays fully      */
+/* opaque at every frame, so a contrast scan can never sample a half-faded     */
+/* state, and transform does not contribute to CLS. Durations are multiples    */
+/* of the canonical `07` §8 tokens, so prefers-reduced-motion collapses them   */
+/* with everything else (0.03ms), and the block is additionally wrapped in     */
+/* no-preference so the intent is explicit.                                    */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise {
+    from {
+      transform: translateY(14px);
+    }
+
+    to {
+      transform: none;
+    }
+  }
+
+  .hero > *,
+  .page-head > *,
+  .notfound > * {
+    animation: rise calc(var(--duration-swap) * 3) var(--ease) both;
+  }
+
+  .hero > :nth-child(2),
+  .page-head > :nth-child(2),
+  .notfound > :nth-child(2) {
+    animation-delay: calc(var(--duration-fast) * 0.5);
+  }
+
+  .hero > :nth-child(3),
+  .page-head > :nth-child(3),
+  .notfound > :nth-child(3) {
+    animation-delay: var(--duration-fast);
+  }
+
+  .hero > :nth-child(4),
+  .page-head > :nth-child(4),
+  .notfound > :nth-child(4) {
+    animation-delay: calc(var(--duration-fast) * 1.5);
+  }
+
+  .hero > :nth-child(n + 5),
+  .page-head > :nth-child(n + 5),
+  .notfound > :nth-child(n + 5) {
+    animation-delay: calc(var(--duration-fast) * 2);
   }
 }

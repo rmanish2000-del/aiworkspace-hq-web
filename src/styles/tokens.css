@@ -1,34 +1,39 @@
 /*
- * tokens.css — design tokens, transcribed from P0 `07-visual-and-interaction-spec.md`.
+ * tokens.css — design tokens.
  *
- * §2 colour · §3 typography · §4 spacing and layout · §8 motion.
+ * Structure and scales are transcribed from P0 `07-visual-and-interaction-spec.md`:
+ * §3 typography · §4 spacing and layout · §8 motion — those values are untouched.
  *
- * Every token here exists because the page needs it. This is not a design
- * system. No value is invented: each is specified in `07`.
+ * COLOUR is the exception: the palette was revised by founder direction on
+ * 2026-08-03 (warm paper + verdigris, replacing `07` §2's blue-on-white) — see
+ * docs/decisions/ADR-0005-visual-refresh.md. Token NAMES and roles are exactly
+ * `07` §2's; only the values changed, and every contrast obligation `07` §2
+ * states (4.5:1 text, 3:1 control boundaries against both backgrounds) is
+ * re-verified in the ADR and measured by tests/e2e/a11y-manual.spec.ts.
  */
 
 :root {
-  /* --- §2 Colour — light theme (default) --------------------------------- */
-  --bg: #ffffff;
-  --bg-subtle: #f6f7f8;
-  --fg: #111315;
-  --fg-muted: #5a6167;
+  /* --- §2 Colour roles — light theme (default) --------------------------- */
+  --bg: #fbfaf7;
+  --bg-subtle: #f3f1ea;
+  --fg: #191d1a;
+  --fg-muted: #555e57;
 
   /* Decorative rules and dividers ONLY — never a UI-component boundary. */
-  --border: #dfe3e6;
+  --border: #e0dcd0;
 
   /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
-  --border-input: #848b92;
-  --border-strong: #6b7278;
+  --border-input: #7f887f;
+  --border-strong: #67706a;
 
-  --accent: #1b4de4;
+  --accent: #0b6b57;
   --accent-fg: #ffffff;
   --danger: #b3261e;
   --success: #0f6e3d;
 
   /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
-  --accent-hover: #1743c4;
-  --accent-active: #1339ab;
+  --accent-hover: #095846;
+  --accent-active: #07493a;
 
   /* --- §3 Typography ----------------------------------------------------- */
   --font-sans:
@@ -137,6 +142,16 @@
   --icon-lg: 24px;
 
   /*
+   * Gradients — new at ADR-0005 (founder-directed visual refresh, 2026-08-03).
+   * Decorative surfaces and accent rules ONLY, never body text and never a
+   * control fill; `07` §6.5's single flat button treatment is unchanged.
+   * Under forced-colors these strip to nothing, which is acceptable — every
+   * use is purely decorative.
+   */
+  --grad-accent: linear-gradient(90deg, #0b6b57, #2a8f6d 55%, #b8860b);
+  --grad-wash: radial-gradient(900px 420px at 85% -6%, rgba(11, 107, 87, 0.07), transparent 70%);
+
+  /*
    * Breakpoints, for reference only — CSS cannot use a custom property in a
    * media query, so every @media below repeats the literal. Source of truth:
    * src/lib/tokens.ts BREAKPOINTS. `07` §5: min 320, sm 640, lg 1024.
@@ -150,19 +165,25 @@
 /* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b0d0e;
-    --bg-subtle: #141719;
-    --fg: #f2f4f5;
-    --fg-muted: #a2aab1;
-    --border: #262b2f;
-    --border-input: #7a8288;
-    --border-strong: #99a1a8;
-    --accent: #7a9bff;
-    --accent-fg: #0b0d0e;
+    --bg: #0c1210;
+    --bg-subtle: #151d19;
+    --fg: #eef3ee;
+    --fg-muted: #a4b4aa;
+    --border: #263029;
+    --border-input: #78857c;
+    --border-strong: #97a59b;
+    --accent: #57d6b4;
+    --accent-fg: #0c1210;
     --danger: #ff8a80;
     --success: #5fd39b;
-    --accent-hover: #6f8fef;
-    --accent-active: #6484df;
+
+    /* The dark accent is already light, so hover/active brighten instead. */
+    --accent-hover: #79e0c6;
+    --accent-active: #93e8d2;
+
+    /* ADR-0005 gradient pair, re-expressed for the dark surfaces. */
+    --grad-accent: linear-gradient(90deg, #57d6b4, #2a8f6d 55%, #e5b163);
+    --grad-wash: radial-gradient(900px 420px at 85% -6%, rgba(87, 214, 180, 0.06), transparent 70%);
   }
 }
 
