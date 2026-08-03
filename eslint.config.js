@@ -61,6 +61,26 @@ export default tseslint.config(
   },
 
   {
+    /**
+     * CC-005 DS-D1 (founder decision, 2026-08-03) amends the storage line to:
+     * "zero cookies; no client storage except a single first-party `theme`
+     * preference key". The design-system layer is the only place that key may
+     * be touched, so localStorage is unbanned HERE ONLY. sessionStorage,
+     * cookies (C-13) and fetch (MF-1) stay banned. The unit scope guard in
+     * tests/unit/copy.test.ts enforces the single-key precision this rule
+     * cannot express.
+     */
+    files: ['src/design-system/**'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        { name: 'sessionStorage', message: 'P-07 — only the DS-D1 `theme` key is permitted.' },
+        { name: 'fetch', message: 'MF-1 — no network call in this scope.' },
+      ],
+    },
+  },
+
+  {
     files: ['tests/**/*.ts'],
     rules: {
       // Tests legitimately drive a browser and read pages.

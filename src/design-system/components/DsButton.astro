@@ -1,0 +1,102 @@
+---
+/**
+ * DsButton — CC-004 §7 item 11. Primary (verdigris solid) · secondary
+ * (outline) · quiet. 44px minimum target at every viewport.
+ *
+ * CC-004 §5.3: hover lifts -1px and deepens shadow, returns on press — the
+ * transform lives inside a no-preference block (G-M).
+ */
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'quiet';
+  as?: 'a' | 'button';
+  href?: string;
+  type?: 'submit' | 'button' | 'reset';
+  disabled?: boolean;
+}
+
+const { variant = 'primary', as = 'button', href, type = 'button', disabled = false } = Astro.props;
+const Tag = as;
+---
+
+<Tag
+  class:list={['ds-button', `ds-button--${variant}`]}
+  href={as === 'a' ? href : undefined}
+  type={as === 'a' ? undefined : type}
+  aria-disabled={disabled ? 'true' : undefined}
+>
+  <slot />
+</Tag>
+
+<style>
+  .ds-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    padding: var(--s-3) var(--s-5);
+    border: 1px solid transparent;
+    border-radius: var(--r-s);
+    font-family: inherit;
+    font-size: var(--text-body);
+    font-weight: var(--w-h3);
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard),
+      box-shadow var(--dur-fast) var(--ease-standard);
+  }
+
+  .ds-button--primary {
+    background-color: var(--verdigris);
+    color: var(--on-hue);
+  }
+
+  .ds-button--secondary {
+    background-color: transparent;
+    border-color: var(--border-input);
+    color: var(--fg);
+  }
+
+  .ds-button--secondary:hover {
+    border-color: var(--border-strong);
+  }
+
+  .ds-button--quiet {
+    background-color: transparent;
+    color: var(--verdigris);
+  }
+
+  .ds-button[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* Hover lift — transform, therefore no-preference only (G-M). */
+  @media (prefers-reduced-motion: no-preference) {
+    .ds-button {
+      transition:
+        background-color var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard),
+        box-shadow var(--dur-fast) var(--ease-standard),
+        transform var(--dur-fast) var(--ease-standard);
+    }
+
+    .ds-button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--elev-1);
+    }
+
+    .ds-button:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ds-button {
+      border-color: ButtonText;
+    }
+  }
+</style>

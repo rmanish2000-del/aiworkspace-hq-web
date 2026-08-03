@@ -1,0 +1,108 @@
+---
+/**
+ * TierBadge — CC-004 §6, the semantic core.
+ *
+ * Every tier is distinguishable by >=3 independent channels — hue, treatment,
+ * glyph — plus the mono text label, so no single channel (and no color-vision
+ * type) carries the meaning alone. `Prohibited` and `Blocked` have no public
+ * tokens and therefore no variant here — they never render publicly.
+ *
+ * Motion: `verified` fills on first reveal (no-preference only, JS-gated).
+ * `under-design` NEVER animates — motionlessness is part of the encoding.
+ * Gate G-T asserts every variant below resolves to §6 tokens.
+ */
+export interface Props {
+  tier: 'verified' | 'approved' | 'reported' | 'under-design' | 'gated';
+  /** Mono date suffix, e.g. `2026-08-03`. CC-004 §6: every badge dates itself. */
+  date?: string;
+}
+
+const { tier, date } = Astro.props;
+
+const LABEL: Record<Props['tier'], string> = {
+  verified: 'VERIFIED',
+  approved: 'APPROVED DIRECTION',
+  reported: 'REPORTED',
+  'under-design': 'UNDER DESIGN',
+  gated: 'GATED',
+};
+
+const GLYPH: Record<Props['tier'], string> = {
+  verified: '✓', // check
+  approved: '→', // arrow
+  reported: '○', // open circle
+  'under-design': '◌', // dotted circle
+  gated: '◆', // diamond
+};
+---
+
+<span class:list={['ds-tier', `ds-tier--${tier}`, tier === 'verified' && 'ds-reveal']}>
+  <span class="ds-tier__glyph" aria-hidden="true">{GLYPH[tier]}</span>
+  <span class="ds-tier__label ds-stamp">{LABEL[tier]}{date && ` · ${date}`}</span>
+</span>
+
+<style>
+  .ds-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 24px;
+    padding: 2px var(--s-3);
+    border-radius: var(--r-s);
+    text-transform: uppercase;
+  }
+
+  .ds-tier__glyph {
+    line-height: 1;
+  }
+
+  /* Verified — verdigris SOLID fill, on-hue text. */
+  .ds-tier--verified {
+    background-color: var(--verdigris);
+    color: var(--on-hue);
+  }
+
+  /* Approved direction — iris 2px OUTLINE, iris text, transparent fill. */
+  .ds-tier--approved {
+    border: 2px solid var(--iris);
+    color: var(--iris);
+    background-color: transparent;
+  }
+
+  /* Reported — slate tint fill. */
+  .ds-tier--reported {
+    background-color: var(--bg-subtle);
+    color: var(--fg-muted);
+  }
+
+  /* Under design — slate DASHED outline. Never animates. */
+  .ds-tier--under-design {
+    border: 1.5px dashed var(--fg-muted);
+    color: var(--fg-muted);
+    background-color: transparent;
+  }
+
+  /* Gated / withheld — saffron tint fill, saffron text. */
+  .ds-tier--gated {
+    background-color: var(--bg-subtle);
+    color: var(--saffron);
+  }
+
+  /*
+   * CC-004 §5.3 — the verified badge "fills" on first reveal: the generic
+   * reveal transition carries it in; the fill transition below settles the
+   * background over --dur-base. Declared inside no-preference so the reduced
+   * build has none of it (G-M).
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .ds-tier--verified {
+      transition: background-color var(--dur-base) var(--ease-enter);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ds-tier {
+      border: 1px solid CanvasText;
+    }
+  }
+</style>

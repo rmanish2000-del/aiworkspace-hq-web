@@ -1,0 +1,104 @@
+
+> aiworkspace-hq-web@0.7.0 ds:gates
+> node scripts/ds-gates.mjs
+
+
+━━ Theme blocks
+  ✓ the two dark declarations are identical (14 tokens)
+
+━━ G-C1 · contrast — computed from the token file, nothing assumed
+  ✓ light · fg on bg  16.06:1  (needs 4.5:1)
+  ✓ light · fg on bg-subtle  14.88:1  (needs 4.5:1)
+  ✓ light · fg-muted on bg  7.09:1  (needs 4.5:1)
+  ✓ light · fg-muted on bg-subtle  6.57:1  (needs 4.5:1)
+  ✓ light · verdigris on bg  6.14:1  (needs 4.5:1)
+  ✓ light · iris on bg  7.02:1  (needs 4.5:1)
+  ✓ light · saffron on bg  5.75:1  (needs 4.5:1)
+  ✓ light · danger on bg  6.22:1  (needs 4.5:1)
+  ✓ light · on-hue on verdigris  6.45:1  (needs 4.5:1)
+  ✓ light · on-hue on iris  7.38:1  (needs 4.5:1)
+  ✓ light · on-hue on saffron  6.04:1  (needs 4.5:1)
+  ✓ light · on-hue on danger  6.54:1  (needs 4.5:1)
+  ✓ light · border-input vs bg  4.11:1  (needs 3:1)
+  ✓ light · border-input vs bg-subtle  3.81:1  (needs 3:1)
+  ✓ light · border-strong vs bg  5.67:1  (needs 3:1)
+  ✓ light · focus ring vs bg  6.14:1  (needs 3:1)
+  ✓ dark · fg on bg  16.40:1  (needs 4.5:1)
+  ✓ dark · fg on bg-subtle  14.83:1  (needs 4.5:1)
+  ✓ dark · fg-muted on bg  7.43:1  (needs 4.5:1)
+  ✓ dark · fg-muted on bg-subtle  6.72:1  (needs 4.5:1)
+  ✓ dark · verdigris on bg  10.13:1  (needs 4.5:1)
+  ✓ dark · iris on bg  8.17:1  (needs 4.5:1)
+  ✓ dark · saffron on bg  10.68:1  (needs 4.5:1)
+  ✓ dark · danger on bg  8.15:1  (needs 4.5:1)
+  ✓ dark · on-hue on verdigris  10.13:1  (needs 4.5:1)
+  ✓ dark · on-hue on iris  8.17:1  (needs 4.5:1)
+  ✓ dark · on-hue on saffron  10.68:1  (needs 4.5:1)
+  ✓ dark · on-hue on danger  8.15:1  (needs 4.5:1)
+  ✓ dark · border-input vs bg  3.62:1  (needs 3:1)
+  ✓ dark · border-input vs bg-subtle  3.27:1  (needs 3:1)
+  ✓ dark · border-strong vs bg  5.69:1  (needs 3:1)
+  ✓ dark · focus ring vs bg  10.13:1  (needs 3:1)
+
+━━ G-C2 · gradient worst-stop (no averaging)
+  ✓ light · --g-thesis stop #3d45c4 vs on-gradient text  7.38:1  (needs 4.5:1)
+  ✓ light · --g-thesis stop #0b6b57 vs on-gradient text  6.45:1  (needs 4.5:1)
+  ✓ light · --g-evidence stop #07473a vs on-gradient text  10.65:1  (needs 4.5:1)
+  ✓ light · --g-evidence stop #0d7c64 vs on-gradient text  5.14:1  (needs 4.5:1)
+  ✓ dark · --g-thesis stop #3d45c4 vs on-gradient text  6.50:1  (needs 4.5:1)
+  ✓ dark · --g-thesis stop #0b6b57 vs on-gradient text  5.69:1  (needs 4.5:1)
+  ✓ dark · --g-evidence stop #07473a vs on-gradient text  9.39:1  (needs 4.5:1)
+  ✓ dark · --g-evidence stop #0d7c64 vs on-gradient text  4.53:1  (needs 4.5:1)
+  ✓ light · fg on --g-veil composited (#e8ecf4)  14.25:1  (needs 4.5:1)
+  ✓ dark · fg on --g-veil composited (#0a1c18)  15.53:1  (needs 4.5:1)
+
+  pair table: 42 pairs computed, 0 failing
+
+━━ Gallery build (dist-ds/)
+  ✓ dist-ds/_ds.html built
+
+━━ G-M · reduced motion
+  ✓ zero transform transitions / animations outside no-preference blocks
+  ✓ no smooth scroll outside no-preference
+
+━━ G-P · budgets (P0 08 §8 arithmetic, motion JS included)
+  ✓ gallery page 8.7 KB gzipped <= 60 KB
+  ✓ JavaScript 2.75 KB <= 10 KB
+  ✓ 1 request(s) on first load <= 6
+
+━━ G-F · fonts
+  ✓ no @font-face in the gallery
+  ✓ no font origin in the gallery
+  ✓ no font file in dist-ds/
+
+━━ G-T · tier encoding
+  ✓ tier "verified" is defined
+  ✓ tier "approved" is defined
+  ✓ tier "reported" is defined
+  ✓ tier "under-design" is defined
+  ✓ tier "gated" is defined
+  ✓ verified -> --verdigris
+  ✓ approved -> --iris
+  ✓ gated -> --saffron
+  ✓ under-design -> dashed outline
+  ✓ no color literal outside tokens.css
+
+━━ G-4 (gallery) · prohibited terms in the rendered page
+  ✓ rendered gallery carries no prohibited term
+
+━━ DS-D2 · holding page unchanged (dist/ vs recorded baseline)
+  ✓ dist/ exists (run npm run build first)
+  ✓ dist/404.html matches the recorded baseline
+  ✓ dist/about.html matches the recorded baseline
+  ✓ dist/contact.html matches the recorded baseline
+  ✓ dist/index.html matches the recorded baseline
+  ✓ dist/platform.html matches the recorded baseline
+  ✓ dist/principles.html matches the recorded baseline
+  ✓ dist/privacy.html matches the recorded baseline
+
+━━ Gallery exclusion
+  ✓ dist/ contains no _ds artifact
+  ✓ dist/ still ships zero JavaScript files
+
+ALL DESIGN-SYSTEM GATES PASS — 73 checks, 0 failed
+

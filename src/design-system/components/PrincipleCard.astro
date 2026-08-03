@@ -1,0 +1,59 @@
+---
+/**
+ * PrincipleCard — CC-004 §7 item 9. The five operating principles render
+ * through this shape (FIX-04 held: five, no more). Mock content only.
+ */
+export interface Props {
+  index?: number;
+}
+
+const { index = 1 } = Astro.props;
+---
+
+<article class="ds-principle">
+  <p class="ds-principle__index ds-mono" aria-hidden="true">{String(index).padStart(2, '0')}</p>
+  <h3 class="ds-principle__title">Specimen principle {index}</h3>
+  <p class="ds-principle__body">
+    One sentence stating what the principle commits this system to, in plain words.
+  </p>
+</article>
+
+<style>
+  .ds-principle {
+    position: relative;
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-m);
+    background-color: var(--bg);
+    transition: border-color var(--dur-base) var(--ease-standard);
+  }
+
+  .ds-principle:hover {
+    border-color: var(--border-strong);
+  }
+
+  .ds-principle__index {
+    font-size: var(--text-stamp);
+    color: var(--verdigris);
+    font-weight: var(--w-stamp);
+  }
+
+  .ds-principle__title {
+    margin-block-start: var(--s-2);
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+  }
+
+  .ds-principle__body {
+    margin-block-start: var(--s-2);
+    color: var(--fg-muted);
+    font-size: var(--text-small);
+    max-width: var(--measure-body);
+  }
+
+  @media (forced-colors: active) {
+    .ds-principle {
+      border-color: CanvasText;
+    }
+  }
+</style>

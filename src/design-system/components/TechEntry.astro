@@ -1,0 +1,76 @@
+---
+/**
+ * TechEntry — CC-004 §7 item 8: name · purpose · reason · lock-in position.
+ * Never a bare logo (TP-2). Mock content only.
+ */
+---
+
+<article class="ds-tech">
+  <p class="ds-tech__name">Specimen technology</p>
+  <dl class="ds-tech__facts">
+    <div class="ds-tech__row">
+      <dt>Purpose</dt>
+      <dd>What it does in this stack, in one sentence.</dd>
+    </div>
+    <div class="ds-tech__row">
+      <dt>Reason</dt>
+      <dd>Why it was chosen over the alternatives that were actually considered.</dd>
+    </div>
+    <div class="ds-tech__row">
+      <dt>Lock-in position</dt>
+      <dd>Where the seam is, and what leaving would cost.</dd>
+    </div>
+  </dl>
+</article>
+
+<style>
+  .ds-tech {
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-m);
+    background-color: var(--bg);
+  }
+
+  .ds-tech__name {
+    font-family: var(--font-mono);
+    font-size: var(--text-h3);
+    font-weight: var(--w-h3);
+  }
+
+  .ds-tech__facts {
+    margin: var(--s-4) 0 0;
+  }
+
+  .ds-tech__row {
+    display: grid;
+    gap: var(--s-1);
+    padding-block: var(--s-2);
+  }
+
+  .ds-tech__row dt {
+    font-size: var(--text-stamp);
+    font-family: var(--font-mono);
+    font-weight: var(--w-stamp);
+    letter-spacing: var(--track-stamp);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .ds-tech__row dd {
+    margin: 0;
+    max-width: var(--measure-body);
+  }
+
+  @media (min-width: 640px) {
+    .ds-tech__row {
+      grid-template-columns: 160px 1fr;
+      align-items: baseline;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ds-tech {
+      border-color: CanvasText;
+    }
+  }
+</style>

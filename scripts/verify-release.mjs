@@ -332,6 +332,19 @@ check('the CSP hash covers the JSON-LD actually served', () => {
 });
 
 /* -------------------------------------------------------------------------- */
+/* 4a. Design-system gates — CC-004 §9 via CC-005                             */
+/*                                                                            */
+/* Recomputes the 38-pair contrast table from the token file, verifies        */
+/* gradient worst-stops (veil composited), asserts the reduced-motion build   */
+/* carries zero transform transitions, holds the CC-004 budgets on the built  */
+/* gallery, re-checks zero fonts, checks tier-token resolution, and asserts   */
+/* the holding page is byte-identical to the recorded DS-D2 baseline with no  */
+/* gallery artifact in dist/.                                                 */
+/* -------------------------------------------------------------------------- */
+
+run('design-system gates (CC-004 §9)', 'npm run ds:gates');
+
+/* -------------------------------------------------------------------------- */
 /* 5. Browser matrix — accessibility, routes, viewports, three engines        */
 /* -------------------------------------------------------------------------- */
 

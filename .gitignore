@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+dist-ds/
 .astro/
 
 # Environment — never committed (P1-F §6 S-3)

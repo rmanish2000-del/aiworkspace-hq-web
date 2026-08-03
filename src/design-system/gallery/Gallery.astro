@@ -1,0 +1,370 @@
+---
+/**
+ * /_ds — the dev-only design-system gallery. CC-005 scope 5.
+ *
+ * Served ONLY by the gallery config (`npm run ds:dev` / `npm run ds:build`,
+ * scripts/ds-gallery.config.mjs). The production build never includes it, and
+ * ds-gates asserts dist/ contains no `_ds` artifact.
+ *
+ * Every visible string here is mock/specimen text — no HQ-10 copy, no claim,
+ * no prohibited term (the gate re-checks the rendered page).
+ */
+import '../base.css';
+import ClaimCard from '../components/ClaimCard.astro';
+import DateStamp from '../components/DateStamp.astro';
+import DsButton from '../components/DsButton.astro';
+import DsCallout from '../components/DsCallout.astro';
+import DsDisclosure from '../components/DsDisclosure.astro';
+import DsHero from '../components/DsHero.astro';
+import DsTable from '../components/DsTable.astro';
+import FormSet from '../components/FormSet.astro';
+import GapItem from '../components/GapItem.astro';
+import PrincipleCard from '../components/PrincipleCard.astro';
+import QuestionPosition from '../components/QuestionPosition.astro';
+import TechEntry from '../components/TechEntry.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import TierBadge from '../components/TierBadge.astro';
+
+const TIERS = ['verified', 'approved', 'reported', 'under-design', 'gated'] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Design system gallery — local preview</title>
+    <meta name="description" content="Local component gallery for the shared design system." />
+    <meta name="robots" content="noindex, nofollow" />
+    <script is:inline>
+      /*
+       * Theme bootstrap — before first paint, no flash. DS-D1: the ONLY key
+       * this page ever reads or writes is `theme`. `?theme=` supports the
+       * two-theme Lighthouse evidence runs and is never persisted.
+       */
+      (function () {
+        let choice = null;
+        try {
+          choice = localStorage.getItem('theme');
+        } catch {
+          /* storage unavailable — OS default applies */
+        }
+        const fromQuery = new URLSearchParams(location.search).get('theme');
+        if (fromQuery === 'light' || fromQuery === 'dark') choice = fromQuery;
+        if (choice === 'light' || choice === 'dark') {
+          document.documentElement.dataset.theme = choice;
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="ds-skip" href="#ds-main">Skip to content</a>
+
+    <header class="ds-top">
+      <p class="ds-top__mark">
+        <span class="ds-top__dot" aria-hidden="true"></span>
+        Design system gallery
+      </p>
+      <p class="ds-top__note ds-stamp">LOCAL PREVIEW · MOCK CONTENT · NOT A PUBLIC ROUTE</p>
+      <ThemeToggle />
+    </header>
+
+    <main id="ds-main" class="ds-page">
+      <h1 class="ds-title">Component specimens</h1>
+      <p class="ds-lead">
+        Every color pair on this page comes from the token file the contrast gate verifies. Two
+        voices: the page speaks in sans and attests in mono.
+      </p>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-hero">
+        <h2 id="s-hero">Hero</h2>
+        <DsHero />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-tier">
+        <h2 id="s-tier">Tier badges — the semantic core</h2>
+        <p class="ds-note">
+          Five tiers, each distinguishable by hue, treatment, glyph, and label. The under-design
+          badge never animates; motionlessness is part of the encoding.
+        </p>
+        <div class="ds-row">
+          {
+            TIERS.map((tier) => (
+              <TierBadge {tier} date={tier === 'verified' ? '2026-08-03' : undefined} />
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-claim">
+        <h2 id="s-claim">Claim card</h2>
+        <ClaimCard tier="verified" />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-gap">
+        <h2 id="s-gap">Gap item — a dated absence</h2>
+        <GapItem />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-qp">
+        <h2 id="s-qp">Question–position pair</h2>
+        <QuestionPosition />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-tech">
+        <h2 id="s-tech">Technology entry</h2>
+        <TechEntry />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-principles">
+        <h2 id="s-principles">Principle cards</h2>
+        <div class="ds-grid">
+          <PrincipleCard index={1} />
+          <PrincipleCard index={2} />
+          <PrincipleCard index={3} />
+          <PrincipleCard index={4} />
+          <PrincipleCard index={5} />
+        </div>
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-form">
+        <h2 id="s-form">Form set — the six mock states</h2>
+        <FormSet />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-buttons">
+        <h2 id="s-buttons">Buttons</h2>
+        <div class="ds-row">
+          <DsButton variant="primary">Primary</DsButton>
+          <DsButton variant="secondary">Secondary</DsButton>
+          <DsButton variant="quiet">Quiet</DsButton>
+        </div>
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-disclosure">
+        <h2 id="s-disclosure">Disclosure</h2>
+        <DsDisclosure summary="A specimen disclosure — open me">
+          <p class="ds-note">Works with zero JavaScript; the transition collapses under reduce.</p>
+        </DsDisclosure>
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-table">
+        <h2 id="s-table">Table — register rendering</h2>
+        <DsTable />
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-callout">
+        <h2 id="s-callout">Callouts</h2>
+        <div class="ds-stack">
+          <DsCallout tone="info">A specimen informational note in the iris voice.</DsCallout>
+          <DsCallout tone="caution">A specimen caution in the saffron voice.</DsCallout>
+        </div>
+      </section>
+
+      <section class="ds-section ds-reveal" aria-labelledby="s-date">
+        <h2 id="s-date">Date stamp</h2>
+        <p><DateStamp label="RE-VERIFIED QUARTERLY · LAST" date="2026-08-03" /></p>
+      </section>
+    </main>
+
+    <footer class="ds-foot">
+      <p class="ds-stamp">AWHQ-WEB-CC004 · IMPLEMENTED UNDER CC-005 · LOCAL ONLY</p>
+    </footer>
+
+    <script is:inline>
+      /*
+       * Theme toggle (DS-D1: persists ONLY the `theme` key) + reveal-once
+       * observer (CC-004 §5.3: threshold 0.2, once per element). The observer
+       * arms only when motion is welcome; otherwise the page stays assembled.
+       */
+      (function () {
+        const root = document.documentElement;
+        const button = document.querySelector('[data-theme-toggle]');
+        const label = document.querySelector('[data-theme-toggle-label]');
+        const osDark = matchMedia('(prefers-color-scheme: dark)');
+
+        function isDark() {
+          if (root.dataset.theme === 'dark') return true;
+          if (root.dataset.theme === 'light') return false;
+          return osDark.matches;
+        }
+
+        function paint() {
+          button.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+          label.textContent = isDark() ? 'Dark theme' : 'Light theme';
+        }
+
+        button.addEventListener('click', function () {
+          const next = isDark() ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+          } catch {
+            /* storage unavailable — the choice still applies to this page */
+          }
+          paint();
+        });
+        osDark.addEventListener('change', paint);
+        paint();
+
+        if (
+          !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+          'IntersectionObserver' in window
+        ) {
+          root.dataset.motion = 'on';
+          const seen = new IntersectionObserver(
+            function (entries) {
+              for (let i = 0; i < entries.length; i += 1) {
+                if (entries[i].isIntersecting) {
+                  entries[i].target.classList.add('is-in');
+                  seen.unobserve(entries[i].target);
+                }
+              }
+            },
+            { threshold: 0.2 },
+          );
+          const targets = document.querySelectorAll('.ds-reveal');
+          for (let j = 0; j < targets.length; j += 1) seen.observe(targets[j]);
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .ds-skip {
+    position: absolute;
+    inset-block-start: var(--s-3);
+    inset-inline-start: var(--s-3);
+    z-index: 10;
+    padding: var(--s-3) var(--s-4);
+    background-color: var(--verdigris);
+    color: var(--on-hue);
+    font-weight: var(--w-h3);
+    border-radius: var(--r-s);
+    text-decoration: none;
+    transform: translateY(-300%);
+  }
+
+  .ds-skip:focus,
+  .ds-skip:focus-visible {
+    transform: translateY(0);
+  }
+
+  .ds-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3) var(--s-5);
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: var(--s-4) var(--gutter);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .ds-top__mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: var(--w-h2);
+    letter-spacing: var(--track-h1);
+  }
+
+  .ds-top__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--r-s);
+    background-image: var(--g-thesis);
+  }
+
+  .ds-top__note {
+    color: var(--fg-muted);
+  }
+
+  .ds-top :global(.ds-theme-toggle) {
+    margin-inline-start: auto;
+  }
+
+  .ds-page {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: var(--s-7) var(--gutter) var(--s-9);
+    background-image: var(--g-veil);
+    background-repeat: no-repeat;
+    background-size: 100% 480px;
+  }
+
+  .ds-title {
+    font-size: var(--text-h1);
+    font-weight: var(--w-h1);
+    letter-spacing: var(--track-h1);
+    text-wrap: balance;
+  }
+
+  .ds-lead {
+    margin-block-start: var(--s-4);
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+  }
+
+  .ds-section {
+    margin-block-start: var(--s-8);
+
+    /* Off-screen specimens skip initial layout — G-P headroom without
+       changing what renders. Boxes keep an estimated size, so the reveal
+       observer still sees them. */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
+
+  .ds-section > h2 {
+    font-size: var(--text-h2);
+    font-weight: var(--w-h2);
+    margin-block-end: var(--s-5);
+  }
+
+  .ds-note {
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+    font-size: var(--text-small);
+    margin-block-end: var(--s-4);
+  }
+
+  .ds-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: center;
+  }
+
+  .ds-grid {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  @media (min-width: 640px) {
+    .ds-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .ds-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .ds-stack {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .ds-foot {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: var(--s-5) var(--gutter) var(--s-7);
+    border-block-start: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+</style>
