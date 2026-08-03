@@ -95,6 +95,18 @@ function build({ prebuilt = false } = {}) {
   const hash = jsonLdHash();
   const headers = loadProduction(hash).map(({ name, value }) => ({ key: name, value }));
 
+  /**
+   * The Warrant demo console is proxied under /warrant (see `rewrites` below).
+   * Its page carries an inline module script and same-origin fetches that this
+   * site's CSP would block, so the CSP — and only the CSP — is scoped off the
+   * /warrant subtree. Every other security header still applies there, and
+   * every header still applies everywhere else. `production.ts` stays the
+   * single source of the header VALUES; this is a routing-scope decision, so
+   * it lives with the routes.
+   */
+  const cspHeaders = headers.filter(({ key }) => key === 'Content-Security-Policy');
+  const nonCspHeaders = headers.filter(({ key }) => key !== 'Content-Security-Policy');
+
   return {
     $schema: 'https://openapi.vercel.sh/vercel.json',
 
@@ -113,8 +125,13 @@ function build({ prebuilt = false } = {}) {
     trailingSlash: false,
 
     headers: [
-      // `08` §9.2 — every security header, on every response.
-      { source: '/(.*)', headers },
+      // `08` §9.2 — every security header except the CSP, on every response.
+      { source: '/(.*)', headers: nonCspHeaders },
+
+      // The CSP everywhere EXCEPT the proxied /warrant subtree (and only
+      // there — /warranty-style paths still get it). The console's own
+      // deployment governs its content; nothing else on this site loosens.
+      { source: '/((?!warrant/|warrant$).*)', headers: cspHeaders },
 
       // `08` §8 / OPS-08 — HTML must revalidate so a rollback takes effect at
       // once. A long-lived document cache would keep serving the rolled-back
@@ -147,9 +164,27 @@ function build({ prebuilt = false } = {}) {
       },
     ],
 
+    /**
+     * The Warrant demo console — a separate deployment, proxied under
+     * /warrant. The page URL is /warrant/console, deliberately slash-free:
+     * `trailingSlash: false` 308-strips a bare `/warrant/`, so a
+     * trailing-slash page URL cannot exist on this site, and the console's
+     * relative `api/…` and module URLs need a path segment after /warrant/ to
+     * resolve into the proxied subtree. The catch-all rewrite then carries
+     * those subpaths to the console's own deployment.
+     */
+    rewrites: [
+      { source: '/warrant/console', destination: 'https://warrant-t1bh.onrender.com/' },
+      { source: '/warrant/:path*', destination: 'https://warrant-t1bh.onrender.com/:path*' },
+    ],
+
     // `08` SEO-06 — one canonical host. www redirects to the apex permanently,
     // matching CANONICAL_ORIGIN in src/lib/site.ts.
     redirects: [
+      // The advertised /warrant lands on the console's page URL. Temporary,
+      // so the demo's post-event removal does not leave a cached permanent
+      // redirect behind.
+      { source: '/warrant', destination: '/warrant/console', permanent: false },
       {
         source: '/(.*)',
         has: [{ type: 'host', value: 'www.aiworkspacehq.com' }],
