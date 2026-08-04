@@ -496,6 +496,43 @@ describe('scope.prohibitions', () => {
       'https://github.com/rmanish2000-del/warrant-mcp',
     ];
 
+    /**
+     * OUTBOUND LINK ORIGINS — founder decision of record, 2026-08-04.
+     *
+     * A second, deliberately separate list. The one above is for URIs nobody
+     * ever dereferences; these ARE dereferenced, by a user who chooses to
+     * click. Keeping them apart is the point — merging them would quietly turn
+     * "never fetched" into "sometimes navigated", and the next reader would not
+     * know which guarantee they still had.
+     *
+     * PERMITTED, and only these two:
+     *
+     *   https://www.npmjs.com    the published package
+     *   https://github.com       the source, the security surface, the write-up
+     *
+     * WHY. `/warrant-mcp` states that the project's limitations and its full
+     * attack log are published, and then links to them. A page that claims its
+     * limits are in the open and does not link to them is worse than one that
+     * never claimed it: the links are the evidence for the claim, and removing
+     * them removes the reason to believe the page. That cost is higher than the
+     * cost of naming two origins here.
+     *
+     * WHAT IS NOT WEAKENED. These are `href` attributes. Nothing is fetched,
+     * embedded, preconnected or prefetched, so the guarantee that actually
+     * matters — no third-party request on first render — is untouched, and it
+     * is still asserted on the wire by
+     * `tests/e2e/metadata-and-boundary.spec.ts` rather than trusted from here.
+     * The zero-font, zero-analytics and zero-client-storage rules are all
+     * unaffected.
+     *
+     * WHAT WOULD MAKE THIS WRONG. Any new third-party origin needs its own
+     * amendment naming it and arguing it. This is not a precedent for "outbound
+     * links are fine" and must not be widened into one. A `src`, `srcset`,
+     * `<link>`, `fetch()` or preconnect to either origin is also NOT covered —
+     * those fetch, and this exemption is only about navigation a user starts.
+     */
+    const PERMITTED_OUTBOUND_LINK_ORIGINS = ['https://www.npmjs.com', 'https://github.com'];
+
     const forbiddenPatterns: Array<[RegExp, string]> = [
       [/\/api\/interest/, 'P-04 — no submission endpoint in this scope'],
       [/\/api\/form-token/, 'MF-1 — no form token endpoint in this scope'],
@@ -526,6 +563,7 @@ describe('scope.prohibitions', () => {
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
       let source = stripComments(readFileSync(file, 'utf8'));
       for (const uri of ALLOWED_NON_FETCHED_URIS) source = source.split(uri).join('');
+      for (const origin of PERMITTED_OUTBOUND_LINK_ORIGINS) source = source.split(origin).join('');
       if (file.startsWith(DS_DIR)) source = source.replace(DS_THEME_KEY_CALLS, '');
 
       return forbiddenPatterns
