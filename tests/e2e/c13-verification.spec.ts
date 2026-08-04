@@ -25,7 +25,20 @@ import { expect, test, type Page } from '@playwright/test';
  * deployment (CC-007).
  */
 
-const ROUTES = ['/', '/about', '/contact', '/platform', '/principles', '/privacy', '/404.html'];
+const ROUTES = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/enterprise',
+  '/security',
+  '/about',
+  '/contact',
+  '/platform',
+  '/principles',
+  '/privacy',
+  '/404.html',
+];
 
 /* -------------------------------------------------------------------------- */
 /* Helpers                                                                    */

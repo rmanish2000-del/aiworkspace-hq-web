@@ -23,7 +23,20 @@ const VIEWPORTS = [
   { name: '1920x1080', width: 1920, height: 1080, note: 'desktop' },
 ] as const;
 
-const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy', '/404'] as const;
+const ROUTES = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/enterprise',
+  '/security',
+  '/platform',
+  '/principles',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/404',
+] as const;
 
 for (const viewport of VIEWPORTS) {
   for (const scheme of ['light', 'dark'] as const) {

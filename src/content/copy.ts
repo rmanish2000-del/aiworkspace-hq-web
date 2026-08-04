@@ -357,6 +357,9 @@ export const nav = {
   /** Accessible name for the landmark. Two navs would need distinct names. */
   label: 'Main',
   items: [
+    { href: '/trust', label: 'Trust' },
+    { href: '/technology', label: 'Technology' },
+    { href: '/what-we-havent-built', label: 'What we have not built' },
     { href: '/platform', label: 'Platform' },
     { href: '/principles', label: 'Principles' },
     { href: '/contact', label: 'Contact' },
@@ -375,6 +378,20 @@ export const nav = {
    * not need remaking: promote when the withheld section publishes.
    */
   about: 'About',
+
+  /**
+   * CC-008 — footer labels for the two secondary evidence routes. Footer
+   * only, like `about`, until AG-4 ratifies their nav position.
+   */
+  enterprise: 'For enterprise',
+  security: 'Security',
+
+  /**
+   * FD-W1 (founder directive, 2026-08-04): a footer link to the Warrant
+   * console at /warrant/console — the route PR #19 proxies to the console's
+   * own deployment. Navigational label; no factual assertion.
+   */
+  warrant: 'Warrant console',
 } as const;
 
 /* -------------------------------------------------------------------------- */

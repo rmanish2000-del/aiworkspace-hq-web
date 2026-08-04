@@ -1,14 +1,14 @@
+import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { parse } from 'yaml';
 
 import {
   copy,
-  principles,
   principlesPage,
   platform,
   contact,
   privacy,
   notFound,
-  hero,
   interest,
   nav,
   header,
@@ -47,7 +47,20 @@ import {
  * └───────────────────────────────────────────────────────────────────────────┘
  */
 
-const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy', '/404'] as const;
+const ROUTES = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/enterprise',
+  '/security',
+  '/platform',
+  '/principles',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/404',
+] as const;
 
 /**
  * WebKit tabs only between FORM CONTROLS.
@@ -863,8 +876,8 @@ test('M-8 with CSS blocked, content order stays sensible and nothing is lost', a
 
   expect(order[0]).toBe(PROVISIONAL.skipLinkText);
   expect(order[1]).toBe(header.wordmark);
-  expect(order).toContain(hero.headline);
-  expect(order).toContain(principles.heading);
+  // CC-008: the landing h1 is ledger block CB-01; the form heading follows.
+  expect(order).toContain('We are building an enterprise AI operating layer.');
   expect(order).toContain(interest.heading);
 
   // The form is still operable without styling.
@@ -908,6 +921,69 @@ test('M-9 every visible string on every route comes from the copy module', async
   collect(privacy);
   collect(nav);
   collect(notFound);
+
+  /**
+   * CC-008 — the ledger is the second approved source (G-LEDGER enforces the
+   * discipline; this test now recognises it). Blocks, badge vocabulary, the
+   * withheld notice, and the wired pages' structural labels.
+   */
+  const claimsLedger = parse(readFileSync('src/content/ledger/claims.yaml', 'utf8')) as {
+    claims: { text: string }[];
+  };
+  const blocksLedger = parse(readFileSync('src/content/ledger/blocks.yaml', 'utf8')) as {
+    blocks: { copy: string }[];
+  };
+  claimsLedger.claims.forEach((claim) => collect(claim.text));
+  blocksLedger.blocks.forEach((entry) => collect(entry.copy));
+  for (const extra of [
+    'VERIFIED',
+    'APPROVED',
+    'UNDER DESIGN',
+    'GATED',
+    '✓',
+    '→',
+    '◌',
+    '◆',
+    '·',
+    'This statement is withheld until its verification completes. The gap is deliberate.',
+    'Last reviewed 25 October 2026.',
+    'Last reviewed 25 October 2026. Reviewed every quarter.',
+    'Trust',
+    'Technology',
+    'The gap list',
+    'For enterprise',
+    'Security',
+    'AI Workspace',
+    'What we do not have',
+    'What we can show you',
+    'How we use AI',
+    'The exit strategy came first',
+    'The six technologies',
+    'What we rejected',
+    'How we decide',
+    'A stated ceiling',
+    'The list',
+    'Why there are no dates here',
+    'The questions',
+    'Who decides',
+    'The gate on this page',
+    'What is true today',
+    'Where this page stops',
+    'PostgreSQL',
+    'Data',
+    'Node.js',
+    'Application runtime',
+    'Docker with Docker Compose',
+    'Packaging and deployment',
+    'Git',
+    'Source control',
+    'npm',
+    'Dependency management',
+    'Automated test and release pipeline',
+    'Runs before anything ships',
+  ]) {
+    collect(extra);
+  }
 
   const unapproved: string[] = [];
 

@@ -12,7 +12,33 @@ const ROUTES = [
   {
     path: '/',
     title: 'AI Workspace — Enterprise AI Operating Layer',
-    h1: 'The layer between your enterprise systems and your AI agents',
+    // CC-008 CB-01 — FD-POS1 category claim on the landing route.
+    h1: 'We are building an enterprise AI operating layer.',
+  },
+  {
+    path: '/trust',
+    title: 'Trust — AI Workspace',
+    h1: 'What we can be held to, and what we cannot.',
+  },
+  {
+    path: '/technology',
+    title: 'Technology — AI Workspace',
+    h1: 'What we run on, and what happens if we are wrong about it.',
+  },
+  {
+    path: '/what-we-havent-built',
+    title: 'What we have not built — AI Workspace',
+    h1: 'What we have not built.',
+  },
+  {
+    path: '/enterprise',
+    title: 'For enterprise — AI Workspace',
+    h1: 'The ten questions you are going to ask us.',
+  },
+  {
+    path: '/security',
+    title: 'Security — AI Workspace',
+    h1: 'Security: what we can say, and what we cannot.',
   },
   {
     path: '/platform',
@@ -26,8 +52,9 @@ const ROUTES = [
   { path: '/404', title: 'Page not found — AI Workspace', h1: 'Page not found' },
 ] as const;
 
-/** The five indexable routes — everything except /404. */
-const SITEMAP_ROUTES = ROUTES.filter((r) => r.path !== '/404');
+/** FD-AG4 wave 1 (CC-009 §0) — exactly these five routes are indexable. */
+const WAVE_1 = ['/', '/trust', '/technology', '/what-we-havent-built', '/privacy'];
+const SITEMAP_ROUTES = ROUTES.filter((r) => WAVE_1.includes(r.path));
 
 /* -------------------------------------------------------------------------- */
 /* Every route renders                                                        */
@@ -88,7 +115,8 @@ for (const route of ROUTES) {
      * `index, follow`; `/404` stays `noindex` — an error page in the index is
      * a defect, and `08` SEO-10 names indexing mistakes in BOTH directions.
      */
-    const expectedRobots = route.path === '/404' ? /noindex/ : /^index, follow$/;
+    // FD-AG4 wave 1 (CC-009 §0): five indexable routes; everything else noindex.
+    const expectedRobots = WAVE_1.includes(route.path) ? /^index, follow$/ : /noindex/;
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', expectedRobots);
   });
 
@@ -118,6 +146,9 @@ test('the nav carries four items in the specified order', async ({ page }) => {
 
   const labels = await page.locator('nav[aria-label="Main"] li').allInnerTexts();
   expect(labels.map((l) => l.trim())).toEqual([
+    'Trust',
+    'Technology',
+    'What we have not built',
     'Platform',
     'Principles',
     'Contact',
@@ -185,6 +216,9 @@ test('every internal link resolves to a route that exists', async ({ page, reque
 
     for (const href of hrefs) {
       if (href.startsWith('#') || href.startsWith('mailto:')) continue;
+      // FD-W1: /warrant/* exists only at the edge rewrite (PR #19), never as
+      // a local file. CC-009's live post-launch checks cover it.
+      if (href.startsWith('/warrant')) continue;
       const path = href.split('#')[0]!;
       if (path === '' || seen.has(path)) continue;
       seen.add(path);
@@ -264,20 +298,19 @@ test('the superseded 404 string appears nowhere in the build', async ({ page }) 
   }
 });
 
-test('the five principles are byte-identical on / and /principles', async ({ page }) => {
-  // P1-J §7.3 / §11 — one copy entry, referenced twice. Divergence here is
-  // exactly the failure the single-entry rule exists to prevent.
-  await page.goto('/');
-  const onHome = await page.locator('.term-list--heading .term-list__term').allTextContents();
-  const glossHome = await page.locator('.term-list--heading .term-list__body').allTextContents();
-
+test('the five principles render on /principles; the landing route follows its contract', async ({
+  page,
+}) => {
+  // CC-008: `/` renders the HQ-10 landing contract, so the principles live on
+  // /principles alone. The single-entry rule (P1-J §11) still holds — one
+  // copy entry, one render site.
   await page.goto('/principles');
   const onPage = await page.locator('.term-list--heading .term-list__term').allTextContents();
-  const glossPage = await page.locator('.term-list--heading .term-list__body').allTextContents();
+  expect(onPage).toHaveLength(5);
 
-  expect(onPage).toEqual(onHome);
-  expect(glossPage).toEqual(glossHome);
-  expect(onHome).toHaveLength(5);
+  await page.goto('/');
+  await expect(page.locator('.term-list--heading')).toHaveCount(0);
+  await expect(page.locator('[data-block="CB-01"]')).toBeVisible();
 });
 
 test('/platform makes no present-tense capability claim', async ({ page }) => {

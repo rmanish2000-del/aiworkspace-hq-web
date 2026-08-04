@@ -20,14 +20,9 @@ test('the home route has exactly one h1, with no skipped heading levels', async 
 
   expect(outline.filter((heading) => heading.level === 1)).toHaveLength(1);
 
+  // CC-008 landing contract: h1 is CB-01; the form section is the only h2.
   expect(outline).toEqual([
-    { level: 1, text: 'The layer between your enterprise systems and your AI agents' },
-    { level: 2, text: 'How we are building it' },
-    { level: 3, text: 'Connect before migrate' },
-    { level: 3, text: 'Understand before automate' },
-    { level: 3, text: 'Extend before replace' },
-    { level: 3, text: 'Reuse before rebuild' },
-    { level: 3, text: 'Evidence before claims' },
+    { level: 1, text: 'We are building an enterprise AI operating layer.' },
     { level: 2, text: 'Register interest' },
   ]);
 
@@ -60,7 +55,8 @@ test('the eyebrow is a paragraph, not a heading', async ({ page }) => {
 
   const tagName = await page.locator('.eyebrow').evaluate((element) => element.tagName);
   expect(tagName).toBe('P');
-  await expect(page.locator('.eyebrow')).toHaveText('Enterprise AI Operating Layer');
+  // CC-008 landing contract: the eyebrow carries the public product name.
+  await expect(page.locator('.eyebrow')).toHaveText('AI Workspace');
 });
 
 test('the wordmark is plain text on the home route', async ({ page }) => {
@@ -77,10 +73,12 @@ test('the wordmark is plain text on the home route', async ({ page }) => {
 });
 
 test('the five principles are h3 elements inside list items, in order', async ({ page }) => {
-  // `03` §3 Block 3 — h3, NOT <strong>, because `03` §4 requires five h3s.
-  await page.goto('/');
+  // CC-008: the principles render on /principles; the landing route follows
+  // the HQ-10 contract and no longer carries them. On /principles the terms
+  // are h2 elements (P2-B UX-1 — the page's substance takes h2 scale).
+  await page.goto('/principles');
 
-  const titles = await page.locator('.term-list--heading > li > h3').allTextContents();
+  const titles = await page.locator('.term-list--heading > li > h2').allTextContents();
 
   expect(titles).toEqual([
     'Connect before migrate',

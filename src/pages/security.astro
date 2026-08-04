@@ -1,0 +1,53 @@
+---
+/**
+ * `/security` — posture, never architecture. Renders WITHOUT a CTA until
+ * CL-21 (a disclosure process) exists — CC-008 scope 4 / SP-3. CB-74 is
+ * withheld under CT-4 and renders as an explicit notice.
+ */
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+import { withheldNotice } from '../lib/ledger';
+---
+
+<Base
+  title="Security — AI Workspace"
+  description="Security: what we can say, and what we cannot."
+  canonicalPath="/security"
+  indexableInProduction={false}
+>
+  <header class="page-head">
+    <p class="eyebrow">Security</p>
+    <LedgerBlock id="CB-70" as="h1" class="page-head__title-block" badge={false} />
+  </header>
+
+  <section class="section" aria-labelledby="notice-heading">
+    <h2 class="section__heading" id="notice-heading">The gate on this page</h2>
+    <div class="term-list"><LedgerBlock id="CB-71" /></div>
+  </section>
+
+  <section class="section" aria-labelledby="facts-heading">
+    <h2 class="section__heading" id="facts-heading">What is true today</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-72" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-73" /></li>
+    </ul>
+    <p class="micro-notice">{withheldNotice('CB-74')}</p>
+  </section>
+
+  <section class="section" aria-labelledby="boundary-heading">
+    <h2 class="section__heading" id="boundary-heading">Where this page stops</h2>
+    <div class="term-list"><LedgerBlock id="CB-75" badge={false} /></div>
+  </section>
+</Base>
+
+<style>
+  .page-head__title-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+</style>

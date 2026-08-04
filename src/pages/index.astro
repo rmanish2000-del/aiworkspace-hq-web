@@ -1,35 +1,21 @@
 ---
 /**
- * `/` — the home route.
+ * `/` — CC-008 wiring of the HQ-10 landing contract.
  *
- * Blocks rendered (`03` §2):
- *   0  Skip link      — Base.astro
- *   1  Header + nav   — Base.astro -> SiteHeader (nav is new: P1-J §4.1)
- *   2  Hero           — here
- *   3  Principles     — here
- *   4  Early interest — here, VISUAL ONLY. No submission path exists.
- *   5  Footer         — Base.astro -> SiteFooter (landmark only; copy blocked)
+ * ⛔ THIS PAGE DIFFERS FROM THE HOLDING PAGE. FD-POS1 (CC-008 §0) authorizes
+ * the category claim on `/`; the DS-D2 baseline is re-recorded on this branch
+ * accordingly. Because `main` auto-deploys production, THIS BRANCH MUST NOT
+ * MERGE WITHOUT AG-4 — the PR is marked never-auto-merge.
  *
- * All six blocks of `03` §2 are now present, in order.
- *
- * Document outline, matching `03` §4 exactly:
- *
- *   h1  The layer between your enterprise systems and your AI agents
- *    h2  How we are building it
- *      h3 Connect before migrate
- *      h3 Understand before automate
- *      h3 Extend before replace
- *      h3 Reuse before rebuild
- *      h3 Evidence before claims
- *    h2  Register interest
- *
- * Exactly one h1. No heading levels skipped. Asserted by
- * tests/e2e/structure.spec.ts against the built output.
+ * Outline: h1 (CB-01) · h2 Register interest. Blocks CB-01…CB-06 render
+ * through the ledger; the CTA slot (CB-07) is implemented by the approved
+ * InterestForm component, whose strings carry binding commitment C-12
+ * verbatim (see docs/reviews/cc008-evidence/).
  */
-import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import Principles from '../components/Principles.astro';
 import InterestForm from '../components/InterestForm.astro';
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+import { block } from '../lib/ledger';
 import { meta } from '../content/copy';
 ---
 
@@ -40,7 +26,100 @@ import { meta } from '../content/copy';
   indexableInProduction={true}
   structuredData={true}
 >
-  <Hero />
-  <Principles />
+  <section class="hero">
+    <p class="eyebrow">AI Workspace</p>
+    <LedgerBlock id="CB-01" as="h1" class="hero__headline-block" />
+    <LedgerBlock id="CB-02" class="hero__supporting-block" />
+    <p class="callout callout--neutral stage-disclosure" data-block="CB-03">
+      {block('CB-03').copy}
+    </p>
+    <div class="hero__links">
+      <a class="hero__gap-link" href="/what-we-havent-built" data-block="CB-04">
+        {block('CB-04').copy}
+      </a>
+      <a class="hero__method-link" href="/technology" data-block="CB-05">{block('CB-05').copy}</a>
+    </div>
+    <p class="micro-notice" data-block="CB-06">{block('CB-06').copy}</p>
+  </section>
+
   <InterestForm />
 </Base>
+
+<style>
+  .hero {
+    padding-block-start: var(--space-9);
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block-start: var(--space-11);
+    }
+  }
+
+  .hero__headline-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .hero__supporting-block {
+    margin-block-start: var(--space-5);
+  }
+
+  .hero__supporting-block :global(.ledger-block__copy) {
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+
+  .stage-disclosure {
+    max-width: var(--measure-body);
+    border-inline-start: 2px solid var(--border-strong);
+    padding-inline: var(--space-4);
+    font-size: var(--type-stage);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-stage);
+    color: var(--fg-muted);
+    margin-block-start: var(--space-6);
+  }
+
+  /* LP-1 — the gap link sits above the fold, styled as the primary action. */
+  .hero__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    align-items: center;
+    margin-block-start: var(--space-6);
+  }
+
+  .hero__gap-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 14px 24px;
+    border-radius: var(--radius);
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-fast) var(--ease);
+  }
+
+  .hero__gap-link:hover {
+    background-color: var(--accent-hover);
+  }
+
+  .hero__method-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hero > .micro-notice {
+    margin-block-start: var(--space-6);
+  }
+</style>

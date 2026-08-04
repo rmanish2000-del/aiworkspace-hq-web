@@ -42,7 +42,11 @@ const { currentPath } = Astro.props;
  * sitemap is not navigation.
  */
 const links = [
-  { href: '/platform', label: nav.items[0].label },
+  { href: '/enterprise', label: nav.enterprise },
+  { href: '/security', label: nav.security },
+  // FD-W1 — the Warrant console, proxied under /warrant (PR #19).
+  { href: '/warrant/console', label: nav.warrant },
+  { href: '/platform', label: nav.items[3].label },
   { href: '/principles', label: principlesPage.metaTitle.split(' — ')[0] },
   { href: '/about', label: nav.about },
   { href: '/contact', label: contact.heading },

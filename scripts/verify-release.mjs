@@ -159,8 +159,8 @@ const htmlFiles = () =>
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 7) {
-    throw new Error(`expected 7 route documents, found ${files.length}`);
+  if (files.length !== 12) {
+    throw new Error(`expected 12 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
@@ -250,7 +250,8 @@ check('the sitemap lists exactly the indexable routes', () => {
   const xml = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
-  if (locs.length !== 6) throw new Error(`expected 6 URLs, found ${locs.length}`);
+  // FD-AG4 wave 1 (CC-009 §0): exactly the five indexable routes.
+  if (locs.length !== 5) throw new Error(`expected 5 URLs, found ${locs.length}`);
   for (const forbidden of ['/404', '/docs', '/research']) {
     if (xml.includes(forbidden)) throw new Error(`sitemap contains ${forbidden}`);
   }
@@ -358,6 +359,14 @@ run(
   'C-13 verification (G-C13)',
   'npx playwright test tests/e2e/c13-verification.spec.ts --project=chromium-light --project=chromium-dark',
 );
+
+/* -------------------------------------------------------------------------- */
+/* 4c. G-LEDGER — every rendered public string traces to the claims ledger    */
+/* (CC-008): orphan strings fail, G-4 runs over the ledger files, withheld    */
+/* blocks stay withheld, negative claims stay dated (T-3).                    */
+/* -------------------------------------------------------------------------- */
+
+run('claim-ledger gate (G-LEDGER)', 'node scripts/ledger-gate.mjs');
 
 /* -------------------------------------------------------------------------- */
 /* 5. Browser matrix — accessibility, routes, viewports, three engines        */

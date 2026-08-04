@@ -156,12 +156,16 @@ test('About is a footer link and is absent from primary navigation', async ({ pa
   }
 });
 
-test('the footer lists exactly the five approved links, in order', async ({ page }) => {
+test('the footer lists exactly the approved links, in order', async ({ page }) => {
   // P2-C §8.3 caps growth: "a footer that lists every route is a sitemap, and
   // a sitemap is not navigation."
   await page.goto('/about');
   const labels = await page.locator('nav[aria-label="Footer"] a').allTextContents();
+  // CC-008 adds the two secondary evidence routes ahead of the P2-C five.
   expect(labels.map((l) => l.trim())).toEqual([
+    'For enterprise',
+    'Security',
+    'Warrant console',
     'Platform',
     'Principles',
     'About',
@@ -174,8 +178,9 @@ test('the footer lists exactly the five approved links, in order', async ({ page
 /* Deferred routes stay deferred — P2-C §12.2                                 */
 /* -------------------------------------------------------------------------- */
 
-test('/trust and /developers exist nowhere', async ({ page, request }) => {
-  for (const path of ['/trust', '/developers']) {
+test('deferred routes exist nowhere', async ({ page, request }) => {
+  // CC-008 shipped /trust; /developers, /docs and /research stay deferred.
+  for (const path of ['/developers', '/docs', '/research']) {
     const response = await request.get(path);
     expect(response.status(), `${path} exists`).toBe(404);
   }
@@ -187,7 +192,7 @@ test('/trust and /developers exist nowhere', async ({ page, request }) => {
     );
     for (const href of hrefs) {
       expect(href, `${route} links to a deferred route`).not.toMatch(
-        /\/(trust|developers|docs|research)\b/,
+        /\/(developers|docs|research)\b/,
       );
     }
   }
@@ -211,8 +216,9 @@ test('the shared strings render identically on every route that uses them', asyn
   const aboutText = await seen('/about');
   const principlesText = await seen('/principles');
 
+  // CC-008: the landing route renders the HQ-10 contract, so the shared
+  // proposition now renders on /about (and the pillar pages), not on /.
   const proposition = shared.coreProposition.replace(/\s+/g, ' ');
-  expect(home).toContain(proposition);
   expect(aboutText).toContain(proposition);
 
   const disclosure = shared.stageDisclosure.replace(/\s+/g, ' ');
