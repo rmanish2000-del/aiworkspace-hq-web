@@ -133,7 +133,9 @@ for (const route of ROUTES) {
     // or the check false-positives on a trap that is not there.
     const total = await page.evaluate(() => {
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -169,7 +171,9 @@ for (const route of ROUTES) {
     const total = await page.evaluate(
       () =>
         [
-          ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+          ...document.querySelectorAll<HTMLElement>(
+            'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+          ),
         ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
     );
 
@@ -199,7 +203,9 @@ for (const route of ROUTES) {
 
     const total = await page.evaluate(() => {
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -242,7 +248,9 @@ for (const route of ROUTES) {
     const unfocusable = await page.evaluate(() => {
       const failures: string[] = [];
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
 
       for (const el of els) {
@@ -318,7 +326,9 @@ test('A11Y-03 the focus ring meets 3:1 against what actually sits next to it', a
     const total = await page.evaluate(
       () =>
         [
-          ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+          ...document.querySelectorAll<HTMLElement>(
+            'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])',
+          ),
         ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
     );
 
