@@ -1,0 +1,90 @@
+---
+/**
+ * `/technology` — CC-008 wiring. FD-F2: six technologies, and the ADR
+ * practice renders as a "How we decide" section (CB-39).
+ */
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+
+/** FD-F2 — exactly six, from CB-33's verified stack sentence. */
+const TECHNOLOGIES = [
+  { name: 'PostgreSQL', role: 'Data' },
+  { name: 'Node.js', role: 'Application runtime' },
+  { name: 'Docker with Docker Compose', role: 'Packaging and deployment' },
+  { name: 'Git', role: 'Source control' },
+  { name: 'npm', role: 'Dependency management' },
+  { name: 'Automated test and release pipeline', role: 'Runs before anything ships' },
+];
+---
+
+<Base
+  title="Technology — AI Workspace"
+  description="What we run on, and what happens if we are wrong about it."
+  canonicalPath="/technology"
+  indexableInProduction={true}
+>
+  <header class="page-head">
+    <p class="eyebrow">Technology</p>
+    <LedgerBlock id="CB-30" as="h1" class="page-head__title-block" badge={false} />
+    <LedgerBlock id="CB-31" class="page-head__lead-block" badge={false} />
+  </header>
+
+  <section class="section" aria-labelledby="exit-heading">
+    <h2 class="section__heading" id="exit-heading">The exit strategy came first</h2>
+    <div class="term-list"><LedgerBlock id="CB-32" /></div>
+  </section>
+
+  <section class="section" aria-labelledby="stack-heading">
+    <h2 class="section__heading" id="stack-heading">The six technologies</h2>
+    <div class="term-list"><LedgerBlock id="CB-33" /></div>
+    <ul class="term-list">
+      {
+        TECHNOLOGIES.map((tech) => (
+          <li class="term-list__row">
+            <span class="term-list__term">{tech.name}</span>
+            <p class="term-list__body">{tech.role}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="term-list"><LedgerBlock id="CB-34" /></div>
+  </section>
+
+  <section class="section" aria-labelledby="rejected-heading">
+    <h2 class="section__heading" id="rejected-heading">What we rejected</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-35" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-36" /></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="decide-heading">
+    <h2 class="section__heading" id="decide-heading">How we decide</h2>
+    <div class="term-list"><LedgerBlock id="CB-39" /></div>
+  </section>
+
+  <section class="section" aria-labelledby="ceiling-heading">
+    <h2 class="section__heading" id="ceiling-heading">A stated ceiling</h2>
+    <div class="term-list"><LedgerBlock id="CB-37" /></div>
+  </section>
+
+  <p class="micro-notice">Last reviewed 25 October 2026.</p>
+</Base>
+
+<style>
+  .page-head__title-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .page-head__lead-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-5);
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+</style>

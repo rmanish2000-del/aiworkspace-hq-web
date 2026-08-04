@@ -22,7 +22,8 @@ import { canonicalUrl } from '../lib/site';
  * (P-01), so this file describes a site that is not yet reachable — which is
  * consistent with every route also being `noindex` in this build.
  */
-const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy'] as const;
+// FD-AG4 wave 1 (CC-009 §0): exactly these five routes are indexable.
+const ROUTES = ['/', '/trust', '/technology', '/what-we-havent-built', '/privacy'] as const;
 
 export const GET: APIRoute = () => {
   const urls = ROUTES.map(

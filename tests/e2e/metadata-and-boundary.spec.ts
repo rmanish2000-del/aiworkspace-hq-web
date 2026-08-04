@@ -161,10 +161,9 @@ test('primary content is present without executing JavaScript', async ({ browser
   const page = await context.newPage();
 
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText(
-    'The layer between your enterprise systems and your AI agents',
-  );
-  await expect(page.locator('.term-list--heading > li')).toHaveCount(5);
+  await expect(page.locator('h1')).toHaveText('We are building an enterprise AI operating layer.');
+  // CC-008: the landing page renders its ledger blocks without JavaScript.
+  await expect(page.locator('[data-block="CB-04"]')).toBeVisible();
 
   await context.close();
 });

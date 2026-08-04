@@ -138,10 +138,14 @@ jobs:
           #   tests/e2e/routes.spec.ts, which fetches every internal href and
           #   asserts the fragment target exists. Same-page `#interest` links
           #   are still checked here.
+          # --exclude 'warrant/console$': FD-W1 footer link to the proxied
+          #   Warrant console (PR #19). It exists only at the edge rewrite,
+          #   never as a local file; CC-009's live post-launch checks cover it.
           args: >-
             --offline --no-progress --include-fragments
             --fallback-extensions html
             --exclude 'dist#interest$'
+            --exclude 'warrant/console$'
             --root-dir ${{ github.workspace }}/dist
             'dist/**/*.html'
           fail: true

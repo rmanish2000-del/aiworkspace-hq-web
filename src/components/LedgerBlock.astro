@@ -1,0 +1,45 @@
+---
+/**
+ * LedgerBlock — renders one contract block: its copy, and the tier badge +
+ * date of the claim that makes it true (CC-008 scope 2). CT-1: pages pass a
+ * block id; nobody retypes a sentence.
+ */
+import { badgeFor, block } from '../lib/ledger';
+import LedgerBadge from './LedgerBadge.astro';
+
+export interface Props {
+  id: string;
+  /** Render the copy inside this element. */
+  as?: 'p' | 'h1' | 'h2' | 'h3' | 'dt' | 'dd' | 'li';
+  /** Badges render for factual kinds unless suppressed (e.g. inside a CTA). */
+  badge?: boolean;
+  class?: string;
+}
+
+const { id, as = 'p', badge = true, class: className } = Astro.props;
+const entry = block(id);
+const badgeData = badge ? badgeFor(id) : null;
+const CopyElement = as;
+---
+
+<div class:list={['ledger-block', className]} data-block={id}>
+  <CopyElement class="ledger-block__copy"><slot name="before" />{entry.copy}</CopyElement>
+  {
+    badgeData && (
+      <p class="ledger-block__badge">
+        <LedgerBadge tier={badgeData.tier} date={badgeData.date} />
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .ledger-block__copy {
+    max-width: var(--measure-body);
+    text-wrap: pretty;
+  }
+
+  .ledger-block__badge {
+    margin-block-start: var(--space-2);
+  }
+</style>

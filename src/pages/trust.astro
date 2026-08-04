@@ -1,0 +1,71 @@
+---
+/**
+ * `/trust` — CC-008 wiring of the HQ-10 route contract. Every sentence is a
+ * ledger block; CB-21 (the C-13 sentence) is withheld under CT-4 and renders
+ * as an explicit notice, not its copy.
+ */
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+import { withheldNotice } from '../lib/ledger';
+---
+
+<Base
+  title="Trust — AI Workspace"
+  description="What we can be held to, and what we cannot."
+  canonicalPath="/trust"
+  indexableInProduction={true}
+>
+  <header class="page-head">
+    <p class="eyebrow">Trust</p>
+    <LedgerBlock id="CB-10" as="h1" class="page-head__title-block" badge={false} />
+    <LedgerBlock id="CB-11" class="page-head__lead-block" badge={false} />
+  </header>
+
+  <section class="section" aria-labelledby="missing-heading">
+    <h2 class="section__heading" id="missing-heading">What we do not have</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-12" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-13" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-14" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-15" /></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="method-heading">
+    <h2 class="section__heading" id="method-heading">What we can show you</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-16" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-17" /></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="ai-heading">
+    <h2 class="section__heading" id="ai-heading">How we use AI</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-18" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-19" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-20" /></li>
+    </ul>
+    <p class="micro-notice">{withheldNotice('CB-21')}</p>
+  </section>
+
+  <p class="micro-notice">Last reviewed 25 October 2026.</p>
+</Base>
+
+<style>
+  .page-head__title-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .page-head__lead-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-5);
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+</style>

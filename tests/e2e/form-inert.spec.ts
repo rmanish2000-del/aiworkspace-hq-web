@@ -165,13 +165,14 @@ test('the consent checkbox is a native checkbox, unchecked by default', async ({
   await expect(consent).not.toHaveAttribute('role', 'switch');
 });
 
-test('the hero CTA reaches the form section', async ({ page }) => {
+test('the nav CTA reaches the form section', async ({ page }) => {
+  // CC-008: the landing hero's primary action is the gap link (LP-1); the
+  // form CTA lives in the nav, as on every route.
   await page.goto('/');
 
-  const cta = page.locator('.hero__cta');
+  const cta = page.locator('nav[aria-label="Main"] .site-nav__cta');
   await expect(cta).toHaveText('Register interest');
-  await expect(cta).toHaveAttribute('href', '#interest');
-  await expect(cta).toHaveAttribute('aria-label', 'Register interest in AI Workspace early access');
+  await expect(cta).toHaveAttribute('href', '/#interest');
 
   await cta.click();
   await expect(page.locator('#interest')).toBeInViewport();
@@ -194,7 +195,7 @@ test('tab order follows DOM order through the form', async ({ page }) => {
   await page.goto('/');
 
   const order: string[] = [];
-  for (let i = 0; i < 13; i += 1) {
+  for (let i = 0; i < 16; i += 1) {
     await page.keyboard.press('Tab');
     order.push(
       await page.evaluate(() => {
@@ -216,18 +217,22 @@ test('tab order follows DOM order through the form', async ({ page }) => {
     'skip-link',
     // P1-J §4.4: skip link -> wordmark -> nav items -> main content -> footer.
     // The wordmark is a <p> on `/` and is correctly not focusable (`03` §3
-    // Block 1) — there is nowhere for it to go from the home route.
+    // Block 1). CC-008: six nav items, then the CTA, then the hero's two
+    // evidence links, then the form controls.
+    'site-nav__link',
+    'site-nav__link',
+    'site-nav__link',
     'site-nav__link',
     'site-nav__link',
     'site-nav__link',
     'site-nav__cta',
-    'hero__cta',
+    'hero__gap-link',
+    'hero__method-link',
     'work-email',
     'full-name',
     'organization',
     'role',
     'context',
     'consent',
-    'button', // the form's submit control
   ]);
 });

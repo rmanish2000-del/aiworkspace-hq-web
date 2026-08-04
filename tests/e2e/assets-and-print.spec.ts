@@ -93,12 +93,17 @@ test('print hides the form, the CTA and the skip link', async ({ page }) => {
   await expect(page.locator('.skip-link')).toBeHidden();
 });
 
-test('print keeps the headline, principles and stage disclosure', async ({ page }) => {
+test('print keeps the headline and stage disclosure; /principles prints its five', async ({
+  page,
+}) => {
+  // CC-008: the principles print on /principles, where they now live.
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
-
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('.stage-disclosure')).toBeVisible();
+
+  await page.goto('/principles');
+  await page.emulateMedia({ media: 'print' });
   await expect(page.locator('.term-list--heading > li')).toHaveCount(5);
   for (let i = 0; i < 5; i += 1) {
     await expect(page.locator('.term-list--heading > li').nth(i)).toBeVisible();

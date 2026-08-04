@@ -1,0 +1,57 @@
+---
+/**
+ * `/what-we-havent-built` — the honest gap list, dated. Every gap is a
+ * verified negative claim with a re-verification cadence (T-3).
+ */
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="What we have not built — AI Workspace"
+  description="The honest gap list, dated."
+  canonicalPath="/what-we-havent-built"
+  indexableInProduction={true}
+>
+  <header class="page-head">
+    <p class="eyebrow">The gap list</p>
+    <LedgerBlock id="CB-40" as="h1" class="page-head__title-block" badge={false} />
+    <LedgerBlock id="CB-41" class="page-head__lead-block" badge={false} />
+  </header>
+
+  <section class="section" aria-labelledby="gaps-heading">
+    <h2 class="section__heading" id="gaps-heading">The list</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-42" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-43" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-44" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-45" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-46" /></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="nodates-heading">
+    <h2 class="section__heading" id="nodates-heading">Why there are no dates here</h2>
+    <div class="term-list"><LedgerBlock id="CB-47" /></div>
+  </section>
+
+  <p class="micro-notice">Last reviewed 25 October 2026. Reviewed every quarter.</p>
+</Base>
+
+<style>
+  .page-head__title-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .page-head__lead-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-5);
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+</style>

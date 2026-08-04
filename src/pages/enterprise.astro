@@ -1,0 +1,57 @@
+---
+/**
+ * `/enterprise` — question–position framing per the contract (F-10: the
+ * heading is always a question; the list is not reordered).
+ */
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="For enterprise — AI Workspace"
+  description="The questions an evaluator asks, answered honestly."
+  canonicalPath="/enterprise"
+  indexableInProduction={false}
+>
+  <header class="page-head">
+    <p class="eyebrow">For enterprise</p>
+    <LedgerBlock id="CB-50" as="h1" class="page-head__title-block" badge={false} />
+    <LedgerBlock id="CB-51" class="page-head__lead-block" badge={false} />
+  </header>
+
+  <section class="section" aria-labelledby="questions-heading">
+    <h2 class="section__heading" id="questions-heading">The questions</h2>
+    <ul class="term-list">
+      <li class="term-list__row"><LedgerBlock id="CB-52" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-53" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-54" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-55" /></li>
+      <li class="term-list__row"><LedgerBlock id="CB-56" /></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="governance-heading">
+    <h2 class="section__heading" id="governance-heading">Who decides</h2>
+    <div class="term-list"><LedgerBlock id="CB-57" /></div>
+  </section>
+
+  <p class="micro-notice">Last reviewed 25 October 2026.</p>
+</Base>
+
+<style>
+  .page-head__title-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+    text-wrap: balance;
+  }
+
+  .page-head__lead-block :global(.ledger-block__copy) {
+    margin-block-start: var(--space-5);
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+</style>
