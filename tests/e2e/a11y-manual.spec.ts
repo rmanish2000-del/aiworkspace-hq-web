@@ -52,6 +52,7 @@ const ROUTES = [
   '/trust',
   '/technology',
   '/what-we-havent-built',
+  '/warrant-mcp',
   '/enterprise',
   '/security',
   '/platform',

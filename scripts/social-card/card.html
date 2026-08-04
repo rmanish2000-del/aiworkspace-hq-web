@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      card.html — the social-card composition, as one file with no dependencies.
+
+      Every geometric number below is a CSS custom property injected by
+      compose-social-card.mjs, which reads them from the asset spec §1.4 and
+      §1.5. Nothing here rounds, guesses, or hardcodes a measurement: if a
+      number is wrong it is wrong in the script, in one place, next to the
+      section of the spec it came from.
+
+      Colour: this file defines NO colour value. The three roles arrive as
+      --matte, --brass and --paper, resolved by the script from the site's own
+      token file. A second, slightly-different green is how a brand stops being
+      one, so the template is not allowed to invent one.
+
+      The terminal image is PLACED, never STYLED. There is no filter, no
+      mix-blend-mode, no opacity, no tint and no border-radius clipping that
+      would resample its interior. The border and the corner radius sit on a
+      wrapper around it. The whole persuasive value of the card is that the
+      terminal is a real capture, and anything applied to its pixels spends
+      that.
+    -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: var(--canvas-w);
+        height: var(--canvas-h);
+        background: var(--matte);
+        overflow: hidden;
+      }
+
+      /* The safe margin. Nothing may cross it — §1.7 disqualifies a take whose
+         clause text runs under it. */
+      .content {
+        box-sizing: border-box;
+        width: var(--canvas-w);
+        height: var(--canvas-h);
+        padding: var(--margin);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      /* §1.4: brass rule, above the terminal block, left-aligned to it. */
+      .rule {
+        width: var(--rule-len);
+        height: var(--rule-h);
+        background: var(--brass);
+        flex: none;
+      }
+
+      .rule + .frame {
+        margin-top: var(--rule-gap);
+      }
+
+      /* The 1 px brass hairline and the 8 px radius live here, on a wrapper,
+         so the capture itself is untouched. `overflow: hidden` clips the
+         corners of the wrapper, not of the image's own pixels. */
+      .frame {
+        box-sizing: border-box;
+        width: var(--place-w);
+        border: var(--frame-border) solid var(--brass);
+        border-radius: var(--frame-radius);
+        overflow: hidden;
+        flex: none;
+        line-height: 0;
+        box-shadow: var(--frame-shadow);
+      }
+
+      .frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      /* §1.4: single line, paper white, below the terminal. §1.5 omits it. */
+      .caption {
+        margin-top: var(--caption-gap);
+        color: var(--paper);
+        font-family: var(--caption-font);
+        font-size: var(--caption-size);
+        line-height: 1.2;
+        white-space: nowrap;
+        flex: none;
+      }
+
+      .caption[hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="rule"></div>
+      <div class="frame"><img id="capture" alt="" /></div>
+      <div class="caption" id="caption"></div>
+    </div>
+  </body>
+</html>

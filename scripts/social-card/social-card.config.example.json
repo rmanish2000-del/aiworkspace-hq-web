@@ -1,0 +1,26 @@
+{
+  "_": [
+    "Copy this file to social-card.config.json and fill in the three colour roles",
+    "from the asset spec §1.6. compose-social-card.mjs will not render without it.",
+    "",
+    "PREFERRED: name a custom property from src/design-system/tokens.css, e.g.",
+    "'--verdigris'. The script resolves it from that file, so the card cannot drift",
+    "away from the site. A raw hex is accepted and renders, but warns on every run,",
+    "because a colour that lives only here is a colour outside the design system.",
+    "",
+    "The spec says: 'If a hex is not already recorded for these three, take it from",
+    "the existing site stylesheet rather than inventing one here.' No token is named",
+    "deep-green, brass or paper-white today. The nearest recorded candidates, for a",
+    "human to confirm or reject — this file ships with none of them chosen:",
+    "",
+    "  matte (deep green)  --verdigris  #0b6b57  'evidence · verified · the primary'",
+    "                      or #07473a, the dark stop of --g-evidence, which is deeper",
+    "  brass               --saffron    #8a5800  'time · dates · gated-withheld'",
+    "  paper (white)       --bg         #f7faf8  the light-theme paper",
+    "",
+    "Delete this _ block once the three values are set."
+  ],
+  "matte": "",
+  "brass": "",
+  "paper": ""
+}
