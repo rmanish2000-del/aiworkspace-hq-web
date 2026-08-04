@@ -401,6 +401,20 @@ const review =
    * knowing it exists.
    */
 
+  /*
+   * Inline code must be breakable. Tokens like Omit<CompiledPolicy, 'clauses'>
+   * and ~/.warrant/projects/<project>/ have no break opportunity, so at a 320px
+   * viewport with SC 1.4.12's forced letter- and word-spacing they push past the
+   * edge and the PAGE scrolls sideways — content becomes unreachable rather than
+   * merely overflowing a box. Measured: five inline <code> right edges at 346px
+   * to 738px against a 320px limit.
+   *
+   * The block form is exempted below: there, alignment is the content.
+   */
+  code {
+    overflow-wrap: anywhere;
+  }
+
   /* --- Code -------------------------------------------------------------- */
   /*
    * Scroll, never wrap. A reflowed refusal is a different sentence, and the
@@ -427,6 +441,8 @@ const review =
     font: inherit;
     background: none;
     padding: 0;
+    /* Not `anywhere`: the block scrolls instead of breaking a line. */
+    overflow-wrap: normal;
   }
 
   .wmcp-code:focus-visible {
