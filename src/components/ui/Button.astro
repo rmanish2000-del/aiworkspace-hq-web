@@ -70,7 +70,9 @@ const isLink = as === 'a';
     min-height: 48px;
     padding: 14px 24px;
     border: 1px solid transparent;
-    border-radius: var(--radius);
+    /* Prava: controls are pills. The 48px min-height and 14/24 padding are
+       unchanged, so the target size in `07` §6.5 and §9 still holds. */
+    border-radius: var(--radius-full);
     background-color: var(--accent);
     color: var(--accent-fg);
     font-family: inherit;

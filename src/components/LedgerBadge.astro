@@ -40,7 +40,8 @@ const GLYPH: Record<Tier, string> = {
     gap: var(--space-2);
     padding: 1px var(--space-3);
     border-radius: var(--radius-sm);
-    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    /* The mono voice now has a token, and the token leads with IBM Plex Mono. */
+    font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-size: var(--type-small);
     font-weight: var(--weight-medium);

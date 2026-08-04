@@ -138,7 +138,8 @@ a:hover {
   font-size: var(--type-small);
   font-weight: var(--weight-semibold);
   text-decoration: none;
-  border-radius: var(--radius);
+  /* Prava: the skip link is a control, so it takes the control shape. */
+  border-radius: var(--radius-full);
   transition: transform var(--duration-fast) var(--ease);
 }
 

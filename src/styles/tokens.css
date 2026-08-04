@@ -8,32 +8,57 @@
  */
 
 :root {
-  /* --- §2 Colour — light theme (default) --------------------------------- */
-  --bg: #ffffff;
-  --bg-subtle: #f6f7f8;
-  --fg: #111315;
-  --fg-muted: #5a6167;
+  /* --- §2 Colour — light theme (default) ---------------------------------
+   *
+   * PRAVA FAMILY. One identity across the whole site: warm off-white paper,
+   * near-black ink, a single teal accent, warm neutral rules. It replaces two
+   * palettes that had drifted apart — a blue skin here and a green-cast one in
+   * src/design-system/tokens.css — and the two files now carry the same values
+   * for every shared name.
+   *
+   * Two parts of the Prava console are deliberately NOT brought over, because
+   * rules in this repository outrank a borrowed look:
+   *
+   *   - Its elevation. `07` and the CL-2 test forbid an elevation token and any
+   *     box-shadow used for separation. Separation stays borders and surfaces.
+   *   - Its web fonts. `08` §8 sets a zero font budget. Inter and IBM Plex Mono
+   *     are NAMED at the front of the stacks, so a machine that has them renders
+   *     the console's type exactly; nothing is ever fetched.
+   *
+   * Every pair below is verified by `npm run ds:gates` (G-C1), which computes
+   * contrast from the token file rather than trusting this comment.
+   */
+  --bg: #faf9f7; /* paper */
+  --bg-subtle: #f0efec; /* the recessed surface: code, chips, wells */
+  --fg: #171717; /* ink */
+  --fg-muted: #5c594f; /* 7.1:1 on --bg, 6.5:1 on --bg-subtle */
 
   /* Decorative rules and dividers ONLY — never a UI-component boundary. */
-  --border: #dfe3e6;
+  --border: #e5e4e0;
 
   /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
-  --border-input: #848b92;
-  --border-strong: #6b7278;
+  --border-input: #74716a;
+  --border-strong: #5f5c55;
 
-  --accent: #1b4de4;
+  --accent: #0f766e; /* the one accent: links, focus, primary fill */
   --accent-fg: #ffffff;
-  --danger: #b3261e;
-  --success: #0f6e3d;
+  --danger: #9c1f2e;
+  --success: #1e6f40;
 
   /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
-  --accent-hover: #1743c4;
-  --accent-active: #1339ab;
+  --accent-hover: #0c5f59;
+  --accent-active: #0a4f4a;
 
-  /* --- §3 Typography ----------------------------------------------------- */
+  /* --- §3 Typography -----------------------------------------------------
+   * Inter and IBM Plex Mono lead the stacks and are never loaded (see above).
+   * On a machine without them the system stack behind each carries the page,
+   * which is what it did before this change.
+   */
   --font-sans:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
 
   /*
    * Fluid scale, clamped between the 360px and 1280px viewports (§3).
@@ -149,20 +174,28 @@
 
 /* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
 @media (prefers-color-scheme: dark) {
+  /*
+   * The Prava console is light-only, so this is the one part of the palette
+   * with no original to copy. It is derived rather than invented: the same warm
+   * cast, inverted — a warm near-black paper, warm off-white ink, and the
+   * accent lifted to the teal the console uses on its own dark card
+   * (--accent-on-dark, #2dd4bf). Verified by the same G-C1 table as the light
+   * theme, both bg levels.
+   */
   :root {
-    --bg: #0b0d0e;
-    --bg-subtle: #141719;
-    --fg: #f2f4f5;
-    --fg-muted: #a2aab1;
-    --border: #262b2f;
-    --border-input: #7a8288;
-    --border-strong: #99a1a8;
-    --accent: #7a9bff;
-    --accent-fg: #0b0d0e;
+    --bg: #14130f;
+    --bg-subtle: #1e1c17;
+    --fg: #f2f0ea;
+    --fg-muted: #a8a49a;
+    --border: #2b2820;
+    --border-input: #7d796e;
+    --border-strong: #9c978a;
+    --accent: #2dd4bf;
+    --accent-fg: #14130f;
     --danger: #ff8a80;
     --success: #5fd39b;
-    --accent-hover: #6f8fef;
-    --accent-active: #6484df;
+    --accent-hover: #5ee0d0;
+    --accent-active: #7fe8db;
   }
 }
 
