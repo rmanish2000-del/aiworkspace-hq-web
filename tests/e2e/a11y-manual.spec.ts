@@ -537,8 +537,34 @@ for (const { zoom, width, height } of ZOOM_WIDTHS) {
       await page.goto(route);
       const result = await page.evaluate(() => ({
         overflows: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        /**
+         * A DELIBERATE scroll container is excluded, and the distinction is the
+         * whole point of the exclusion.
+         *
+         * `scrollWidth` on an element means "content wider than the box". For a
+         * region whose author set `overflow-x: auto`, that is not a defect — it
+         * is the definition of the thing, and it is how SC 1.4.10 says to
+         * present content that needs two-dimensional layout rather than
+         * reflowing it. A code block whose alignment carries meaning is exactly
+         * that case: made to wrap, it would be a different text.
+         *
+         * Measuring every `body *` flags every such region, so the check as
+         * written could only be satisfied by removing scroll containers from the
+         * site. Nothing is lost by skipping them: `overflows` above is the real
+         * "this page scrolls sideways" assertion, it is evaluated on the
+         * document, and it still fails if the page itself overflows.
+         *
+         * Same reasoning as the A11Y-06 clip check below, which skips
+         * `overflow: visible` because content is only lost when the box
+         * actually clips it.
+         */
         widest: Math.max(
-          ...[...document.querySelectorAll<HTMLElement>('body *')].map((el) => el.scrollWidth),
+          ...[...document.querySelectorAll<HTMLElement>('body *')]
+            .filter((el) => {
+              const overflowX = getComputedStyle(el).overflowX;
+              return overflowX !== 'auto' && overflowX !== 'scroll';
+            })
+            .map((el) => el.scrollWidth),
         ),
         client: document.documentElement.clientWidth,
       }));
