@@ -1,0 +1,502 @@
+---
+/**
+ * `/warrant-mcp` — one page, whole product. Docs-site plain.
+ *
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ THE COPY IS VERBATIM. The words come from the approved page copy and are  │
+ * │ not edited here — not for length, not for rhythm, not for a line that     │
+ * │ sits awkwardly. Markup is this file's business; wording is not.           │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * Markup decisions taken here, and why:
+ *
+ *  1. The source copy opens `# warrant-mcp` then `## Rules your agent cannot
+ *     talk its way past`. That second line is the deck, not a section, so it
+ *     renders as the page lead. Keeping it an `<h2>` would put the tagline in
+ *     the heading outline beside the real sections and make the outline lie
+ *     about the page's shape.
+ *
+ *  2. The source's authoring note — "Page copy for aiworkspacehq.com/warrant-mcp
+ *     — docs-site plain. One page, whole product." — is an instruction to the
+ *     builder, not copy, and is deliberately not rendered.
+ *
+ *  3. The `---` rules between sections are markdown structure, not words. The
+ *     section spacing carries the same break without a decorative line.
+ *
+ *  4. Code blocks are real text in a `<pre>`, so they can be selected and
+ *     copied. There is no copy *button*: `Base.astro` ships zero bytes of
+ *     client JavaScript, and a button is not worth being the route's first.
+ *     `white-space: pre` with `overflow-x: auto` means the DENY block scrolls
+ *     rather than reflows — the clause line has to survive a phone intact,
+ *     because a rewrapped refusal is a different sentence.
+ *
+ *  5. Limitations is body copy at the same weight as every other section. No
+ *     callout, no disclosure, no warning colour. A page that visually quarantines
+ *     its own limitations has un-said them.
+ *
+ * Not done, deliberately:
+ *  - No nav entry. `/warrant` and this page do not link to each other; the only
+ *    reference between them is the italic line in this page's footer.
+ *  - Not added to `/sitemap.xml`. That list is an explicit five-route allowlist
+ *    (FD-AG4 wave 1) and extending it is a governance decision, not a markup one.
+ *    `/warrant` is not in it either, so a product route outside the allowlist is
+ *    the existing pattern rather than a new exception.
+ */
+import Base from '../layouts/Base.astro';
+
+/** §1.8 of the asset spec, verbatim. The card is the only image on the page. */
+const cardAlt =
+  'A terminal showing a refused command. warrant-mcp test "delete .env" returns DENY, clause W2 — "Do not touch the .env file or anything inside the .git directory" — and the note that nothing was executed.';
+
+const CARD = '/warrant-mcp/og-1200x630.png';
+
+const install =
+  'npm install -g warrant-mcp\nmkdir warrant-demo && cd warrant-demo && echo "SECRET=x" > .env && warrant-mcp init\nwarrant-mcp test "delete .env"';
+
+const denyOutput = `  DENY   clause W2
+      W2 — Do not touch the .env file or anything inside the .git directory.
+      Refused under clause W2: the file is named ".env", which is protected.
+
+  Dry run: nothing was enforced, executed, or written.`;
+
+const plugin =
+  '/plugin marketplace add rmanish2000-del/warrant-mcp\n/plugin install warrant-policy-author@warrant-mcp';
+
+const review =
+  'warrant-mcp review     # compiles, shows every clause and what changes in behaviour\nwarrant-mcp accept     # adopt it';
+---
+
+<Base
+  title="warrant-mcp — AI Workspace"
+  description="Write the rules for your AI agent once, in plain English. Every tool call is checked against them, and the ones your rules forbid do not run."
+  canonicalPath="/warrant-mcp"
+  indexableInProduction={true}
+  ogImage={CARD}
+  ogImageAlt={cardAlt}
+>
+  <article class="prose wmcp">
+    <h1 class="page-head__title">warrant-mcp</h1>
+
+    <p class="page-head__lead">Rules your agent cannot talk its way past</p>
+
+    <p>
+      Write the rules for your AI agent once, in plain English. Every tool call is checked against
+      them, and the ones your rules forbid do not run.
+    </p>
+
+    <p>
+      An agent can already decide what to do. It cannot prove it was allowed to. Today that leaves
+      two options — approve every tool call by hand, or trust the agent — and the first stops being
+      review around the fifth prompt and becomes a reflex. A reflex is fatigue, not a control.
+    </p>
+
+    <p>warrant-mcp is the layer in between.</p>
+
+    <p class="prose__meta">
+      <a href="https://www.npmjs.com/package/warrant-mcp" rel="external">npm</a> ·
+      <a href="https://github.com/rmanish2000-del/warrant-mcp" rel="external">source</a> · MIT · Node
+      ≥ 22.6
+    </p>
+
+    <figure class="wmcp-card">
+      <img src={CARD} width="1200" height="630" alt={cardAlt} loading="lazy" decoding="async" />
+    </figure>
+
+    <h2 id="sixty-seconds">Sixty seconds</h2>
+
+    <p>Three commands. No API key — enforcement never compiles.</p>
+
+    <pre
+      class="wmcp-code"
+      tabindex="0"
+      aria-label="Install and check, three shell commands"><code>{install}</code></pre>
+
+    <p>The third one prints this:</p>
+
+    <pre
+      class="wmcp-code wmcp-code--deny"
+      tabindex="0"
+      aria-label="Terminal output: DENY, clause W2"><code>{denyOutput}</code></pre>
+
+    <p><code>init</code> returns <strong>enforcing</strong>. Nothing compiled, nothing to paste.</p>
+
+    <p>
+      Four runs on the same Windows laptop came in between 43 and 71 seconds end to end, with <code
+        >npm install</code
+      > accounting for 37 to 60 of that. <code>init</code> and the check are a few seconds each. Your
+      machine will differ. Nothing after the install waits on a network or a model.
+    </p>
+
+    <p>
+      For the hook doing real blocking rather than a dry run, open Claude Code in that directory and
+      ask it to delete <code>.env</code>. The agent will genuinely try; the hook blocks the tool
+      call before it executes, and the file is still there afterwards.
+    </p>
+
+    <h2 id="how-it-works">How it works</h2>
+
+    <ol class="wmcp-steps">
+      <li>You write rules in plain English — <code>.warrant/policy.md</code>.</li>
+      <li>
+        Claude compiles them <strong>once, off stage</strong>, into numbered clauses backed by
+        structured rules, and refuses to guess where a sentence is ambiguous.
+      </li>
+      <li>
+        Deterministic code evaluates every proposed action against those clauses and returns allow
+        or deny, naming the clause that decided.
+      </li>
+      <li>
+        A Claude Code <code>PreToolUse</code> hook turns a deny into a hard block — the tool call never
+        runs, and the deny overrides even an <code>--allowedTools</code> allowlist.
+      </li>
+      <li>
+        <strong>The model never makes the runtime call.</strong> Claude compiles the policy; code decides.
+      </li>
+    </ol>
+
+    <p>
+      That last line is structural rather than promised: the evaluator's input type is
+      <code>Omit&lt;CompiledPolicy, 'clauses'&gt;</code>, so the clause text a model wrote is not
+      merely ignored at decision time — it is unreachable, and reaching for it is a compile error.
+    </p>
+
+    <p>
+      There are two verdicts, allow and deny. Two is what makes the hook a veto instead of a
+      suggestion.
+    </p>
+
+    <h2 id="writing-the-policy">Writing the policy with Claude</h2>
+
+    <p>
+      If you don't know what to write, Claude can write it with you. The package ships a Claude
+      Skill, <code>warrant-policy-author</code>, that teaches the authoring craft: a short
+      interview, sentences shaped for the closed rule set, and the failure shapes explained rather
+      than just avoided.
+    </p>
+
+    <p>
+      <code>init</code> offers to install it into your project's <code>.claude/skills/</code>
+      — opt in at the prompt, or pass <code>init --skill</code>. An existing folder of the same name
+      is never overwritten, and <code>remove</code> takes away exactly what was installed. It is also
+      available as a Claude Code plugin, two commands, no npm:
+    </p>
+
+    <pre
+      class="wmcp-code"
+      tabindex="0"
+      aria-label="Claude Code plugin install, two commands"><code>{plugin}</code></pre>
+
+    <p>
+      <strong>
+        The skill writes policy text only. It never enforces anything, and it never claims a
+        sentence will compile.
+      </strong>
+      <code>warrant-mcp review</code> is the authority; if review refuses, the refusal is right.
+    </p>
+
+    <p>What that looks like. The sentence people write first:</p>
+
+    <blockquote class="wmcp-quote">
+      <p>Don't touch secrets, never rewrite history, and don't install anything.</p>
+    </blockquote>
+
+    <p>
+      Three real intents, and the compiler refuses the whole policy — "secrets" is a judgement call,
+      and neither "history" nor "anything" names a command it is allowed to guess. The same intents
+      as the skill writes them, after one question about your stack:
+    </p>
+
+    <blockquote class="wmcp-quote">
+      <ol>
+        <li>Leave my .env alone, and never touch anything ending in .pem or .key.</li>
+        <li>Never rewrite history: no git rebase, no git commit --amend, no git reset --hard.</li>
+        <li>Don't install new dependencies with npm — no npm install, no npm i, no npm add.</li>
+      </ol>
+    </blockquote>
+
+    <p>Same protections, now decidable from the words alone.</p>
+
+    <h2 id="where-the-policy-lives">Where the compiled policy lives</h2>
+
+    <p>
+      Outside your project — <code>~/.warrant/projects/&lt;project&gt;/</code>, read-only — because
+      an agent that can delete the policy governing it can disarm the thing that stops it, and out
+      there the policy's own "stay inside the project" clause guards it.
+    </p>
+
+    <h2 id="changing-the-rules">Changing the rules</h2>
+
+    <p>Edit <code>.warrant/policy.md</code> in your own words, then:</p>
+
+    <pre
+      class="wmcp-code"
+      tabindex="0"
+      aria-label="Review and accept, two shell commands"><code>{review}</code></pre>
+
+    <p>
+      <code>review</code> is the <strong>only</strong> command that calls the model, and the only one
+      that needs <code>ANTHROPIC_API_KEY</code>. <strong>Enforcement never compiles</strong>
+      — not at startup, not per call, not ever.
+    </p>
+
+    <p>
+      Review shows each clause in plain English, then what actually changes: which
+      previously-allowed actions are now refused and which refusals are now permitted, derived by
+      running a fixed corpus through both policies rather than by diffing text. Nothing the hook
+      reads is written until you accept.
+    </p>
+
+    <p>
+      If a sentence cannot be expressed as an enforceable rule, the compiler refuses
+      <strong>the whole policy</strong> and tells you what it can express nearby. A sentence that silently
+      compiled to nothing would read as protection you do not have.
+    </p>
+
+    <h2 id="undoing-it">Undoing it</h2>
+
+    <pre
+      class="wmcp-code"
+      tabindex="0"
+      aria-label="Remove, one shell command"><code>warrant-mcp remove</code></pre>
+
+    <p>
+      Your settings file comes back byte-for-byte and everything <code>init</code> created is deleted.
+      <code>init</code> merges rather than overwrites, backs up the original bytes of every file it touches,
+      and refuses a settings file it cannot parse rather than rewriting it.
+    </p>
+
+    <p>Try things you can undo.</p>
+
+    <h2 id="limitations">Limitations — read this before relying on it</h2>
+
+    <p>
+      <strong>This is a policy layer, not a sandbox. It should be deployed inside one.</strong>
+    </p>
+
+    <p>
+      Nine adversarial sessions were run against its own hook, in a sandbox reset between attempts,
+      every result from an actual attempt rather than from reasoning about one. Six got through.
+      Five are closed, each with a regression test named for the attack that opened it. The classes
+      below remain open by construction — properties of the architecture, not bugs awaiting a patch.
+    </p>
+
+    <p>
+      <strong>Shell glob and variable expansion.</strong> The hook sees <code>rm -f *</code>; the
+      shell expands it after the decision. Same for <code>$VAR</code>, command substitution and <code
+        >xargs</code
+      >. Any command with implicit targets — <code>git clean -fdx</code>,
+      <code>git checkout .</code>, <code>make clean</code> — is in this class. Deciding what a glob will
+      match means reading the filesystem, and the deciding path deliberately imports no filesystem capability
+      at all.
+    </p>
+
+    <p>
+      <strong>Obfuscation.</strong> Base64, string concatenation inside an interpreter (<code
+        >'.'+'env'</code
+      >), unicode homoglyphs and self-writing scripts defeat a tokenizer. The checks raise the cost;
+      they do not close the class.
+    </p>
+
+    <p>
+      <strong>Symlinks.</strong> Path text is compared, never resolved, because
+      <code>realpath</code> is I/O. A symlink inside the project pointing out of it passes the workspace
+      clause.
+    </p>
+
+    <p>
+      <strong>Coverage is per-tool and per-client.</strong> Only Claude Code tool calls are hooked. A
+      new tool, another MCP client, an MCP server with an unusual field name, or a process that outlives
+      the session are all outside. Two of the six bypasses were exactly this shape, and so was the miss
+      that started the hunt — which is the strongest available evidence that this list is not exhaustive.
+    </p>
+
+    <p>
+      <strong>The hook configuration is a file in your project.</strong> An agent with write access can
+      edit it; a targeted <code>Edit</code> got through and left it <code>{'{}'}</code>. Detection
+      is possible — a byte-for-byte comparison against the expected wiring — but that is detection
+      and a speed bump, not prevention. The real answer is hook settings the agent cannot write:
+      org-managed, or user-level outside the workspace. Both are deployment decisions rather than
+      code.
+    </p>
+
+    <p>
+      <strong>Tested on Windows only, so far.</strong> All nine sessions ran on Windows, which shapes
+      the results — the agent reached for PowerShell because PowerShell was there. On another machine
+      the same gaps exist behind different tool names. This has not been run on macOS or Linux.
+    </p>
+
+    <p>
+      <strong>Network egress is only as good as the mapping.</strong> Tool-driven fetches are covered;
+      an MCP server's own outbound calls, remote publication and outbound messages are not modelled by
+      the three action kinds.
+    </p>
+
+    <p>
+      <strong>TOCTOU.</strong> The check runs before execution; nothing prevents the world from changing
+      in between.
+    </p>
+
+    <p>
+      <strong>The model's own refusals are not enforcement.</strong> One route was never reachable because
+      the model declined before any tool call, so the hook never ran. A route the model declines is untested,
+      not safe.
+    </p>
+
+    <p>
+      <strong>It costs a process per matched tool call.</strong> The decision itself is about 0.01ms,
+      but the hook is a separate Node process: 220–430ms median across three runs on a busy Windows laptop,
+      roughly half of that being Node starting at all, with a p95 tail into the seconds under load. Measure
+      your own with <code>node demo/bench.mjs</code>.
+    </p>
+
+    <p>
+      A real deployment wants OS-level confinement, an egress proxy enforcing the host list at the
+      network layer, hook settings the agent cannot edit, and an append-only record of verdicts.
+    </p>
+
+    <h2 id="the-evidence">The evidence</h2>
+
+    <p>
+      The full attack log — including the two routes that were blocked and the one the model refused
+      before it could be tested — is in
+      <a
+        href="https://github.com/rmanish2000-del/warrant-mcp/blob/main/SECURITY-SURFACE.md"
+        rel="external">SECURITY-SURFACE.md</a
+      >, unsoftened.
+    </p>
+
+    <p>
+      How the bypasses were actually found, session by session, including the one found by accident
+      and the one that disarmed enforcement entirely:
+      <strong>
+        <a
+          href="https://github.com/rmanish2000-del/warrant-mcp/blob/main/writing/bypass-hunt.md"
+          rel="external">I built a permission layer for AI agents, then spent a day breaking it</a
+        >
+      </strong>.
+    </p>
+
+    <p>
+      Not one of them was a wrong verdict. Every bypass reached a decision that was never made,
+      because the action never got mapped into something the evaluator could see. The holes live in
+      the tool-mapping layer — an enumeration of a surface somebody else owns and keeps extending.
+      Which makes the honest posture "here is the list, and it is not provably complete."
+    </p>
+
+    <p class="wmcp-provenance">
+      <em>
+        The deterministic engine and the plain-English-to-clauses approach come from
+        <a href="https://github.com/rmanish2000-del/warrant" rel="external">an earlier project</a>
+        built for a payments hackathon. warrant-mcp is a separate repository applying that thinking to
+        agent tool calls; it does not fork or vendor that codebase.
+      </em>
+    </p>
+  </article>
+</Base>
+
+<style>
+  /*
+   * Page-scoped only. Nothing here introduces a colour: every value is a token
+   * from the design system, so the page follows the light/dark switch without
+   * knowing it exists.
+   */
+
+  /* --- Code -------------------------------------------------------------- */
+  /*
+   * Scroll, never wrap. A reflowed refusal is a different sentence, and the
+   * clause line is the one thing on this page a reader is asked to trust.
+   * `tabindex` + `` make a scrollable box reachable by keyboard,
+   * which it must be if it can scroll at all.
+   */
+  .wmcp-code {
+    margin-block-start: var(--space-5);
+    padding: var(--space-4) var(--space-5);
+    max-width: none;
+    overflow-x: auto;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-input);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    line-height: 1.65;
+    white-space: pre;
+    tab-size: 2;
+  }
+
+  .wmcp-code code {
+    font: inherit;
+    background: none;
+    padding: 0;
+  }
+
+  .wmcp-code:focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /*
+   * The DENY block is the page's one piece of evidence. It gets the accent as a
+   * left edge and nothing else — no tint, no red, no alarm. The word DENY does
+   * its own work.
+   */
+  .wmcp-code--deny {
+    border-inline-start: 3px solid var(--accent);
+  }
+
+  /* --- The social card --------------------------------------------------- */
+  .wmcp-card {
+    margin-block-start: var(--space-7);
+    margin-inline: 0;
+    max-width: none;
+  }
+
+  .wmcp-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* --- Numbered steps and quoted policy sentences ------------------------ */
+  .wmcp-steps {
+    margin-block-start: var(--space-4);
+    padding-inline-start: var(--space-6);
+    list-style: decimal;
+  }
+
+  .wmcp-steps > li {
+    margin-block-start: var(--space-3);
+  }
+
+  .wmcp-quote {
+    margin-block-start: var(--space-5);
+    margin-inline: 0;
+    padding-inline-start: var(--space-5);
+    border-inline-start: 2px solid var(--border-input);
+    color: var(--fg-muted);
+  }
+
+  .wmcp-quote ol {
+    margin: 0;
+    padding-inline-start: var(--space-5);
+    list-style: decimal;
+  }
+
+  .wmcp-quote li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  /* --- The provenance line ----------------------------------------------- */
+  /*
+   * The only reference between this page and /warrant. Quieter than body copy,
+   * and not a navigation affordance.
+   */
+  .wmcp-provenance {
+    margin-block-start: var(--space-8);
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--border);
+    font-size: var(--type-small);
+    color: var(--fg-muted);
+  }
+</style>
