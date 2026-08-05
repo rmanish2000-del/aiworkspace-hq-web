@@ -203,6 +203,7 @@ async function resolveColours() {
       );
     }
   }
+  resolved.floorException = config.floorException ?? null;
   return resolved;
 }
 
@@ -401,7 +402,25 @@ for (const { spec, measured, out, capturedAt } of results) {
   process.stdout.write('\n');
 }
 
-if (floorBreached) {
+/*
+ * A recorded, capture-specific acceptance of the §1.4 floor. It never silences
+ * the measurement — the shortfall is printed above on every run — it only stops
+ * the non-zero exit, and only for the exact capture the config names.
+ */
+const accepted = colours.floorException;
+const acceptedHere =
+  accepted &&
+  accepted.captureWidth === meta.width &&
+  accepted.captureHeight === meta.height &&
+  accepted.acceptedClausePx === args.clauseSourcePx;
+
+if (floorBreached && acceptedHere) {
+  process.stdout.write(
+    '  FLOOR SHORTFALL ACCEPTED — founder decision of record, recorded in\n' +
+      '  social-card.config.json against this capture only. A different capture\n' +
+      '  invalidates it and the refusal returns.\n\n',
+  );
+} else if (floorBreached) {
   fail(
     'the clause text renders below the 32 px floor. §1.4: anything below the floor is\n' +
       'unreadable where the card is actually seen, and an unreadable line is worse than\n' +
