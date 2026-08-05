@@ -1343,6 +1343,143 @@ export const RUNTIME_PLACEHOLDER_KEYS = [
   'interest.fieldErrors.fieldTooLong',
 ] as const;
 
+/* ========================================================================== */
+/* `/warrant-mcp` — M-9. Every visible string on that route lives here.        */
+/*                                                                            */
+/* The words are verbatim from the approved page copy and are not edited in    */
+/* this file or in the page. Where a sentence carries an inline `<code>` span, */
+/* the WHOLE sentence is stored once and the page names the spans to mark;     */
+/* the fragments the browser then renders are substrings of the stored         */
+/* sentence, which is how M-9 accepts them and how `about.astro` already       */
+/* handles a lead split around an inline link.                                 */
+/* ========================================================================== */
+export const warrantMcp = {
+  metaTitle: 'warrant-mcp — AI Workspace',
+  canonicalPath: '/warrant-mcp',
+
+  heading: 'warrant-mcp',
+  lead: 'Rules your agent cannot talk its way past',
+
+  introOne:
+    'Write the rules for your AI agent once, in plain English. Every tool call is checked against them, and the ones your rules forbid do not run.',
+  introTwo:
+    'An agent can already decide what to do. It cannot prove it was allowed to. Today that leaves two options — approve every tool call by hand, or trust the agent — and the first stops being review around the fifth prompt and becomes a reflex. A reflex is fatigue, not a control.',
+  introThree: 'warrant-mcp is the layer in between.',
+
+  /** Split in the page around the two links — the `about.astro` idiom. */
+  metaLine: 'npm · source · MIT · Node ≥ 22.6',
+  npmLinkText: 'npm',
+  sourceLinkText: 'source',
+
+  cardAlt:
+    'A terminal showing a refused command. warrant-mcp test "delete .env" returns DENY, clause W2 — "Do not touch the .env file or anything inside the .git directory" — and the note that nothing was executed.',
+
+  sixtyHeading: 'Sixty seconds',
+  sixtyLead: 'Three commands. No API key — enforcement never compiles.',
+  installBlock:
+    'npm install -g warrant-mcp\nmkdir warrant-demo && cd warrant-demo && echo "SECRET=x" > .env && warrant-mcp init\nwarrant-mcp test "delete .env"',
+  installBlockLabel: 'Install and check, three shell commands',
+  thirdPrints: 'The third one prints this:',
+  denyBlock:
+    '  DENY   clause W2\n      W2 — Do not touch the .env file or anything inside the .git directory.\n      Refused under clause W2: the file is named ".env", which is protected.\n\n  Dry run: nothing was enforced, executed, or written.',
+  denyBlockLabel: 'Terminal output: DENY, clause W2',
+  initReturns: 'init returns enforcing. Nothing compiled, nothing to paste.',
+  timings:
+    'Four runs on the same Windows laptop came in between 43 and 71 seconds end to end, with npm install accounting for 37 to 60 of that. init and the check are a few seconds each. Your machine will differ. Nothing after the install waits on a network or a model.',
+  hookForReal:
+    'For the hook doing real blocking rather than a dry run, open Claude Code in that directory and ask it to delete .env. The agent will genuinely try; the hook blocks the tool call before it executes, and the file is still there afterwards.',
+
+  howHeading: 'How it works',
+  howSteps: [
+    'You write rules in plain English — .warrant/policy.md.',
+    'Claude compiles them once, off stage, into numbered clauses backed by structured rules, and refuses to guess where a sentence is ambiguous.',
+    'Deterministic code evaluates every proposed action against those clauses and returns allow or deny, naming the clause that decided.',
+    'A Claude Code PreToolUse hook turns a deny into a hard block — the tool call never runs, and the deny overrides even an --allowedTools allowlist.',
+    'The model never makes the runtime call. Claude compiles the policy; code decides.',
+  ],
+  howStructural:
+    "That last line is structural rather than promised: the evaluator's input type is Omit<CompiledPolicy, 'clauses'>, so the clause text a model wrote is not merely ignored at decision time — it is unreachable, and reaching for it is a compile error.",
+  howVerdicts:
+    'There are two verdicts, allow and deny. Two is what makes the hook a veto instead of a suggestion.',
+
+  skillHeading: 'Writing the policy with Claude',
+  skillOne:
+    "If you don't know what to write, Claude can write it with you. The package ships a Claude Skill, warrant-policy-author, that teaches the authoring craft: a short interview, sentences shaped for the closed rule set, and the failure shapes explained rather than just avoided.",
+  skillTwo:
+    "init offers to install it into your project's .claude/skills/ — opt in at the prompt, or pass init --skill. An existing folder of the same name is never overwritten, and remove takes away exactly what was installed. It is also available as a Claude Code plugin, two commands, no npm:",
+  pluginBlock:
+    '/plugin marketplace add rmanish2000-del/warrant-mcp\n/plugin install warrant-policy-author@warrant-mcp',
+  pluginBlockLabel: 'Claude Code plugin install, two commands',
+  skillAuthority:
+    'The skill writes policy text only. It never enforces anything, and it never claims a sentence will compile. warrant-mcp review is the authority; if review refuses, the refusal is right.',
+  skillLooksLike: 'What that looks like. The sentence people write first:',
+  skillFirstAttempt: "Don't touch secrets, never rewrite history, and don't install anything.",
+  skillWhyRefused:
+    'Three real intents, and the compiler refuses the whole policy — "secrets" is a judgement call, and neither "history" nor "anything" names a command it is allowed to guess. The same intents as the skill writes them, after one question about your stack:',
+  skillRewritten: [
+    'Leave my .env alone, and never touch anything ending in .pem or .key.',
+    'Never rewrite history: no git rebase, no git commit --amend, no git reset --hard.',
+    "Don't install new dependencies with npm — no npm install, no npm i, no npm add.",
+  ],
+  skillSameProtections: 'Same protections, now decidable from the words alone.',
+
+  vaultHeading: 'Where the compiled policy lives',
+  vaultBody:
+    'Outside your project — ~/.warrant/projects/<project>/, read-only — because an agent that can delete the policy governing it can disarm the thing that stops it, and out there the policy’s own "stay inside the project" clause guards it.',
+
+  changingHeading: 'Changing the rules',
+  changingLead: 'Edit .warrant/policy.md in your own words, then:',
+  reviewBlock:
+    'warrant-mcp review     # compiles, shows every clause and what changes in behaviour\nwarrant-mcp accept     # adopt it',
+  reviewBlockLabel: 'Review and accept, two shell commands',
+  changingOnly:
+    'review is the only command that calls the model, and the only one that needs ANTHROPIC_API_KEY. Enforcement never compiles — not at startup, not per call, not ever.',
+  changingShows:
+    'Review shows each clause in plain English, then what actually changes: which previously-allowed actions are now refused and which refusals are now permitted, derived by running a fixed corpus through both policies rather than by diffing text. Nothing the hook reads is written until you accept.',
+  changingRefuses:
+    'If a sentence cannot be expressed as an enforceable rule, the compiler refuses the whole policy and tells you what it can express nearby. A sentence that silently compiled to nothing would read as protection you do not have.',
+
+  undoHeading: 'Undoing it',
+  removeBlock: 'warrant-mcp remove',
+  removeBlockLabel: 'Remove, one shell command',
+  undoBody:
+    'Your settings file comes back byte-for-byte and everything init created is deleted. init merges rather than overwrites, backs up the original bytes of every file it touches, and refuses a settings file it cannot parse rather than rewriting it.',
+  undoTry: 'Try things you can undo.',
+
+  limitsHeading: 'Limitations — read this before relying on it',
+  limitsLede: 'This is a policy layer, not a sandbox. It should be deployed inside one.',
+  limitsIntro:
+    'Nine adversarial sessions were run against its own hook, in a sandbox reset between attempts, every result from an actual attempt rather than from reasoning about one. Six got through. Five are closed, each with a regression test named for the attack that opened it. The classes below remain open by construction — properties of the architecture, not bugs awaiting a patch.',
+  limits: [
+    'Shell glob and variable expansion. The hook sees rm -f *; the shell expands it after the decision. Same for $VAR, command substitution and xargs. Any command with implicit targets — git clean -fdx, git checkout ., make clean — is in this class. Deciding what a glob will match means reading the filesystem, and the deciding path deliberately imports no filesystem capability at all.',
+    "Obfuscation. Base64, string concatenation inside an interpreter ('.'+'env'), unicode homoglyphs and self-writing scripts defeat a tokenizer. The checks raise the cost; they do not close the class.",
+    'Symlinks. Path text is compared, never resolved, because realpath is I/O. A symlink inside the project pointing out of it passes the workspace clause.',
+    'Coverage is per-tool and per-client. Only Claude Code tool calls are hooked. A new tool, another MCP client, an MCP server with an unusual field name, or a process that outlives the session are all outside. Two of the six bypasses were exactly this shape, and so was the miss that started the hunt — which is the strongest available evidence that this list is not exhaustive.',
+    'The hook configuration is a file in your project. An agent with write access can edit it; a targeted Edit got through and left it {}. Detection is possible — a byte-for-byte comparison against the expected wiring — but that is detection and a speed bump, not prevention. The real answer is hook settings the agent cannot write: org-managed, or user-level outside the workspace. Both are deployment decisions rather than code.',
+    'Tested on Windows only, so far. All nine sessions ran on Windows, which shapes the results — the agent reached for PowerShell because PowerShell was there. On another machine the same gaps exist behind different tool names. This has not been run on macOS or Linux.',
+    "Network egress is only as good as the mapping. Tool-driven fetches are covered; an MCP server's own outbound calls, remote publication and outbound messages are not modelled by the three action kinds.",
+    'TOCTOU. The check runs before execution; nothing prevents the world from changing in between.',
+    "The model's own refusals are not enforcement. One route was never reachable because the model declined before any tool call, so the hook never ran. A route the model declines is untested, not safe.",
+    'It costs a process per matched tool call. The decision itself is about 0.01ms, but the hook is a separate Node process: 220–430ms median across three runs on a busy Windows laptop, roughly half of that being Node starting at all, with a p95 tail into the seconds under load. Measure your own with node demo/bench.mjs.',
+  ],
+  limitsDeployment:
+    'A real deployment wants OS-level confinement, an egress proxy enforcing the host list at the network layer, hook settings the agent cannot edit, and an append-only record of verdicts.',
+
+  evidenceHeading: 'The evidence',
+  evidenceLog:
+    'The full attack log — including the two routes that were blocked and the one the model refused before it could be tested — is in SECURITY-SURFACE.md, unsoftened.',
+  evidenceLogLinkText: 'SECURITY-SURFACE.md',
+  evidencePost:
+    'How the bypasses were actually found, session by session, including the one found by accident and the one that disarmed enforcement entirely: I built a permission layer for AI agents, then spent a day breaking it.',
+  evidencePostLinkText: 'I built a permission layer for AI agents, then spent a day breaking it',
+  evidenceLesson:
+    'Not one of them was a wrong verdict. Every bypass reached a decision that was never made, because the action never got mapped into something the evaluator could see. The holes live in the tool-mapping layer — an enumeration of a surface somebody else owns and keeps extending. Which makes the honest posture "here is the list, and it is not provably complete."',
+
+  provenance:
+    'The deterministic engine and the plain-English-to-clauses approach come from an earlier project built for a payments hackathon. warrant-mcp is a separate repository applying that thinking to agent tool calls; it does not fork or vendor that codebase.',
+  provenanceLinkText: 'an earlier project',
+} as const;
+
 export const copy = {
   about,
   meta,
@@ -1364,6 +1501,7 @@ export const copy = {
   principlesPage,
   contact,
   privacy,
+  warrantMcp,
 } as const;
 
 export default copy;
