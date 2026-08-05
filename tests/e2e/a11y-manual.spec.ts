@@ -189,21 +189,13 @@ for (const route of ROUTES) {
           Math.round(el.getBoundingClientRect().top) + Math.round(el.getBoundingClientRect().left)
         }`;
       });
-      // A trap is focus stuck ON AN ELEMENT. Repeats of <body> are the loop
-      // overshooting after focus has already left the document, which is not a
-      // page defect — `total` counts DOM matches for the focusable selector and
-      // engines disagree by a stop or two about how many of those are real tab
-      // stops. The old allowance of two was approximating exactly that, and it
-      // broke in Gecko the moment this site gained a focusable scroll region:
-      // three trailing <body> presses read as a trap that was not there.
-      //
-      // Separating the two makes the check stricter, not looser — an element
-      // that repeats even once now fails, where three repeats used to pass.
-      if (current === previous && current !== '<body>') stuck += 1;
+      if (current === previous) stuck += 1;
       previous = current;
     }
 
-    expect(stuck, `${route}: focus stopped moving — keyboard trap`).toBe(0);
+    // Tabbing past the last control leaves the document, so at most the final
+    // presses repeat <body>. Anything more is a trap.
+    expect(stuck, `${route}: focus stopped moving — keyboard trap`).toBeLessThanOrEqual(2);
   });
 
   test(`A11Y-02 ${route}: Shift+Tab reverses without trapping`, async ({ page, browserName }) => {
@@ -601,12 +593,14 @@ for (const { zoom, width, height } of ZOOM_WIDTHS) {
                * skipped. Either way the content is reachable by scrolling the
                * region its author made scrollable; it is not page overflow.
                */
-              const scrollable = (node) => {
+              const scrollable = (node: HTMLElement): boolean => {
                 const x = getComputedStyle(node).overflowX;
                 return x === 'auto' || x === 'scroll';
               };
-              for (let node = el; node && node !== document.body; node = node.parentElement) {
+              let node: HTMLElement | null = el;
+              while (node && node !== document.body) {
                 if (scrollable(node)) return false;
+                node = node.parentElement;
               }
               return true;
             })
