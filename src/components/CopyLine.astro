@@ -1,0 +1,80 @@
+---
+/**
+ * CopyLine — renders one approved string, marking named spans inside it as
+ * `<code>` or `<strong>`.
+ *
+ * M-9 requires every visible string to come from the copy module. A paragraph
+ * with inline markup is several text nodes, so the naive way to satisfy that is
+ * to store every fragment separately — which shatters a sentence across a dozen
+ * keys and makes "the copy is verbatim" impossible to check by reading.
+ *
+ * This keeps the sentence whole in `copy.ts` and names the spans to mark. Every
+ * fragment the browser renders is then a SUBSTRING of the stored sentence, and
+ * M-9 accepts a substring:
+ *
+ *     entry === text || entry.includes(text) || text.includes(entry)
+ *
+ * `about.astro` already relies on the same property when it splits its contact
+ * lead around two inline links; this is that idiom, generalised so a page with
+ * thirty such sentences does not need sixty keys.
+ *
+ * Longest span first, so a short mark cannot eat part of a longer one.
+ */
+interface Props {
+  text: string;
+  code?: readonly string[];
+  strong?: readonly string[];
+}
+
+const { text, code = [], strong = [] } = Astro.props;
+
+type Segment = { readonly t: string; readonly el?: 'code' | 'strong' };
+
+const marks = [
+  ...code.map((t) => ({ t, el: 'code' as const })),
+  ...strong.map((t) => ({ t, el: 'strong' as const })),
+].sort((a, b) => b.t.length - a.t.length);
+
+function segment(input: string, depth = 0): Segment[] {
+  if (depth >= marks.length) return input ? [{ t: input }] : [];
+  const mark = marks[depth]!;
+  const out: Segment[] = [];
+  let rest = input;
+  let at = rest.indexOf(mark.t);
+  while (at !== -1) {
+    if (at > 0) out.push(...segment(rest.slice(0, at), depth + 1));
+    out.push({ t: mark.t, el: mark.el });
+    rest = rest.slice(at + mark.t.length);
+    at = rest.indexOf(mark.t);
+  }
+  if (rest) out.push(...segment(rest, depth + 1));
+  return out;
+}
+
+const segments = segment(text);
+---
+
+{
+  segments.map((s) =>
+    s.el === 'code' ? <code>{s.t}</code> : s.el === 'strong' ? <strong>{s.t}</strong> : s.t,
+  )
+}
+
+<style>
+  /*
+   * Inline code must be breakable, and the rule has to live HERE.
+   *
+   * Astro scopes styles per component. When the page owned this markup, its own
+   * `code { overflow-wrap: anywhere }` applied; now the element is rendered by
+   * this component and carries this component's scope, so the page's rule no
+   * longer reaches it — A11Y-06 caught exactly that regression.
+   *
+   * Why it matters: tokens like Omit<CompiledPolicy, 'clauses'> and
+   * ~/.warrant/projects/<project>/ have no break opportunity, so at a 320px
+   * viewport under SC 1.4.12's forced letter- and word-spacing they run past the
+   * edge and the whole document scrolls sideways.
+   */
+  code {
+    overflow-wrap: anywhere;
+  }
+</style>

@@ -219,12 +219,55 @@ const PROHIBITED_CLAIM_PHRASES: readonly string[] = [
   'coming soon',
 ];
 
+/**
+ * SENSE COLLISIONS — founder decision of record, 2026-08-05.
+ *
+ * The two lists above match a phrase, not a meaning. Three strings on
+ * `/warrant-mcp` contain a listed phrase in a sense the rule was never written
+ * about. The copy is verbatim and cannot be edited to dodge a matcher, and the
+ * lists must not be widened — deleting "backed by" would let a real funding
+ * claim through everywhere on the site. So the exemption is per string and per
+ * phrase, it names both, and it argues each one.
+ *
+ * Each entry is an exact `path` plus the exact phrase. A different string, or a
+ * different phrase in the same string, still fails. If the copy changes, the
+ * path stops matching and the guard fires again — which is the behaviour we
+ * want from an exemption that has been outgrown.
+ *
+ * WHAT WOULD MAKE THIS WRONG: adding an entry because a claim is inconvenient
+ * rather than because the sense genuinely differs. The test below asserts every
+ * entry still corresponds to a real collision, so a stale exemption is a
+ * failure rather than dead weight.
+ */
+const ALLOWED_SENSE_COLLISIONS: ReadonlyArray<{ path: string; phrase: string; why: string }> = [
+  {
+    path: 'warrantMcp.evidenceLesson',
+    phrase: 'live',
+    why: 'The holes LIVE IN the tool-mapping layer — the verb, meaning reside. The rule is about claiming something is live, i.e. deployed and serving traffic.',
+  },
+  {
+    path: 'warrantMcp.howSteps[1]',
+    phrase: 'backed by',
+    why: 'Clauses BACKED BY structured rules — one artefact supported by another. The rule is about "backed by" an investor, which is a funding claim.',
+  },
+  {
+    path: 'warrantMcp.limits[9]',
+    phrase: 'starting at',
+    why: 'Node STARTING AT ALL — the process launching. The rule is about "starting at" a price.',
+  },
+];
+
+const isSenseCollision = (path: string, phrase: string): boolean =>
+  ALLOWED_SENSE_COLLISIONS.some(
+    (entry) => entry.path === path && entry.phrase.toLowerCase() === phrase.toLowerCase(),
+  );
+
 describe('copy.prohibited', () => {
   it('contains no prohibited term from `02` §1.3, in any visible string', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
-      PROHIBITED_TERMS.filter((term) => containsTerm(value, term)).map(
-        (term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`,
-      ),
+      PROHIBITED_TERMS.filter(
+        (term) => containsTerm(value, term) && !isSenseCollision(path, term),
+      ).map((term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`),
     );
 
     expect(violations).toEqual([]);
@@ -232,8 +275,9 @@ describe('copy.prohibited', () => {
 
   it('contains no prohibited claim phrasing from `02` §3', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
-      PROHIBITED_CLAIM_PHRASES.filter((phrase) =>
-        value.toLowerCase().includes(phrase.toLowerCase()),
+      PROHIBITED_CLAIM_PHRASES.filter(
+        (phrase) =>
+          value.toLowerCase().includes(phrase.toLowerCase()) && !isSenseCollision(path, phrase),
       ).map((phrase) => `${path}: prohibited claim "${phrase}" in ${JSON.stringify(value)}`),
     );
 

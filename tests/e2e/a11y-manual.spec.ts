@@ -9,6 +9,7 @@ import {
   contact,
   privacy,
   notFound,
+  warrantMcp,
   interest,
   nav,
   header,
@@ -958,6 +959,7 @@ test('M-9 every visible string on every route comes from the copy module', async
   collect(privacy);
   collect(nav);
   collect(notFound);
+  collect(warrantMcp);
 
   /**
    * CC-008 — the ledger is the second approved source (G-LEDGER enforces the
