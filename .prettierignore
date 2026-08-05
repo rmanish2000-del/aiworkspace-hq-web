@@ -19,3 +19,5 @@ blob-report/
 package-lock.json
 LICENSE
 *.log
+
+exports/
