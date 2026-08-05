@@ -210,13 +210,21 @@ for (const route of ROUTES) {
         if (!el || el === document.body) return '<body>';
         return el.getAttribute('data-focus-index') ?? `<${el.tagName.toLowerCase()}>`;
       });
-      if (current === previous) stuck += 1;
+      // A trap is focus stuck ON AN ELEMENT. Repeats of <body> are the loop
+      // overshooting after focus has already left the document, which is not a
+      // page defect — `total` counts DOM matches for the focusable selector and
+      // engines disagree by a stop or two about how many of those are real tab
+      // stops. The old allowance of two was approximating exactly that, and it
+      // broke in Gecko the moment this site gained a focusable scroll region:
+      // three trailing <body> presses read as a trap that was not there.
+      //
+      // Separating the two makes the check stricter, not looser — an element
+      // that repeats even once now fails, where three repeats used to pass.
+      if (current === previous && current !== '<body>') stuck += 1;
       previous = current;
     }
 
-    // Tabbing past the last control leaves the document, so at most the final
-    // presses repeat <body>. Anything more is a trap.
-    expect(stuck, `${route}: focus stopped moving — keyboard trap`).toBeLessThanOrEqual(2);
+    expect(stuck, `${route}: focus stopped moving — keyboard trap`).toBe(0);
   });
 
   test(`A11Y-02 ${route}: Shift+Tab reverses without trapping`, async ({ page, browserName }) => {
@@ -561,8 +569,23 @@ for (const { zoom, width, height } of ZOOM_WIDTHS) {
         widest: Math.max(
           ...[...document.querySelectorAll<HTMLElement>('body *')]
             .filter((el) => {
-              const overflowX = getComputedStyle(el).overflowX;
-              return overflowX !== 'auto' && overflowX !== 'scroll';
+              /*
+               * Skip the scroll container AND anything inside it. Firefox
+               * reports an inline element's scrollWidth as its full content
+               * width where Blink reports nothing, so the <code> inside a
+               * scrolling <pre> was flagged at 499px on a 428px viewport while
+               * Blink saw only the <pre>, which the container check already
+               * skipped. Either way the content is reachable by scrolling the
+               * region its author made scrollable; it is not page overflow.
+               */
+              const scrollable = (node) => {
+                const x = getComputedStyle(node).overflowX;
+                return x === 'auto' || x === 'scroll';
+              };
+              for (let node = el; node && node !== document.body; node = node.parentElement) {
+                if (scrollable(node)) return false;
+              }
+              return true;
             })
             .map((el) => el.scrollWidth),
         ),
