@@ -109,7 +109,7 @@ const fail = (message) => {
 };
 
 function parseArgs(argv) {
-  const args = { capture: null, clauseSourcePx: null, only: null };
+  const args = { capture: null, clauseSourcePx: null, only: null, allowUpscale: false };
   for (let i = 0; i < argv.length; i += 1) {
     const flag = argv[i];
     const value = argv[i + 1];
@@ -122,12 +122,15 @@ function parseArgs(argv) {
     } else if (flag === '--only') {
       args.only = value;
       i += 1;
+    } else if (flag === '--allow-upscale') {
+      args.allowUpscale = true;
     } else {
       fail(
         `unknown argument "${flag}".\n` +
           '  --capture <path>            the terminal PNG (required)\n' +
           '  --clause-source-px <n>      clause-text size set in the terminal before capture\n' +
-          '  --only card|square          render one export instead of both',
+          '  --only card|square          render one export instead of both\n' +
+          '  --allow-upscale             place a capture smaller than 2x anyway',
       );
     }
   }
@@ -206,14 +209,28 @@ async function resolveColours() {
 async function render(browser, variant, captureDataUrl, captureWidth, colours) {
   const s = SPEC[variant];
 
-  // §1.7 item 3 — an upscaled capture is a disqualified take, not a warning.
+  /*
+   * §1.7 item 3 — an upscaled capture is a disqualified take, not a warning, so
+   * this refuses by default and the default is the spec's position.
+   *
+   * `--allow-upscale` exists because a founder may knowingly decide that a soft
+   * card which exists beats a perfect one that does not. It is an override, not
+   * a relaxation: it never becomes the default, it says out loud what it is
+   * placing and by what factor, and the clause-type report below still measures
+   * the result against the 32 px floor and still exits non-zero under it. The
+   * take stays disqualified; this only lets you look at it.
+   */
   const required = s.placeWidth * SCALE;
   if (captureWidth < required) {
-    fail(
-      `the capture is ${captureWidth} px wide; ${s.name} places it at ${s.placeWidth} px, so it\n` +
-        `needs at least ${required} px (2×). Upscaling would soften every glyph, and §1.7\n` +
-        'item 3 disqualifies exactly that. Re-capture at a higher resolution — set the\n' +
-        'terminal font size larger before capturing, do not scale afterwards.',
+    const why =
+      `the capture is ${captureWidth} px wide; ${s.name} places it at ${s.placeWidth} px, so it ` +
+      `needs at least ${required} px (2x). Upscaling softens every glyph, and §1.7 item 3 ` +
+      'disqualifies exactly that. Re-capture at a higher resolution — set the terminal font ' +
+      'size larger before capturing, do not scale afterwards.';
+    if (!args.allowUpscale) fail(`${why}\n\nPass --allow-upscale to place it anyway.`);
+    process.stderr.write(
+      `\n  ! UPSCALED — ${s.name} places the capture ${(required / captureWidth).toFixed(2)}x beyond its own\n` +
+        `    resolution. Disqualified under §1.7 item 3. ${why}\n\n`,
     );
   }
 
