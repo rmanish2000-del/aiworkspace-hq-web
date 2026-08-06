@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Warrant Guardian — a risk guardrail for your own automated trading</title>
-<meta name="description" content="Warrant Guardian is a white-box risk guardrail and kill-switch that watches your own automated trading and warns you before you breach the limits you set. It does not tell you what to trade. Not investment advice.">
+<meta name="description" content="Warrant Guardian is a white-box risk monitor that reads your live positions and evaluates them against limits you set yourself - and says UNKNOWN when it cannot tell. It does not tell you what to trade. Not investment advice.">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="Warrant Guardian — enforces the limits you set">
-<meta property="og:description" content="A white-box risk guardrail and kill-switch for your own automated trading. Not investment advice. No recommendations.">
+<meta property="og:description" content="A white-box risk monitor for limits you set on your own trading. Not investment advice. No recommendations.">
 <meta property="og:type" content="website">
 <style>
 /* ============================================================
@@ -196,6 +196,22 @@ footer a{color:var(--ink-2)}
   .u-w46  { max-width: 46ch; }
   .u-note { margin-top: 22px; font-size: 14px; color: var(--ink-3); max-width: 66ch; }
   .u-brand { font-weight: 660; color: var(--ink); }
+
+  /* --- state badges (copy-splice, greyscale-safe) --- */
+  /* Greyscale-safe state badges. No colour carries meaning:
+   WORKING = solid border + solid dot.  PLANNED = dashed border + hollow dot. */
+.state{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;margin-bottom:12px;
+}
+.state::before{content:"";width:6px;height:6px;border-radius:50%;flex:none}
+.state-working{border:1px solid var(--ink);color:var(--ink)}
+.state-working::before{background:var(--ink)}
+.state-planned{border:1px dashed var(--rule-2);color:var(--ink-3)}
+.state-planned::before{background:transparent;border:1px solid var(--ink-3)}
+.card.planned{border-style:dashed;background:transparent}
+.card .n{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -221,23 +237,23 @@ footer a{color:var(--ink-2)}
 <!-- ============ HERO ============ -->
 <div class="hero">
   <div class="wrap">
-    <span class="badge">Private beta — not yet generally available</span>
-    <h1>You set the limits. Guardian makes sure you don't cross them.</h1>
-    <p class="lede">
-      A white-box risk guardrail and kill-switch that watches <em>your own</em> automated
-      trading and warns you before you breach the rules you wrote yourself.
-    </p>
-    <p class="lede u-mt14">
-      It does not tell you what to trade. It does not predict anything.
-      It watches the line you drew, and it tells you when you're about to step over it.
-    </p>
-    <div class="hero-actions">
-      <a class="btn" href="#waitlist">Join the private beta waitlist</a>
-      <a class="btn btn-ghost" href="#never">Read what it will never do</a>
-    </div>
-    <p class="hero-note">
-      Not investment advice. No recommendations. No returns of any kind are claimed or implied.
-    </p>
+    <span class="badge">Private beta — parts of this are still being built</span>
+<h1>You set the limits. Guardian watches every one of them.</h1>
+<p class="lede">
+  A white-box risk monitor that reads your live positions and evaluates them against
+  limits you set yourself — and says <em>UNKNOWN</em> when it cannot tell.
+</p>
+<p class="lede u-mt14">
+  It does not tell you what to trade. It does not predict anything. It cannot place an order.
+  It watches the lines you drew.
+</p>
+<div class="hero-actions">
+  <a class="btn" href="#waitlist">Join the private beta waitlist</a>
+  <a class="btn btn-ghost" href="#never">Read what it will never do</a>
+</div>
+<p class="hero-note">
+  Not investment advice. No recommendations. No returns of any kind are claimed or implied.
+</p>
   </div>
 </div>
 
@@ -271,42 +287,75 @@ footer a{color:var(--ink-2)}
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">What Guardian does</p>
-      <h2>Four things. Nothing else.</h2>
+      <h2>Some of this works today. Some is being built.</h2>
+      <p>
+        Every card below says which. We would rather show you the line than let you
+        assume it isn't there.
+      </p>
     </div>
+
     <div class="grid g2">
       <div class="card">
         <span class="n">01 — WATCHES</span>
-        <h3>Your limits, continuously</h3>
+        <span class="state state-working">WORKING TODAY</span>
+        <h3>Five limits, against your live positions</h3>
         <p>
-          Position size, open exposure, drawdown against your own stated ceiling,
-          trade count, time-of-day boundaries. Every threshold is one you typed in.
-          Guardian ships with none of its own.
+          Daily loss, loss on a single trade, position quantity, a consecutive-losing-trades
+          halt, and a square-off boundary. Guardian reads your live positions from your broker
+          account and evaluates every limit against them. Each threshold is a number you typed in.
         </p>
       </div>
+
       <div class="card">
-        <span class="n">02 — WARNS</span>
-        <h3>Before the breach, not after</h3>
+        <span class="n">02 — EVALUATES</span>
+        <span class="state state-working">WORKING TODAY</span>
+        <h3>Four states, and one of them is "I don't know"</h3>
         <p>
-          A warning that arrives after you've blown through your daily limit is a
-          receipt, not a guardrail. Guardian raises the alarm on approach — while you
-          still have a decision to make.
+          Every limit resolves to OK, WARN, BREACH or UNKNOWN. WARN is a distinct state
+          that exists before a breach, not a note filed after one.
         </p>
       </div>
+
       <div class="card">
-        <span class="n">03 — KILL-SWITCH</span>
-        <h3>One control, separate from your strategy</h3>
+        <span class="n">03 — SAYS UNKNOWN</span>
+        <span class="state state-working">WORKING TODAY</span>
+        <h3>It does not guess</h3>
         <p>
-          A single stop that lives outside your strategy code, so a strategy that is
-          stuck, looping, or misbehaving cannot talk you out of it. You press it. It stops.
+          One unreadable row in your trade file means no losing-streak figure at all —
+          not a figure computed from the rows that happened to parse. When Guardian cannot
+          tell, that is what it reports.
         </p>
       </div>
+
       <div class="card">
-        <span class="n">04 — RECORDS</span>
-        <h3>An audit trail you can actually read</h3>
+        <span class="n">04 — RECONSTRUCTS</span>
+        <span class="state state-working">WORKING TODAY</span>
+        <h3>Your round-trips, FIFO</h3>
         <p>
-          Every limit you set, every warning raised, every breach, and every time you
-          overrode Guardian and carried on anyway — kept for your own review and your
-          own record-keeping. Plain records, exportable, yours.
+          Guardian rebuilds your completed round-trips from your own trade records, first in
+          first out, and computes the losing streak from them.
+        </p>
+      </div>
+
+      <div class="card planned">
+        <span class="n">05 — ALERTS</span>
+        <span class="state state-planned">PLANNED — BUILT, NOT SWITCHED ON</span>
+        <h3>A warning that reaches you</h3>
+        <p>
+          Today Guardian computes a warning state. It does not yet deliver one. Until it
+          does, nothing on this page claims that Guardian will tell you anything —
+          you would have to look.
+        </p>
+      </div>
+
+      <div class="card planned">
+        <span class="n">06 — RECORDS</span>
+        <span class="state state-planned">PLANNED</span>
+        <h3>Guardian's own audit trail</h3>
+        <p>
+          Every limit you set, every warning raised, every breach, and every override —
+          kept for your own review and your own record-keeping, with export. Not built yet.
+          The round-trip reconstruction in card 04 is a different thing.
         </p>
       </div>
     </div>
@@ -325,13 +374,13 @@ footer a{color:var(--ink-2)}
       </p>
     </div>
     <ul>
-      <li><b>Never tells you what to trade.</b> No instruments, no strikes, no entries, no exits, no signals, no tips, no watchlists.</li>
-      <li><b>Never predicts a market.</b> There is no forecast anywhere in this product. Guardian has no opinion about tomorrow.</li>
-      <li><b>Never claims or implies a profit, a return, a win rate, or performance of any kind.</b> Not in the product, not on this page, not in any email we send you.</li>
-      <li><b>Never places a trade.</b> Guardian observes and alerts. It does not transmit orders on your behalf.</li>
-      <li><b>Never gives investment advice.</b> Nothing Guardian outputs is a recommendation, and nothing here should be read as one.</li>
-      <li><b>Never hides its reasoning.</b> No score you can't trace, no model you can't inspect, no "our algorithm determined."</li>
-    </ul>
+  <li><b>Never tells you what to trade.</b> No instruments, no strikes, no entries, no exits, no signals, no tips, no watchlists.</li>
+  <li><b>Never predicts a market.</b> There is no forecast anywhere in this product. Guardian has no opinion about tomorrow.</li>
+  <li><b>Never claims or implies a profit, a return, a win rate, or performance of any kind.</b> Not in the product, not on this page, not in any email we send you.</li>
+  <li><b>Never places a trade — and the build enforces it.</b> Guardian cannot place, modify or cancel an order, and our build fails if order-placing code appears in it. Being straight about that test: it matches known order-method names, so it would not catch a raw HTTP call to an order endpoint. We are hardening it to cover outbound destinations too.</li>
+  <li><b>Never gives investment advice.</b> Nothing Guardian outputs is a recommendation, and nothing here should be read as one.</li>
+  <li><b>Never hides its reasoning.</b> No score you can't trace, no model you can't inspect, no "our algorithm determined."</li>
+</ul>
   </div>
 </section>
 
@@ -366,25 +415,7 @@ ACTION     none taken — Guardian warns, you decide</p>
   </div>
 </section>
 
-<!-- ============ KILL SWITCH ============ -->
-<section id="killswitch">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">The one thing that must not fail</p>
-      <h2>A kill-switch that always works.</h2>
-      <p>
-        Everything else in Guardian is a convenience. The kill-switch is the promise.
-        It sits deliberately outside your strategy code, on its own path, so that
-        stopping never depends on the thing you're trying to stop.
-      </p>
-      <p>
-        We'd rather you didn't take our word for it. The first thing we ask every beta
-        user to do — before connecting anything that matters — is to press it and
-        confirm with their own eyes that it did what it said.
-      </p>
-    </div>
-  </div>
-</section>
+
 
 <!-- ============ WAITLIST ============ -->
 <section id="waitlist" class="waitlist">
@@ -428,49 +459,50 @@ ACTION     none taken — Guardian warns, you decide</p>
     </div>
 
     <div class="grid g3">
-      <div class="tier">
-        <span class="tag">Free</span>
-        <p class="amt">₹0</p>
-        <p class="per">forever</p>
-        <ul>
-          <li>Core limit watching</li>
-          <li>Warnings before breach</li>
-          <li>Manual kill-switch</li>
-          <li>Local audit record</li>
-        </ul>
-        <p class="foot">For one person watching their own automation.</p>
-      </div>
+  <div class="tier">
+    <span class="tag">Free</span>
+    <p class="amt">₹0</p>
+    <p class="per">forever</p>
+    <ul>
+      <li>Five limits watched against live positions</li>
+      <li>Four-state evaluation, including UNKNOWN</li>
+      <li>FIFO round-trip reconstruction</li>
+      <li>A status you can read at any time</li>
+    </ul>
+    <p class="foot">Everything that works today is here, and it stays here.</p>
+  </div>
 
-      <div class="tier">
-        <span class="tag">Pro</span>
-        <p class="amt">₹499</p>
-        <p class="per">per month, intended</p>
-        <ul>
-          <li>Everything in Free</li>
-          <li>More limit types and rule sets</li>
-          <li>Alerts off-device</li>
-          <li>Audit trail export</li>
-          <li>Retained history</li>
-        </ul>
-        <p class="foot">For someone running more than one strategy.</p>
-      </div>
+  <div class="tier gated">
+    <span class="tag">Pro</span>
+    <p class="amt">Not yet priced</p>
+    <p class="per">announced when Pro ships</p>
+    <ul>
+      <li>Everything in Free</li>
+      <li>Warnings delivered to you, off-device</li>
+      <li>Guardian's own audit trail, with export</li>
+      <li>Retained history</li>
+    </ul>
+    <p class="gate-note">
+      <b>Pro pricing is announced when Pro ships.</b> Every item above is planned, not
+      built. We are not going to price a tier before we can hand you the thing it contains.
+    </p>
+  </div>
 
-      <div class="tier gated">
-        <span class="tag">Enforcer — waitlist only</span>
-        <p class="amt">₹1,499</p>
-        <p class="per">per month, intended</p>
-        <ul>
-          <li>Everything in Pro</li>
-          <li>Enforcement at the order path, not just warnings</li>
-        </ul>
-        <p class="gate-note">
-          <b>We cannot sell this yet, and we won't pretend otherwise.</b> Blocking an
-          order on its way to an exchange is a regulated activity. It requires exchange
-          empanelment that we do not currently hold. Until we do, Enforcer is a waitlist
-          and nothing more.
-        </p>
-      </div>
-    </div>
+  <div class="tier gated">
+    <span class="tag">Enforcer — waitlist only</span>
+    <p class="amt">Not yet priced</p>
+    <p class="per">announced when Enforcer can ship</p>
+    <ul>
+      <li>Everything in Pro</li>
+      <li>Enforcement at the order path, not just warnings</li>
+    </ul>
+    <p class="gate-note">
+      <b>We cannot sell this yet, and we won't pretend otherwise.</b> Blocking an order on
+      its way to an exchange is a regulated activity. It requires exchange empanelment that
+      we do not currently hold. Until we do, Enforcer is a waitlist and nothing more.
+    </p>
+  </div>
+</div>
   </div>
 </section>
 
