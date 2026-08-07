@@ -194,3 +194,16 @@ claims:
     source: 'AIWHQ-CODEX-BTFDR-001.md · verified product fact from AIW-CODEX-BTFDR-004'
     routes: ['/platform']
     reverify: { cadence: quarterly, last: '2026-08-07' }
+  - id: CL-36
+    text: >-
+      An Assignment dossier can now validate readiness against governed
+      contract and lifecycle state, show actionable failures, identify eligible
+      Executors from recorded capability and authorization state, and route a
+      valid Assignment through the governed lifecycle. The resulting Assignment
+      and Agent state changes, and the routing audit record, are visible
+      immediately.
+    tier: Verified
+    date: '2026-08-07'
+    source: 'AIWHQ-CODEX-BTFDR-002.md · verified product fact from AIW-CODEX-BTFDR-005 · commit 49b1663dd21b37fe353c2fe3e0753fb06157cf78'
+    routes: ['/platform']
+    reverify: { cadence: quarterly, last: '2026-08-07' }
