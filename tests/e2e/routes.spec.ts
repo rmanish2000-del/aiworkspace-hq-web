@@ -313,7 +313,7 @@ test('the five principles render on /principles; the landing route follows its c
   await expect(page.locator('[data-block="CB-01"]')).toBeVisible();
 });
 
-test('/platform preserves intent tense and renders only the verified Assignment capability', async ({
+test('/platform preserves intent tense and renders only verified Assignment capabilities', async ({
   page,
 }) => {
   // The category pillars remain design intentions.
@@ -329,6 +329,14 @@ test('/platform preserves intent tense and renders only the verified Assignment 
   await expect(capability).toContainText('governed Assignment lifecycle');
   await expect(capability).toContainText('dossier view opens directly');
   await expect(capability.locator('.ledger-badge')).toContainText('VERIFIED · 2026-08-07');
+
+  const routingCapability = page.locator('[data-block="CB-81"]');
+  await expect(routingCapability).toContainText('validate readiness');
+  await expect(routingCapability).toContainText('actionable failures');
+  await expect(routingCapability).toContainText('eligible Executors');
+  await expect(routingCapability).toContainText('governed lifecycle');
+  await expect(routingCapability).toContainText('routing audit record');
+  await expect(routingCapability.locator('.ledger-badge')).toContainText('VERIFIED · 2026-08-07');
 });
 
 test('/contact publishes no address and no form', async ({ page }) => {
