@@ -1,18 +1,18 @@
 {
-  "recordedFrom": "feature/cc008-claim-compiler — FD-AG4/CC-008: the landing route now renders the HQ-10 contract (FD-POS1) and five evidence routes exist; this supersedes the pre-CC-008 holding-page baseline. Merging still requires the CC-009 launch discipline: production stays behind Deployment Protection until CC-009 step 8.",
+  "recordedFrom": "prava-theme \u2014 the site adopts the Prava identity as its one palette. Until now src/styles/tokens.css was blue-cast and src/design-system/tokens.css was green-cast, so a reader moving between a page and the gallery saw two products. Both files now carry identical neutrals and the same teal primary, controls take the pill shape, and the mono voice comes from --font-mono. This baseline exists to catch a design-system change LEAKING into the site; here the site was changed on purpose, so the hashes are re-recorded rather than the change reverted. Every G-C1/G-C2 contrast pair was recomputed and passes in both themes.",
   "note": "sha256 of every built route document.",
   "hashes": {
-    "404.html": "8f47cf1337268035f1054e93943ec7a29d88d0f66512f5fb6e9bd22a37469b0e",
-    "about.html": "c4f139c8ae05a3207303344d1814c9176cf12c8b5f75f00a168e0388adb6117c",
-    "contact.html": "5884c6d1be1c7955006a313ac1a3062ff57d41f33e1787ff9828ecbfa604e9dd",
-    "enterprise.html": "57cf5ac25592eaa56f73fb7b79fa0ff5b1a80eabeda546eadb9a19fa2a4ee2b1",
-    "index.html": "69d8efea50c97c9745c4a56ea9258744311465e5dae87d6f5bb8df3a83e4d4b6",
-    "platform.html": "e85b4f3586a5d811bd22a378d36b013831c2220ac526d8477ef9a102ee76c259",
-    "principles.html": "0a1231a74d0b48d6f085fe8ce3dec6eb3191ccea16ee7f99640cd5c4610fe4aa",
-    "privacy.html": "1bdd8ed601c424877f7aa65e7e12f07b66f93011477d200815c4dc1ec0c88e8f",
-    "security.html": "f0c3ffce8c0b296c7a37a927a4ff0018e3e884192e95f62ad55be32a4be863aa",
-    "technology.html": "9bb55c1e371768f25d5d6f7721dac3bd09fbb9f3fa26c76ad268224520e79bc9",
-    "trust.html": "d526e5730af5a2ab6d50932a291546b8f20737a29c6bf2578c50bc9c7a05ef21",
-    "what-we-havent-built.html": "3be2e5a156dc1677ea5f3bb1f920557436cec775d55c554177d8444e8d965003"
+    "404.html": "1cbc591b98146660466f2286f76ef4673efe285d44900684fed15a2d3524da7a",
+    "about.html": "86b4325a2405f7e1909321743733b8af44f2b62a885afe432bb3cde8a66d42db",
+    "contact.html": "4cd927f7e5891d3fef8bda62e2ab456ca0aea7ec508722850031c7a90a6b9510",
+    "enterprise.html": "989e541164f052bf961431d5c821fac3fec589ee26a38a12f51ab6088cda15e4",
+    "index.html": "01ecd7c9bdc4c5bff0800b681f0938fd2d06a859ee937598946187890afecb11",
+    "platform.html": "eb6d8be7757bc847c802bef3e416f6387960873d49fb220796354d2b4b55804f",
+    "principles.html": "a04dbc3ea26fe207f04a3c7dee7e153e63255c5a9122cfaf453682fd9120d95b",
+    "privacy.html": "daa5e16539c2083a8e6adf689282e924f2213d5ff222880f275e5011f0fd5ede",
+    "security.html": "b92499ca785d34e86fa31be986250d5812d7e6fb4f530d2aae447de78648e472",
+    "technology.html": "ba0480c4968541a26a10acacf45652c203f334831c1beab8b9cfff8d1bc16f01",
+    "trust.html": "067706121fd3f277c9730a13521e1de87909ccc550d8a716c90d300d9170ab97",
+    "what-we-havent-built.html": "2c63354d7c378b7e24b0e224310e3e4761d3b04cd7ae54f64bd83de517bcd061"
   }
 }
