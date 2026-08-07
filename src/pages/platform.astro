@@ -3,8 +3,8 @@
  * `/platform` — P1-J §6. "What an Enterprise AI Operating Layer is."
  *
  * Purpose (P1-J §6): educate before selling. Explain the category and the
- * problem it addresses, and draw the boundary against adjacent categories —
- * **without describing product capability**.
+ * problem it addresses, draw the boundary against adjacent categories, and
+ * publish the one product capability verified by AIW-CODEX-BTFDR-004.
  *
  * Every string resolves from `copy.ts`, transcribed from P1-J §6, which traces
  * each line to P0 `01` or the Approved Foundation.
@@ -26,11 +26,13 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
 import TermList from '../components/ui/TermList.astro';
 import CTASection from '../components/ui/CTASection.astro';
+import LedgerBlock from '../components/LedgerBlock.astro';
 import { hero, interest, nav, platform } from '../content/copy';
 
 const PROBLEM_ID = 'problem-heading';
 const PILLARS_ID = 'pillars-heading';
 const DISTINCTIONS_ID = 'distinctions-heading';
+const VERIFIED_ID = 'verified-capability-heading';
 ---
 
 <Base
@@ -56,6 +58,11 @@ const DISTINCTIONS_ID = 'distinctions-heading';
       level={3}
       items={platform.pillars.map((pillar) => ({ term: pillar.title, body: pillar.body }))}
     />
+  </Section>
+
+  <Section headingId={VERIFIED_ID}>
+    <SectionHeader id={VERIFIED_ID} heading="Verified product capability" />
+    <div class="term-list"><LedgerBlock id="CB-80" /></div>
   </Section>
 
   <Section headingId={DISTINCTIONS_ID}>
