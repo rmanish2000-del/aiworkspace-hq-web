@@ -20,6 +20,13 @@ blocks:
     claim: CL-36
     copy: 'An Assignment dossier can now validate readiness against governed contract and lifecycle state, show actionable failures, identify eligible Executors from recorded capability and authorization state, and route a valid Assignment through the governed lifecycle. The resulting Assignment and Agent state changes, and the routing audit record, are visible immediately.'
 
+  - id: CB-82
+    route: '/platform'
+    slot: assignment-execution-activation
+    kind: proof
+    claim: CL-37
+    copy: 'A properly routed Assignment can now enter governed execution through an accountable Attempt and a time-bounded fenced lease issued to its Executor. Assignment and Agent surfaces expose the execution and lease state; invalid, stale, or unauthorized activation fails closed, and relevant lifecycle events remain auditable.'
+
   # ROUTE / — Landing
   - id: CB-01
     route: '/'

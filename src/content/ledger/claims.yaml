@@ -207,3 +207,15 @@ claims:
     source: 'AIWHQ-CODEX-BTFDR-002.md · verified product fact from AIW-CODEX-BTFDR-005 · commit 49b1663dd21b37fe353c2fe3e0753fb06157cf78'
     routes: ['/platform']
     reverify: { cadence: quarterly, last: '2026-08-07' }
+  - id: CL-37
+    text: >-
+      A properly routed Assignment can now enter governed execution through an
+      accountable Attempt and a time-bounded fenced lease issued to its
+      Executor. Assignment and Agent surfaces expose the execution and lease
+      state; invalid, stale, or unauthorized activation fails closed, and
+      relevant lifecycle events remain auditable.
+    tier: Verified
+    date: '2026-08-07'
+    source: 'AIWHQ-CODEX-BTFDR-003.md · verified product fact from AIW-CODEX-BTFDR-006 · commit cc8b08f20db1240ac2246d27c85ba313621119f6'
+    routes: ['/platform']
+    reverify: { cadence: quarterly, last: '2026-08-07' }

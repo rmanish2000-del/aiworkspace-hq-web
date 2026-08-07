@@ -337,6 +337,16 @@ test('/platform preserves intent tense and renders only verified Assignment capa
   await expect(routingCapability).toContainText('governed lifecycle');
   await expect(routingCapability).toContainText('routing audit record');
   await expect(routingCapability.locator('.ledger-badge')).toContainText('VERIFIED · 2026-08-07');
+
+  const activationCapability = page.locator('[data-block="CB-82"]');
+  await expect(activationCapability).toContainText('properly routed Assignment');
+  await expect(activationCapability).toContainText('accountable Attempt');
+  await expect(activationCapability).toContainText('time-bounded fenced lease');
+  await expect(activationCapability).toContainText('invalid, stale, or unauthorized');
+  await expect(activationCapability).toContainText('remain auditable');
+  await expect(activationCapability.locator('.ledger-badge')).toContainText(
+    'VERIFIED · 2026-08-07',
+  );
 });
 
 test('/contact publishes no address and no form', async ({ page }) => {
