@@ -5,6 +5,14 @@
 # (CT-4: CB-21/CB-74 · CT-5: CB-62); they never render their copy.
 
 blocks:
+  # ROUTE /platform — verified product capability
+  - id: CB-80
+    route: '/platform'
+    slot: assignment-creation
+    kind: proof
+    claim: CL-35
+    copy: 'An Assignment can now be created from a Work Item through the existing governed Assignment lifecycle. After creation, the Assignment appears immediately and its dossier view opens directly.'
+
   # ROUTE / — Landing
   - id: CB-01
     route: '/'
