@@ -13,6 +13,13 @@ blocks:
     claim: CL-35
     copy: 'An Assignment can now be created from a Work Item through the existing governed Assignment lifecycle. After creation, the Assignment appears immediately and its dossier view opens directly.'
 
+  - id: CB-81
+    route: '/platform'
+    slot: assignment-validation-routing
+    kind: proof
+    claim: CL-36
+    copy: 'An Assignment dossier can now validate readiness against governed contract and lifecycle state, show actionable failures, identify eligible Executors from recorded capability and authorization state, and route a valid Assignment through the governed lifecycle. The resulting Assignment and Agent state changes, and the routing audit record, are visible immediately.'
+
   # ROUTE / — Landing
   - id: CB-01
     route: '/'
