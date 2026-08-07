@@ -27,6 +27,13 @@ blocks:
     claim: CL-37
     copy: 'A properly routed Assignment can now enter governed execution through an accountable Attempt and a time-bounded fenced lease issued to its Executor. Assignment and Agent surfaces expose the execution and lease state; invalid, stale, or unauthorized activation fails closed, and relevant lifecycle events remain auditable.'
 
+  - id: CB-83
+    route: '/platform'
+    slot: assignment-verification-review-completion
+    kind: proof
+    claim: CL-38
+    copy: 'An evidence-backed submitted result can now pass through deterministic verification, criterion-level findings, authorized human approval or rejection, and auditable completion. Remediable failures create a new Attempt while prior Attempts, results, evidence, verifications, and decisions remain inspectable and unchanged.'
+
   # ROUTE / — Landing
   - id: CB-01
     route: '/'

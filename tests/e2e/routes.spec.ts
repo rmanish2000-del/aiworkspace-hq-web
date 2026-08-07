@@ -347,6 +347,16 @@ test('/platform preserves intent tense and renders only verified Assignment capa
   await expect(activationCapability.locator('.ledger-badge')).toContainText(
     'VERIFIED · 2026-08-07',
   );
+
+  const completionCapability = page.locator('[data-block="CB-83"]');
+  await expect(completionCapability).toContainText('evidence-backed submitted result');
+  await expect(completionCapability).toContainText('deterministic verification');
+  await expect(completionCapability).toContainText('authorized human approval or rejection');
+  await expect(completionCapability).toContainText('Remediable failures create a new Attempt');
+  await expect(completionCapability).toContainText('remain inspectable and unchanged');
+  await expect(completionCapability.locator('.ledger-badge')).toContainText(
+    'VERIFIED · 2026-08-07',
+  );
 });
 
 test('/contact publishes no address and no form', async ({ page }) => {

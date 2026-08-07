@@ -219,3 +219,15 @@ claims:
     source: 'AIWHQ-CODEX-BTFDR-003.md · verified product fact from AIW-CODEX-BTFDR-006 · commit cc8b08f20db1240ac2246d27c85ba313621119f6'
     routes: ['/platform']
     reverify: { cadence: quarterly, last: '2026-08-07' }
+  - id: CL-38
+    text: >-
+      An evidence-backed submitted result can now pass through deterministic
+      verification, criterion-level findings, authorized human approval or
+      rejection, and auditable completion. Remediable failures create a new
+      Attempt while prior Attempts, results, evidence, verifications, and
+      decisions remain inspectable and unchanged.
+    tier: Verified
+    date: '2026-08-07'
+    source: 'AIWHQ-CODEX-BTFDR-004.md · verified product fact from AIW-CODEX-BTFDR-008 · commit 5e765dd'
+    routes: ['/platform']
+    reverify: { cadence: quarterly, last: '2026-08-07' }
