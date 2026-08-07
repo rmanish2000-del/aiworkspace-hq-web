@@ -313,14 +313,22 @@ test('the five principles render on /principles; the landing route follows its c
   await expect(page.locator('[data-block="CB-01"]')).toBeVisible();
 });
 
-test('/platform makes no present-tense capability claim', async ({ page }) => {
-  // P1-J §6.4 — every pillar reads "is designed to".
+test('/platform preserves intent tense and renders only the verified Assignment capability', async ({
+  page,
+}) => {
+  // The category pillars remain design intentions.
   await page.goto('/platform');
   const pillars = await page.locator('.term-list--heading .term-list__body').allTextContents();
   expect(pillars).toHaveLength(3);
   for (const body of pillars) {
     expect(body).toContain('is designed to');
   }
+
+  const capability = page.locator('[data-block="CB-80"]');
+  await expect(capability).toContainText('created from a Work Item');
+  await expect(capability).toContainText('governed Assignment lifecycle');
+  await expect(capability).toContainText('dossier view opens directly');
+  await expect(capability.locator('.ledger-badge')).toContainText('VERIFIED · 2026-08-07');
 });
 
 test('/contact publishes no address and no form', async ({ page }) => {
