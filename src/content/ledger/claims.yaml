@@ -184,3 +184,13 @@ claims:
     routes: ['/technology', '/what-we-havent-built']
     negative: true
     reverify: { cadence: quarterly, last: '2026-07-27' }
+  - id: CL-35
+    text: >-
+      An Assignment can now be created from a Work Item through the existing
+      governed Assignment lifecycle. After creation, the Assignment appears
+      immediately and its dossier view opens directly.
+    tier: Verified
+    date: '2026-08-07'
+    source: 'AIWHQ-CODEX-BTFDR-001.md · verified product fact from AIW-CODEX-BTFDR-004'
+    routes: ['/platform']
+    reverify: { cadence: quarterly, last: '2026-08-07' }
