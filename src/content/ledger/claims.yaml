@@ -231,3 +231,12 @@ claims:
     source: 'AIWHQ-CODEX-BTFDR-004.md · verified product fact from AIW-CODEX-BTFDR-008 · commit 5e765dd'
     routes: ['/platform']
     reverify: { cadence: quarterly, last: '2026-08-07' }
+  - id: CL-39
+    text: >-
+      AI Workspace can ingest governed organizational knowledge from an
+      approved source and retrieve scoped context with exact source provenance.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-004-KNOWLEDGE-WORKSPACE.md · verified product fact from AIW-CODEX-BTFDR-011 · commit 4a46c0daf1a4deef28f074cc83d7fd242e15925a'
+    routes: ['/platform']
+    reverify: { cadence: quarterly, last: '2026-08-08' }

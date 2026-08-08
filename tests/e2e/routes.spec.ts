@@ -357,6 +357,18 @@ test('/platform preserves intent tense and renders only verified Assignment capa
   await expect(completionCapability.locator('.ledger-badge')).toContainText(
     'VERIFIED · 2026-08-07',
   );
+
+  const knowledgeCapability = page.locator('[data-block="CB-84"]');
+  await expect(knowledgeCapability).toContainText('ingest governed organizational knowledge');
+  await expect(knowledgeCapability).toContainText('from an approved source');
+  await expect(knowledgeCapability).toContainText('retrieve scoped context');
+  await expect(knowledgeCapability).toContainText('exact source provenance');
+  await expect(knowledgeCapability.locator('.ledger-badge')).toContainText('VERIFIED · 2026-08-08');
+
+  const knowledgeCopy = (await knowledgeCapability.textContent()) ?? '';
+  for (const unsupported of ['Google Drive', 'Slack', 'vector', 'knowledge graph']) {
+    expect(knowledgeCopy).not.toContain(unsupported);
+  }
 });
 
 test('/contact publishes no address and no form', async ({ page }) => {
