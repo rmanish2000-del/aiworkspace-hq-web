@@ -45,6 +45,21 @@ const ROUTES = [
     title: 'Platform — AI Workspace',
     h1: 'What an Enterprise AI Operating Layer is',
   },
+  {
+    path: '/products',
+    title: 'Products — AI Workspace',
+    h1: 'Policy-backed infrastructure for governed AI action',
+  },
+  {
+    path: '/products/warrant',
+    title: 'Warrant — AI Purchasing Authorization',
+    h1: 'Decide whether an AI purchasing agent is allowed to spend',
+  },
+  {
+    path: '/products/warrant-mcp',
+    title: 'Warrant MCP — Deterministic AI Tool Policy',
+    h1: 'Rules an AI agent cannot talk its way past',
+  },
   { path: '/principles', title: 'Principles — AI Workspace', h1: 'How we are building it' },
   { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
   { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
@@ -53,7 +68,16 @@ const ROUTES = [
 ] as const;
 
 /** FD-AG4 wave 1 (CC-009 §0) — exactly these five routes are indexable. */
-const WAVE_1 = ['/', '/trust', '/technology', '/what-we-havent-built', '/privacy'];
+const WAVE_1 = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/privacy',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
+];
 const SITEMAP_ROUTES = ROUTES.filter((r) => WAVE_1.includes(r.path));
 
 /* -------------------------------------------------------------------------- */
@@ -141,13 +165,14 @@ for (const route of ROUTES) {
 /* Navigation — P1-J §4.1                                                     */
 /* -------------------------------------------------------------------------- */
 
-test('the nav carries four items in the specified order', async ({ page }) => {
+test('the nav carries the specified items in order', async ({ page }) => {
   await page.goto('/');
 
   const labels = await page.locator('nav[aria-label="Main"] li').allInnerTexts();
   expect(labels.map((l) => l.trim())).toEqual([
     'Trust',
     'Technology',
+    'Products',
     'What we have not built',
     'Platform',
     'Principles',
@@ -234,7 +259,7 @@ test('every internal link resolves to a route that exists', async ({ page, reque
 /* Sitemap and structured data — P1-J §4.3                                    */
 /* -------------------------------------------------------------------------- */
 
-test('the sitemap lists exactly the five indexable routes', async ({ request }) => {
+test('the sitemap lists exactly the indexable routes', async ({ request }) => {
   const res = await request.get('/sitemap.xml');
   expect(res.status()).toBe(200);
 
