@@ -488,6 +488,12 @@ describe('scope.prohibitions', () => {
       // Atom namespace on <feed>. Required by the format, never dereferenced —
       // and the feed is not even emitted (src/lib/deferred-static.ts).
       'http://www.w3.org/2005/Atom',
+      // AIWHQ-CODEX-BTFDR-005: plain anchors to the two canonical public
+      // repositories and their evidence paths. They are navigations initiated
+      // by a person, never first-render requests. E2E still asserts zero
+      // third-party traffic before interaction.
+      'https://github.com/rmanish2000-del/warrant',
+      'https://github.com/rmanish2000-del/warrant-mcp',
     ];
 
     const forbiddenPatterns: Array<[RegExp, string]> = [
