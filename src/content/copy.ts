@@ -359,6 +359,7 @@ export const nav = {
   items: [
     { href: '/trust', label: 'Trust' },
     { href: '/technology', label: 'Technology' },
+    { href: '/products', label: 'Products' },
     { href: '/what-we-havent-built', label: 'What we have not built' },
     { href: '/platform', label: 'Platform' },
     { href: '/principles', label: 'Principles' },
@@ -505,6 +506,172 @@ export const platform = {
   metaDescription:
     'What an Enterprise AI Operating Layer is, the problem it addresses, and how it differs from assistants, automation, enterprise search, and agent frameworks.',
   canonicalPath: '/platform',
+} as const;
+
+/* -------------------------------------------------------------------------- */
+/* Product portfolio — AIWHQ-CODEX-BTFDR-005                                 */
+/*                                                                            */
+/* Repository evidence is recorded in the assignment evidence specification.  */
+/* Capability assertions render through the claim ledger; this module owns     */
+/* navigation, explanatory and conversion copy.                               */
+/* -------------------------------------------------------------------------- */
+
+export const products = {
+  eyebrow: 'Product family',
+  heading: 'Policy-backed infrastructure for governed AI action',
+  lead: 'AI Workspace, Warrant and Warrant MCP address different layers of governed AI operation. These pages separate what each product does, what has been verified, and where its boundary sits.',
+  relationHeading: 'One thesis, two authorization products',
+  relationLead:
+    'Human policy becomes machine-enforceable structure, and deterministic code makes the runtime authorization decision.',
+  warrantTitle: 'Warrant',
+  warrantSummary: 'Commerce-specific authorization for AI purchasing agents.',
+  warrantHref: '/products/warrant',
+  warrantMcpTitle: 'Warrant MCP',
+  warrantMcpSummary: 'Deterministic policy enforcement for AI-agent actions and tool calls.',
+  warrantMcpHref: '/products/warrant-mcp',
+  metaTitle: 'Products — AI Workspace',
+  metaDescription:
+    'Explore Warrant for AI purchasing authorization and Warrant MCP for deterministic AI-agent tool policy, with verified capabilities and stated limitations.',
+  canonicalPath: '/products',
+} as const;
+
+export const warrantProduct = {
+  eyebrow: 'AI purchasing authorization',
+  heading: 'Decide whether an AI purchasing agent is allowed to spend',
+  lead: 'Warrant turns a human-confirmed spending policy into deterministic purchase authorization. The runtime returns ALLOW, ESCALATE or DENY and cites the clause that governed the decision.',
+  maturity:
+    'Current maturity: a local, single-operator demonstration with Prava sandbox payment sessions. No real-money processing is claimed.',
+  audienceHeading: 'Built for teams placing agents near a purchase',
+  audiences: [
+    'Agent-commerce builders',
+    'Payment and commerce infrastructure teams',
+    'Procurement automation teams',
+    'Enterprise AI teams evaluating policy-led purchasing',
+  ],
+  problemHeading: 'Model judgement is not spending authority',
+  problemBody:
+    'An agent can propose a purchase. The authority to approve, escalate or refuse it must come from a policy a person has confirmed, evaluated by code whose result does not depend on model judgement at runtime.',
+  workflowHeading: 'From policy to a clause-cited decision',
+  workflow: [
+    { label: '1 · Write policy', body: 'A person states spending rules in plain English.' },
+    {
+      label: '2 · Compile',
+      body: 'Claude maps the policy into numbered clauses and exposes ambiguities.',
+    },
+    { label: '3 · Confirm', body: 'A person resolves ambiguity and confirms the mandate.' },
+    { label: '4 · Propose', body: 'An agent submits a purchase proposal.' },
+    {
+      label: '5 · Decide',
+      body: 'Deterministic code returns ALLOW, ESCALATE or DENY with the governing clause.',
+    },
+    {
+      label: '6 · Act or stop',
+      body: 'Only the supported authorized path may reach the downstream sandbox provider.',
+    },
+    {
+      label: '7 · Record',
+      body: 'The decision and available outcome evidence are appended to the authorization record.',
+    },
+  ],
+  refusalHeading: 'The product moment is a refusal',
+  refusalBody:
+    'A proposal can sit below every numeric limit and still be denied because its supplier is not approved. The denial cites the exact clause; the provider receives no call.',
+  capabilitiesHeading: 'Verified in the repository',
+  tryHeading: 'Run the evidence path',
+  tryBody:
+    'The repository includes a keyless test suite, five headless decision scenarios and a local operator console. Provider interaction remains sandbox-only.',
+  githubLabel: 'Open the Warrant repository',
+  githubHref: 'https://github.com/rmanish2000-del/warrant',
+  consoleLabel: 'Open the sandbox console',
+  consoleHref: '/warrant/console',
+  partnershipHeading: 'Evaluate a bounded design partnership',
+  partnershipBody:
+    'Teams exploring purchasing authorization can open a public GitHub issue with the agent, payment boundary and policy question they need to test.',
+  partnershipLabel: 'Start a public product conversation',
+  partnershipHref:
+    'https://github.com/rmanish2000-del/warrant/issues/new?title=Design%20partnership%20enquiry',
+  trustHeading: 'Trust comes from the boundary',
+  limitationsHeading: 'Current limitations',
+  limitations: [
+    'Prava interaction is sandbox-only; no real money moves.',
+    'The console is local and single-operator, not a hardened service.',
+    'The ALLOW path is authorized and recorded but is not wired to the provider.',
+    'Spend counts at approval; release of expired holds is not implemented.',
+    'The authorization record is tamper-evident, not signed and not non-repudiable.',
+  ],
+  metaTitle: 'Warrant — AI Purchasing Authorization',
+  metaDescription:
+    'Warrant applies human-confirmed spending policy to AI purchase proposals with deterministic ALLOW, ESCALATE or DENY decisions and clause citations.',
+  canonicalPath: '/products/warrant',
+} as const;
+
+export const warrantMcpProduct = {
+  eyebrow: 'AI-agent tool policy',
+  heading: 'Rules an AI agent cannot talk its way past',
+  lead: 'Warrant MCP compiles plain-English policy once and uses deterministic code to check supported tool calls. A Claude Code hook turns DENY into a hard block where that integration applies.',
+  maturity:
+    'Current maturity: an open-source TypeScript reference implementation, a versioned policy specification and Claude Code enforcement. Other MCP hosts receive an advisory check tool, not binding enforcement.',
+  problemHeading: 'Approval prompts and agent judgement leave a gap',
+  problemBody:
+    'A person should not have to approve every tool call, and the agent should not be the authority that decides whether its own action is permitted. A closed policy vocabulary provides a narrower, testable boundary.',
+  quickstartHeading: 'Sixty-second path',
+  quickstartCommands: [
+    'npm install -g warrant-mcp',
+    'cd your-project',
+    'warrant-mcp init',
+    'warrant-mcp test "delete .env"',
+  ],
+  quickstartBody:
+    'Initialization installs a reviewed example policy without an API key. Policy review is the only command that compiles and the only one that needs an Anthropic API key.',
+  lifecycleHeading: 'Policy lifecycle',
+  lifecycle: [
+    { label: 'Write', body: 'State rules in plain English.' },
+    { label: 'Review', body: 'Compile once, inspect clauses and compare behaviour.' },
+    { label: 'Accept', body: 'Adopt the reviewed artifact.' },
+    { label: 'Check', body: 'Evaluate a supported action against closed structured rules.' },
+    { label: 'Enforce', body: 'The Claude Code hook blocks DENY before the tool executes.' },
+    { label: 'Report', body: 'Render the local decision record as a self-contained HTML report.' },
+  ],
+  vocabularyHeading: 'A closed, specified rule vocabulary',
+  vocabulary: [
+    'File deletion outside a workspace or against protected paths',
+    'File writes constrained to named scopes',
+    'Forbidden shell tokens, sequences and invocations',
+    'HTTP host and method allowlists',
+  ],
+  specBody:
+    'SPEC.md version 0.1.0 defines eight rule types, precedence, fail-closed behaviour and deliberate limits. A 76-case language-agnostic corpus checks the reference implementation against that contract.',
+  capabilitiesHeading: 'Verified in the repository',
+  integrationHeading: 'Supported enforcement model',
+  integrationBody:
+    'Claude Code PreToolUse is the binding integration. The check_action MCP tool returns advice for other hosts; it cannot force a host to comply.',
+  recordHeading: 'Local record and report',
+  recordBody:
+    'Checked tool calls append to a local JSONL record. The report command renders a self-contained offline HTML view and screens output for credential shapes and machine identity before writing.',
+  installLabel: 'Open installation and quickstart',
+  githubHref: 'https://github.com/rmanish2000-del/warrant-mcp#sixty-seconds',
+  specLabel: 'Read the policy specification',
+  specHref: 'https://github.com/rmanish2000-del/warrant-mcp/blob/main/SPEC.md',
+  securityLabel: 'Read the security surface',
+  securityHref: 'https://github.com/rmanish2000-del/warrant-mcp/blob/main/SECURITY-SURFACE.md',
+  partnershipHeading: 'Test a policy boundary with the reference implementation',
+  partnershipBody:
+    'Teams evaluating deterministic tool policy can open a public GitHub issue with the host, action types and failure boundary they need to test.',
+  partnershipLabel: 'Start a public product conversation',
+  partnershipHref:
+    'https://github.com/rmanish2000-del/warrant-mcp/issues/new?title=Design%20partnership%20enquiry',
+  limitationsHeading: 'Limitations are part of the product',
+  limitations: [
+    'This is a policy layer, not a sandbox.',
+    'Binding enforcement currently applies to Claude Code tool calls only.',
+    'Shell expansion, obfuscation, symlinks, implicit targets, unmapped tools and time-of-check/time-of-use gaps remain open classes.',
+    'Hook configuration remains editable unless organization-managed settings protect it.',
+    'The local record is append-only by convention, has no integrity check and is evidence rather than proof.',
+  ],
+  metaTitle: 'Warrant MCP — Deterministic AI Tool Policy',
+  metaDescription:
+    'Warrant MCP compiles plain-English AI-agent policy once, checks supported tool calls deterministically, and blocks DENY through a Claude Code hook.',
+  canonicalPath: '/products/warrant-mcp',
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -973,6 +1140,9 @@ export const copy = {
   // Phase 1 — P1-J
   nav,
   platform,
+  products,
+  warrantProduct,
+  warrantMcpProduct,
   principlesPage,
   contact,
   privacy,
