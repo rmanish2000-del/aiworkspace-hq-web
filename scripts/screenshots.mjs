@@ -30,6 +30,9 @@ const SCHEMES = /** @type {const} */ (['light', 'dark']);
 const ROUTES = [
   { path: '/', name: 'home' },
   { path: '/platform', name: 'platform' },
+  { path: '/products', name: 'products' },
+  { path: '/products/warrant', name: 'warrant-product' },
+  { path: '/products/warrant-mcp', name: 'warrant-mcp-product' },
   { path: '/principles', name: 'principles' },
   { path: '/contact', name: 'contact' },
   { path: '/privacy', name: 'privacy' },
