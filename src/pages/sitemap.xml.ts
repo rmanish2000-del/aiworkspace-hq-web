@@ -21,7 +21,7 @@ import { canonicalUrl } from '../lib/site';
  * (P-01), so this file describes a site that is not yet reachable — which is
  * consistent with every route also being `noindex` in this build.
  */
-// FD-AG4 wave 1 (CC-009 §0): exactly these five routes are indexable.
+// AIWHQ-CODEX-BTFDR-005: exactly these eight routes are indexable.
 const ROUTES = [
   '/',
   '/trust',
