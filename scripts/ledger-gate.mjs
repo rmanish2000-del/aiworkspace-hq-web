@@ -31,6 +31,9 @@ const WIRED = {
   '/what-we-havent-built': 'dist/what-we-havent-built.html',
   '/enterprise': 'dist/enterprise.html',
   '/security': 'dist/security.html',
+  '/products': 'dist/products.html',
+  '/products/warrant': 'dist/products/warrant.html',
+  '/products/warrant-mcp': 'dist/products/warrant-mcp.html',
 };
 
 const claims = parse(readFileSync('src/content/ledger/claims.yaml', 'utf8')).claims;
@@ -142,6 +145,11 @@ const LABELS = new Set([
   'What is true today',
   'Where this page stops',
   'Register interest',
+  'Choose the authorization boundary',
+  'Commerce',
+  'Explore Warrant',
+  'Agent tools',
+  'Explore Warrant MCP',
   // Six technologies (FD-F2) — names and roles from CB-33's verified sentence.
   'PostgreSQL',
   'Data',
