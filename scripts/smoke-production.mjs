@@ -26,6 +26,9 @@ if (!origin) {
 const ROUTES = [
   '/',
   '/platform',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
   '/principles',
   '/about',
   '/contact',
