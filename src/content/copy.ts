@@ -444,6 +444,9 @@ export const platform = {
   pillarsLead:
     'These are design intentions, not delivered capabilities. AI Workspace is in development.',
 
+  /** Structural label for the evidence-backed capability ledger. */
+  verifiedCapabilityHeading: 'Verified product capability',
+
   /** [AD] all three worded "is designed to". P0 `01` §4. */
   pillars: [
     {

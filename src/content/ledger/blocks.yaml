@@ -34,6 +34,13 @@ blocks:
     claim: CL-38
     copy: 'An evidence-backed submitted result can now pass through deterministic verification, criterion-level findings, authorized human approval or rejection, and auditable completion. Remediable failures create a new Attempt while prior Attempts, results, evidence, verifications, and decisions remain inspectable and unchanged.'
 
+  - id: CB-84
+    route: '/platform'
+    slot: knowledge-workspace
+    kind: proof
+    claim: CL-39
+    copy: 'AI Workspace can ingest governed organizational knowledge from an approved source and retrieve scoped context with exact source provenance.'
+
   # ROUTE / — Landing
   - id: CB-01
     route: '/'
