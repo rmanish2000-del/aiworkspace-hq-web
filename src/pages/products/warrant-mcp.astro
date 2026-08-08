@@ -1,0 +1,181 @@
+---
+import Base from '../../layouts/Base.astro';
+import LedgerBlock from '../../components/LedgerBlock.astro';
+import ProductFlow from '../../components/ProductFlow.astro';
+import Button from '../../components/ui/Button.astro';
+import Callout from '../../components/ui/Callout.astro';
+import Link from '../../components/ui/Link.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { warrantMcpProduct } from '../../content/copy';
+
+const PROBLEM_ID = 'warrant-mcp-problem-heading';
+const QUICKSTART_ID = 'warrant-mcp-quickstart-heading';
+const LIFECYCLE_ID = 'warrant-mcp-lifecycle-heading';
+const VOCABULARY_ID = 'warrant-mcp-vocabulary-heading';
+const CAPABILITY_ID = 'warrant-mcp-capability-heading';
+const INTEGRATION_ID = 'warrant-mcp-integration-heading';
+const RECORD_ID = 'warrant-mcp-record-heading';
+const LIMITATION_ID = 'warrant-mcp-limitation-heading';
+const PARTNERSHIP_ID = 'warrant-mcp-partnership-heading';
+---
+
+<Base
+  title={warrantMcpProduct.metaTitle}
+  description={warrantMcpProduct.metaDescription}
+  canonicalPath={warrantMcpProduct.canonicalPath}
+  indexableInProduction={true}
+>
+  <PageHeader
+    eyebrow={warrantMcpProduct.eyebrow}
+    heading={warrantMcpProduct.heading}
+    lead={warrantMcpProduct.lead}
+  />
+  <Callout as="aside" class="product-maturity">{warrantMcpProduct.maturity}</Callout>
+
+  <Section headingId={PROBLEM_ID}>
+    <SectionHeader
+      id={PROBLEM_ID}
+      heading={warrantMcpProduct.problemHeading}
+      lead={warrantMcpProduct.problemBody}
+    />
+  </Section>
+
+  <Section headingId={QUICKSTART_ID}>
+    <SectionHeader
+      id={QUICKSTART_ID}
+      heading={warrantMcpProduct.quickstartHeading}
+      lead={warrantMcpProduct.quickstartBody}
+    />
+    <pre
+      class="quickstart"
+      tabindex="0"
+      aria-label="Warrant MCP installation and first policy check"><code>{warrantMcpProduct.quickstartCommands.join('\n')}</code></pre>
+    <p class="quickstart__action">
+      <Button as="a" href={warrantMcpProduct.githubHref}>{warrantMcpProduct.installLabel}</Button>
+    </p>
+  </Section>
+
+  <Section headingId={LIFECYCLE_ID}>
+    <SectionHeader id={LIFECYCLE_ID} heading={warrantMcpProduct.lifecycleHeading} />
+    <ProductFlow steps={warrantMcpProduct.lifecycle} ordered />
+  </Section>
+
+  <Section headingId={VOCABULARY_ID}>
+    <SectionHeader
+      id={VOCABULARY_ID}
+      heading={warrantMcpProduct.vocabularyHeading}
+      lead={warrantMcpProduct.specBody}
+    />
+    <ul class="rule-list">
+      {warrantMcpProduct.vocabulary.map((rule) => <li>{rule}</li>)}
+    </ul>
+    <p class="section-link">
+      <Link href={warrantMcpProduct.specHref} external>{warrantMcpProduct.specLabel}</Link>
+    </p>
+  </Section>
+
+  <Section headingId={CAPABILITY_ID}>
+    <SectionHeader id={CAPABILITY_ID} heading={warrantMcpProduct.capabilitiesHeading} />
+    <div class="proof-list">
+      <LedgerBlock id="CB-91" />
+      <LedgerBlock id="CB-92" />
+      <LedgerBlock id="CB-93" />
+    </div>
+  </Section>
+
+  <Section headingId={INTEGRATION_ID}>
+    <SectionHeader
+      id={INTEGRATION_ID}
+      heading={warrantMcpProduct.integrationHeading}
+      lead={warrantMcpProduct.integrationBody}
+    />
+  </Section>
+
+  <Section headingId={RECORD_ID}>
+    <SectionHeader
+      id={RECORD_ID}
+      heading={warrantMcpProduct.recordHeading}
+      lead={warrantMcpProduct.recordBody}
+    />
+  </Section>
+
+  <Section headingId={LIMITATION_ID} class="limitation-section">
+    <SectionHeader id={LIMITATION_ID} heading={warrantMcpProduct.limitationsHeading} />
+    <ul class="limitation-list">
+      {warrantMcpProduct.limitations.map((limitation) => <li>{limitation}</li>)}
+    </ul>
+    <p class="section-link">
+      <Link href={warrantMcpProduct.securityHref} external>{warrantMcpProduct.securityLabel}</Link>
+    </p>
+  </Section>
+
+  <Section headingId={PARTNERSHIP_ID} class="partnership">
+    <SectionHeader
+      id={PARTNERSHIP_ID}
+      heading={warrantMcpProduct.partnershipHeading}
+      lead={warrantMcpProduct.partnershipBody}
+    />
+    <p class="section-link">
+      <Link href={warrantMcpProduct.partnershipHref} external
+        >{warrantMcpProduct.partnershipLabel}</Link
+      >
+    </p>
+  </Section>
+</Base>
+
+<style>
+  .product-maturity {
+    margin-block-start: var(--space-6);
+  }
+
+  .quickstart {
+    max-width: 100%;
+    margin-block-start: var(--space-6);
+    padding: var(--space-5);
+    overflow-x: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    font-size: var(--type-small);
+    line-height: 1.7;
+  }
+
+  .quickstart__action,
+  .section-link {
+    margin-block-start: var(--space-5);
+  }
+
+  .rule-list,
+  .limitation-list {
+    margin-block-start: var(--space-6);
+    padding-inline-start: var(--space-5);
+    list-style: disc;
+  }
+
+  .rule-list li + li,
+  .limitation-list li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .proof-list {
+    margin-block-start: var(--space-7);
+  }
+
+  .proof-list > * + * {
+    margin-block-start: var(--space-6);
+  }
+
+  .limitation-section {
+    padding: var(--space-6);
+    border-inline-start: 4px solid var(--border-strong);
+    background: var(--bg-subtle);
+  }
+
+  .partnership {
+    padding-block-end: var(--space-9);
+  }
+</style>
