@@ -29,7 +29,17 @@ const pass = (area, detail) => results.push({ status: 'PASS', area, detail });
 const fail = (area, detail) => results.push({ status: 'FAIL', area, detail });
 const pending = (area, detail) => results.push({ status: 'PENDING', area, detail });
 
-const ROUTES = ['/', '/platform', '/principles', '/about', '/contact', '/privacy'];
+const ROUTES = [
+  '/',
+  '/platform',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
+  '/principles',
+  '/about',
+  '/contact',
+  '/privacy',
+];
 
 function specModule() {
   const bundle = esbuild.buildSync({
