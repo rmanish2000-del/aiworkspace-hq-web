@@ -170,14 +170,15 @@ for (const route of ROUTES) {
     // The real trap test: focus that stops changing, or never escapes.
     await page.goto(route);
 
-    const total = await page.evaluate(
-      () =>
-        [
-          ...document.querySelectorAll<HTMLElement>(
-            'a[href], button, input, textarea, select, [tabindex]',
-          ),
-        ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
-    );
+    const total = await page.evaluate(() => {
+      const els = [
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]',
+        ),
+      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
+      return els.length;
+    });
 
     let previous = '';
     let stuck = 0;
@@ -186,9 +187,7 @@ for (const route of ROUTES) {
       const current = await page.evaluate(() => {
         const el = document.activeElement as HTMLElement | null;
         if (!el || el === document.body) return '<body>';
-        return `${el.tagName}#${el.id}.${el.className}@${
-          Math.round(el.getBoundingClientRect().top) + Math.round(el.getBoundingClientRect().left)
-        }`;
+        return el.getAttribute('data-focus-index') ?? `<${el.tagName.toLowerCase()}>`;
       });
       if (current === previous) stuck += 1;
       previous = current;
