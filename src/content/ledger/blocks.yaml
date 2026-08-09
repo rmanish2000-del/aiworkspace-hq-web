@@ -359,13 +359,13 @@ blocks:
     slot: headline
     kind: headline
     claim: CL-11
-    copy: 'The ten questions you are going to ask us.'
+    copy: 'Five enterprise questions we can answer with evidence today.'
   - id: CB-51
     route: '/enterprise'
     slot: subheadline
     kind: subheadline
     claim: CL-11
-    copy: 'Two of them we can answer well. Six of them we cannot answer at all yet. We have not reordered the list.'
+    copy: 'Four answers disclose current limitations. One explains our portability position. The governance note below explains where human decision authority remains.'
   - id: CB-52
     route: '/enterprise'
     slot: q1
