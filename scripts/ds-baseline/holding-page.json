@@ -2,17 +2,17 @@
   "recordedFrom": "AIWHQ-CODEX-UX-001 founder-review candidate — intentional responsive product-site redesign across shared navigation, footer, layout frame, homepage, platform and portfolio surfaces; production remains unchanged pending founder approval.",
   "note": "sha256 of every built route document.",
   "hashes": {
-    "404.html": "ce0fe54ff93b2a648c5970d5c09415ec41154dbbcec7d859d4568322a67e7c21",
-    "about.html": "fbb2253714adc5a53860f9ff744b63ca9fe496f947b7f4becf3b27126701eba8",
-    "contact.html": "e0d516cfb496204285f23610b240fc80f032fd1f40c76cf0bb4ff7c0b7f68c36",
-    "enterprise.html": "2af7339b984da86ecd91c37715ad83c46d89f6250f9855095d04c64f88b764f5",
-    "index.html": "dd5cbae5beb710d82b76584eb903b74f9186d4f7de42a797d6184828e08ed1c5",
-    "platform.html": "51aa99bda5409406d50b5b2dfc48cce989dfe0994511f6bcf26d00b2a065af66",
-    "principles.html": "db48a0e482f8b05180e2dd094f4f3e5c8df8c9c657493c8510ce686c02de4f1c",
-    "privacy.html": "a97c3833688e6f6b6a113591ea945315cc1867b9add5a594b9a5b9ae7c5b86b2",
-    "security.html": "387fce609540eaa1e3630e688ad5edd71c9dbf7e56f7ed7b1e0dc092da01e93c",
-    "technology.html": "b77062e31502a15ef49f754f17162a39d899bd8f7fb99e7f8068d0770c623a16",
-    "trust.html": "bf2431ea9b57d47b94851e7f66049af19bbbd373cdf3eec4c3965cb9f9678fa1",
-    "what-we-havent-built.html": "30ec46e972666e506d8d3eecc8f8fb679d075f64ec1151834aed4899664f9f19"
+    "404.html": "06676fd7bf7d0056e59421a1c0b89684438cb8abc1d2e19d6d1bf45297d376aa",
+    "about.html": "27345f9a6d4c916fb5b6a79403ad10a87e51d6ed6f6c2f3f9a97b707be50bf99",
+    "contact.html": "96bbfec41b0d579b1da44ac1420829cb416b1f884f4007880d42eab3916da654",
+    "enterprise.html": "f5b48b0fffbe85cd8eb65ee643e3999f53ebaf60718a72f6eef1a49c471ce54e",
+    "index.html": "a911688901f20658738c7d0ceda40016edc52652a07ebaf27f279373cde3524e",
+    "platform.html": "9628eaded3c14c0ae92771e737b74fc2aac680200273efe27bec959314ec4849",
+    "principles.html": "54bdbc7774cd4bb7831f0066d0c6310c873241ee6b0939ff9c46a31eff69ad0c",
+    "privacy.html": "6f238a47a527be92b5e053349c6535df742165093b43d6b9a4e825176164af76",
+    "security.html": "156ee596d9ea3dbb8fca7cb9adf1dd019e9c6e853293e6e8aea87b153f3a4d8f",
+    "technology.html": "335f67776cc2ddeac3459acde732caf70d93989a52f784a3ce75170020e05bf7",
+    "trust.html": "6f4288544c8bebb7d181562ea9108a2d2f3e444dc7ec15ffec2709a15ef4aa84",
+    "what-we-havent-built.html": "b2c4e2a74496d028f5d37f337cd6116fce4b58c118d79dd408f870b721380b9f"
   }
 }

@@ -149,7 +149,9 @@ a:hover {
   font-weight: var(--weight-semibold);
   text-decoration: none;
   border-radius: var(--radius);
-  transition: transform var(--duration-fast) var(--ease);
+  /* Hide immediately after focus leaves so the skip link cannot transiently
+     cover the wordmark, which is the next keyboard stop. */
+  transition: none;
 }
 
 .skip-link:focus,

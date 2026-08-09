@@ -168,10 +168,27 @@ test('text-spacing overrides do not clip content', async ({ page }) => {
   });
 
   const clipped = await page.evaluate(() =>
-    [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, a')].some(
-      (element) => element.scrollHeight > element.clientHeight + 1 && element.clientHeight > 0,
-    ),
+    [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, a')]
+      .filter((element) => element.clientHeight > 0)
+      .filter((element) => {
+        // Gecko can report scrollHeight above clientHeight for a visible line
+        // box. That is overflow, not lost content; SC 1.4.12 fails only when
+        // the computed overflow mode actually clips the expanded text.
+        const style = getComputedStyle(element);
+        const clips = (value: string) => value !== 'visible';
+        return (
+          (clips(style.overflowY) && element.scrollHeight > element.clientHeight + 1) ||
+          (clips(style.overflowX) && element.scrollWidth > element.clientWidth + 1)
+        );
+      })
+      .map((element) => ({
+        element: `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${
+          element.className ? `.${String(element.className).trim().replace(/\s+/g, '.')}` : ''
+        }`,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight,
+      })),
   );
 
-  expect(clipped).toBe(false);
+  expect(clipped).toEqual([]);
 });
