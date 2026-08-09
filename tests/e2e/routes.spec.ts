@@ -33,7 +33,7 @@ const ROUTES = [
   {
     path: '/enterprise',
     title: 'For enterprise — AI Workspace',
-    h1: 'The ten questions you are going to ask us.',
+    h1: 'Five enterprise questions we can answer with evidence today.',
   },
   {
     path: '/security',
