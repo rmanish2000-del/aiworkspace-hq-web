@@ -39,16 +39,22 @@ const List = ordered ? 'ol' : 'ul';
     }
   }
 
+  @media (min-width: 960px) {
+    .product-flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
   .product-flow__step {
     min-width: 0;
     padding: var(--space-5);
     border: 1px solid var(--border-strong);
-    border-radius: var(--radius);
-    background: var(--bg-subtle);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--bg);
   }
 
   .product-flow__label {
-    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    font-family: var(--font-mono);
     font-size: var(--type-small);
     font-weight: var(--weight-semibold);
     letter-spacing: 0.02em;

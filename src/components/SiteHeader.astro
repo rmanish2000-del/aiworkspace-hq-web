@@ -37,14 +37,33 @@ const isHome = currentPath === '/';
 <style>
   /* `07` §6.2 — padding block --space-5. No border, no shadow, not sticky. */
   .site-header {
-    padding-block: var(--space-5);
+    position: relative;
+    z-index: var(--z-raised);
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--border);
+    background: var(--bg);
   }
 
   .site-header__inner {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    align-items: start;
     justify-content: space-between;
-    gap: var(--space-3) var(--space-5);
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 760px) {
+    .site-header {
+      padding-block: var(--space-3);
+    }
+
+    .site-header__inner {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+
+    .site-header__inner :global(.site-nav) {
+      justify-self: end;
+    }
   }
 </style>

@@ -9,7 +9,6 @@ import {
   contact,
   privacy,
   notFound,
-  interest,
   nav,
   header,
   PROVISIONAL,
@@ -888,13 +887,12 @@ test('M-8 with CSS blocked, content order stays sensible and nothing is lost', a
 
   expect(order[0]).toBe(PROVISIONAL.skipLinkText);
   expect(order[1]).toBe(header.wordmark);
-  // CC-008: the landing h1 is ledger block CB-01; the form heading follows.
-  expect(order).toContain('We are building an enterprise AI operating layer.');
-  expect(order).toContain(interest.heading);
+  expect(order).toContain('Put organizational context behind every AI-assisted action.');
+  expect(order).toContain('Every consequential claim has a status.');
 
-  // The form is still operable without styling.
-  await expect(page.locator('#work-email')).toBeVisible();
-  await expect(page.locator('label[for="work-email"]')).toBeVisible();
+  // Primary paths and their destination copy remain available without styling.
+  await expect(page.getByRole('link', { name: 'Explore the platform' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View verified evidence' }).first()).toBeVisible();
 
   await context.close();
 });

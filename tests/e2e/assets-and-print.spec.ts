@@ -84,12 +84,11 @@ test.describe('print stylesheet', () => {
   });
 });
 
-test('print hides the form, the CTA and the skip link', async ({ page }) => {
+test('print hides navigation actions and the skip link', async ({ page }) => {
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
 
-  await expect(page.locator('#interest')).toBeHidden();
-  await expect(page.locator('.hero__cta')).toBeHidden();
+  await expect(page.locator('.action-row')).toBeHidden();
   await expect(page.locator('.skip-link')).toBeHidden();
 });
 
@@ -100,7 +99,7 @@ test('print keeps the headline and stage disclosure; /principles prints its five
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.locator('.stage-disclosure')).toBeVisible();
+  await expect(page.locator('.home-hero__stage')).toBeVisible();
 
   await page.goto('/principles');
   await page.emulateMedia({ media: 'print' });

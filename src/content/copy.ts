@@ -536,6 +536,220 @@ export const products = {
   canonicalPath: '/products',
 } as const;
 
+/* -------------------------------------------------------------------------- */
+/* Founder-review experience — AIWHQ-CODEX-UX-001                            */
+/*                                                                            */
+/* Presentation copy below restates accepted repository evidence. Capability  */
+/* proof continues to render through the claim ledger; these strings organise */
+/* discovery, audience paths and interaction without widening any claim.      */
+/* -------------------------------------------------------------------------- */
+
+export const experience = {
+  nav: {
+    menu: 'Menu',
+    closeHint: 'Choose a destination',
+    primaryAction: 'View verified evidence',
+    primaryHref: '/platform#verified-capability-heading',
+  },
+  home: {
+    metaTitle: 'AI Workspace — Governed enterprise AI operations',
+    metaDescription:
+      'AI Workspace brings approved organizational knowledge, governed work and accountable AI-agent operations into one evidence-backed layer.',
+    eyebrow: 'Enterprise AI operating layer · In development',
+    heading: 'Put organizational context behind every AI-assisted action.',
+    lead: 'AI Workspace retrieves scoped context from an approved source, moves work through governed assignments, and keeps evidence, review and accountability attached to the result.',
+    primaryAction: 'Explore the platform',
+    primaryHref: '/platform',
+    secondaryAction: 'Inspect the evidence',
+    secondaryHref: '/trust',
+    stage: 'A working Founder Edition exists locally. Early access is not yet open.',
+    visualLabel: 'Verified operating flow',
+    visualTitle: 'Context enters with provenance. Work leaves with evidence.',
+    sourceLabel: 'Approved source',
+    sourceValue: 'Governed knowledge',
+    contextLabel: 'Scoped context',
+    contextValue: 'Exact provenance',
+    assignmentLabel: 'Assignment',
+    assignmentValue: 'Validated · Routed',
+    resultLabel: 'Result',
+    resultValue: 'Verified · Reviewed',
+    auditLabel: 'Accountability trail retained',
+    audienceHeading: 'Start with the question you need answered.',
+    audiences: [
+      {
+        label: 'Enterprise leader',
+        question: 'What changes for the organization?',
+        href: '/enterprise',
+      },
+      {
+        label: 'Technical leader',
+        question: 'How is the operating boundary structured?',
+        href: '/platform',
+      },
+      {
+        label: 'Developer',
+        question: 'What can I inspect and run?',
+        href: '/technology',
+      },
+      {
+        label: 'Design partner',
+        question: 'What is real enough to evaluate today?',
+        href: '/products',
+      },
+    ],
+    problemEyebrow: 'The enterprise gap',
+    problemHeading: 'Models are capable. Organizations are complicated.',
+    problemLead:
+      'Knowledge, ownership and decisions are spread across systems. Giving an agent a prompt does not give it organizational context, authority or accountability.',
+    problemPoints: [
+      'Context loses its source when it is copied between tools.',
+      'Automation outruns policy when the decision boundary is implicit.',
+      'Results become difficult to review when evidence arrives separately.',
+    ],
+    capabilityEyebrow: 'The operating layer',
+    capabilityHeading: 'Connect context, govern work, preserve proof.',
+    capabilities: [
+      {
+        index: '01',
+        title: 'Ground work in approved knowledge',
+        body: 'Ingest from an approved source, retrieve within Organization, Workspace or Project scope, and return exact provenance.',
+        status: 'Verified',
+      },
+      {
+        index: '02',
+        title: 'Move assignments through explicit state',
+        body: 'Validate readiness, identify an eligible executor, route work, activate a bounded attempt and expose the resulting state.',
+        status: 'Verified',
+      },
+      {
+        index: '03',
+        title: 'Review results before completion',
+        body: 'Attach evidence, run deterministic verification, record criterion findings and require an authorized human decision.',
+        status: 'Verified',
+      },
+    ],
+    methodEyebrow: 'How it works',
+    methodHeading: 'One governed path from source to decision.',
+    methodSteps: [
+      {
+        index: '01',
+        title: 'Connect',
+        body: 'Register an approved source within a defined scope.',
+      },
+      {
+        index: '02',
+        title: 'Retrieve',
+        body: 'Return only relevant context with exact provenance.',
+      },
+      {
+        index: '03',
+        title: 'Execute',
+        body: 'Route work through an accountable assignment and attempt.',
+      },
+      { index: '04', title: 'Verify', body: 'Review evidence and record the authorized decision.' },
+    ],
+    portfolioEyebrow: 'Product portfolio',
+    portfolioHeading: 'Shared principles. Distinct product boundaries.',
+    portfolioLead:
+      'The portfolio separates the enterprise operating layer from domain-specific authorization products. Maturity is stated on every surface.',
+    platformCard: {
+      label: 'Core platform',
+      title: 'AI Workspace',
+      body: 'Organizational knowledge, governed assignments, execution, verification and review.',
+      status: 'Verified foundation',
+      href: '/platform',
+      action: 'Explore the platform',
+    },
+    warrantCard: {
+      label: 'Commerce authorization',
+      title: 'Warrant',
+      body: 'Clause-cited ALLOW, ESCALATE or DENY decisions for AI purchasing proposals.',
+      status: 'Local sandbox demonstration',
+      href: '/products/warrant',
+      action: 'Explore Warrant',
+    },
+    warrantMcpCard: {
+      label: 'Agent tool policy',
+      title: 'Warrant MCP',
+      body: 'Deterministic checks for supported tool calls, with binding enforcement in Claude Code.',
+      status: 'Reference implementation',
+      href: '/products/warrant-mcp',
+      action: 'Explore Warrant MCP',
+    },
+    futureCard: {
+      label: 'Domain products',
+      title: 'Evidence gate first',
+      body: 'Future domain surfaces appear only after their repository capability and maturity boundary are accepted.',
+      status: 'Not presented as available',
+    },
+    evidenceEyebrow: 'Evidence before claims',
+    evidenceHeading: 'Every capability carries its boundary.',
+    evidenceLead:
+      'Verified statements point to repository evidence. Design intent, demonstrations and limitations are labelled separately so a buyer can distinguish proof from direction.',
+    evidenceItems: [
+      { label: 'Verified', body: 'Implemented and checked against named evidence.' },
+      { label: 'Demonstration', body: 'Reviewable behaviour with a stated operating boundary.' },
+      { label: 'In development', body: 'A direction that is not presented as delivered.' },
+    ],
+    developerEyebrow: 'Technical proof',
+    developerHeading: 'Inspect the contract, then inspect the result.',
+    developerLead:
+      'The governed context contract returns scoped source material with provenance. Product repositories expose their own test and policy evidence.',
+    contractLabel: 'Governed context contract',
+    contractCode: 'aiw.governed_context/v1',
+    contractLines: [
+      'scope: Organization / Workspace / Project',
+      'source: approved · read-only',
+      'result: ranked context + exact provenance',
+    ],
+    developerAction: 'Read the technology choices',
+    developerHref: '/technology',
+    closeEyebrow: 'Evaluate what exists',
+    closeHeading: 'Start with the verified path—not a promise.',
+    closeLead:
+      'Review the platform evidence, inspect the authorization products, and decide whether the current boundary matches a problem worth testing together.',
+    closePrimary: 'Review verified capability',
+    closePrimaryHref: '/platform#verified-capability-heading',
+    closeSecondary: 'Explore the product family',
+    closeSecondaryHref: '/products',
+  },
+  common: {
+    maturityLabel: 'Maturity',
+    proofLabel: 'Evidence',
+    boundaryLabel: 'Current boundary',
+    learnMore: 'Learn more',
+  },
+  platform: {
+    summary: 'Approved context enters. Governed work advances. Evidence stays attached.',
+    flowHeading: 'The operating path',
+    flowSteps: [
+      { label: 'Knowledge', body: 'Approved source · exact provenance' },
+      { label: 'Assignment', body: 'Validate · route · activate' },
+      { label: 'Result', body: 'Evidence · verify · review' },
+      { label: 'Decision', body: 'Approve · remediate · complete' },
+    ],
+    proofHeading: 'Capability ledger',
+    proofLead: 'Each statement below is bounded to what the canonical repository demonstrates.',
+  },
+  products: {
+    heading: 'Authorization products for agents that act.',
+    lead: 'Warrant governs purchasing proposals. Warrant MCP governs supported tool calls. They share a policy-first thesis, not a shared runtime.',
+    compareHeading: 'Choose the decision boundary',
+    commerceLabel: 'Purchase intent',
+    toolLabel: 'Tool call',
+    runtimeLabel: 'Deterministic evaluator',
+    outcomeLabel: 'Clause-cited decision',
+    policyPreview: ['action: delete .env', 'decision: DENY', 'boundary: protected path'],
+  },
+  footer: {
+    statement: 'Enterprise AI operations grounded in context, policy and evidence.',
+    explore: 'Explore',
+    verify: 'Verify',
+    engage: 'Engage',
+    status: 'AI Workspace is in development. Early access is not yet open.',
+  },
+} as const;
+
 export const warrantProduct = {
   eyebrow: 'AI purchasing authorization',
   heading: 'Decide whether an AI purchasing agent is allowed to spend',
@@ -1144,6 +1358,7 @@ export const copy = {
   products,
   warrantProduct,
   warrantMcpProduct,
+  experience,
   principlesPage,
   contact,
   privacy,

@@ -1,18 +1,18 @@
 {
-  "recordedFrom": "AIWHQ-CODEX-BTFDR-005 — approved portfolio navigation adds one Products entry to the shared header and footer; the existing route bodies and visual tokens remain unchanged.",
+  "recordedFrom": "AIWHQ-CODEX-UX-001 founder-review candidate — intentional responsive product-site redesign across shared navigation, footer, layout frame, homepage, platform and portfolio surfaces; production remains unchanged pending founder approval.",
   "note": "sha256 of every built route document.",
   "hashes": {
-    "404.html": "bceec6c46df8592dd1e8c1f4eb53286815f4318176731f454cd5a5387eaa05b2",
-    "about.html": "a896c889a878d73d1bc59f4f5e01150cb0ac323d1db9b5ca5751d57bb7fecd2b",
-    "contact.html": "b6974ed664bff1b67a08e5f202914ace96ece36401e6c20fcdb7246c0134d91c",
-    "enterprise.html": "5ada37f462ab9c0f7d632d3fae7d235b1bc508543329499eb82459b1e4662b09",
-    "index.html": "d5960ae14075a20a90da65b415b61181d037cccf3b672960bdb5427b23a48a30",
-    "platform.html": "6db77793bc3a8cea9004a956a51cd6311d679940bdabdba993c0324bd02faeb7",
-    "principles.html": "e4455f97052c419a5be3906a44d4d631d8a302f9b2a716dc87e31bc43bfa0880",
-    "privacy.html": "90eb25dd7699a345a5280fd5b4ca0a93486d677b41fa7f80f6688ecedf40fb97",
-    "security.html": "a22650c3164c3986850c1e1e2f760ece20dc4382c024de2e3e68c24eefc21b33",
-    "technology.html": "41c74dfd1786adc28e011c848df09533a9f31592cc642f8ec90cdb25780add3c",
-    "trust.html": "1130025b4f806c855c3b628bf5c77a102600649e6020fc42038ee0ff6adf908d",
-    "what-we-havent-built.html": "69cca695ed5b134bffd88ac4eb58fa0382ddc675ead73f72ce0687ba0296dca4"
+    "404.html": "6a0b281720ce019dcfd942667625e525b7829ab585314893a3099d2a0c611f24",
+    "about.html": "886ef53230982e834fc70e64cbe3f0602b2526c30a3b339eb3ee22d8addffaa3",
+    "contact.html": "57ded1f48e82efad451a326603001c82a85ed9710f8acfbe56117dd26b66da86",
+    "enterprise.html": "a6f28ce493963485e7929454016d22fb9c2bb0b6709257d350fbbe6266022eb3",
+    "index.html": "bbb41769177ee09e7d2e4f65b566bf6c98310fea1d45d934376239f3c2295986",
+    "platform.html": "d1843a6cc6e3acec752933e06ccb76a488435f0aa7c384384cf732848e4f4e54",
+    "principles.html": "57a40a7dae62de96b376bb6863beebebb100cfbd9ddd4b8796455fff2eeadb77",
+    "privacy.html": "6c7fb906faa40cdbb577058cbe691ae3cbf3606cc123f406b9cf8de1a8325613",
+    "security.html": "730f4735ef6ca77dcc7226051380d87840406b987afd8958dd1918b926665df4",
+    "technology.html": "d28606b52bda58c0b33bbcc67417a7e6404406698ac711da9dab122b571e7339",
+    "trust.html": "41433d54387ee05bca11385ba7b355791bd429e46af5f269976c861fd1243cdd",
+    "what-we-havent-built.html": "a24456a83a72306a4cf92fbedda1803dc2c23f1d1d0009df8abf3344cc3e95aa"
   }
 }

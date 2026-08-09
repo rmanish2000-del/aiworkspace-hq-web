@@ -1,0 +1,160 @@
+---
+import { experience } from '../content/copy';
+
+const flow = experience.home;
+const nodes = [
+  { label: flow.sourceLabel, value: flow.sourceValue, tone: 'source' },
+  { label: flow.contextLabel, value: flow.contextValue, tone: 'context' },
+  { label: flow.assignmentLabel, value: flow.assignmentValue, tone: 'work' },
+  { label: flow.resultLabel, value: flow.resultValue, tone: 'result' },
+] as const;
+---
+
+<figure class="operating-flow" aria-labelledby="operating-flow-title">
+  <figcaption class="operating-flow__header">
+    <span class="operating-flow__kicker">{flow.visualLabel}</span>
+    <strong id="operating-flow-title">{flow.visualTitle}</strong>
+  </figcaption>
+
+  <div class="operating-flow__canvas">
+    <ol class="operating-flow__nodes">
+      {
+        nodes.map((node, index) => (
+          <li class:list={['flow-node', `flow-node--${node.tone}`]}>
+            <span class="flow-node__index">0{index + 1}</span>
+            <span class="flow-node__content">
+              <span class="flow-node__label">{node.label}</span>
+              <strong>{node.value}</strong>
+            </span>
+            {index < nodes.length - 1 && <span class="flow-node__connector" aria-hidden="true" />}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="operating-flow__audit">
+      <span aria-hidden="true">✓</span>
+      {flow.auditLabel}
+    </p>
+  </div>
+</figure>
+
+<style>
+  .operating-flow {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--bg);
+  }
+
+  .operating-flow__header {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border-block-end: 1px solid var(--border);
+    background: var(--bg-subtle);
+  }
+
+  .operating-flow__kicker,
+  .flow-node__label,
+  .flow-node__index {
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .operating-flow__kicker,
+  .flow-node__label {
+    color: var(--fg-muted);
+  }
+
+  .operating-flow__canvas {
+    padding: var(--space-5);
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .operating-flow__nodes {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .flow-node {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: center;
+    min-width: 0;
+    padding: var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg);
+  }
+
+  .flow-node__index {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .flow-node__content {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .flow-node__content strong {
+    overflow-wrap: anywhere;
+    font-size: var(--type-h3);
+  }
+
+  .flow-node__connector {
+    position: absolute;
+    z-index: 1;
+    inset-block-end: calc(var(--space-3) * -1 - 1px);
+    inset-inline-start: 31px;
+    width: 2px;
+    height: calc(var(--space-3) + 2px);
+    background: var(--accent);
+  }
+
+  .operating-flow__audit {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    margin-block-start: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--success);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+  }
+
+  @media (min-width: 720px) {
+    .operating-flow__header,
+    .operating-flow__canvas {
+      padding: var(--space-6);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .operating-flow,
+    .flow-node,
+    .operating-flow__audit {
+      border-color: CanvasText;
+    }
+  }
+</style>

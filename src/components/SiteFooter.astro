@@ -1,135 +1,149 @@
 ---
-/**
- * `03` Block 5 — Footer, extended by P1-J §4.2.
- *
- * P1-J §4.2 specifies three lines:
- *
- *   1. {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}}
- *   2. Platform · Principles · Contact · Privacy · {{PRIVACY_EMAIL}}
- *   3. © 2026 {{LEGAL_ENTITY_NAME}}. All rights reserved.
- *
- * Lines 1 and 3, and the email in line 2, are build-time placeholders blocked
- * on Open Item B (entity, jurisdiction) and Open Item C (mailboxes). P-12
- * prohibits filling the entity line, and `04`'s header note forbids a `{{...}}`
- * reaching the browser. They are held verbatim in `copy.ts` and withheld here —
- * recorded in `WITHHELD_UNTIL_UNBLOCKED`.
- *
- * What is renderable is the four route links, and they now render: unlike at
- * P1-G, `/platform`, `/principles`, `/contact` and `/privacy` all exist, so
- * none of these is the dead link that AWHQ-AUT-P1F §9.2 made us omit.
- *
- * P1-J §4.2: "No social links, no badges, no 'built with', no sitemap block, no
- * status link." `/docs` and `/research` are absent — P1-J §12/§13 defer both.
- */
-import { contact, nav, principlesPage, privacy, products } from '../content/copy';
+import { experience, nav, privacy, products } from '../content/copy';
 import Container from './ui/Container.astro';
-import Footer from './ui/Footer.astro';
 
 export interface Props {
   currentPath: string;
 }
 
 const { currentPath } = Astro.props;
+const footer = experience.footer;
 
-/**
- * P1-J §4.2 order, extended by P2-C §8.3:
- * Platform · Principles · **About** · Contact · Privacy.
- *
- * `/about` sits between Principles and Contact and appears in the footer ONLY.
- * P2-C §8.1 keeps it out of primary nav until its withheld section publishes —
- * §8.2: "Primary nav is a promise of substance." Five footer links; §8.3 caps
- * further growth, because a footer that lists every route is a sitemap, and a
- * sitemap is not navigation.
- */
-const links = [
-  { href: '/enterprise', label: nav.enterprise },
-  { href: '/security', label: nav.security },
-  // FD-W1 — the Warrant console, proxied under /warrant (PR #19).
-  { href: '/warrant/console', label: nav.warrant },
-  { href: products.canonicalPath, label: products.metaTitle.split(' — ')[0] },
-  { href: '/platform', label: nav.items[4].label },
-  { href: '/principles', label: principlesPage.metaTitle.split(' — ')[0] },
-  { href: '/about', label: nav.about },
-  { href: '/contact', label: contact.heading },
-  { href: '/privacy', label: privacy.heading },
+const groups = [
+  {
+    label: footer.explore,
+    links: [
+      { href: '/platform', label: 'Platform' },
+      { href: products.canonicalPath, label: 'Products' },
+      { href: '/enterprise', label: nav.enterprise },
+    ],
+  },
+  {
+    label: footer.verify,
+    links: [
+      { href: '/trust', label: 'Trust' },
+      { href: '/technology', label: 'Technology' },
+      { href: '/what-we-havent-built', label: 'What we have not built' },
+      { href: '/security', label: nav.security },
+    ],
+  },
+  {
+    label: footer.engage,
+    links: [
+      { href: '/about', label: nav.about },
+      { href: '/principles', label: 'Principles' },
+      { href: '/contact', label: 'Contact' },
+      { href: '/privacy', label: privacy.heading },
+      { href: '/warrant/console', label: nav.warrant },
+    ],
+  },
 ] as const;
 ---
 
-<Footer>
+<footer class="site-footer">
   <Container>
-    {
-      /*
-      Line 1 — {{LEGAL_ENTITY_NAME}}, {{JURISDICTION}} — withheld, Open Item B.
-    */
-    }
-    <nav class="site-footer__nav" aria-label="Footer">
-      <ul class="site-footer__list">
-        {
-          links.map((link) => (
-            <li>
-              <a
-                class="site-footer__link"
-                href={link.href}
-                aria-current={link.href === currentPath ? 'page' : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    {
-      /*
-      {{PRIVACY_EMAIL}} — withheld, Open Item C.
-      Line 3 — © 2026 {{LEGAL_ENTITY_NAME}}. All rights reserved. — withheld,
-      Open Item B.
-    */
-    }
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <p class="site-footer__wordmark">AI Workspace</p>
+        <p>{footer.statement}</p>
+        <p class="site-footer__status">{footer.status}</p>
+      </div>
+      {
+        groups.map((group) => (
+          <nav aria-label={group.label}>
+            <h2>{group.label}</h2>
+            <ul>
+              {group.links.map((link) => (
+                <li>
+                  <a href={link.href} aria-current={link.href === currentPath ? 'page' : undefined}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
   </Container>
-</Footer>
+</footer>
 
 <style>
-  /* `07` §5 — stacks below 640px, single row above. */
-  .site-footer__list {
-    display: flex;
-    flex-flow: column wrap;
-    gap: var(--space-3);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .site-footer {
+    padding-block: var(--space-9);
+    border-block-start: 1px solid var(--border);
+    background: var(--bg-subtle);
   }
 
-  @media (min-width: 640px) {
-    .site-footer__list {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: var(--space-5);
-    }
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-8);
   }
 
-  .site-footer__link {
+  .site-footer__brand {
+    max-width: 34ch;
+  }
+
+  .site-footer__wordmark {
+    font-size: var(--type-h3);
+    font-weight: var(--weight-semibold);
+  }
+
+  .site-footer__brand > p:not(.site-footer__wordmark) {
+    margin-block-start: var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .site-footer__status {
+    padding-inline-start: var(--space-3);
+    border-inline-start: 2px solid var(--accent);
+    font-size: var(--type-small);
+  }
+
+  .site-footer h2 {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .site-footer ul {
+    display: grid;
+    gap: var(--space-2);
+    margin-block-start: var(--space-3);
+  }
+
+  .site-footer a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: var(--fg-muted);
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover,
+  .site-footer a[aria-current='page'] {
     text-decoration: underline;
-    text-underline-offset: 0.2em;
-    text-decoration-thickness: 1px;
   }
 
-  .site-footer__link:hover {
-    color: var(--fg);
-    text-decoration-thickness: 2px;
+  @media (min-width: 640px) {
+    .site-footer__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
   }
 
-  .site-footer__link:focus-visible {
-    outline: var(--focus-ring-width) solid var(--accent);
-    outline-offset: var(--focus-ring-offset);
-  }
+  @media (min-width: 960px) {
+    .site-footer__grid {
+      grid-template-columns: minmax(260px, 1.5fr) repeat(3, minmax(0, 1fr));
+    }
 
-  .site-footer__link[aria-current='page'] {
-    color: var(--fg);
-    font-weight: var(--weight-semibold);
+    .site-footer__brand {
+      grid-column: auto;
+    }
   }
 </style>

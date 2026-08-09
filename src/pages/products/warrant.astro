@@ -104,8 +104,18 @@ const PARTNERSHIP_ID = 'warrant-partnership-heading';
 </Base>
 
 <style>
+  :global(main > .page-head),
+  :global(main > .section),
+  .product-maturity {
+    max-width: 960px;
+    margin-inline: auto;
+  }
+
   .product-maturity {
     margin-block-start: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
   }
 
   .audience-list,
@@ -124,14 +134,19 @@ const PARTNERSHIP_ID = 'warrant-partnership-heading';
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-2);
-    margin-block-start: var(--space-5);
+    margin-block-start: var(--space-6);
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--border-strong);
   }
 
   .decision {
     min-width: 0;
     padding: var(--space-3) var(--space-2);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-sm);
+    border: 0;
+    border-radius: 0;
+    background: var(--bg);
     font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
     font-size: var(--type-small);
     font-weight: var(--weight-semibold);
@@ -149,8 +164,9 @@ const PARTNERSHIP_ID = 'warrant-partnership-heading';
   }
 
   .refusal-section {
-    padding: var(--space-6);
-    border-inline-start: 4px solid var(--danger);
+    padding: var(--space-8);
+    border: 1px solid var(--danger);
+    border-radius: calc(var(--radius) * 2);
     background: var(--bg-subtle);
   }
 
@@ -176,11 +192,29 @@ const PARTNERSHIP_ID = 'warrant-partnership-heading';
   }
 
   .partnership {
-    padding-block-end: var(--space-9);
+    padding: var(--space-8);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
   }
 
   .partnership__link {
     margin-block-start: var(--space-5);
+  }
+
+  .partnership :global(.section__lead) {
+    color: var(--border);
+  }
+
+  .partnership :global(a) {
+    color: var(--bg);
+  }
+
+  @media (max-width: 639px) {
+    .refusal-section,
+    .partnership {
+      padding: var(--space-6) var(--space-4);
+    }
   }
 
   .cta-row :global(a),

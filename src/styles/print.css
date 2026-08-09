@@ -150,6 +150,7 @@
 
   /* The CTA points at a section that is not printed. */
   .hero__cta,
+  .action-row,
   .skip-link {
     display: none !important;
   }

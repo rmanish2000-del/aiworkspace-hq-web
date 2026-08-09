@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import LedgerBlock from '../components/LedgerBlock.astro';
-import PageHeader from '../components/ui/PageHeader.astro';
-import Section from '../components/ui/Section.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
 import Link from '../components/ui/Link.astro';
-import { products } from '../content/copy';
+import PageHeader from '../components/ui/PageHeader.astro';
+import { experience, products } from '../content/copy';
 
-const RELATION_ID = 'product-relation-heading';
-const FAMILY_ID = 'product-family-heading';
+const content = experience.products;
 ---
 
 <Base
@@ -17,81 +15,297 @@ const FAMILY_ID = 'product-family-heading';
   canonicalPath={products.canonicalPath}
   indexableInProduction={true}
 >
-  <PageHeader eyebrow={products.eyebrow} heading={products.heading} lead={products.lead} />
+  <div class="products-hero">
+    <PageHeader eyebrow={products.eyebrow} heading={content.heading} lead={content.lead} />
+    <div class="boundary-visual" role="img" aria-label={content.compareHeading}>
+      <p>{content.compareHeading}</p>
+      <div class="boundary-visual__inputs">
+        <span>{content.commerceLabel}</span>
+        <span>{content.toolLabel}</span>
+      </div>
+      <div class="boundary-visual__core">{content.runtimeLabel}</div>
+      <div class="boundary-visual__outcome">{content.outcomeLabel}</div>
+    </div>
+  </div>
 
-  <Section headingId={RELATION_ID}>
-    <SectionHeader
-      id={RELATION_ID}
-      heading={products.relationHeading}
-      lead={products.relationLead}
-    />
-    <div class="product-proof"><LedgerBlock id="CB-87" /></div>
-  </Section>
+  <section class="relationship" aria-labelledby="relationship-heading">
+    <div>
+      <p class="eyebrow">{products.relationHeading}</p>
+      <h2 id="relationship-heading">{products.relationLead}</h2>
+    </div>
+    <LedgerBlock id="CB-87" />
+  </section>
 
-  <Section headingId={FAMILY_ID}>
-    <SectionHeader id={FAMILY_ID} heading={products.familyHeading} />
-    <div class="product-grid">
-      <article class="product-card">
-        <p class="eyebrow">Commerce</p>
-        <h3>{products.warrantTitle}</h3>
-        <p class="product-card__summary">{products.warrantSummary}</p>
+  <section class="product-comparison" aria-labelledby="comparison-heading">
+    <h2 id="comparison-heading">{products.familyHeading}</h2>
+    <div class="product-comparison__grid">
+      <article class="product-panel product-panel--warrant">
+        <div class="product-panel__heading">
+          <p>{products.warrantSummary}</p>
+          <h3>{products.warrantTitle}</h3>
+        </div>
+        <div class="decision-preview" role="group" aria-label="ALLOW ESCALATE DENY">
+          <span>ALLOW</span><span>ESCALATE</span><span>DENY</span>
+        </div>
         <LedgerBlock id="CB-85" />
-        <p class="product-card__link"><Link href={products.warrantHref}>Explore Warrant</Link></p>
+        <p class="product-panel__maturity">
+          <span>{experience.common.maturityLabel}</span>
+          {experience.home.warrantCard.status}
+        </p>
+        <p class="product-panel__action">
+          <Button as="a" href={products.warrantHref}>{experience.home.warrantCard.action}</Button>
+        </p>
       </article>
-      <article class="product-card">
-        <p class="eyebrow">Agent tools</p>
-        <h3>{products.warrantMcpTitle}</h3>
-        <p class="product-card__summary">{products.warrantMcpSummary}</p>
+
+      <article class="product-panel product-panel--mcp">
+        <div class="product-panel__heading">
+          <p>{products.warrantMcpSummary}</p>
+          <h3>{products.warrantMcpTitle}</h3>
+        </div>
+        <pre
+          tabindex="0"
+          aria-label="Warrant MCP policy result"><code>{content.policyPreview.join('\n')}</code></pre>
         <LedgerBlock id="CB-86" />
-        <p class="product-card__link">
-          <Link href={products.warrantMcpHref}>Explore Warrant MCP</Link>
+        <p class="product-panel__maturity">
+          <span>{experience.common.maturityLabel}</span>
+          {experience.home.warrantMcpCard.status}
+        </p>
+        <p class="product-panel__action">
+          <Button as="a" href={products.warrantMcpHref}
+            >{experience.home.warrantMcpCard.action}</Button
+          >
         </p>
       </article>
     </div>
-  </Section>
+  </section>
+
+  <section class="platform-relation" aria-labelledby="platform-relation-heading">
+    <div>
+      <p class="eyebrow">{experience.home.platformCard.label}</p>
+      <h2 id="platform-relation-heading">{experience.home.platformCard.title}</h2>
+      <p>{experience.home.platformCard.body}</p>
+    </div>
+    <p>
+      <Link href={experience.home.platformCard.href}>{experience.home.platformCard.action}</Link>
+    </p>
+  </section>
 </Base>
 
 <style>
-  .product-proof {
-    margin-block-start: var(--space-7);
-  }
-
-  .product-grid {
+  .products-hero {
     display: grid;
-    gap: var(--space-5);
-    margin-block-start: var(--space-7);
+    gap: var(--space-8);
+    align-items: end;
   }
 
-  @media (min-width: 640px) {
-    .product-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .product-card {
+  .boundary-visual {
     min-width: 0;
+    padding: var(--space-5);
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--bg-subtle);
+  }
+
+  .boundary-visual > p,
+  .product-panel__maturity span {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .boundary-visual__inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin-block-start: var(--space-5);
+  }
+
+  .boundary-visual__inputs span,
+  .boundary-visual__core,
+  .boundary-visual__outcome {
+    min-width: 0;
+    padding: var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg);
+    text-align: center;
+  }
+
+  .boundary-visual__core {
+    margin-block-start: var(--space-4);
+    background: var(--fg);
+    color: var(--bg);
+    font-weight: var(--weight-semibold);
+  }
+
+  .boundary-visual__outcome {
+    margin: var(--space-4) auto 0;
+    border-color: var(--accent);
+  }
+
+  .relationship {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: var(--space-8);
+    border-block: 1px solid var(--border);
+  }
+
+  .relationship h2,
+  .product-comparison > h2,
+  .platform-relation h2 {
+    max-width: 22ch;
+    margin-block-start: var(--space-3);
+    font-size: clamp(2rem, 1.45rem + 2vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .relationship :global(.ledger-block) {
     padding: var(--space-6);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius);
     background: var(--bg-subtle);
   }
 
-  .product-card h3 {
-    margin-block-start: var(--space-2);
-    font-size: var(--type-h2);
-    line-height: var(--leading-h2);
+  .product-comparison__grid {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-start: var(--space-7);
   }
 
-  .product-card__summary,
-  .product-card :global(.ledger-block) {
-    margin-block-start: var(--space-4);
+  .product-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
   }
 
-  .product-card__summary {
+  .product-panel__heading,
+  .product-panel > :global(.ledger-block),
+  .product-panel__maturity,
+  .product-panel__action {
+    padding-inline: var(--space-6);
+  }
+
+  .product-panel__heading {
+    padding-block: var(--space-6);
+    background: var(--bg-subtle);
+  }
+
+  .product-panel__heading p {
     color: var(--fg-muted);
+    font-size: var(--type-small);
   }
 
-  .product-card__link {
-    margin-block-start: var(--space-5);
+  .product-panel__heading h3 {
+    margin-block-start: var(--space-3);
+    font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
+  }
+
+  .decision-preview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin: var(--space-6);
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--border-strong);
+  }
+
+  .decision-preview span {
+    min-width: 0;
+    padding: var(--space-4) var(--space-2);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .product-panel pre {
+    margin: var(--space-6);
+    padding: var(--space-5);
+    overflow-x: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    line-height: 1.8;
+  }
+
+  .product-panel > :global(.ledger-block) {
+    margin-block-start: var(--space-2);
+  }
+
+  .product-panel__maturity {
+    display: grid;
+    gap: var(--space-2);
+    margin-block-start: auto;
+    padding-block-start: var(--space-7);
+  }
+
+  .product-panel__action {
+    padding-block: var(--space-5) var(--space-6);
+  }
+
+  .platform-relation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-6);
+    align-items: end;
+    padding: var(--space-8);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .platform-relation > div > p:last-child {
+    max-width: 60ch;
+    margin-block-start: var(--space-4);
+    color: var(--border);
+  }
+
+  .platform-relation :global(a) {
+    color: var(--bg);
+  }
+
+  @media (min-width: 760px) {
+    .products-hero,
+    .relationship {
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+      gap: var(--space-10);
+    }
+
+    .product-comparison__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639px) {
+    .product-panel__heading,
+    .product-panel > :global(.ledger-block),
+    .product-panel__maturity,
+    .product-panel__action {
+      padding-inline: var(--space-4);
+    }
+
+    .decision-preview,
+    .product-panel pre {
+      margin-inline: var(--space-4);
+    }
+
+    .platform-relation {
+      margin-inline: calc(var(--container-pad) * -0.5);
+      padding: var(--space-6) var(--space-4);
+    }
   }
 </style>

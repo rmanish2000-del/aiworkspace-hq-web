@@ -15,7 +15,9 @@ import { expect, test } from '@playwright/test';
 const VIEWPORTS = [
   { name: '320x568', width: 320, height: 568, note: 'iPhone SE 1st gen — the declared minimum' },
   { name: '360x800', width: 360, height: 800, note: 'common Android' },
+  { name: '375x812', width: 375, height: 812, note: 'compact iPhone' },
   { name: '390x844', width: 390, height: 844, note: 'iPhone 14/15' },
+  { name: '430x932', width: 430, height: 932, note: 'large phone' },
   { name: '768x1024', width: 768, height: 1024, note: 'iPad portrait — the sm breakpoint' },
   { name: '1024x768', width: 1024, height: 768, note: 'iPad landscape — the lg breakpoint' },
   { name: '1280x720', width: 1280, height: 720, note: 'laptop' },
@@ -102,7 +104,7 @@ test('rotating a phone between portrait and landscape loses nothing', async ({ p
     );
     expect(scrolls, `${w}x${h}`).toBe(false);
     await expect(page.locator('h1'), `${w}x${h}`).toBeVisible();
-    await expect(page.locator('#work-email'), `${w}x${h}`).toBeVisible();
+    await expect(page.locator('.home-hero .action-row a').first(), `${w}x${h}`).toBeVisible();
   }
 });
 
@@ -110,17 +112,15 @@ test('rotating a phone between portrait and landscape loses nothing', async ({ p
 /* `07` §3 — input text never below 16px, at any width                        */
 /* -------------------------------------------------------------------------- */
 
-test('form inputs never render below 16px, which would trigger iOS auto-zoom', async ({ page }) => {
+test('interactive text remains legible at every supported width', async ({ page }) => {
   for (const viewport of VIEWPORTS) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto('/');
 
     const sizes = await page.evaluate(() =>
-      [
-        ...document.querySelectorAll<HTMLElement>(
-          'input[type="email"], input[type="text"], textarea',
-        ),
-      ].map((el) => Number.parseFloat(getComputedStyle(el).fontSize)),
+      [...document.querySelectorAll<HTMLElement>('main a, main summary')].map((el) =>
+        Number.parseFloat(getComputedStyle(el).fontSize),
+      ),
     );
 
     for (const size of sizes) {

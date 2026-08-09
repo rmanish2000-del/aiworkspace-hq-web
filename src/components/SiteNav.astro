@@ -24,7 +24,7 @@
  * interactive JavaScript to a site that has almost none." Below 640px the items
  * wrap to a second row instead.
  */
-import { interest, nav } from '../content/copy';
+import { experience, nav } from '../content/copy';
 import Button from './ui/Button.astro';
 
 export interface Props {
@@ -38,21 +38,23 @@ const { currentPath } = Astro.props;
 <nav class="site-nav" aria-label={nav.label}>
   <ul class="site-nav__list">
     {
-      nav.items.map((item) => (
-        <li class="site-nav__item">
-          <a
-            class="site-nav__link"
-            href={item.href}
-            aria-current={item.href === currentPath ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        </li>
-      ))
+      nav.items
+        .filter((item) => ['/platform', '/products', '/trust', '/technology'].includes(item.href))
+        .map((item) => (
+          <li class="site-nav__item">
+            <a
+              class="site-nav__link"
+              href={item.href}
+              aria-current={item.href === currentPath ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
     }
     <li class="site-nav__item site-nav__item--cta">
-      <Button as="a" href={nav.registerInterestHref} class="site-nav__cta">
-        {interest.heading}
+      <Button as="a" href={experience.nav.primaryHref} class="site-nav__cta">
+        {experience.nav.primaryAction}
       </Button>
     </li>
   </ul>
@@ -60,10 +62,10 @@ const { currentPath } = Astro.props;
 
 <style>
   .site-nav__list {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3) var(--space-5);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -73,7 +75,11 @@ const { currentPath } = Astro.props;
     display: inline-flex;
     align-items: center;
     /* `07` §9 — >=44px touch target. */
+    justify-content: center;
     min-height: 44px;
+    padding-inline: var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
     color: var(--fg);
     font-size: var(--type-small);
     text-decoration: none;
@@ -101,9 +107,34 @@ const { currentPath } = Astro.props;
 
   /* A compact CTA: the hero's full-size button would dominate the header. */
   .site-nav__cta {
-    min-height: 40px;
-    padding: 8px 16px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 16px;
     font-size: var(--type-small);
+  }
+
+  .site-nav__item--cta {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 760px) {
+    .site-nav__list {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .site-nav__link {
+      border-color: transparent;
+    }
+
+    .site-nav__item--cta {
+      margin-inline-start: var(--space-2);
+    }
+
+    .site-nav__cta {
+      width: auto;
+    }
   }
 
   @media (forced-colors: active) {

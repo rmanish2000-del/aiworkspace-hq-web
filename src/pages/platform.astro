@@ -1,38 +1,12 @@
 ---
-/**
- * `/platform` — P1-J §6. "What an Enterprise AI Operating Layer is."
- *
- * Purpose (P1-J §6): educate before selling. Explain the category and the
- * problem it addresses, draw the boundary against adjacent categories, and
- * publish the one product capability verified by AIW-CODEX-BTFDR-004.
- *
- * Every string resolves from `copy.ts`, transcribed from P1-J §6, which traces
- * each line to P0 `01` or the Approved Foundation.
- *
- * Nothing on this page describes architecture, a feature, an integration, a
- * deployment model, a performance figure, or a date. No competitor is named.
- * All three pillars read "is designed to" — P1-J §6.3 tier [AD].
- *
- * Outline (P1-J §6.4): h1 → h2 ×3 → h3 ×3, no level skipped.
- *   h1  What an Enterprise AI Operating Layer is
- *    h2  The problem
- *    h2  Three things it is designed to do
- *      h3 Connect / Understand / Orchestrate
- *    h2  What it is not
- */
 import Base from '../layouts/Base.astro';
-import Section from '../components/ui/Section.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
-import PageHeader from '../components/ui/PageHeader.astro';
-import TermList from '../components/ui/TermList.astro';
-import CTASection from '../components/ui/CTASection.astro';
 import LedgerBlock from '../components/LedgerBlock.astro';
-import { hero, interest, nav, platform } from '../content/copy';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Button from '../components/ui/Button.astro';
+import Link from '../components/ui/Link.astro';
+import { experience, platform } from '../content/copy';
 
-const PROBLEM_ID = 'problem-heading';
-const PILLARS_ID = 'pillars-heading';
-const DISTINCTIONS_ID = 'distinctions-heading';
-const VERIFIED_ID = 'verified-capability-heading';
+const content = experience.platform;
 ---
 
 <Base
@@ -41,59 +15,312 @@ const VERIFIED_ID = 'verified-capability-heading';
   canonicalPath={platform.canonicalPath}
   indexableInProduction={false}
 >
-  <PageHeader eyebrow={platform.eyebrow} heading={platform.heading} lead={platform.lead} />
+  <div class="platform-hero">
+    <PageHeader eyebrow={platform.eyebrow} heading={platform.heading} lead={content.summary} />
+    <div class="platform-hero__panel" role="img" aria-label={content.flowHeading}>
+      <p class="platform-hero__label">{content.flowHeading}</p>
+      <ol>
+        {
+          content.flowSteps.map((step, index) => (
+            <li>
+              <span>0{index + 1}</span>
+              <strong>{step.label}</strong>
+              <small>{step.body}</small>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
 
-  <Section headingId={PROBLEM_ID}>
-    <SectionHeader id={PROBLEM_ID} heading={platform.problemHeading} />
-    <TermList
-      variant="statement"
-      items={platform.problems.map((problem) => ({ term: problem.leadIn, body: problem.body }))}
-    />
-  </Section>
+  <section class="platform-problem" aria-labelledby="problem-heading">
+    <div>
+      <p class="eyebrow">{platform.problemHeading}</p>
+      <h2 id="problem-heading">{platform.lead}</h2>
+    </div>
+    <div class="problem-list">
+      {
+        platform.problems.map((problem) => (
+          <article>
+            <h3>{problem.leadIn}</h3>
+            <p>{problem.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 
-  <Section headingId={PILLARS_ID}>
-    <SectionHeader id={PILLARS_ID} heading={platform.pillarsHeading} lead={platform.pillarsLead} />
-    <TermList
-      variant="heading"
-      level={3}
-      items={platform.pillars.map((pillar) => ({ term: pillar.title, body: pillar.body }))}
-    />
-  </Section>
+  <section class="platform-pillars" aria-labelledby="pillars-heading">
+    <div class="section-heading">
+      <p class="eyebrow">{platform.pillarsHeading}</p>
+      <h2 id="pillars-heading">{platform.pillarsLead}</h2>
+    </div>
+    <div class="pillar-grid">
+      {
+        platform.pillars.map((pillar, index) => (
+          <article>
+            <span>0{index + 1}</span>
+            <h3>{pillar.title}</h3>
+            <p>{pillar.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
 
-  <Section headingId={VERIFIED_ID}>
-    <SectionHeader id={VERIFIED_ID} heading={platform.verifiedCapabilityHeading} />
-    <div class="term-list">
+  <section class="proof-ledger" id="verified-capability-heading" aria-labelledby="proof-heading">
+    <div class="proof-ledger__intro">
+      <p class="eyebrow">{experience.common.proofLabel}</p>
+      <h2 id="proof-heading">{content.proofHeading}</h2>
+      <p>{content.proofLead}</p>
+    </div>
+    <div class="proof-ledger__list">
       <LedgerBlock id="CB-80" />
       <LedgerBlock id="CB-81" />
       <LedgerBlock id="CB-82" />
       <LedgerBlock id="CB-83" />
       <LedgerBlock id="CB-84" />
     </div>
-  </Section>
+  </section>
 
-  <Section headingId={DISTINCTIONS_ID}>
-    <SectionHeader
-      id={DISTINCTIONS_ID}
-      heading={platform.distinctionsHeading}
-      lead={platform.distinctionsLead}
-    />
-    {
-      /*
-      A definition list: each row pairs a category with what distinguishes it.
-      `<dl>` says that relationship in markup, where a `<ul>` would leave a
-      screen-reader user to infer it from visual adjacency.
-    */
-    }
-    <TermList
-      variant="definition"
-      items={platform.distinctions.map((d) => ({ term: d.category, body: d.body }))}
-    />
-  </Section>
+  <section class="distinction-section" aria-labelledby="distinction-heading">
+    <div class="section-heading">
+      <p class="eyebrow">{platform.distinctionsHeading}</p>
+      <h2 id="distinction-heading">{platform.distinctionsLead}</h2>
+    </div>
+    <div class="distinction-list">
+      {
+        platform.distinctions.map((distinction) => (
+          <details>
+            <summary>{distinction.category}</summary>
+            <p>{distinction.body}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
 
-  {/* Binding commitment C-11, one copy entry shared with `/`. */}
-  <CTASection
-    disclosure={hero.stageDisclosure}
-    ctaLabel={interest.heading}
-    ctaHref={nav.registerInterestHref}
-  />
+  <section class="platform-close" aria-labelledby="platform-close-heading">
+    <h2 id="platform-close-heading">{experience.home.closeHeading}</h2>
+    <p>{experience.home.closeLead}</p>
+    <div>
+      <Button as="a" href="/trust">{experience.home.secondaryAction}</Button>
+      <Link href="/products">{experience.home.closeSecondary}</Link>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .platform-hero {
+    display: grid;
+    gap: var(--space-7);
+    align-items: end;
+  }
+
+  .platform-hero__panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .platform-hero__label {
+    padding: var(--space-4) var(--space-5);
+    border-block-end: 1px solid var(--fg-muted);
+    color: var(--border);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .platform-hero ol {
+    margin: 0;
+    padding: var(--space-5);
+    list-style: none;
+  }
+
+  .platform-hero li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0 var(--space-3);
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--fg-muted);
+  }
+
+  .platform-hero li:last-child {
+    border-block-end: 0;
+  }
+
+  .platform-hero li > span {
+    grid-row: 1 / 3;
+    font-family: var(--font-mono);
+    color: var(--success);
+  }
+
+  .platform-hero li > small {
+    color: var(--border);
+  }
+
+  .platform-problem,
+  .distinction-section {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .platform-problem > div:first-child h2,
+  .section-heading h2,
+  .proof-ledger h2,
+  .platform-close h2 {
+    max-width: 22ch;
+    margin-block-start: var(--space-3);
+    font-size: clamp(2rem, 1.45rem + 2vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .problem-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .problem-list article {
+    padding-block: var(--space-5);
+    border-block-start: 1px solid var(--border);
+  }
+
+  .problem-list h3 {
+    font-size: var(--type-h3);
+  }
+
+  .problem-list p,
+  .pillar-grid p,
+  .proof-ledger__intro > p:last-child,
+  .platform-close > p {
+    margin-block-start: var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .pillar-grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-7);
+  }
+
+  .pillar-grid article {
+    padding: var(--space-6);
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--bg-subtle);
+  }
+
+  .pillar-grid article > span {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+  }
+
+  .pillar-grid h3 {
+    margin-block-start: var(--space-7);
+    font-size: var(--type-h2);
+  }
+
+  .proof-ledger {
+    display: grid;
+    gap: var(--space-8);
+    padding: var(--space-8);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .proof-ledger__intro > p:last-child {
+    color: var(--border);
+  }
+
+  .proof-ledger__list {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .proof-ledger__list :global(.ledger-block) {
+    padding: var(--space-5);
+    border: 1px solid var(--fg-muted);
+    border-radius: var(--radius);
+  }
+
+  .proof-ledger__list :global(.ledger-block__copy) {
+    color: var(--bg);
+  }
+
+  .distinction-list {
+    border-block-start: 1px solid var(--border);
+  }
+
+  .distinction-list details {
+    border-block-end: 1px solid var(--border);
+  }
+
+  .distinction-list summary {
+    min-height: 60px;
+    padding: var(--space-5) var(--space-8) var(--space-5) 0;
+    font-size: var(--type-h3);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+  }
+
+  .distinction-list p {
+    max-width: 70ch;
+    padding-block-end: var(--space-5);
+    color: var(--fg-muted);
+  }
+
+  .platform-close {
+    padding: var(--space-8);
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    text-align: center;
+  }
+
+  .platform-close h2,
+  .platform-close > p {
+    margin-inline: auto;
+  }
+
+  .platform-close > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    margin-block-start: var(--space-6);
+  }
+
+  @media (min-width: 760px) {
+    .platform-hero,
+    .platform-problem,
+    .distinction-section {
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+      gap: var(--space-10);
+    }
+
+    .pillar-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .proof-ledger {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .proof-ledger,
+    .platform-close {
+      margin-inline: calc(var(--container-pad) * -0.5);
+      padding: var(--space-6) var(--space-4);
+    }
+  }
+</style>

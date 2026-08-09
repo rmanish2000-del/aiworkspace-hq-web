@@ -16,11 +16,11 @@ import { expect, test } from '@playwright/test';
 test('the home route emits the approved title, description and canonical', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page).toHaveTitle('AI Workspace — Enterprise AI Operating Layer');
+  await expect(page).toHaveTitle('AI Workspace — Governed enterprise AI operations');
 
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
-    'AI Workspace is an Enterprise AI Operating Layer, designed to connect the enterprise systems you already run, understand your organization, and orchestrate AI agents.',
+    'AI Workspace brings approved organizational knowledge, governed work and accountable AI-agent operations into one evidence-backed layer.',
   );
 
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -42,7 +42,7 @@ test('the home route emits the approved Open Graph tags', async ({ page }) => {
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'en_US');
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
-    'AI Workspace — Enterprise AI Operating Layer',
+    'AI Workspace — Governed enterprise AI operations',
   );
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
     'content',
@@ -161,9 +161,11 @@ test('primary content is present without executing JavaScript', async ({ browser
   const page = await context.newPage();
 
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText('We are building an enterprise AI operating layer.');
-  // CC-008: the landing page renders its ledger blocks without JavaScript.
-  await expect(page.locator('[data-block="CB-04"]')).toBeVisible();
+  await expect(page.locator('h1')).toHaveText(
+    'Put organizational context behind every AI-assisted action.',
+  );
+  // The proof-led landing page renders verified evidence without JavaScript.
+  await expect(page.locator('[data-block="CB-84"]')).toBeVisible();
 
   await context.close();
 });
