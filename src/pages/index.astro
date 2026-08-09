@@ -1,125 +1,689 @@
 ---
-/**
- * `/` — CC-008 wiring of the HQ-10 landing contract.
- *
- * ⛔ THIS PAGE DIFFERS FROM THE HOLDING PAGE. FD-POS1 (CC-008 §0) authorizes
- * the category claim on `/`; the DS-D2 baseline is re-recorded on this branch
- * accordingly. Because `main` auto-deploys production, THIS BRANCH MUST NOT
- * MERGE WITHOUT AG-4 — the PR is marked never-auto-merge.
- *
- * Outline: h1 (CB-01) · h2 Register interest. Blocks CB-01…CB-06 render
- * through the ledger; the CTA slot (CB-07) is implemented by the approved
- * InterestForm component, whose strings carry binding commitment C-12
- * verbatim (see docs/reviews/cc008-evidence/).
- */
-import InterestForm from '../components/InterestForm.astro';
-import LedgerBlock from '../components/LedgerBlock.astro';
 import Base from '../layouts/Base.astro';
-import { block } from '../lib/ledger';
-import { meta } from '../content/copy';
+import OperatingFlow from '../components/OperatingFlow.astro';
+import LedgerBlock from '../components/LedgerBlock.astro';
+import Button from '../components/ui/Button.astro';
+import Link from '../components/ui/Link.astro';
+import { experience } from '../content/copy';
+
+const home = experience.home;
+const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as const;
 ---
 
 <Base
-  title={meta.titleHome}
-  description={meta.descriptionHome}
-  canonicalPath={meta.canonicalPathHome}
+  title={home.metaTitle}
+  description={home.metaDescription}
+  canonicalPath="/"
   indexableInProduction={true}
   structuredData={true}
 >
-  <section class="hero">
-    <p class="eyebrow">AI Workspace</p>
-    <LedgerBlock id="CB-01" as="h1" class="hero__headline-block" />
-    <LedgerBlock id="CB-02" class="hero__supporting-block" />
-    <p class="callout callout--neutral stage-disclosure" data-block="CB-03">
-      {block('CB-03').copy}
-    </p>
-    <div class="hero__links">
-      <a class="hero__gap-link" href="/what-we-havent-built" data-block="CB-04">
-        {block('CB-04').copy}
-      </a>
-      <a class="hero__method-link" href="/technology" data-block="CB-05">{block('CB-05').copy}</a>
+  <section class="home-hero" aria-labelledby="home-heading">
+    <div class="home-hero__copy">
+      <p class="eyebrow">{home.eyebrow}</p>
+      <h1 id="home-heading">{home.heading}</h1>
+      <p class="home-hero__lead">{home.lead}</p>
+      <div class="action-row">
+        <Button as="a" href={home.primaryHref}>{home.primaryAction}</Button>
+        <Link href={home.secondaryHref}>{home.secondaryAction}</Link>
+      </div>
+      <p class="home-hero__stage">{home.stage}</p>
     </div>
-    <p class="micro-notice" data-block="CB-06">{block('CB-06').copy}</p>
+    <OperatingFlow />
   </section>
 
-  <InterestForm />
+  <nav class="audience-nav" aria-labelledby="audience-heading">
+    <h2 id="audience-heading">{home.audienceHeading}</h2>
+    <ul>
+      {
+        home.audiences.map((audience) => (
+          <li>
+            <a href={audience.href}>
+              <span>{audience.label}</span>
+              <strong>{audience.question}</strong>
+              <span class="audience-nav__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <section class="split-section" aria-labelledby="problem-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.problemEyebrow}</p>
+      <h2 id="problem-heading">{home.problemHeading}</h2>
+      <p>{home.problemLead}</p>
+    </div>
+    <ol class="signal-list">
+      {
+        home.problemPoints.map((point, index) => (
+          <li>
+            <span>0{index + 1}</span>
+            {point}
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="capability-section" aria-labelledby="capability-heading">
+    <div class="section-intro section-intro--center">
+      <p class="eyebrow">{home.capabilityEyebrow}</p>
+      <h2 id="capability-heading">{home.capabilityHeading}</h2>
+    </div>
+    <div class="capability-grid">
+      {
+        home.capabilities.map((capability) => (
+          <article class="capability-card">
+            <div class="capability-card__topline">
+              <span>{capability.index}</span>
+              <span class="status status--verified">{capability.status}</span>
+            </div>
+            <h3>{capability.title}</h3>
+            <p>{capability.body}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="capability-section__evidence">
+      <Link href="/platform#verified-capability-heading">{home.secondaryAction}</Link>
+    </p>
+  </section>
+
+  <section class="method-section" aria-labelledby="method-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.methodEyebrow}</p>
+      <h2 id="method-heading">{home.methodHeading}</h2>
+    </div>
+    <ol class="method-grid">
+      {
+        home.methodSteps.map((step) => (
+          <li>
+            <span>{step.index}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="portfolio-section" aria-labelledby="portfolio-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.portfolioEyebrow}</p>
+      <h2 id="portfolio-heading">{home.portfolioHeading}</h2>
+      <p>{home.portfolioLead}</p>
+    </div>
+    <div class="portfolio-grid">
+      {
+        portfolio.map((product, index) => (
+          <article class:list={['portfolio-card', index === 0 && 'portfolio-card--primary']}>
+            <p class="portfolio-card__label">{product.label}</p>
+            <h3>{product.title}</h3>
+            <p>{product.body}</p>
+            <p class="portfolio-card__status">
+              <span>{experience.common.maturityLabel}</span>
+              {product.status}
+            </p>
+            <p class="portfolio-card__link">
+              <Link href={product.href}>{product.action}</Link>
+            </p>
+          </article>
+        ))
+      }
+      <article class="portfolio-card portfolio-card--future">
+        <p class="portfolio-card__label">{home.futureCard.label}</p>
+        <h3>{home.futureCard.title}</h3>
+        <p>{home.futureCard.body}</p>
+        <p class="portfolio-card__status">
+          <span>{experience.common.maturityLabel}</span>{home.futureCard.status}
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="evidence-section" aria-labelledby="evidence-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.evidenceEyebrow}</p>
+      <h2 id="evidence-heading">{home.evidenceHeading}</h2>
+      <p>{home.evidenceLead}</p>
+    </div>
+    <dl class="evidence-key">
+      {
+        home.evidenceItems.map((item) => (
+          <div>
+            <>
+              <dt>{item.label}</dt>
+              <dd>{item.body}</dd>
+            </>
+          </div>
+        ))
+      }
+    </dl>
+    <div class="evidence-section__proof"><LedgerBlock id="CB-84" /></div>
+  </section>
+
+  <section class="developer-section" aria-labelledby="developer-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.developerEyebrow}</p>
+      <h2 id="developer-heading">{home.developerHeading}</h2>
+      <p>{home.developerLead}</p>
+      <p class="developer-section__link">
+        <Link href={home.developerHref}>{home.developerAction}</Link>
+      </p>
+    </div>
+    <div class="contract-card">
+      <div class="contract-card__bar">
+        <span>{home.contractLabel}</span>
+        <span class="status status--verified">Verified</span>
+      </div>
+      <code>{home.contractCode}</code>
+      <ul>
+        {home.contractLines.map((line) => <li>{line}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="closing-cta" aria-labelledby="closing-heading">
+    <p class="eyebrow">{home.closeEyebrow}</p>
+    <h2 id="closing-heading">{home.closeHeading}</h2>
+    <p>{home.closeLead}</p>
+    <div class="action-row action-row--center">
+      <Button as="a" href={home.closePrimaryHref}>{home.closePrimary}</Button>
+      <Link href={home.closeSecondaryHref}>{home.closeSecondary}</Link>
+    </div>
+  </section>
 </Base>
 
 <style>
-  .hero {
-    padding-block-start: var(--space-9);
+  .home-hero {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+    padding-block: var(--space-9) var(--space-8);
   }
 
-  @media (min-width: 1024px) {
-    .hero {
-      padding-block-start: var(--space-11);
-    }
+  .home-hero > * {
+    min-width: 0;
   }
 
-  .hero__headline-block :global(.ledger-block__copy) {
-    margin-block-start: var(--space-3);
-    max-width: var(--measure-h1);
-    font-size: var(--type-h1);
+  .home-hero__copy h1 {
+    max-width: 15ch;
+    margin-block-start: var(--space-4);
+    font-size: clamp(2.75rem, 1.8rem + 4vw, 5.75rem);
     font-weight: var(--weight-h1);
-    line-height: var(--leading-h1);
-    letter-spacing: var(--tracking-h1);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
-  .hero__supporting-block {
+  .home-hero__lead {
+    max-width: 62ch;
+    margin-block-start: var(--space-5);
+    color: var(--fg-muted);
+    font-size: var(--type-hero-supporting);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+    margin-block-start: var(--space-6);
+  }
+
+  .action-row :global(a) {
+    min-height: 48px;
+  }
+
+  .home-hero__stage {
+    display: inline-flex;
+    max-width: 62ch;
+    margin-block-start: var(--space-5);
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--accent);
+    color: var(--fg-muted);
+    font-size: var(--type-small);
+  }
+
+  .audience-nav {
+    padding-block: var(--space-7);
+    border-block: 1px solid var(--border);
+  }
+
+  .audience-nav h2 {
+    max-width: 24ch;
+    font-size: var(--type-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .audience-nav ul {
+    display: grid;
+    gap: var(--space-3);
+    margin-block-start: var(--space-6);
+  }
+
+  .audience-nav a {
+    position: relative;
+    display: grid;
+    gap: var(--space-1);
+    min-height: 100%;
+    padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .audience-nav a:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-subtle);
+  }
+
+  .audience-nav a > span:first-child {
+    color: var(--fg-muted);
+    font-size: var(--type-small);
+  }
+
+  .audience-nav__arrow {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--space-4);
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+  }
+
+  .split-section,
+  .method-section,
+  .developer-section {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .split-section > *,
+  .method-section > *,
+  .developer-section > *,
+  .evidence-section > * {
+    min-width: 0;
+  }
+
+  .section-intro {
+    max-width: 65ch;
+  }
+
+  .section-intro h2,
+  .closing-cta h2 {
+    max-width: 18ch;
+    margin-block-start: var(--space-3);
+    font-size: clamp(2rem, 1.4rem + 2vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .section-intro > p:last-child,
+  .closing-cta > p:not(.eyebrow) {
+    margin-block-start: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--type-hero-supporting);
+  }
+
+  .signal-list,
+  .method-grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .signal-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-block-start: 1px solid var(--border);
+    font-size: var(--type-hero-supporting);
+  }
+
+  .signal-list li:last-child {
+    border-block-end: 1px solid var(--border);
+  }
+
+  .signal-list span,
+  .method-grid > li > span,
+  .capability-card__topline > span:first-child {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: var(--type-small);
+  }
+
+  .capability-section {
+    padding: var(--space-8);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .capability-section .eyebrow,
+  .capability-section .capability-card__topline > span:first-child,
+  .capability-section .status--verified {
+    color: var(--bg);
+  }
+
+  .section-intro--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .capability-grid {
+    display: grid;
+    gap: 1px;
+    margin-block-start: var(--space-7);
+    overflow: hidden;
+    border: 1px solid var(--fg-muted);
+    border-radius: var(--radius);
+    background: var(--fg-muted);
+  }
+
+  .capability-card {
+    min-width: 0;
+    padding: var(--space-6);
+    background: var(--fg);
+  }
+
+  .capability-card__topline {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .capability-card h3 {
+    margin-block-start: var(--space-7);
+    font-size: var(--type-h2);
+    line-height: 1.15;
+  }
+
+  .capability-card > p {
+    margin-block-start: var(--space-4);
+    color: var(--border);
+  }
+
+  .capability-section__evidence {
+    margin-block-start: var(--space-6);
+    text-align: center;
+  }
+
+  .capability-section__evidence :global(a) {
+    color: var(--bg);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 3px 10px;
+    border: 1px solid currentColor;
+    border-radius: var(--radius-full);
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+  }
+
+  .status--verified {
+    color: var(--success);
+  }
+
+  .method-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .method-grid li {
+    padding: var(--space-5);
+    border-block-start: 2px solid var(--fg);
+  }
+
+  .method-grid h3 {
+    margin-block-start: var(--space-6);
+    font-size: var(--type-h2);
+  }
+
+  .method-grid p {
+    margin-block-start: var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-7);
+  }
+
+  .portfolio-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: var(--space-6);
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--bg);
+  }
+
+  .portfolio-card--primary {
+    background: var(--bg-subtle);
+  }
+
+  .portfolio-card--future {
+    border-style: dashed;
+  }
+
+  .portfolio-card__label,
+  .portfolio-card__status span {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    font-size: var(--type-small);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .portfolio-card h3 {
+    margin-block-start: var(--space-5);
+    font-size: var(--type-h2);
+  }
+
+  .portfolio-card h3 + p {
+    margin-block-start: var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .portfolio-card__status {
+    display: grid;
+    gap: var(--space-1);
+    margin-block-start: auto;
+    padding-block-start: var(--space-6);
+  }
+
+  .portfolio-card__link {
     margin-block-start: var(--space-5);
   }
 
-  .hero__supporting-block :global(.ledger-block__copy) {
-    font-size: var(--type-hero-supporting);
-    line-height: var(--leading-hero-supporting);
+  .evidence-section {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: var(--space-8);
+    border-block: 1px solid var(--border);
   }
 
-  .stage-disclosure {
-    max-width: var(--measure-body);
-    border-inline-start: 2px solid var(--border-strong);
-    padding-inline: var(--space-4);
-    font-size: var(--type-stage);
-    font-weight: var(--weight-medium);
-    line-height: var(--leading-stage);
-    color: var(--fg-muted);
-    margin-block-start: var(--space-6);
+  .evidence-key {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
   }
 
-  /* LP-1 — the gap link sits above the fold, styled as the primary action. */
-  .hero__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
-    align-items: center;
-    margin-block-start: var(--space-6);
+  .evidence-key > div {
+    padding: var(--space-5);
+    border-inline-start: 3px solid var(--accent);
+    background: var(--bg-subtle);
   }
 
-  .hero__gap-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 14px 24px;
-    border-radius: var(--radius);
-    background-color: var(--accent);
-    color: var(--accent-fg);
+  .evidence-key dt {
     font-weight: var(--weight-semibold);
-    text-decoration: none;
-    transition: background-color var(--duration-fast) var(--ease);
   }
 
-  .hero__gap-link:hover {
-    background-color: var(--accent-hover);
+  .evidence-key dd {
+    margin: var(--space-2) 0 0;
+    color: var(--fg-muted);
   }
 
-  .hero__method-link {
-    min-height: 44px;
-    display: inline-flex;
+  .evidence-section__proof {
+    padding: var(--space-5);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+  }
+
+  .contract-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .contract-card__bar {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
     align-items: center;
+    padding: var(--space-4) var(--space-5);
+    border-block-end: 1px solid var(--fg-muted);
+    color: var(--bg);
+    font-size: var(--type-small);
   }
 
-  .hero > .micro-notice {
-    margin-block-start: var(--space-6);
+  .contract-card .status--verified {
+    color: var(--bg);
+  }
+
+  .contract-card > code {
+    display: block;
+    max-width: 100%;
+    padding: var(--space-7) var(--space-5) var(--space-4);
+    overflow-wrap: anywhere;
+    color: var(--bg);
+    font-size: clamp(1.1rem, 1rem + 1vw, 1.75rem);
+  }
+
+  .contract-card ul {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5) var(--space-6);
+  }
+
+  .contract-card li {
+    font-family: var(--font-mono);
+    color: var(--bg);
+    font-size: var(--type-small);
+  }
+
+  .developer-section__link {
+    margin-block-start: var(--space-5);
+  }
+
+  .closing-cta {
+    padding: var(--space-8) var(--space-5);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--bg-subtle);
+    text-align: center;
+  }
+
+  .closing-cta h2,
+  .closing-cta > p:not(.eyebrow) {
+    margin-inline: auto;
+  }
+
+  .action-row--center {
+    justify-content: center;
+  }
+
+  @media (min-width: 640px) {
+    .audience-nav ul,
+    .portfolio-grid,
+    .evidence-key {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .method-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .home-hero {
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: var(--space-9);
+      min-height: 720px;
+    }
+
+    .split-section,
+    .method-section,
+    .developer-section {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--space-10);
+    }
+
+    .capability-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .method-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .evidence-section {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+
+    .evidence-section__proof {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .home-hero {
+      padding-block-start: var(--space-7);
+    }
+
+    .home-hero__copy h1 {
+      font-size: clamp(2.25rem, 11vw, 4rem);
+    }
+
+    .capability-section {
+      margin-inline: calc(var(--container-pad) * -0.5);
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .closing-cta {
+      padding-inline: var(--space-4);
+    }
+
+    .action-row :global(.button) {
+      width: 100%;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .capability-section,
+    .contract-card {
+      border: 1px solid CanvasText;
+    }
   }
 </style>

@@ -35,6 +35,12 @@ figure {
   padding: 0;
 }
 
+h1,
+h2,
+h3 {
+  overflow-wrap: anywhere;
+}
+
 ul {
   list-style: none;
 }
@@ -67,6 +73,10 @@ body {
   /* §5 — no horizontal scrolling at any width >=320px. */
   min-width: 320px;
   overflow-x: hidden;
+}
+
+main {
+  min-width: 0;
 }
 
 /*
@@ -139,7 +149,9 @@ a:hover {
   font-weight: var(--weight-semibold);
   text-decoration: none;
   border-radius: var(--radius);
-  transition: transform var(--duration-fast) var(--ease);
+  /* Hide immediately after focus leaves so the skip link cannot transiently
+     cover the wordmark, which is the next keyboard stop. */
+  transition: none;
 }
 
 .skip-link:focus,
@@ -186,7 +198,7 @@ a:hover {
  * accident of which pairs someone remembered to enumerate.
  */
 .page > main > * + * {
-  margin-block-start: var(--space-11);
+  margin-block-start: var(--space-10);
 }
 
 .site-footer {
@@ -195,7 +207,7 @@ a:hover {
 
 @media (min-width: 1024px) {
   .page > main > * + * {
-    margin-block-start: var(--space-12);
+    margin-block-start: var(--space-11);
   }
 
   .site-footer {
@@ -416,22 +428,23 @@ a:hover {
 /* -------------------------------------------------------------------------- */
 
 .page-head {
-  padding-block-start: var(--space-9);
+  max-width: 900px;
+  padding-block-start: var(--space-8);
 }
 
 @media (min-width: 1024px) {
   .page-head {
-    padding-block-start: var(--space-11);
+    padding-block-start: var(--space-10);
   }
 }
 
 .page-head__title {
   margin-block-start: var(--space-3);
-  max-width: var(--measure-h1);
-  font-size: var(--type-h1);
+  max-width: 18ch;
+  font-size: clamp(2.5rem, 1.7rem + 3vw, 5rem);
   font-weight: var(--weight-h1);
   line-height: var(--leading-h1);
-  letter-spacing: var(--tracking-h1);
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 

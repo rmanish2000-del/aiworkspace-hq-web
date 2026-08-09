@@ -92,6 +92,7 @@
 
   /* §4 Container */
   --container-max: 720px;
+  --container-wide: 1184px;
   --container-pad: var(--space-5); /* raised to --space-7 at >=640px */
 
   /* §6 Shape */

@@ -126,8 +126,18 @@ const PARTNERSHIP_ID = 'warrant-mcp-partnership-heading';
 </Base>
 
 <style>
+  :global(main > .page-head),
+  :global(main > .section),
+  .product-maturity {
+    max-width: 960px;
+    margin-inline: auto;
+  }
+
   .product-maturity {
     margin-block-start: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
   }
 
   .quickstart {
@@ -136,10 +146,10 @@ const PARTNERSHIP_ID = 'warrant-mcp-partnership-heading';
     padding: var(--space-5);
     overflow-x: auto;
     border: 1px solid var(--border-strong);
-    border-radius: var(--radius);
+    border-radius: calc(var(--radius) * 1.5);
     background: var(--fg);
     color: var(--bg);
-    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    font-family: var(--font-mono);
     font-size: var(--type-small);
     line-height: 1.7;
   }
@@ -170,12 +180,31 @@ const PARTNERSHIP_ID = 'warrant-mcp-partnership-heading';
   }
 
   .limitation-section {
-    padding: var(--space-6);
-    border-inline-start: 4px solid var(--border-strong);
+    padding: var(--space-8);
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
     background: var(--bg-subtle);
   }
 
   .partnership {
-    padding-block-end: var(--space-9);
+    padding: var(--space-8);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .partnership :global(.section__lead) {
+    color: var(--border);
+  }
+
+  .partnership :global(a) {
+    color: var(--bg);
+  }
+
+  @media (max-width: 639px) {
+    .limitation-section,
+    .partnership {
+      padding: var(--space-6) var(--space-4);
+    }
   }
 </style>

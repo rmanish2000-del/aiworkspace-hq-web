@@ -4,8 +4,7 @@ import { expect, test } from '@playwright/test';
  * Document outline (`03` §4) and landmark map (`03` §5), asserted against the
  * built output rather than against intent.
  *
- * Since P1-H the outline matches `03` §4 exactly — Block 4 is present, so the
- * trailing `h2 Register interest` is back.
+ * The proof-led candidate keeps one h1 and a predictable section hierarchy.
  */
 
 test('the home route has exactly one h1, with no skipped heading levels', async ({ page }) => {
@@ -20,10 +19,22 @@ test('the home route has exactly one h1, with no skipped heading levels', async 
 
   expect(outline.filter((heading) => heading.level === 1)).toHaveLength(1);
 
-  // CC-008 landing contract: h1 is CB-01; the form section is the only h2.
-  expect(outline).toEqual([
-    { level: 1, text: 'We are building an enterprise AI operating layer.' },
-    { level: 2, text: 'Register interest' },
+  expect(outline[0]).toEqual({
+    level: 1,
+    text: 'Put organizational context behind every AI-assisted action.',
+  });
+  expect(outline.filter((heading) => heading.level === 2).map((heading) => heading.text)).toEqual([
+    'Start with the question you need answered.',
+    'Models are capable. Organizations are complicated.',
+    'Connect context, govern work, preserve proof.',
+    'One governed path from source to decision.',
+    'Shared principles. Distinct product boundaries.',
+    'Every capability carries its boundary.',
+    'Inspect the contract, then inspect the result.',
+    'Start with the verified path—not a promise.',
+    'Explore',
+    'Verify',
+    'Engage',
   ]);
 
   // No level is skipped on the way down.
@@ -42,8 +53,8 @@ test('the landmark map matches `03` §5', async ({ page }) => {
   await expect(page.locator('main#main')).toHaveCount(1);
   await expect(page.locator('body > .page > footer')).toHaveCount(1);
 
-  // `03` §5 — exactly one form landmark, and it carries an accessible name.
-  await expect(page.locator('form[aria-label]')).toHaveCount(1);
+  // The redesign has no collection form or submission surface.
+  await expect(page.locator('form')).toHaveCount(0);
 
   // P1-J §4.1 adds the main nav; the footer nav is named separately.
   await expect(page.locator('nav[aria-label="Main"]')).toHaveCount(1);
@@ -53,10 +64,10 @@ test('the eyebrow is a paragraph, not a heading', async ({ page }) => {
   // `03` §3 Block 2 — it carries no document-outline meaning.
   await page.goto('/');
 
-  const tagName = await page.locator('.eyebrow').evaluate((element) => element.tagName);
+  const heroEyebrow = page.locator('.home-hero > div .eyebrow');
+  const tagName = await heroEyebrow.evaluate((element) => element.tagName);
   expect(tagName).toBe('P');
-  // CC-008 landing contract: the eyebrow carries the public product name.
-  await expect(page.locator('.eyebrow')).toHaveText('AI Workspace');
+  await expect(heroEyebrow).toHaveText('Enterprise AI operating layer · In development');
 });
 
 test('the wordmark is plain text on the home route', async ({ page }) => {
@@ -157,10 +168,27 @@ test('text-spacing overrides do not clip content', async ({ page }) => {
   });
 
   const clipped = await page.evaluate(() =>
-    [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, a')].some(
-      (element) => element.scrollHeight > element.clientHeight + 1 && element.clientHeight > 0,
-    ),
+    [...document.querySelectorAll<HTMLElement>('p, h1, h2, h3, a')]
+      .filter((element) => element.clientHeight > 0)
+      .filter((element) => {
+        // Gecko can report scrollHeight above clientHeight for a visible line
+        // box. That is overflow, not lost content; SC 1.4.12 fails only when
+        // the computed overflow mode actually clips the expanded text.
+        const style = getComputedStyle(element);
+        const clips = (value: string) => value !== 'visible';
+        return (
+          (clips(style.overflowY) && element.scrollHeight > element.clientHeight + 1) ||
+          (clips(style.overflowX) && element.scrollWidth > element.clientWidth + 1)
+        );
+      })
+      .map((element) => ({
+        element: `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${
+          element.className ? `.${String(element.className).trim().replace(/\s+/g, '.')}` : ''
+        }`,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight,
+      })),
   );
 
-  expect(clipped).toBe(false);
+  expect(clipped).toEqual([]);
 });

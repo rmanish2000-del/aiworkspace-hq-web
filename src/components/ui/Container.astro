@@ -31,7 +31,7 @@ const { as: Tag = 'div', id, class: className } = Astro.props;
   .container {
     width: 100%;
     /* The measure plus its own gutters, so 720px is the *content* width. */
-    max-width: calc(var(--container-max) + (var(--container-pad) * 2));
+    max-width: calc(var(--container-wide) + (var(--container-pad) * 2));
     margin-inline: auto;
     padding-inline: var(--container-pad);
   }

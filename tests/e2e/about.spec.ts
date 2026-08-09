@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { about, shared, nav } from '../../src/content/copy';
+import { about, experience, shared, nav } from '../../src/content/copy';
 
 /**
  * `/about` — `AWHQ-WEB-P2C` §2.
@@ -148,7 +148,7 @@ test('About is a footer link and is absent from primary navigation', async ({ pa
     );
     expect(primary, `${route}: About reached primary nav`).not.toContain(nav.about);
 
-    const footer = (await page.locator('nav[aria-label="Footer"] a').allTextContents()).map((t) =>
+    const footer = (await page.locator('.site-footer nav a').allTextContents()).map((t) =>
       t.trim(),
     );
     expect(footer, `${route}: About missing from the footer`).toContain(nav.about);
@@ -159,18 +159,21 @@ test('the footer lists exactly the approved links, in order', async ({ page }) =
   // P2-C §8.3 caps growth: "a footer that lists every route is a sitemap, and
   // a sitemap is not navigation."
   await page.goto('/about');
-  const labels = await page.locator('nav[aria-label="Footer"] a').allTextContents();
+  const labels = await page.locator('.site-footer nav a').allTextContents();
   // CC-008 adds the two secondary evidence routes ahead of the P2-C five.
   expect(labels.map((l) => l.trim())).toEqual([
-    'For enterprise',
-    'Security',
-    'Warrant console',
-    'Products',
     'Platform',
-    'Principles',
+    'Products',
+    'For enterprise',
+    'Trust',
+    'Technology',
+    'What we have not built',
+    'Security',
     'About',
+    'Principles',
     'Contact',
     'Privacy notice',
+    'Warrant console',
   ]);
 });
 
@@ -221,9 +224,8 @@ test('the shared strings render identically on every route that uses them', asyn
   const proposition = shared.coreProposition.replace(/\s+/g, ' ');
   expect(aboutText).toContain(proposition);
 
-  const disclosure = shared.stageDisclosure.replace(/\s+/g, ' ');
-  expect(home).toContain(disclosure);
-  expect(aboutText).toContain(disclosure);
+  expect(home).toContain(experience.home.stage.replace(/\s+/g, ' '));
+  expect(aboutText).toContain(shared.stageDisclosure.replace(/\s+/g, ' '));
 
   const noPrice = shared.noPricePlan.replace(/\s+/g, ' ');
   expect(principlesText).toContain(noPrice);

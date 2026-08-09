@@ -37,7 +37,8 @@ accessibility contract is in [`accessibility.md`](accessibility.md).
 
 ### `Container`
 
-The horizontal measure. `07` §4: max-width 720px, centred, padding `--space-5`
+The horizontal frame. Product-site routes use the `1184px` wide composition token;
+prose retains the `720px` reading measure through `--measure-body`, centred, padding `--space-5`
 below 640px and `--space-7` above.
 
 | Prop    | Type                                                    | Default | Notes                    |
@@ -51,7 +52,9 @@ below 640px and `--space-7` above.
 </Container>
 ```
 
-720px is chosen over wider because the page is entirely text; a wider column
+The earlier 720px frame remains the prose measure. The public product site uses
+the wide frame because its proof visualizations, product comparisons and audience
+paths are intentionally multi-column while each text block stays within a readable line length.
 would exceed a comfortable measure and force a two-column layout the content
 does not warrant.
 

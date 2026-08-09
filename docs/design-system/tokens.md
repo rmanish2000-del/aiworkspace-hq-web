@@ -88,12 +88,13 @@ Components take a **step**, not a length: `<Stack gap={6}>`, never `gap="32px"`.
 
 ## Container and breakpoints — CANONICAL (`07` §4, §5)
 
-| Token             | Value                              |
-| ----------------- | ---------------------------------- |
-| `--container-max` | `720px`                            |
-| `--container-pad` | `--space-5` → `--space-7` at 640px |
-| `--breakpoint-sm` | `640px`                            |
-| `--breakpoint-lg` | `1024px`                           |
+| Token              | Value                                      |
+| ------------------ | ------------------------------------------ |
+| `--container-max`  | `720px`                                    |
+| `--container-wide` | `1184px` — public product-site composition |
+| `--container-pad`  | `--space-5` → `--space-7` at 640px         |
+| `--breakpoint-sm`  | `640px`                                    |
+| `--breakpoint-lg`  | `1024px`                                   |
 
 Minimum supported width is **320px** — no horizontal scroll at or above it.
 
