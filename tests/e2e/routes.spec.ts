@@ -52,12 +52,12 @@ const ROUTES = [
   },
   {
     path: '/products/warrant',
-    title: 'Warrant — AI Purchasing Authorization',
+    title: 'Warrant — AI Purchasing Authorization — AI Workspace',
     h1: 'Decide whether an AI purchasing agent is allowed to spend',
   },
   {
     path: '/products/warrant-mcp',
-    title: 'Warrant MCP — Deterministic AI Tool Policy',
+    title: 'Warrant MCP — Deterministic AI Tool Policy — AI Workspace',
     h1: 'Rules an AI agent cannot talk its way past',
   },
   { path: '/principles', title: 'Principles — AI Workspace', h1: 'How we are building it' },
@@ -240,7 +240,8 @@ test('every internal link resolves to a route that exists', async ({ page, reque
     );
 
     for (const href of hrefs) {
-      if (href.startsWith('#') || href.startsWith('mailto:')) continue;
+      if (href.startsWith('#') || href.startsWith('mailto:') || /^https?:\/\//.test(href))
+        continue;
       // FD-W1: /warrant/* exists only at the edge rewrite (PR #19), never as
       // a local file. CC-009's live post-launch checks cover it.
       if (href.startsWith('/warrant')) continue;
