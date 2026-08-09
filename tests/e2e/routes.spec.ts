@@ -131,7 +131,7 @@ for (const route of ROUTES) {
     await expect(page.locator('body > .page > footer')).toHaveCount(1);
     // Main navigation plus three purpose-led footer groups; home also has an
     // audience-path navigation landmark.
-    await expect(page.locator('nav[aria-label], nav[aria-labelledby]')).toHaveCount(
+    await expect(page.locator('nav[aria-label]:visible, nav[aria-labelledby]:visible')).toHaveCount(
       route.path === '/' ? 5 : 4,
     );
 
