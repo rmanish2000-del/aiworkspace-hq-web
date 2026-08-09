@@ -64,11 +64,10 @@ test('the eyebrow is a paragraph, not a heading', async ({ page }) => {
   // `03` §3 Block 2 — it carries no document-outline meaning.
   await page.goto('/');
 
-  const tagName = await page.locator('.eyebrow').evaluate((element) => element.tagName);
+  const heroEyebrow = page.locator('.home-hero > div .eyebrow');
+  const tagName = await heroEyebrow.evaluate((element) => element.tagName);
   expect(tagName).toBe('P');
-  await expect(page.locator('.home-hero > div .eyebrow')).toHaveText(
-    'Enterprise AI Operating Layer',
-  );
+  await expect(heroEyebrow).toHaveText('Enterprise AI operating layer · In development');
 });
 
 test('the wordmark is plain text on the home route', async ({ page }) => {

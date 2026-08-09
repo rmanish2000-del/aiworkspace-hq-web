@@ -170,6 +170,12 @@ const content = experience.platform;
     gap: var(--space-8);
   }
 
+  .platform-hero > *,
+  .platform-problem > *,
+  .distinction-section > * {
+    min-width: 0;
+  }
+
   .platform-problem > div:first-child h2,
   .section-heading h2,
   .proof-ledger h2,
@@ -301,6 +307,12 @@ const content = experience.platform;
     align-items: center;
     gap: var(--space-4);
     margin-block-start: var(--space-6);
+  }
+
+  .platform-close > div :global(a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   @media (min-width: 760px) {

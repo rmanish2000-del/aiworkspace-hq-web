@@ -131,7 +131,9 @@ for (const route of ROUTES) {
     await expect(page.locator('body > .page > footer')).toHaveCount(1);
     // Main navigation plus three purpose-led footer groups; home also has an
     // audience-path navigation landmark.
-    await expect(page.locator('nav[aria-label]')).toHaveCount(route.path === '/' ? 5 : 4);
+    await expect(page.locator('nav[aria-label], nav[aria-labelledby]')).toHaveCount(
+      route.path === '/' ? 5 : 4,
+    );
 
     const levels = await page.evaluate(() =>
       [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map((h) => Number(h.tagName.slice(1))),
@@ -194,8 +196,8 @@ test('the nav carries the specified items in order', async ({ page }) => {
   ]);
 });
 
-test('the active route is marked with aria-current on every route', async ({ page }) => {
-  for (const path of ['/platform', '/principles', '/contact']) {
+test('the active route is marked with aria-current on every primary route', async ({ page }) => {
+  for (const path of ['/platform', '/products', '/trust']) {
     await page.goto(path);
     const current = page.locator(`nav[aria-label="Main"] a[aria-current="page"]`);
     await expect(current).toHaveCount(1);
@@ -348,7 +350,7 @@ test('the five principles render on /principles; the landing route follows its c
 
   await page.goto('/');
   await expect(page.locator('.term-list--heading')).toHaveCount(0);
-  await expect(page.locator('[data-block="CB-01"]')).toBeVisible();
+  await expect(page.locator('[data-block="CB-84"]')).toBeVisible();
 });
 
 test('/platform preserves intent tense and renders only verified Assignment capabilities', async ({
@@ -356,7 +358,7 @@ test('/platform preserves intent tense and renders only verified Assignment capa
 }) => {
   // The category pillars remain design intentions.
   await page.goto('/platform');
-  const pillars = await page.locator('.term-list--heading .term-list__body').allTextContents();
+  const pillars = await page.locator('.pillar-grid article p').allTextContents();
   expect(pillars).toHaveLength(3);
   for (const body of pillars) {
     expect(body).toContain('is designed to');

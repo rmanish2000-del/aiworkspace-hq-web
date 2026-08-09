@@ -33,24 +33,25 @@ export interface Props {
 }
 
 const { currentPath } = Astro.props;
+const primaryItems = ['/platform', '/products', '/trust', '/technology'].map((href) =>
+  nav.items.find((item) => item.href === href)!,
+);
 ---
 
 <nav class="site-nav" aria-label={nav.label}>
   <ul class="site-nav__list">
     {
-      nav.items
-        .filter((item) => ['/platform', '/products', '/trust', '/technology'].includes(item.href))
-        .map((item) => (
-          <li class="site-nav__item">
-            <a
-              class="site-nav__link"
-              href={item.href}
-              aria-current={item.href === currentPath ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
+      primaryItems.map((item) => (
+        <li class="site-nav__item">
+          <a
+            class="site-nav__link"
+            href={item.href}
+            aria-current={item.href === currentPath ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
     }
     <li class="site-nav__item site-nav__item--cta">
       <Button as="a" href={experience.nav.primaryHref} class="site-nav__cta">

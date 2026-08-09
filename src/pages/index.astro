@@ -205,6 +205,10 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     padding-block: var(--space-9) var(--space-8);
   }
 
+  .home-hero > * {
+    min-width: 0;
+  }
+
   .home-hero__copy h1 {
     max-width: 15ch;
     margin-block-start: var(--space-4);
@@ -213,6 +217,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     line-height: 0.98;
     letter-spacing: -0.05em;
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   .home-hero__lead {
@@ -300,6 +305,13 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     gap: var(--space-8);
   }
 
+  .split-section > *,
+  .method-section > *,
+  .developer-section > *,
+  .evidence-section > * {
+    min-width: 0;
+  }
+
   .section-intro {
     max-width: 65ch;
   }
@@ -312,6 +324,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     line-height: 1.06;
     letter-spacing: -0.035em;
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   .section-intro > p:last-child,
@@ -650,7 +663,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     }
 
     .home-hero__copy h1 {
-      font-size: clamp(2.6rem, 12vw, 4rem);
+      font-size: clamp(2.25rem, 11vw, 4rem);
     }
 
     .capability-section {

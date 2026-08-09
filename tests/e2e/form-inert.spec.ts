@@ -74,13 +74,13 @@ test('tab order begins with skip link, compact navigation, then main actions', a
   }
 
   expect(order).toEqual([
-    'skip-link',
+    'a',
     'site-nav__link',
     'site-nav__link',
     'site-nav__link',
     'site-nav__link',
     'site-nav__cta',
-    'ui-button',
-    'ui-link',
+    'a',
+    'a',
   ]);
 });

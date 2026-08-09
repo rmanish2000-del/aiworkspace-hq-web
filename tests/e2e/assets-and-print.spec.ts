@@ -88,7 +88,9 @@ test('print hides navigation actions and the skip link', async ({ page }) => {
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
 
-  await expect(page.locator('.action-row')).toBeHidden();
+  const actions = page.locator('.action-row');
+  await expect(actions).toHaveCount(2);
+  for (const action of await actions.all()) await expect(action).toBeHidden();
   await expect(page.locator('.skip-link')).toBeHidden();
 });
 
