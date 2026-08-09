@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import LedgerBlock from '../components/LedgerBlock.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Link from '../components/ui/Link.astro';
+import { products } from '../content/copy';
+
+const RELATION_ID = 'product-relation-heading';
+const FAMILY_ID = 'product-family-heading';
+---
+
+<Base
+  title={products.metaTitle}
+  description={products.metaDescription}
+  canonicalPath={products.canonicalPath}
+  indexableInProduction={true}
+>
+  <PageHeader eyebrow={products.eyebrow} heading={products.heading} lead={products.lead} />
+
+  <Section headingId={RELATION_ID}>
+    <SectionHeader
+      id={RELATION_ID}
+      heading={products.relationHeading}
+      lead={products.relationLead}
+    />
+    <div class="product-proof"><LedgerBlock id="CB-87" /></div>
+  </Section>
+
+  <Section headingId={FAMILY_ID}>
+    <SectionHeader id={FAMILY_ID} heading={products.familyHeading} />
+    <div class="product-grid">
+      <article class="product-card">
+        <p class="eyebrow">Commerce</p>
+        <h3>{products.warrantTitle}</h3>
+        <p class="product-card__summary">{products.warrantSummary}</p>
+        <LedgerBlock id="CB-85" />
+        <p class="product-card__link"><Link href={products.warrantHref}>Explore Warrant</Link></p>
+      </article>
+      <article class="product-card">
+        <p class="eyebrow">Agent tools</p>
+        <h3>{products.warrantMcpTitle}</h3>
+        <p class="product-card__summary">{products.warrantMcpSummary}</p>
+        <LedgerBlock id="CB-86" />
+        <p class="product-card__link">
+          <Link href={products.warrantMcpHref}>Explore Warrant MCP</Link>
+        </p>
+      </article>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .product-proof {
+    margin-block-start: var(--space-7);
+  }
+
+  .product-grid {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-start: var(--space-7);
+  }
+
+  @media (min-width: 640px) {
+    .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .product-card {
+    min-width: 0;
+    padding: var(--space-6);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+  }
+
+  .product-card h3 {
+    margin-block-start: var(--space-2);
+    font-size: var(--type-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .product-card__summary,
+  .product-card :global(.ledger-block) {
+    margin-block-start: var(--space-4);
+  }
+
+  .product-card__summary {
+    color: var(--fg-muted);
+  }
+
+  .product-card__link {
+    margin-block-start: var(--space-5);
+  }
+</style>

@@ -152,15 +152,15 @@ run('vercel.json matches the spec modules', 'node scripts/generate-vercel-json.m
 const DIST = 'dist';
 
 const htmlFiles = () =>
-  readdirSync(DIST)
-    .filter((f) => f.endsWith('.html'))
-    .map((f) => join(DIST, f));
+  readdirSync(DIST, { recursive: true })
+    .filter((f) => String(f).endsWith('.html'))
+    .map((f) => join(DIST, String(f)));
 
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 12) {
-    throw new Error(`expected 12 route documents, found ${files.length}`);
+  if (files.length !== 15) {
+    throw new Error(`expected 15 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
@@ -250,8 +250,8 @@ check('the sitemap lists exactly the indexable routes', () => {
   const xml = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 
-  // FD-AG4 wave 1 (CC-009 §0): exactly the five indexable routes.
-  if (locs.length !== 5) throw new Error(`expected 5 URLs, found ${locs.length}`);
+  // AIWHQ-CODEX-BTFDR-005 extends the indexable set with the product family.
+  if (locs.length !== 8) throw new Error(`expected 8 URLs, found ${locs.length}`);
   for (const forbidden of ['/404', '/docs', '/research']) {
     if (xml.includes(forbidden)) throw new Error(`sitemap contains ${forbidden}`);
   }

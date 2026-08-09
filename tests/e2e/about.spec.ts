@@ -121,7 +121,6 @@ test('/about emits no structured data at all', async ({ page }) => {
   for (const schema of [
     'AboutPage',
     'Person',
-    'Product',
     'SoftwareApplication',
     'Offer',
     'Review',
@@ -166,6 +165,7 @@ test('the footer lists exactly the approved links, in order', async ({ page }) =
     'For enterprise',
     'Security',
     'Warrant console',
+    'Products',
     'Platform',
     'Principles',
     'About',

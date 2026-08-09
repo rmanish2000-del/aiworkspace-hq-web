@@ -1,0 +1,63 @@
+---
+export interface FlowStep {
+  label: string;
+  body: string;
+}
+
+export interface Props {
+  steps: readonly FlowStep[];
+  ordered?: boolean;
+}
+
+const { steps, ordered = false } = Astro.props;
+const List = ordered ? 'ol' : 'ul';
+---
+
+<List class="product-flow">
+  {
+    steps.map((step) => (
+      <li class="product-flow__step">
+        <p class="product-flow__label">{step.label}</p>
+        <p class="product-flow__body">{step.body}</p>
+      </li>
+    ))
+  }
+</List>
+
+<style>
+  .product-flow {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .product-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .product-flow__step {
+    min-width: 0;
+    padding: var(--space-5);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+  }
+
+  .product-flow__label {
+    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+
+  .product-flow__body {
+    margin-block-start: var(--space-2);
+    color: var(--fg-muted);
+    text-wrap: pretty;
+  }
+</style>

@@ -5,8 +5,7 @@ import { canonicalUrl } from '../lib/site';
 /**
  * `/sitemap.xml` — P1-J §4.3.
  *
- * Lists exactly the five indexable routes:
- *   /  ·  /platform  ·  /principles  ·  /contact  ·  /privacy
+ * Lists the routes explicitly authorized for search discovery.
  *
  * `/404` is excluded — P1-J §10: "not in the sitemap".
  * `/docs` and `/research` are excluded — P1-J §12 and §13 defer both, and §15
@@ -22,8 +21,17 @@ import { canonicalUrl } from '../lib/site';
  * (P-01), so this file describes a site that is not yet reachable — which is
  * consistent with every route also being `noindex` in this build.
  */
-// FD-AG4 wave 1 (CC-009 §0): exactly these five routes are indexable.
-const ROUTES = ['/', '/trust', '/technology', '/what-we-havent-built', '/privacy'] as const;
+// AIWHQ-CODEX-BTFDR-005: exactly these eight routes are indexable.
+const ROUTES = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
+  '/privacy',
+] as const;
 
 export const GET: APIRoute = () => {
   const urls = ROUTES.map(

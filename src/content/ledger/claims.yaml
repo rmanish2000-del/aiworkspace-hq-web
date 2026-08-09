@@ -240,3 +240,101 @@ claims:
     source: 'AIWHQ-CODEX-BTFDR-004-KNOWLEDGE-WORKSPACE.md · verified product fact from AIW-CODEX-BTFDR-011 · commit 4a46c0daf1a4deef28f074cc83d7fd242e15925a'
     routes: ['/platform']
     reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-40
+    text: >-
+      Warrant compiles human-written spending policy into numbered clauses,
+      requires human confirmation, and evaluates purchase proposals with
+      deterministic ALLOW, ESCALATE or DENY decisions that cite the governing
+      clause.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant main 66ec858bfd81149c46395ef42e32a4a192938d64'
+    routes: ['/products', '/products/warrant']
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-41
+    text: >-
+      A Warrant DENY makes zero outbound provider calls. Only the supported
+      human-approved escalation path can open a Prava sandbox payment session;
+      the ALLOW path is authorized and recorded but is not wired to the provider.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant main 66ec858bfd81149c46395ef42e32a4a192938d64'
+    routes: ['/products/warrant']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-42
+    text: >-
+      Warrant appends decisions to a hash-chained authorization record. The
+      record is tamper-evident; it has no digital signature and makes no
+      non-repudiation claim.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant main 66ec858bfd81149c46395ef42e32a4a192938d64'
+    routes: ['/products/warrant']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-43
+    text: >-
+      Warrant currently runs as a local, single-operator demonstration and all
+      payment interaction is Prava sandbox-only. Spend counts at approval and
+      reconciliation that releases expired holds is not built.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant main 66ec858bfd81149c46395ef42e32a4a192938d64'
+    routes: ['/products/warrant']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-44
+    text: >-
+      Warrant MCP compiles plain-English policy once into numbered clauses and
+      closed structured rules. Deterministic code returns ALLOW or DENY for a
+      supported action, and a Claude Code PreToolUse hook makes DENY a hard block.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant MCP main eea5496de1cc867552ff8fe51f55503dd90a7809'
+    routes: ['/products', '/products/warrant-mcp']
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-45
+    text: >-
+      Warrant MCP specification 0.1.0 defines eight rule types, precedence,
+      fail-closed requirements and deliberate limits. Its TypeScript reference
+      implementation runs a 76-case language-agnostic conformance corpus.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant MCP SPEC.md at eea5496de1cc867552ff8fe51f55503dd90a7809'
+    routes: ['/products/warrant-mcp']
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-46
+    text: >-
+      Warrant MCP binding enforcement is limited to its Claude Code hook. Other
+      MCP hosts can call check_action for an advisory ALLOW or DENY, but the tool
+      cannot force the host to comply.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant MCP main eea5496de1cc867552ff8fe51f55503dd90a7809'
+    routes: ['/products/warrant-mcp']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-47
+    text: >-
+      Warrant MCP writes a local plain-text decision record and can render it as
+      a self-contained offline HTML report. The record is append-only by
+      convention, has no integrity check, and is evidence rather than proof.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · Warrant MCP main eea5496de1cc867552ff8fe51f55503dd90a7809'
+    routes: ['/products/warrant-mcp']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }
+  - id: CL-48
+    text: >-
+      Warrant applies deterministic authorization to AI purchasing proposals.
+      Warrant MCP applies deterministic policy checks to supported AI-agent
+      actions and tool calls. They share a design thesis, not a claimed shared
+      runtime platform.
+    tier: Verified
+    date: '2026-08-08'
+    source: 'AIWHQ-CODEX-BTFDR-005-WARRANT-SURFACES.md · verified repository comparison at Warrant 66ec858 and Warrant MCP eea5496'
+    routes: ['/products']
+    negative: true
+    reverify: { cadence: quarterly, last: '2026-08-08' }

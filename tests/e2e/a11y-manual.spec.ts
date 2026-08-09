@@ -55,6 +55,9 @@ const ROUTES = [
   '/enterprise',
   '/security',
   '/platform',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
   '/principles',
   '/about',
   '/contact',
@@ -132,7 +135,9 @@ for (const route of ROUTES) {
     // or the check false-positives on a trap that is not there.
     const total = await page.evaluate(() => {
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -165,12 +170,15 @@ for (const route of ROUTES) {
     // The real trap test: focus that stops changing, or never escapes.
     await page.goto(route);
 
-    const total = await page.evaluate(
-      () =>
-        [
-          ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
-        ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
-    );
+    const total = await page.evaluate(() => {
+      const els = [
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]',
+        ),
+      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
+      return els.length;
+    });
 
     let previous = '';
     let stuck = 0;
@@ -179,9 +187,7 @@ for (const route of ROUTES) {
       const current = await page.evaluate(() => {
         const el = document.activeElement as HTMLElement | null;
         if (!el || el === document.body) return '<body>';
-        return `${el.tagName}#${el.id}.${el.className}@${
-          Math.round(el.getBoundingClientRect().top) + Math.round(el.getBoundingClientRect().left)
-        }`;
+        return el.getAttribute('data-focus-index') ?? `<${el.tagName.toLowerCase()}>`;
       });
       if (current === previous) stuck += 1;
       previous = current;
@@ -198,7 +204,9 @@ for (const route of ROUTES) {
 
     const total = await page.evaluate(() => {
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -241,7 +249,9 @@ for (const route of ROUTES) {
     const unfocusable = await page.evaluate(() => {
       const failures: string[] = [];
       const els = [
-        ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]',
+        ),
       ].filter((el) => el.getAttribute('tabindex') !== '-1');
 
       for (const el of els) {
@@ -317,7 +327,9 @@ test('A11Y-03 the focus ring meets 3:1 against what actually sits next to it', a
     const total = await page.evaluate(
       () =>
         [
-          ...document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select'),
+          ...document.querySelectorAll<HTMLElement>(
+            'a[href], button, input, textarea, select, [tabindex]',
+          ),
         ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
     );
 

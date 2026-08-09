@@ -195,7 +195,7 @@ test('tab order follows DOM order through the form', async ({ page }) => {
   await page.goto('/');
 
   const order: string[] = [];
-  for (let i = 0; i < 16; i += 1) {
+  for (let i = 0; i < 17; i += 1) {
     await page.keyboard.press('Tab');
     order.push(
       await page.evaluate(() => {
@@ -217,8 +217,9 @@ test('tab order follows DOM order through the form', async ({ page }) => {
     'skip-link',
     // P1-J §4.4: skip link -> wordmark -> nav items -> main content -> footer.
     // The wordmark is a <p> on `/` and is correctly not focusable (`03` §3
-    // Block 1). CC-008: six nav items, then the CTA, then the hero's two
-    // evidence links, then the form controls.
+    // Block 1). AIWHQ-CODEX-BTFDR-005: seven nav items, then the CTA, then
+    // the hero's two evidence links, then the form controls.
+    'site-nav__link',
     'site-nav__link',
     'site-nav__link',
     'site-nav__link',

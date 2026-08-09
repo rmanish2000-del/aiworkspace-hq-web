@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro';
+import LedgerBlock from '../../components/LedgerBlock.astro';
+import ProductFlow from '../../components/ProductFlow.astro';
+import Button from '../../components/ui/Button.astro';
+import Callout from '../../components/ui/Callout.astro';
+import Link from '../../components/ui/Link.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { warrantProduct } from '../../content/copy';
+
+const AUDIENCE_ID = 'warrant-audience-heading';
+const PROBLEM_ID = 'warrant-problem-heading';
+const WORKFLOW_ID = 'warrant-workflow-heading';
+const REFUSAL_ID = 'warrant-refusal-heading';
+const CAPABILITY_ID = 'warrant-capability-heading';
+const TRY_ID = 'warrant-try-heading';
+const TRUST_ID = 'warrant-trust-heading';
+const PARTNERSHIP_ID = 'warrant-partnership-heading';
+---
+
+<Base
+  title={warrantProduct.metaTitle}
+  description={warrantProduct.metaDescription}
+  canonicalPath={warrantProduct.canonicalPath}
+  indexableInProduction={true}
+>
+  <PageHeader
+    eyebrow={warrantProduct.eyebrow}
+    heading={warrantProduct.heading}
+    lead={warrantProduct.lead}
+  />
+  <Callout as="aside" class="product-maturity">{warrantProduct.maturity}</Callout>
+
+  <Section headingId={AUDIENCE_ID}>
+    <SectionHeader id={AUDIENCE_ID} heading={warrantProduct.audienceHeading} />
+    <ul class="audience-list">
+      {warrantProduct.audiences.map((audience) => <li>{audience}</li>)}
+    </ul>
+  </Section>
+
+  <Section headingId={PROBLEM_ID}>
+    <SectionHeader
+      id={PROBLEM_ID}
+      heading={warrantProduct.problemHeading}
+      lead={warrantProduct.problemBody}
+    />
+  </Section>
+
+  <Section headingId={WORKFLOW_ID}>
+    <SectionHeader id={WORKFLOW_ID} heading={warrantProduct.workflowHeading} />
+    <ProductFlow steps={warrantProduct.workflow} ordered />
+    <div class="decision-strip">
+      <span class="decision decision--allow">ALLOW</span>
+      <span class="decision decision--escalate">ESCALATE</span>
+      <span class="decision decision--deny">DENY</span>
+    </div>
+  </Section>
+
+  <Section headingId={REFUSAL_ID} class="refusal-section">
+    <SectionHeader
+      id={REFUSAL_ID}
+      heading={warrantProduct.refusalHeading}
+      lead={warrantProduct.refusalBody}
+    />
+  </Section>
+
+  <Section headingId={CAPABILITY_ID}>
+    <SectionHeader id={CAPABILITY_ID} heading={warrantProduct.capabilitiesHeading} />
+    <div class="proof-list">
+      <LedgerBlock id="CB-88" />
+      <LedgerBlock id="CB-89" />
+      <LedgerBlock id="CB-90" />
+    </div>
+  </Section>
+
+  <Section headingId={TRY_ID}>
+    <SectionHeader id={TRY_ID} heading={warrantProduct.tryHeading} lead={warrantProduct.tryBody} />
+    <div class="cta-row">
+      <Button as="a" href={warrantProduct.githubHref}>{warrantProduct.githubLabel}</Button>
+      <Link href={warrantProduct.consoleHref}>{warrantProduct.consoleLabel}</Link>
+    </div>
+  </Section>
+
+  <Section headingId={TRUST_ID}>
+    <SectionHeader id={TRUST_ID} heading={warrantProduct.trustHeading} />
+    <h3 class="subheading">{warrantProduct.limitationsHeading}</h3>
+    <ul class="limitation-list">
+      {warrantProduct.limitations.map((limitation) => <li>{limitation}</li>)}
+    </ul>
+  </Section>
+
+  <Section headingId={PARTNERSHIP_ID} class="partnership">
+    <SectionHeader
+      id={PARTNERSHIP_ID}
+      heading={warrantProduct.partnershipHeading}
+      lead={warrantProduct.partnershipBody}
+    />
+    <p class="partnership__link">
+      <Link href={warrantProduct.partnershipHref} external>{warrantProduct.partnershipLabel}</Link>
+    </p>
+  </Section>
+</Base>
+
+<style>
+  .product-maturity {
+    margin-block-start: var(--space-6);
+  }
+
+  .audience-list,
+  .limitation-list {
+    margin-block-start: var(--space-6);
+    padding-inline-start: var(--space-5);
+    list-style: disc;
+  }
+
+  .audience-list li + li,
+  .limitation-list li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .decision-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-block-start: var(--space-5);
+  }
+
+  .decision {
+    min-width: 0;
+    padding: var(--space-3) var(--space-2);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+    text-align: center;
+  }
+
+  .decision--allow {
+    border-color: var(--success);
+  }
+  .decision--escalate {
+    border-style: dashed;
+  }
+  .decision--deny {
+    border-color: var(--danger);
+  }
+
+  .refusal-section {
+    padding: var(--space-6);
+    border-inline-start: 4px solid var(--danger);
+    background: var(--bg-subtle);
+  }
+
+  .proof-list > * + * {
+    margin-block-start: var(--space-6);
+  }
+
+  .proof-list {
+    margin-block-start: var(--space-7);
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-block-start: var(--space-6);
+  }
+
+  .subheading {
+    margin-block-start: var(--space-6);
+    font-size: var(--type-h3);
+  }
+
+  .partnership {
+    padding-block-end: var(--space-9);
+  }
+
+  .partnership__link {
+    margin-block-start: var(--space-5);
+  }
+
+  .cta-row :global(a),
+  .partnership__link :global(a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

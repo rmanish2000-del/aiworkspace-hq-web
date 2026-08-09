@@ -21,7 +21,7 @@
  * P1-J §4.2: "No social links, no badges, no 'built with', no sitemap block, no
  * status link." `/docs` and `/research` are absent — P1-J §12/§13 defer both.
  */
-import { contact, nav, principlesPage, privacy } from '../content/copy';
+import { contact, nav, principlesPage, privacy, products } from '../content/copy';
 import Container from './ui/Container.astro';
 import Footer from './ui/Footer.astro';
 
@@ -46,7 +46,8 @@ const links = [
   { href: '/security', label: nav.security },
   // FD-W1 — the Warrant console, proxied under /warrant (PR #19).
   { href: '/warrant/console', label: nav.warrant },
-  { href: '/platform', label: nav.items[3].label },
+  { href: products.canonicalPath, label: products.metaTitle.split(' — ')[0] },
+  { href: '/platform', label: nav.items[4].label },
   { href: '/principles', label: principlesPage.metaTitle.split(' — ')[0] },
   { href: '/about', label: nav.about },
   { href: '/contact', label: contact.heading },
@@ -92,7 +93,7 @@ const links = [
   /* `07` §5 — stacks below 640px, single row above. */
   .site-footer__list {
     display: flex;
-    flex-direction: column;
+    flex-flow: column wrap;
     gap: var(--space-3);
     margin: 0;
     padding: 0;
@@ -102,6 +103,7 @@ const links = [
   @media (min-width: 640px) {
     .site-footer__list {
       flex-direction: row;
+      flex-wrap: wrap;
       gap: var(--space-5);
     }
   }

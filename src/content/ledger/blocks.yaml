@@ -5,6 +5,72 @@
 # (CT-4: CB-21/CB-74 · CT-5: CB-62); they never render their copy.
 
 blocks:
+  # ROUTE /products — portfolio relationship and product discovery
+  - id: CB-85
+    route: '/products'
+    slot: warrant-summary
+    kind: proof
+    claim: CL-40
+    copy: 'Warrant compiles human-written spending policy into numbered clauses, requires human confirmation, and evaluates purchase proposals with deterministic ALLOW, ESCALATE or DENY decisions that cite the governing clause.'
+
+  - id: CB-86
+    route: '/products'
+    slot: warrant-mcp-summary
+    kind: proof
+    claim: CL-44
+    copy: 'Warrant MCP compiles plain-English policy once into numbered clauses and closed structured rules. Deterministic code returns ALLOW or DENY for a supported action, and a Claude Code PreToolUse hook makes DENY a hard block.'
+
+  - id: CB-87
+    route: '/products'
+    slot: relationship
+    kind: disclosure
+    claim: CL-48
+    copy: 'Warrant applies deterministic authorization to AI purchasing proposals. Warrant MCP applies deterministic policy checks to supported AI-agent actions and tool calls. They share a design thesis, not a claimed shared runtime platform.'
+
+  # ROUTE /products/warrant — commerce authorization
+  - id: CB-88
+    route: '/products/warrant'
+    slot: provider-boundary
+    kind: proof
+    claim: CL-41
+    copy: 'A Warrant DENY makes zero outbound provider calls. Only the supported human-approved escalation path can open a Prava sandbox payment session; the ALLOW path is authorized and recorded but is not wired to the provider.'
+
+  - id: CB-89
+    route: '/products/warrant'
+    slot: authorization-record
+    kind: proof
+    claim: CL-42
+    copy: 'Warrant appends decisions to a hash-chained authorization record. The record is tamper-evident; it has no digital signature and makes no non-repudiation claim.'
+
+  - id: CB-90
+    route: '/products/warrant'
+    slot: maturity-limit
+    kind: limitation
+    claim: CL-43
+    copy: 'Warrant currently runs as a local, single-operator demonstration and all payment interaction is Prava sandbox-only. Spend counts at approval and reconciliation that releases expired holds is not built.'
+
+  # ROUTE /products/warrant-mcp — agent tool policy
+  - id: CB-91
+    route: '/products/warrant-mcp'
+    slot: specification
+    kind: proof
+    claim: CL-45
+    copy: 'Warrant MCP specification 0.1.0 defines eight rule types, precedence, fail-closed requirements and deliberate limits. Its TypeScript reference implementation runs a 76-case language-agnostic conformance corpus.'
+
+  - id: CB-92
+    route: '/products/warrant-mcp'
+    slot: enforcement-boundary
+    kind: limitation
+    claim: CL-46
+    copy: 'Warrant MCP binding enforcement is limited to its Claude Code hook. Other MCP hosts can call check_action for an advisory ALLOW or DENY, but the tool cannot force the host to comply.'
+
+  - id: CB-93
+    route: '/products/warrant-mcp'
+    slot: local-record
+    kind: limitation
+    claim: CL-47
+    copy: 'Warrant MCP writes a local plain-text decision record and can render it as a self-contained offline HTML report. The record is append-only by convention, has no integrity check, and is evidence rather than proof.'
+
   # ROUTE /platform — verified product capability
   - id: CB-80
     route: '/platform'

@@ -45,15 +45,51 @@ const ROUTES = [
     title: 'Platform — AI Workspace',
     h1: 'What an Enterprise AI Operating Layer is',
   },
-  { path: '/principles', title: 'Principles — AI Workspace', h1: 'How we are building it' },
+  {
+    path: '/products',
+    title: 'Products — AI Workspace',
+    h1: 'Policy-backed infrastructure for governed AI action',
+  },
+  {
+    path: '/products/warrant',
+    title: 'Warrant — AI Purchasing Authorization — AI Workspace',
+    h1: 'Decide whether an AI purchasing agent is allowed to spend',
+  },
+  {
+    path: '/products/warrant-mcp',
+    title: 'Warrant MCP — Deterministic AI Tool Policy — AI Workspace',
+    h1: 'Rules an AI agent cannot talk its way past',
+  },
+  {
+    path: '/principles',
+    title: 'Principles — AI Workspace',
+    h1: 'How we are building it',
+  },
   { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
   { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
-  { path: '/privacy', title: 'Privacy notice — AI Workspace', h1: 'Privacy notice' },
-  { path: '/404', title: 'Page not found — AI Workspace', h1: 'Page not found' },
+  {
+    path: '/privacy',
+    title: 'Privacy notice — AI Workspace',
+    h1: 'Privacy notice',
+  },
+  {
+    path: '/404',
+    title: 'Page not found — AI Workspace',
+    h1: 'Page not found',
+  },
 ] as const;
 
 /** FD-AG4 wave 1 (CC-009 §0) — exactly these five routes are indexable. */
-const WAVE_1 = ['/', '/trust', '/technology', '/what-we-havent-built', '/privacy'];
+const WAVE_1 = [
+  '/',
+  '/trust',
+  '/technology',
+  '/what-we-havent-built',
+  '/privacy',
+  '/products',
+  '/products/warrant',
+  '/products/warrant-mcp',
+];
 const SITEMAP_ROUTES = ROUTES.filter((r) => WAVE_1.includes(r.path));
 
 /* -------------------------------------------------------------------------- */
@@ -80,7 +116,10 @@ for (const route of ROUTES) {
       .analyze();
 
     expect(
-      results.violations.map((v) => ({ id: v.id, nodes: v.nodes.map((n) => n.target).flat() })),
+      results.violations.map((v) => ({
+        id: v.id,
+        nodes: v.nodes.map((n) => n.target).flat(),
+      })),
     ).toEqual([]);
   });
 
@@ -141,13 +180,14 @@ for (const route of ROUTES) {
 /* Navigation — P1-J §4.1                                                     */
 /* -------------------------------------------------------------------------- */
 
-test('the nav carries four items in the specified order', async ({ page }) => {
+test('the nav carries the specified items in order', async ({ page }) => {
   await page.goto('/');
 
   const labels = await page.locator('nav[aria-label="Main"] li').allInnerTexts();
   expect(labels.map((l) => l.trim())).toEqual([
     'Trust',
     'Technology',
+    'Products',
     'What we have not built',
     'Platform',
     'Principles',
@@ -215,7 +255,7 @@ test('every internal link resolves to a route that exists', async ({ page, reque
     );
 
     for (const href of hrefs) {
-      if (href.startsWith('#') || href.startsWith('mailto:')) continue;
+      if (href.startsWith('#') || href.startsWith('mailto:') || /^https?:\/\//.test(href)) continue;
       // FD-W1: /warrant/* exists only at the edge rewrite (PR #19), never as
       // a local file. CC-009's live post-launch checks cover it.
       if (href.startsWith('/warrant')) continue;
@@ -234,7 +274,7 @@ test('every internal link resolves to a route that exists', async ({ page, reque
 /* Sitemap and structured data — P1-J §4.3                                    */
 /* -------------------------------------------------------------------------- */
 
-test('the sitemap lists exactly the five indexable routes', async ({ request }) => {
+test('the sitemap lists exactly the indexable routes', async ({ request }) => {
   const res = await request.get('/sitemap.xml');
   expect(res.status()).toBe(200);
 
