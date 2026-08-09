@@ -356,6 +356,12 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     color: var(--bg);
   }
 
+  .capability-section .eyebrow,
+  .capability-section .capability-card__topline > span:first-child,
+  .capability-section .status--verified {
+    color: var(--bg);
+  }
+
   .section-intro--center {
     margin-inline: auto;
     text-align: center;
@@ -542,8 +548,12 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     align-items: center;
     padding: var(--space-4) var(--space-5);
     border-block-end: 1px solid var(--fg-muted);
-    color: var(--border);
+    color: var(--bg);
     font-size: var(--type-small);
+  }
+
+  .contract-card .status--verified {
+    color: var(--bg);
   }
 
   .contract-card > code {
@@ -551,7 +561,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     max-width: 100%;
     padding: var(--space-7) var(--space-5) var(--space-4);
     overflow-wrap: anywhere;
-    color: var(--success);
+    color: var(--bg);
     font-size: clamp(1.1rem, 1rem + 1vw, 1.75rem);
   }
 
@@ -563,7 +573,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .contract-card li {
     font-family: var(--font-mono);
-    color: var(--border);
+    color: var(--bg);
     font-size: var(--type-small);
   }
 
