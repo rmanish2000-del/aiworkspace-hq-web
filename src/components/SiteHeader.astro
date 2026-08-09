@@ -1,17 +1,4 @@
 ---
-/**
- * `03` Block 1 — Header, extended by P1-J §4.1.
- *
- * The wordmark sits left and the navigation sits right. P1-J §4.1:
- *
- *   "Wordmark `AI Workspace` sits left and becomes a link to `/` on every route
- *    except `/`, where it remains plain text (P0 `03` §3.1 reasoning preserved)."
- *
- * That preserved reasoning is worth restating, because it is the whole rule:
- * on the home route there is nowhere for the wordmark to go, and a link that
- * returns you to where you already are is a focusable control that does
- * nothing. On every other route it is the standard way home.
- */
 import Container from './ui/Container.astro';
 import Logo from './ui/Logo.astro';
 import SiteNav from './SiteNav.astro';
@@ -21,7 +8,6 @@ export interface Props {
 }
 
 const { currentPath } = Astro.props;
-
 const isHome = currentPath === '/';
 ---
 
@@ -35,35 +21,34 @@ const isHome = currentPath === '/';
 </header>
 
 <style>
-  /* `07` §6.2 — padding block --space-5. No border, no shadow, not sticky. */
   .site-header {
-    position: relative;
+    position: sticky;
     z-index: var(--z-raised);
-    padding-block: var(--space-4);
+    inset-block-start: 0;
+    padding-block: var(--space-3);
     border-block-end: 1px solid var(--border);
-    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
+    backdrop-filter: blur(14px);
   }
 
   .site-header__inner {
-    display: flex;
     display: grid;
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    align-items: center;
     justify-content: space-between;
-    gap: var(--space-4);
   }
 
-  @media (min-width: 760px) {
-    .site-header {
-      padding-block: var(--space-3);
-    }
-
-    .site-header__inner {
-      grid-template-columns: auto 1fr;
-      align-items: center;
-    }
-
+  @media (min-width: 960px) {
     .site-header__inner :global(.site-nav) {
       justify-self: end;
+    }
+  }
+
+  @media (forced-colors: active), (prefers-reduced-transparency: reduce) {
+    .site-header {
+      background: var(--bg);
+      backdrop-filter: none;
     }
   }
 </style>
