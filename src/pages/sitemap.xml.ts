@@ -27,10 +27,10 @@ const ROUTES = [
   '/trust',
   '/technology',
   '/what-we-havent-built',
-  '/privacy',
   '/products',
   '/products/warrant',
   '/products/warrant-mcp',
+  '/privacy',
 ] as const;
 
 export const GET: APIRoute = () => {
