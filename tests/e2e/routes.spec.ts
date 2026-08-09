@@ -240,7 +240,11 @@ test('every internal link resolves to a route that exists', async ({ page, reque
     );
 
     for (const href of hrefs) {
-      if (href.startsWith('#') || href.startsWith('mailto:') || /^https?:\/\//.test(href))
+      if (
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        /^https?:\/\//.test(href)
+      )
         continue;
       // FD-W1: /warrant/* exists only at the edge rewrite (PR #19), never as
       // a local file. CC-009's live post-launch checks cover it.
