@@ -523,6 +523,7 @@ export const products = {
   relationHeading: 'One thesis, two authorization products',
   relationLead:
     'Human policy becomes machine-enforceable structure, and deterministic code makes the runtime authorization decision.',
+  familyHeading: 'Choose the authorization boundary',
   warrantTitle: 'Warrant',
   warrantSummary: 'Commerce-specific authorization for AI purchasing agents.',
   warrantHref: '/products/warrant',
@@ -599,7 +600,7 @@ export const warrantProduct = {
     'Spend counts at approval; release of expired holds is not implemented.',
     'The authorization record is tamper-evident, not signed and not non-repudiable.',
   ],
-  metaTitle: 'Warrant — AI Purchasing Authorization',
+  metaTitle: 'Warrant — AI Purchasing Authorization — AI Workspace',
   metaDescription:
     'Warrant applies human-confirmed spending policy to AI purchase proposals with deterministic ALLOW, ESCALATE or DENY decisions and clause citations.',
   canonicalPath: '/products/warrant',
@@ -668,7 +669,7 @@ export const warrantMcpProduct = {
     'Hook configuration remains editable unless organization-managed settings protect it.',
     'The local record is append-only by convention, has no integrity check and is evidence rather than proof.',
   ],
-  metaTitle: 'Warrant MCP — Deterministic AI Tool Policy',
+  metaTitle: 'Warrant MCP — Deterministic AI Tool Policy — AI Workspace',
   metaDescription:
     'Warrant MCP compiles plain-English AI-agent policy once, checks supported tool calls deterministically, and blocks DENY through a Claude Code hook.',
   canonicalPath: '/products/warrant-mcp',
