@@ -103,6 +103,8 @@ export const COLOR_TOKENS = [
   'border-strong',
   'accent',
   'accent-fg',
+  'action',
+  'action-bright',
   'danger',
   'success',
 ] as const;

@@ -1,0 +1,56 @@
+---
+/**
+ * Evidence Aperture — founder-approved AI Workspace identity (Brand System V1.2).
+ *
+ * The rails represent orchestration across existing systems. The open centre
+ * prevents the mark reading as a closed platform; the teal evidence node marks
+ * the governed decision point. The SVG is inline, currentColor-driven and has
+ * no runtime or external asset dependency.
+ */
+export interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+const labelled = Boolean(title);
+---
+
+<svg
+  class:list={['brand-mark', className]}
+  viewBox="0 0 64 64"
+  role={labelled ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={labelled ? undefined : 'true'}
+  focusable="false"
+>
+  <path d="M15 16v32M32 16v32M49 16v32M15 22h34M15 42h34"></path>
+  <path d="M15 32h11M38 32h11"></path>
+  <path class="brand-mark__node" d="M32 24l8 8-8 8-8-8z"></path>
+</svg>
+
+<style>
+  .brand-mark {
+    display: block;
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+    flex: 0 0 auto;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .brand-mark__node {
+    fill: var(--action);
+    stroke-width: 2.5;
+  }
+
+  @media (forced-colors: active) {
+    .brand-mark__node {
+      fill: Highlight;
+    }
+  }
+</style>

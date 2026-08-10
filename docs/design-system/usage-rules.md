@@ -34,6 +34,7 @@ replacing DEC-008.
 | `Button`     | ✅ approved                    | `07` §6.5                                         |
 | `Link`       | ✅ approved                    | `07` §6.12                                        |
 | `Logo`       | ✅ approved                    | `03` §3 Block 1, as plain text                    |
+| `BrandMark`  | ✅ approved                    | Brand System V1.2 Evidence Aperture               |
 | `Hero`       | ✅ approved                    | `03` §3 Block 2                                   |
 | `Footer`     | ✅ approved                    | `03` §3 Block 5, `07` §6.11                       |
 | `Callout`    | ✅ approved, neutral tone only | `07` §6.4 — non-neutral tones are for form states |
@@ -181,6 +182,12 @@ anchor to `#`." An anchor to `#` is a focusable control that does nothing, which
 is worse than no control.
 
 Add `href="/"` only once there is a second page to return from.
+
+### `BrandMark`
+
+Use as part of the AI Workspace lockup. When used alone, supply a concise
+accessible title; when paired with the visible wordmark, keep it decorative to
+avoid a duplicated accessible name. Do not recolour or redraw the evidence node.
 
 ### `Hero`
 
