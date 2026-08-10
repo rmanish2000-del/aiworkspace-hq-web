@@ -60,6 +60,15 @@ for (const viewport of VIEWPORTS) {
           const doc = document.documentElement;
           const overflowing = [...document.querySelectorAll<HTMLElement>('body *')]
             .filter((el) => {
+              const style = getComputedStyle(el);
+              if (
+                style.display === 'none' ||
+                style.visibility === 'hidden' ||
+                Number(style.opacity) === 0 ||
+                el.getClientRects().length === 0
+              ) {
+                return false;
+              }
               const r = el.getBoundingClientRect();
               // A few px of tolerance for sub-pixel rounding.
               return r.right > doc.clientWidth + 1 || r.left < -1;

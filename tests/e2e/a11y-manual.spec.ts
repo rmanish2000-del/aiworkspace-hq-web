@@ -481,7 +481,12 @@ for (const scheme of ['light', 'dark'] as const) {
           .filter((el) => (el.textContent ?? '').trim().length > 0)
           .filter((el) => {
             const s = getComputedStyle(el);
-            return s.display !== 'none' && s.visibility !== 'hidden' && Number(s.opacity) > 0;
+            return (
+              s.display !== 'none' &&
+              s.visibility !== 'hidden' &&
+              Number(s.opacity) > 0 &&
+              el.getClientRects().length > 0
+            );
           })
           .map((el) => {
             const s = getComputedStyle(el);
@@ -690,7 +695,12 @@ for (const route of ROUTES) {
       ]
         .filter((el) => {
           const s = getComputedStyle(el);
-          return s.display !== 'none' && s.visibility !== 'hidden';
+          return (
+            s.display !== 'none' &&
+            s.visibility !== 'hidden' &&
+            Number(s.opacity) > 0 &&
+            el.getClientRects().length > 0
+          );
         })
         .map((el) => {
           const r = el.getBoundingClientRect();

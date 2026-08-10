@@ -32,7 +32,11 @@ test('the primary review action resolves locally without a request side effect',
   await page.goto('/');
   requests.length = 0;
 
-  const cta = page.locator('nav[aria-label="Main"] .site-nav__cta');
+  let cta = page.locator('header a[href="/platform#verified-capability-heading"]:visible');
+  if ((await cta.count()) === 0) {
+    await page.locator('.mobile-menu__trigger:visible').click();
+    cta = page.locator('header a[href="/platform#verified-capability-heading"]:visible');
+  }
   await expect(cta).toHaveText('View verified evidence');
   await expect(cta).toHaveAttribute('href', '/platform#verified-capability-heading');
   await cta.click();
@@ -73,14 +77,19 @@ test('tab order begins with skip link, compact navigation, then main actions', a
     );
   }
 
-  expect(order).toEqual([
-    'a',
-    'site-nav__link',
-    'site-nav__link',
-    'site-nav__link',
-    'site-nav__link',
-    'site-nav__cta',
-    'a',
-    'a',
-  ]);
+  const mobile = await page.locator('.mobile-menu__trigger:visible').count();
+  expect(order).toEqual(
+    mobile
+      ? ['a', 'mobile-menu__trigger', 'a', 'a', 'a', 'a', 'a', 'a']
+      : [
+          'a',
+          'site-nav__link',
+          'site-nav__link',
+          'site-nav__link',
+          'site-nav__link',
+          'site-nav__cta',
+          'a',
+          'a',
+        ],
+  );
 });

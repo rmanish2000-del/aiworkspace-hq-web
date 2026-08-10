@@ -153,7 +153,18 @@ test('a CSP-equivalent restriction does not break the page in this engine', asyn
   for (const route of ROUTES) {
     await page.goto(route);
     await expect(page.locator('h1'), route).toBeVisible();
-    await expect(page.locator('nav[aria-label="Main"] a').first(), route).toBeVisible();
+    const navigationLink = page
+      .locator('nav[aria-label="Main"] a:visible, nav[aria-label="Mobile navigation"] a:visible')
+      .first();
+    if ((await navigationLink.count()) === 0) {
+      await page.locator('.mobile-menu__trigger:visible').click();
+    }
+    await expect(
+      page
+        .locator('nav[aria-label="Main"] a:visible, nav[aria-label="Mobile navigation"] a:visible')
+        .first(),
+      route,
+    ).toBeVisible();
   }
 
   await context.close();
