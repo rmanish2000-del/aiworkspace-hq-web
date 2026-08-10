@@ -88,7 +88,14 @@ async function focusables(page: Page) {
         'a[href], button, input, textarea, select, [tabindex]',
       ),
     ]
-      .filter((el) => el.getAttribute('tabindex') !== '-1')
+      .filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
+      })
       .map((el) => ({
         tag: el.tagName.toLowerCase(),
         id: el.id,
@@ -137,7 +144,14 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -174,7 +188,14 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -206,7 +227,14 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -251,7 +279,14 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
+      });
 
       for (const el of els) {
         el.focus();
@@ -329,7 +364,16 @@ test('A11Y-03 the focus ring meets 3:1 against what actually sits next to it', a
           ...document.querySelectorAll<HTMLElement>(
             'a[href], button, input, textarea, select, summary, [tabindex]',
           ),
-        ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
+        ].filter((el) => {
+          if (el.getAttribute('tabindex') === '-1') return false;
+          const style = getComputedStyle(el);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            Number(style.opacity) > 0 &&
+            el.getClientRects().length > 0
+          );
+        }).length,
     );
 
     for (let i = 0; i < total; i += 1) {
@@ -426,8 +470,11 @@ for (const scheme of ['light', 'dark'] as const) {
         ]
           .filter((el) => (el.textContent ?? '').trim().length > 0)
           .filter((el) => {
-            const s = getComputedStyle(el);
-            return s.display !== 'none' && s.visibility !== 'hidden' && Number(s.opacity) > 0;
+            if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+            return el.checkVisibility({
+              checkOpacity: true,
+              checkVisibilityCSS: true,
+            });
           })
           .map((el) => {
             const s = getComputedStyle(el);
@@ -635,8 +682,11 @@ for (const route of ROUTES) {
         ),
       ]
         .filter((el) => {
-          const s = getComputedStyle(el);
-          return s.display !== 'none' && s.visibility !== 'hidden';
+          if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+          return el.checkVisibility({
+            checkOpacity: true,
+            checkVisibilityCSS: true,
+          });
         })
         .map((el) => {
           const r = el.getBoundingClientRect();

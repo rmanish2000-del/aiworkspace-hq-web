@@ -129,11 +129,20 @@ for (const route of ROUTES) {
     await expect(page.locator('body > .page > header')).toHaveCount(1);
     await expect(page.locator('main#main')).toHaveCount(1);
     await expect(page.locator('body > .page > footer')).toHaveCount(1);
-    // Main navigation plus three purpose-led footer groups; home also has an
-    // audience-path navigation landmark.
-    await expect(page.locator('nav[aria-label], nav[aria-labelledby]')).toHaveCount(
-      route.path === '/' ? 5 : 4,
-    );
+    // Three purpose-led footer groups are always present; home also has an
+    // audience-path landmark. At desktop the main navigation adds one. At
+    // phone/tablet widths the native disclosure adds it only while open.
+    const landmarks = page.locator('nav[aria-label]:visible, nav[aria-labelledby]:visible');
+    const mobileTrigger = page.locator('.mobile-menu__trigger:visible');
+    const isMobile = (await mobileTrigger.count()) === 1;
+    const closedCount = (route.path === '/' ? 4 : 3) + (isMobile ? 0 : 1);
+    await expect(landmarks).toHaveCount(closedCount);
+
+    if (isMobile) {
+      await mobileTrigger.click();
+      await expect(page.locator('nav[aria-label="Mobile navigation"]')).toBeVisible();
+      await expect(landmarks).toHaveCount(closedCount + 1);
+    }
 
     const levels = await page.evaluate(() =>
       [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map((h) => Number(h.tagName.slice(1))),

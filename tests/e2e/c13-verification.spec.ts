@@ -106,7 +106,7 @@ for (const route of ROUTES) {
     await page.goto(route);
 
     // Interaction pass: operate what the route offers, then re-check.
-    for (const link of await page.locator('nav a').all()) await link.hover();
+    for (const link of await page.locator('nav a:visible').all()) await link.hover();
     const field = page.locator('input[type="email"]').first();
     if ((await field.count()) > 0) {
       await field.fill('probe@example.invalid');

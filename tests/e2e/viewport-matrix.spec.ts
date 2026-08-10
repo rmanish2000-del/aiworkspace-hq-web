@@ -60,6 +60,15 @@ for (const viewport of VIEWPORTS) {
           const doc = document.documentElement;
           const overflowing = [...document.querySelectorAll<HTMLElement>('body *')]
             .filter((el) => {
+              if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+              if (
+                !el.checkVisibility({
+                  checkOpacity: true,
+                  checkVisibilityCSS: true,
+                })
+              ) {
+                return false;
+              }
               const r = el.getBoundingClientRect();
               // A few px of tolerance for sub-pixel rounding.
               return r.right > doc.clientWidth + 1 || r.left < -1;
