@@ -90,13 +90,11 @@ async function focusables(page: Page) {
     ]
       .filter((el) => {
         if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
       })
       .map((el) => ({
         tag: el.tagName.toLowerCase(),
@@ -148,13 +146,11 @@ for (const route of ROUTES) {
         ),
       ].filter((el) => {
         if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
       });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -194,13 +190,11 @@ for (const route of ROUTES) {
         ),
       ].filter((el) => {
         if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
       });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -235,13 +229,11 @@ for (const route of ROUTES) {
         ),
       ].filter((el) => {
         if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
       });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
@@ -289,13 +281,11 @@ for (const route of ROUTES) {
         ),
       ].filter((el) => {
         if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
+        if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+        return el.checkVisibility({
+          checkOpacity: true,
+          checkVisibilityCSS: true,
+        });
       });
 
       for (const el of els) {
@@ -480,13 +470,11 @@ for (const scheme of ['light', 'dark'] as const) {
         ]
           .filter((el) => (el.textContent ?? '').trim().length > 0)
           .filter((el) => {
-            const s = getComputedStyle(el);
-            return (
-              s.display !== 'none' &&
-              s.visibility !== 'hidden' &&
-              Number(s.opacity) > 0 &&
-              el.getClientRects().length > 0
-            );
+            if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+            return el.checkVisibility({
+              checkOpacity: true,
+              checkVisibilityCSS: true,
+            });
           })
           .map((el) => {
             const s = getComputedStyle(el);
@@ -694,13 +682,11 @@ for (const route of ROUTES) {
         ),
       ]
         .filter((el) => {
-          const s = getComputedStyle(el);
-          return (
-            s.display !== 'none' &&
-            s.visibility !== 'hidden' &&
-            Number(s.opacity) > 0 &&
-            el.getClientRects().length > 0
-          );
+          if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
+          return el.checkVisibility({
+            checkOpacity: true,
+            checkVisibilityCSS: true,
+          });
         })
         .map((el) => {
           const r = el.getBoundingClientRect();

@@ -60,12 +60,12 @@ for (const viewport of VIEWPORTS) {
           const doc = document.documentElement;
           const overflowing = [...document.querySelectorAll<HTMLElement>('body *')]
             .filter((el) => {
-              const style = getComputedStyle(el);
+              if (el.closest('details:not([open])') && el.tagName !== 'SUMMARY') return false;
               if (
-                style.display === 'none' ||
-                style.visibility === 'hidden' ||
-                Number(style.opacity) === 0 ||
-                el.getClientRects().length === 0
+                !el.checkVisibility({
+                  checkOpacity: true,
+                  checkVisibilityCSS: true,
+                })
               ) {
                 return false;
               }
