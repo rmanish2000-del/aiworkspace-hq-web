@@ -95,21 +95,14 @@ const ogImage = canonicalUrl('/og-image.png');
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={openGraph.imageAlt} />
 
-    {
-      /*
-      PLACEHOLDER favicon and manifest. Neither is a brand asset: the icon is a
-      plain geometric glyph carrying no wordmark, monogram, or logotype, and the
-      manifest names the product using the approved public string only.
-      Replace both files, do not edit them in place, when P-15 lifts.
-    */
-    }
+    {/* Founder-approved Brand System V1.2 identity assets. */}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0d0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f9fc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#070c16" media="(prefers-color-scheme: dark)" />
 
     {structuredData && <script type="application/ld+json" is:inline set:html={jsonLd} />}
 
@@ -119,7 +112,6 @@ const ogImage = canonicalUrl('/og-image.png');
         - `logo` in the Organization JSON-LD — brand asset, blocked by P-15.
         - security.txt — needs a real contact and expiry — blocked by Open Item C.
         - humans.txt, feed.xml, rss.xml — see src/lib/deferred-static.ts.
-        - A wordmark SVG — a real brand asset, still blocked by P-15.
         - Web fonts — `08` §8 budget is zero, and `07` §3 specifies a system stack.
         - Analytics — blocked by P-06.
         - Any executable script. This build ships zero bytes of client JavaScript;

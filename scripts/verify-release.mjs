@@ -293,11 +293,13 @@ check('static assets are present and non-empty', () => {
   return `${assets.length} assets`;
 });
 
-check('no unapproved brand mark in any asset', () => {
-  // P-15. The favicon must stay a plain glyph; the social card must stay type.
+check('approved brand identity is present and bounded', () => {
   const favicon = readFileSync(join(DIST, 'favicon.svg'), 'utf8');
   if (/<text|<tspan|font-family/i.test(favicon)) {
-    throw new Error('favicon.svg contains a letterform — P-15 blocks a monogram');
+    throw new Error('favicon.svg must remain a symbol without embedded typography');
+  }
+  if (!favicon.includes('M32 24l8 8-8 8-8-8z')) {
+    throw new Error('favicon.svg does not contain the approved Evidence Aperture node');
   }
 
   const card = readFileSync(join(DIST, 'og-image.svg'), 'utf8');
@@ -306,7 +308,11 @@ check('no unapproved brand mark in any asset', () => {
   }
   if (/[™®]/.test(card)) throw new Error('og-image.svg contains a trademark symbol — P-15');
 
-  return 'favicon glyph-only, card type-only';
+  if (!card.includes('M32 24l8 8-8 8-8-8z')) {
+    throw new Error('og-image.svg does not contain the approved Evidence Aperture mark');
+  }
+
+  return 'Evidence Aperture mark present; no embedded raster or trademark notation';
 });
 
 check('the CSP hash covers the JSON-LD actually served', () => {

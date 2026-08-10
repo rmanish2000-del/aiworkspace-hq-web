@@ -32,6 +32,7 @@
  */
 
 export { default as Button } from './Button.astro';
+export { default as BrandMark } from './BrandMark.astro';
 export { default as CTASection } from './CTASection.astro';
 export { default as Callout } from './Callout.astro';
 export { default as Container } from './Container.astro';
@@ -58,6 +59,7 @@ export const REMOVED_BY_P1J_CLEANUP = ['Badge', 'Card', 'Grid', 'Tag'] as const;
 
 /** Every component the system ships, for the catalog completeness test. */
 export const COMPONENT_NAMES = [
+  'BrandMark',
   'Button',
   'CTASection',
   'Callout',

@@ -1,6 +1,6 @@
 # Component catalog
 
-11 components, in [`src/components/ui/`](../../src/components/ui/). All import
+16 components, in [`src/components/ui/`](../../src/components/ui/). All import
 from the barrel:
 
 ```astro
@@ -22,6 +22,7 @@ accessibility contract is in [`accessibility.md`](accessibility.md).
 | [`Button`](#button)         | CANONICAL           | ✅                          |
 | [`Link`](#link)             | CANONICAL           | ✅                          |
 | [`Logo`](#logo)             | CANONICAL           | ✅                          |
+| [`BrandMark`](#brandmark)   | BRAND V1.2          | ✅                          |
 | [`Hero`](#hero)             | CANONICAL           | ✅                          |
 | [`Footer`](#footer)         | CANONICAL           | ✅                          |
 | [`Callout`](#callout)       | CANONICAL (neutral) | ✅                          |
@@ -200,6 +201,13 @@ one. Hand-building this on each route is how that order eventually reverses.
 ---
 
 ## Controls
+
+### `BrandMark`
+
+The Evidence Aperture symbol approved in Brand System V1.2. It is decorative
+inside `Logo`; pass a `title` only when the symbol appears without the wordmark.
+The rails inherit `currentColor` and the evidence node uses semantic action teal.
+It adds no JavaScript, font or network dependency.
 
 ### `Button`
 

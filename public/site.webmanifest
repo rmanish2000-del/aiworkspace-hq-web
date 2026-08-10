@@ -1,8 +1,8 @@
 {
   "$comment": [
-    "PLACEHOLDER MANIFEST. See docs/public-assets.md.",
+    "Brand System V1.2 manifest. See docs/public-assets.md.",
     "`name` and `short_name` use the approved public product string from P0 `04` §2 and §8 — no new string is introduced here.",
-    "`icons` point at the placeholder icon set, which carries no wordmark, monogram or logotype (P-15, Open Item E).",
+    "`icons` use the founder-approved Evidence Aperture identity.",
     "No `display` key, per P0 `07` §11: this is a page, not an app. Adding `standalone` would make it installable, which is a product decision nobody has taken.",
     "`start_url` and `scope` are relative so the manifest asserts no host — P-14.",
     "`theme_color` and `background_color` are the bg token from `07` §2. A manifest cannot follow prefers-color-scheme, so it takes the light value; the two `theme-color` meta tags in the document handle the scheme split."
@@ -14,8 +14,8 @@
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#2746d8",
+  "background_color": "#f7f9fc",
   "icons": [
     {
       "src": "/favicon.svg",

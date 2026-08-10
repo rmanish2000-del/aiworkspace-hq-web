@@ -1,28 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Placeholder icon">
-  <!--
-    PLACEHOLDER ICON — NOT A BRAND ASSET.
-
-    Two offset rounded rectangles: a plain geometric glyph carrying no wordmark,
-    no monogram, no logotype, and no letterform. It exists so the browser's
-    implicit /favicon.ico request resolves instead of 404ing, and so the tab has
-    something neutral in it.
-
-    P0 `07` §11 suggests an "AI" monogram for the real icon. That is deliberately
-    NOT used: a monogram is a brand asset, and AWHQ-AUT-P1F P-15 blocks brand
-    assets while 0 of 8 IP assets have evidenced ownership (Open Item E).
-
-    Replace this file wholesale when P-15 lifts. Do not edit it toward a brand.
-
-    Colours follow the OS scheme so the icon stays legible on either tab colour.
-  -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AI Workspace">
   <style>
-    .glyph { fill: #111315; }
-    .glyph-back { fill: #848b92; }
+    .rails { fill: none; stroke: #0c1424; }
+    .node { fill: #00a6a6; stroke: #0c1424; }
     @media (prefers-color-scheme: dark) {
-      .glyph { fill: #f2f4f5; }
-      .glyph-back { fill: #7a8288; }
+      .rails { stroke: #f1f5fb; }
+      .node { fill: #36d1c7; stroke: #f1f5fb; }
     }
   </style>
-  <rect class="glyph-back" x="4" y="4" width="18" height="18" rx="4" />
-  <rect class="glyph" x="10" y="10" width="18" height="18" rx="4" />
+  <g class="rails" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 16v32M32 16v32M49 16v32M15 22h34M15 42h34"/>
+    <path d="M15 32h11M38 32h11"/>
+  </g>
+  <path class="node" d="M32 24l8 8-8 8-8-8z" stroke-width="2.5" stroke-linejoin="round"/>
 </svg>

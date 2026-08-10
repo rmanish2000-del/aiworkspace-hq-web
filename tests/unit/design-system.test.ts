@@ -245,10 +245,10 @@ describe('Logo', () => {
     expect(html).not.toContain('Something Else');
   });
 
-  it('contains no brand mark, monogram, or symbol', async () => {
-    // P-15 — no logo, wordmark asset, or ™/® while IP ownership is unevidenced.
+  it('renders the approved Evidence Aperture mark without trademark notation', async () => {
     const html = await render(Logo);
-    expect(html).not.toMatch(/<svg/i);
+    expect(html).toMatch(/<svg/i);
+    expect(html).toContain('brand-mark__node');
     expect(html).not.toMatch(/<img/i);
     expect(html).not.toMatch(/[™®©]/);
   });

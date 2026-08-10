@@ -1,15 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-/**
- * The two placeholder assets, and the print stylesheet.
- *
- * The asset tests exist mostly to catch the wrong kind of success: a favicon
- * that quietly acquires a monogram, or a manifest that quietly acquires a
- * claim, would both breach P-15/P-10 while looking like an improvement.
- */
+/** Brand V1.2 identity assets and the print stylesheet. */
 
 /* -------------------------------------------------------------------------- */
-/* Placeholder assets                                                         */
+/* Identity assets                                                            */
 /* -------------------------------------------------------------------------- */
 
 test('the favicon is served and is referenced from the document', async ({ page, request }) => {
@@ -24,14 +18,14 @@ test('the favicon is served and is referenced from the document', async ({ page,
   expect(response.headers()['content-type']).toContain('svg');
 });
 
-test('the favicon carries no letterform, monogram, or wordmark', async ({ request }) => {
-  // P-15. A monogram is a brand asset; `07` §11's "AI" suggestion is blocked.
+test('the favicon carries the approved symbol without embedded typography', async ({ request }) => {
   const svg = await (await request.get('/favicon.svg')).text();
 
   expect(svg).not.toMatch(/<text\b/i);
   expect(svg).not.toMatch(/<tspan\b/i);
   expect(svg).not.toMatch(/font-family/i);
-  expect(svg).not.toMatch(/AI Workspace/);
+  expect(svg).toContain('M32 24l8 8-8 8-8-8z');
+  expect(svg).toContain('aria-label="AI Workspace"');
 });
 
 test('the manifest is served, valid, and introduces no new string', async ({ page, request }) => {

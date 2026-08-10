@@ -6,38 +6,34 @@ placeholder token.
 
 ## Present
 
-| File                   | Status                                                              |
-| ---------------------- | ------------------------------------------------------------------- |
-| `favicon.svg`          | **Placeholder.** Plain geometric glyph. No letterform, no monogram. |
-| `favicon.ico`          | 32×32, generated from `favicon.svg` by `npm run assets`.            |
-| `apple-touch-icon.png` | 180×180, same source.                                               |
-| `og-image.svg`         | Social card source. Type only — see below.                          |
-| `og-image.png`         | 1200×630, rendered from `og-image.svg` by `npm run assets`.         |
-| `site.webmanifest`     | **Placeholder.** Names the product with the approved public string. |
-| `browserconfig.xml`    | Windows tile metadata. No new string.                               |
+| File                   | Status                                                            |
+| ---------------------- | ----------------------------------------------------------------- |
+| `favicon.svg`          | Evidence Aperture identity; responsive light/dark SVG.            |
+| `favicon.ico`          | 32×32, generated from `favicon.svg` by `npm run assets`.          |
+| `apple-touch-icon.png` | 180×180, same source.                                             |
+| `og-image.svg`         | Brand V1.2 social-card source with mark and approved positioning. |
+| `og-image.png`         | 1200×630, rendered from `og-image.svg` by `npm run assets`.       |
+| `site.webmanifest`     | Product metadata and founder-approved identity assets.            |
+| `browserconfig.xml`    | Windows tile metadata in structural indigo.                       |
 
 `robots.txt` and `sitemap.xml` are **generated at build time**, not stored here —
 `src/pages/robots.txt.ts` and `src/pages/sitemap.xml.ts`. Both are driven by the
 single `IS_INDEXABLE` constant in `src/lib/site.ts`, so the crawl directive, the
 `noindex` meta tag and the sitemap cannot disagree with one another.
 
-## Why none of these is a brand asset
+## Brand approval boundary
 
-P0 `07` §11 suggests an `"AI"` monogram for the real favicon. That is
-deliberately **not** used. A monogram is a brand asset, and AWHQ-AUT-P1F **P-15**
-blocks brand assets while 0 of 8 IP assets have evidenced ownership
-(Open Item E).
+Brand System V1.2 founder approval supersedes the placeholder-only identity
+constraint for the Evidence Aperture mark and the visual tokens implemented in
+this repository. It does not establish trademark registration or visual-
+similarity clearance; those remain separate legal checks.
 
-- the icon carries no wordmark, monogram, logotype, or letterform;
+- the icon carries the approved Evidence Aperture symbol and no letterform;
 - the manifest introduces no new string — `name` and `short_name` are the
   approved public product string from P0 `04` §2 and §8.
 
-`npm run verify:release` asserts both mechanically: `favicon.svg` must contain no
-`<text>`, `<tspan>` or `font-family`, and `og-image.svg` must embed no raster and
-contain no `™` or `®`.
-
-**When P-15 lifts, replace these files wholesale. Do not edit them toward a
-brand** — that would turn a placeholder into an unapproved brand decision.
+`npm run verify:release` asserts mechanically that both assets contain the
+approved evidence-node geometry, embed no raster, and contain no `™` or `®`.
 
 ## The social card, and why it is emittable
 
@@ -57,8 +53,8 @@ stack, so the card introduces no font and no vendor.
 > artwork. The social card must not introduce a separate graphic mark, stylized
 > emblem, `™`, or `®` until branding and IP approvals exist.
 
-The card therefore carries the wordmark as **type**, not as a logotype or
-monogram. If a real brand asset ever arrives, this file is replaced wholesale.
+The card combines the approved Evidence Aperture mark with the canonical product
+name and approved candidate positioning line.
 
 This rationale lives here rather than inside `og-image.svg` because that file is
 served publicly and must not ship internal governance notes (P1-M).
@@ -67,7 +63,6 @@ served publicly and must not ship internal governance notes (P1-M).
 
 | Missing                    | Blocked by                                          |
 | -------------------------- | --------------------------------------------------- |
-| Wordmark SVG               | P-15, Open Item E                                   |
 | `.well-known/security.txt` | Open Item C, P-13 — needs a real contact and expiry |
 | `humans.txt`               | No approved credits list                            |
 | `feed.xml` / `rss.xml`     | No published items to feed                          |

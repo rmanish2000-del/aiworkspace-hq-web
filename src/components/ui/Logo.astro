@@ -1,19 +1,6 @@
 ---
 /**
- * Logo — the product wordmark.
- *
- * ┌───────────────────────────────────────────────────────────────────────────┐
- * │ THIS RENDERS TEXT, NOT A MARK — AND THAT IS DELIBERATE.                   │
- * │                                                                           │
- * │ AWHQ-AUT-P1F P-15 prohibits any logo, wordmark asset, ™ or ® symbol, or    │
- * │ brand asset while 0 of 8 IP assets have evidenced ownership (Open Item E). │
- * │ So the "logo" is the approved string "AI Workspace" set in the system font │
- * │ stack, exactly as `07` §3 and `04` §2 specify.                            │
- * │                                                                           │
- * │ `07` §3: if a wordmark asset arrives later, "it replaces only the header   │
- * │ wordmark, as an inline SVG with an accessible name — never as a font       │
- * │ swap." This component is that single replacement point.                    │
- * └───────────────────────────────────────────────────────────────────────────┘
+ * AI Workspace horizontal lockup — Evidence Aperture + canonical wordmark.
  *
  * The text is NOT a prop. It comes from the copy module, because it is approved
  * copy and P1-A §7.1 gives Claude Code no content authority. A caller must not
@@ -30,6 +17,7 @@
  * JavaScript: none.
  */
 import { header } from '../../content/copy';
+import BrandMark from './BrandMark.astro';
 
 export interface Props {
   /**
@@ -46,21 +34,33 @@ const { href, class: className } = Astro.props;
 {
   href ? (
     <a class:list={['wordmark', 'wordmark--link', className]} href={href}>
-      {header.wordmark}
+      <BrandMark />
+      <span>{header.wordmark}</span>
     </a>
   ) : (
-    <p class:list={['wordmark', className]}>{header.wordmark}</p>
+    <p class:list={['wordmark', className]}>
+      <BrandMark />
+      <span>{header.wordmark}</span>
+    </p>
   )
 }
 
 <style>
   .wordmark {
+    display: inline-flex;
+    gap: var(--space-3);
+    align-items: center;
     margin: 0;
     font-size: var(--type-wordmark);
     font-weight: var(--weight-semibold);
     line-height: var(--leading-wordmark);
     letter-spacing: var(--tracking-wordmark);
     color: var(--fg);
+  }
+
+  .wordmark :global(.brand-mark) {
+    width: 32px;
+    height: 32px;
   }
 
   /*
@@ -74,8 +74,6 @@ const { href, class: className } = Astro.props;
    * Only inner routes are affected: on `/` the wordmark is a <p>, not a link.
    */
   .wordmark--link {
-    display: inline-flex;
-    align-items: center;
     min-height: 44px;
     text-decoration: none;
   }

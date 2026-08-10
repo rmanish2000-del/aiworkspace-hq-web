@@ -1,18 +1,18 @@
 {
-  "recordedFrom": "AIWHQ-CODEX-UX-001 founder-review candidate — intentional responsive product-site redesign across shared navigation, footer, layout frame, homepage, platform and portfolio surfaces; production remains unchanged pending founder approval.",
+  "recordedFrom": "AIWHQ-CODEX-BRAND-IMPLEMENT-001 — founder-approved Brand System V1.2 implementation: Evidence Aperture, neutral/indigo/teal tokens, light/dark themes and Inter-first system typography.",
   "note": "sha256 of every built route document.",
   "hashes": {
-    "404.html": "06676fd7bf7d0056e59421a1c0b89684438cb8abc1d2e19d6d1bf45297d376aa",
-    "about.html": "27345f9a6d4c916fb5b6a79403ad10a87e51d6ed6f6c2f3f9a97b707be50bf99",
-    "contact.html": "96bbfec41b0d579b1da44ac1420829cb416b1f884f4007880d42eab3916da654",
-    "enterprise.html": "f5b48b0fffbe85cd8eb65ee643e3999f53ebaf60718a72f6eef1a49c471ce54e",
-    "index.html": "a911688901f20658738c7d0ceda40016edc52652a07ebaf27f279373cde3524e",
-    "platform.html": "9628eaded3c14c0ae92771e737b74fc2aac680200273efe27bec959314ec4849",
-    "principles.html": "54bdbc7774cd4bb7831f0066d0c6310c873241ee6b0939ff9c46a31eff69ad0c",
-    "privacy.html": "6f238a47a527be92b5e053349c6535df742165093b43d6b9a4e825176164af76",
-    "security.html": "156ee596d9ea3dbb8fca7cb9adf1dd019e9c6e853293e6e8aea87b153f3a4d8f",
-    "technology.html": "335f67776cc2ddeac3459acde732caf70d93989a52f784a3ce75170020e05bf7",
-    "trust.html": "6f4288544c8bebb7d181562ea9108a2d2f3e444dc7ec15ffec2709a15ef4aa84",
-    "what-we-havent-built.html": "b2c4e2a74496d028f5d37f337cd6116fce4b58c118d79dd408f870b721380b9f"
+    "404.html": "be9d828897620141f015d879489afc095c9ef60086ec1997f192d9b935aec866",
+    "about.html": "c46a331157ef4e60bc52c1fc3d8c4dbb05eeb65d93498c45236286ece1a6afb3",
+    "contact.html": "9697158a524aa13cd2d624d6faf266c16e03f387f2deb7a6a508baf5b4edc85d",
+    "enterprise.html": "648ab1d954dc1f0954f3e9ce81a433e1dcab82f3d886cf8751ee44142a8705c3",
+    "index.html": "20f115d2cc00a0a3a805add2619be37bc23d1e4ccea04491258b5a9f13220c55",
+    "platform.html": "3b83818422e0cec4ffd3520451f080e5a51a11e6e7df6d2c9879025c41652e2e",
+    "principles.html": "ff4b575ff2ec0b2a84ef1d982ee4744ee7a517733ebc1a97f5ecb7124ef4aa34",
+    "privacy.html": "f6e3f289b08b1b53a34c98c5b7d42a1a26d986d792f3d2db49a517b82ae6c8f3",
+    "security.html": "81de14d2e09aafd5a8cc97b3ab0115169422bca4017871402c839c471785cfb9",
+    "technology.html": "5e95dec5e2ab356d140ecd94ee879f94a94ba7099e536bff7e6d46c5d7bb5746",
+    "trust.html": "5593ddd7df1100fdb7114adbce597482f87a23cf09743d697460d0fcbe7761df",
+    "what-we-havent-built.html": "6b65d0ca275fd544e3b179e5f95823a830fdff26d94eb4b5cc94cfea686f03fe"
   }
 }

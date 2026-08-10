@@ -160,7 +160,7 @@ a:hover {
 }
 
 /* -------------------------------------------------------------------------- */
-/* §6.2 Header — wordmark left, nothing right. No border, no shadow, not sticky */
+/* Header foundation; responsive navigation and sticky behavior live in components. */
 /* -------------------------------------------------------------------------- */
 
 .site-header {
