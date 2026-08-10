@@ -105,6 +105,38 @@ jobs:
           path: dist/
           retention-days: 7
 
+  release-gates:
+    # The gates that caught nothing on 2026-08-09 because they only ran
+    # locally: DS contrast/motion/budget gates, the claim-ledger trace
+    # (G-LEDGER) and the C-13 storage suite (G-C13). A public string with no
+    # ledger entry now fails the PR, not the next local verify:release.
+    name: Release gates (DS, G-LEDGER, G-C13)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Design-system gates (CC-004 §9)
+        run: node scripts/ds-gates.mjs
+
+      - name: Claim-ledger gate (G-LEDGER)
+        run: node scripts/ledger-gate.mjs
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: C-13 verification (G-C13)
+        run: npx playwright test tests/e2e/c13-verification.spec.ts --project=chromium-light
+
   links:
     name: Link check
     runs-on: ubuntu-latest

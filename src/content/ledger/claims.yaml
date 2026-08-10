@@ -13,6 +13,13 @@
 #   Gated      -> renders only as an explicit withheld notice
 # Every negative claim carries date + reverify (T-3).
 
+# D2 (Claude Chat ruling, 2026-08-09): the rendered "Last reviewed" stamp
+# compiles from this entry; its date is the date of the green verify:release
+# run recorded at `evidence`. No hand-set rendered dates.
+review:
+  last: '2026-08-11'
+  evidence: 'docs/reviews/ledger-repair-evidence/verify-release-log.txt'
+
 claims:
   - id: CL-01
     text: 'AI Workspace is in development. Early access is not yet open.'

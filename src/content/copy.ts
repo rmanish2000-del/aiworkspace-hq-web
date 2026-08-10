@@ -548,6 +548,8 @@ export const experience = {
   nav: {
     menu: 'Menu',
     closeHint: 'Choose a destination',
+    /** Mobile-menu eyebrow — was hardcoded in SiteNav; single-source repair. */
+    menuEyebrow: 'Explore AI Workspace',
     primaryAction: 'View verified evidence',
     primaryHref: '/platform#verified-capability-heading',
   },

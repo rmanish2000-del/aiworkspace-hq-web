@@ -6,7 +6,7 @@
  */
 import LedgerBlock from '../components/LedgerBlock.astro';
 import Base from '../layouts/Base.astro';
-import { withheldNotice } from '../lib/ledger';
+import { withheldNotice, reviewStamp } from '../lib/ledger';
 ---
 
 <Base
@@ -49,7 +49,7 @@ import { withheldNotice } from '../lib/ledger';
     <p class="micro-notice">{withheldNotice('CB-21')}</p>
   </section>
 
-  <p class="micro-notice">Last reviewed 9 August 2026.</p>
+  <p class="micro-notice">Last reviewed {reviewStamp()}.</p>
 </Base>
 
 <style>

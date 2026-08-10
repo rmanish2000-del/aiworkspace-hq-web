@@ -5,6 +5,7 @@
  */
 import LedgerBlock from '../components/LedgerBlock.astro';
 import Base from '../layouts/Base.astro';
+import { reviewStamp } from '../lib/ledger';
 
 /** FD-F2 — exactly six, from CB-33's verified stack sentence. */
 const TECHNOLOGIES = [
@@ -68,7 +69,7 @@ const TECHNOLOGIES = [
     <div class="term-list"><LedgerBlock id="CB-37" /></div>
   </section>
 
-  <p class="micro-notice">Last reviewed 9 August 2026.</p>
+  <p class="micro-notice">Last reviewed {reviewStamp()}.</p>
 </Base>
 
 <style>
