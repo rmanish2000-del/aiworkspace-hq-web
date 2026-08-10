@@ -375,15 +375,15 @@ test('A11Y-03 the focus ring meets 3:1 against what actually sits next to it', a
             'a[href], button, input, textarea, select, summary, [tabindex]',
           ),
         ].filter((el) => {
-        if (el.getAttribute('tabindex') === '-1') return false;
-        const style = getComputedStyle(el);
-        return (
-          style.display !== 'none' &&
-          style.visibility !== 'hidden' &&
-          Number(style.opacity) > 0 &&
-          el.getClientRects().length > 0
-        );
-      }).length,
+          if (el.getAttribute('tabindex') === '-1') return false;
+          const style = getComputedStyle(el);
+          return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            Number(style.opacity) > 0 &&
+            el.getClientRects().length > 0
+          );
+        }).length,
     );
 
     for (let i = 0; i < total; i += 1) {
