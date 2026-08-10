@@ -204,7 +204,7 @@ section('Gallery build (dist-ds/)');
 // Invoke the repository-pinned binary directly. `npx` may attempt a registry
 // lookup even when the dependency is installed, making an offline release gate
 // depend on network availability.
-execSync('node_modules/.bin/astro build --config scripts/ds-gallery.config.mjs', {
+execSync('npx astro build --config scripts/ds-gallery.config.mjs', {
   stdio: 'pipe',
 });
 const galleryPath = join('dist-ds', '_ds.html');

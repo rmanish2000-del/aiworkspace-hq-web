@@ -58,6 +58,42 @@ function load<T>(relPath: string, key: string): T[] {
 }
 
 export const CLAIMS: readonly Claim[] = load<Claim>('src/content/ledger/claims.yaml', 'claims');
+
+/**
+ * D2 — the "Last reviewed" stamp compiles from the ledger's review record,
+ * whose date is the date of the green verify:release run named in
+ * `evidence`. Rendered dates are never hand-set (Claude Chat ruling,
+ * 2026-08-09).
+ */
+const reviewMeta = (
+  parse(readFileSync(resolve(process.cwd(), 'src/content/ledger/claims.yaml'), 'utf8')) as {
+    review?: { last?: string; evidence?: string };
+  }
+).review;
+if (!reviewMeta?.last || !/^\d{4}-\d{2}-\d{2}$/.test(reviewMeta.last) || !reviewMeta.evidence) {
+  throw new Error('ledger: review meta (last, evidence) is missing or malformed');
+}
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const;
+
+/** `2026-08-09` -> `9 August 2026`, locale-independent. */
+export function reviewStamp(): string {
+  const [year, month, day] = reviewMeta!.last!.split('-').map(Number) as [number, number, number];
+  return `${day} ${MONTHS[month - 1]} ${year}`;
+}
 export const BLOCKS: readonly Block[] = load<Block>('src/content/ledger/blocks.yaml', 'blocks');
 
 const claimById = new Map(CLAIMS.map((claim) => [claim.id, claim]));

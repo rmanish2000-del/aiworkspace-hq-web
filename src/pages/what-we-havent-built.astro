@@ -5,6 +5,7 @@
  */
 import LedgerBlock from '../components/LedgerBlock.astro';
 import Base from '../layouts/Base.astro';
+import { reviewStamp } from '../lib/ledger';
 ---
 
 <Base
@@ -35,7 +36,7 @@ import Base from '../layouts/Base.astro';
     <div class="term-list"><LedgerBlock id="CB-47" /></div>
   </section>
 
-  <p class="micro-notice">Last reviewed 9 August 2026. Reviewed every quarter.</p>
+  <p class="micro-notice">Last reviewed {reviewStamp()}. Reviewed every quarter.</p>
 </Base>
 
 <style>

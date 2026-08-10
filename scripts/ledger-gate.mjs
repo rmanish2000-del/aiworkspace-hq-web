@@ -36,7 +36,25 @@ const WIRED = {
   '/products/warrant-mcp': 'dist/products/warrant-mcp.html',
 };
 
-const claims = parse(readFileSync('src/content/ledger/claims.yaml', 'utf8')).claims;
+const ledgerDoc = parse(readFileSync('src/content/ledger/claims.yaml', 'utf8'));
+const claims = ledgerDoc.claims;
+// D2 — the rendered review stamp must equal the ledger's review record.
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+const [reviewY, reviewM, reviewD] = (ledgerDoc.review?.last ?? '').split('-').map(Number);
+const reviewStamp = `${reviewD} ${MONTHS[reviewM - 1]} ${reviewY}`;
 const blocks = parse(readFileSync('src/content/ledger/blocks.yaml', 'utf8')).blocks;
 const claimById = new Map(claims.map((claim) => [claim.id, claim]));
 
@@ -165,8 +183,8 @@ const LABELS = new Set([
   'Runs before anything ships',
   // Badge vocabulary + withheld notice + review anchors.
   'This statement is withheld until its verification completes. The gap is deliberate.',
-  'Last reviewed 25 October 2026.',
-  'Last reviewed 25 October 2026. Reviewed every quarter.',
+  `Last reviewed ${reviewStamp}.`,
+  `Last reviewed ${reviewStamp}. Reviewed every quarter.`,
 ]);
 
 const blockCopies = blocks.filter((block) => !block.withheld).map((block) => block.copy);
