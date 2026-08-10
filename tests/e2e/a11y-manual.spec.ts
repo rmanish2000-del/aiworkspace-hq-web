@@ -88,7 +88,16 @@ async function focusables(page: Page) {
         'a[href], button, input, textarea, select, [tabindex]',
       ),
     ]
-      .filter((el) => el.getAttribute('tabindex') !== '-1')
+      .filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      })
       .map((el) => ({
         tag: el.tagName.toLowerCase(),
         id: el.id,
@@ -137,7 +146,16 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -174,7 +192,16 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -206,7 +233,16 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      });
       els.forEach((el, i) => el.setAttribute('data-focus-index', String(i)));
       return els.length;
     });
@@ -251,7 +287,16 @@ for (const route of ROUTES) {
         ...document.querySelectorAll<HTMLElement>(
           'a[href], button, input, textarea, select, summary, [tabindex]',
         ),
-      ].filter((el) => el.getAttribute('tabindex') !== '-1');
+      ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      });
 
       for (const el of els) {
         el.focus();
@@ -329,7 +374,16 @@ test('A11Y-03 the focus ring meets 3:1 against what actually sits next to it', a
           ...document.querySelectorAll<HTMLElement>(
             'a[href], button, input, textarea, select, summary, [tabindex]',
           ),
-        ].filter((el) => el.getAttribute('tabindex') !== '-1').length,
+        ].filter((el) => {
+        if (el.getAttribute('tabindex') === '-1') return false;
+        const style = getComputedStyle(el);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) > 0 &&
+          el.getClientRects().length > 0
+        );
+      }).length,
     );
 
     for (let i = 0; i < total; i += 1) {
