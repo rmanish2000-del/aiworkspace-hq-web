@@ -56,8 +56,8 @@ test('dark mode resolves to the `07` §2 tokens in this engine', async ({ page }
     return { bg: s.backgroundColor, fg: s.color };
   });
 
-  expect(colours.bg).toBe('rgb(11, 13, 14)'); // --bg dark
-  expect(colours.fg).toBe('rgb(242, 244, 245)'); // --fg dark
+  expect(colours.bg).toBe('rgb(7, 12, 22)'); // Brand V1.2 --bg dark
+  expect(colours.fg).toBe('rgb(241, 245, 251)'); // Brand V1.2 --fg dark
 });
 
 test('light mode resolves to the `07` §2 tokens in this engine', async ({ page }) => {
@@ -69,8 +69,8 @@ test('light mode resolves to the `07` §2 tokens in this engine', async ({ page 
     return { bg: s.backgroundColor, fg: s.color };
   });
 
-  expect(colours.bg).toBe('rgb(255, 255, 255)');
-  expect(colours.fg).toBe('rgb(17, 19, 21)');
+  expect(colours.bg).toBe('rgb(247, 249, 252)'); // Brand V1.2 --bg light
+  expect(colours.fg).toBe('rgb(12, 20, 36)'); // Brand V1.2 --fg light
 });
 
 test('the print stylesheet forces black on white in this engine', async ({ page }) => {

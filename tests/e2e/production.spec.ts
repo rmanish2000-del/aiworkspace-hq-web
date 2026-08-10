@@ -80,7 +80,9 @@ test('every icon and manifest asset is served with the right type', async ({ req
   }
 });
 
-test('the social card is exactly 1200x630 and carries no mark', async ({ request }) => {
+test('the social card is exactly 1200x630 and carries the approved identity', async ({
+  request,
+}) => {
   // `04` §8. The dimensions matter: a card of the wrong aspect ratio is
   // cropped unpredictably by each platform.
   const png = await (await request.get('/og-image.png')).body();
@@ -89,20 +91,21 @@ test('the social card is exactly 1200x630 and carries no mark', async ({ request
   expect(png.readUInt32BE(16)).toBe(1200);
   expect(png.readUInt32BE(20)).toBe(630);
 
-  // The SVG source must stay type-only — no embedded raster, no logo path.
+  // The SVG source must carry the approved vector identity without embedded raster.
   const svg = await (await request.get('/og-image.svg')).text();
   expect(svg).not.toMatch(/<image\b/i);
   expect(svg).not.toMatch(/xlink:href/i);
+  expect(svg).toContain('M32 24l8 8-8 8-8-8z');
   expect(svg).toContain('AI Workspace');
-  expect(svg).toContain('ENTERPRISE AI OPERATING LAYER');
+  expect(svg).toContain('INTELLIGENCE, BROUGHT UNDER CONTROL.');
 });
 
-test('the favicon carries no letterform, monogram, or wordmark', async ({ request }) => {
-  // P-15 — unchanged from P1-H, re-asserted now that the set has grown.
+test('the favicon carries the approved symbol without embedded typography', async ({ request }) => {
   const svg = await (await request.get('/favicon.svg')).text();
   expect(svg).not.toMatch(/<text\b/i);
   expect(svg).not.toMatch(/<tspan\b/i);
   expect(svg).not.toMatch(/font-family/i);
+  expect(svg).toContain('M32 24l8 8-8 8-8-8z');
 });
 
 test('browserconfig declares a colour and no tile image', async ({ request }) => {
