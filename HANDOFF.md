@@ -280,3 +280,13 @@ protection features depend on the plan in force.
 If any protection could not be applied, that is a finding, not a detail: P1-A
 CC-9 requires branch protection to be active **before** the first product
 commit.
+
+## FOR CODEX — one line that outranks any redesign note
+
+**The footer entity block is CONTENT, not chrome.** The legal name, address,
+GSTIN and Udyam number on the six merchant pages (and any footer that carries
+them) are what merchant verification reads off the live site. A redesign that
+tidies the entity block away, collapses it, or moves it behind a click breaks
+merchant verification. It is inside the content freeze
+(`docs/governance/CONTENT-FREEZE.json`); changing it needs an explicit founder
+authorisation, not a design judgement.

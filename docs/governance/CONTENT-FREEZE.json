@@ -1,0 +1,15 @@
+{
+  "frozen_at": "2026-08-11",
+  "assignment": "PUBLISH-GUARDIAN-PAGES",
+  "rule": "The seven routes below are CONTENT-FROZEN at publication. The hash is the SHA-256 of each route's rendered visible text (built HTML, tags stripped, whitespace collapsed) - the artifact scans A, B and C passed against with zero findings. Any text change to these routes requires an explicit founder authorisation recorded in authorised_changes below, in the same commit as the new hash. CI fails otherwise.",
+  "authorised_changes": [],
+  "routes": {
+    "/about": "3351aed85660aeb951a5ef0a7c2a70dba9ffc97f92d0325581b13b3bc6fc0a47",
+    "/contact": "c65cb642b33b780a388d8982a95a56e02b66744398ef19afb4e806bdd3615df8",
+    "/delivery": "12e5027618cfc92877925b1ba1a84986fb7ef505dddf60cf907d790470a25044",
+    "/privacy": "5fb040085ab525f5a28c2d38e1ea33400b773d10e8778ae312e33c8724676e92",
+    "/refunds": "1ad697f062e3a6899367cdc1b276dbb61ed80a2ddc573d9eab76fc9e5bdba038",
+    "/terms": "76a94d6caee228ceb139aa87527af40c94081bfa1f3a79df0c55f71df44af87f",
+    "/warrant-guardian/": "8d7aabd7a1897b065ab9666581762c8d6fc8dc7e926542088940dcfab59731be"
+  }
+}
