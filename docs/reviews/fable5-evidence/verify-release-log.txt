@@ -2533,23 +2533,31 @@ Error: Lighthouse failed with exit code 1
 2026-08-11T05:13:51.005Z LH:status Generating results...
 2026-08-11T05:13:51.769Z LH:ChromeLauncher Killing Chrome instance 19088
 2026-08-11T05:13:55.533Z LH:ChromeLauncher:error taskkill stderr ERROR: The process with PID 14904 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 21632 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 
 2026-08-11T05:14:01.516Z LH:ChromeLauncher Killing Chrome instance 19088
 2026-08-11T05:14:02.839Z LH:ChromeLauncher:error taskkill stderr ERROR: The process with PID 18332 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 20852 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 14904 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 10380 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 21632 (child process of PID 19088) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 ERROR: The process with PID 19088 (child process of PID 24240) could not be terminated.
-Reason: There is no running instance of the task.
+Reason: There is no running instance of the task.
+
 
 node:fs:1953
   binding.unlink(getValidatedPath(path));
@@ -2607,3 +2615,6 @@ Node.js v22.14.0
 ───────────────────────────────────────────────────────────────────
   27 passed, 1 failed, 0 skipped  (8455.3s total)
 
+
+
+[2026-08-11 post-reboot] lighthouse (local baseline): PASS — rerun after the RAM-starvation OOM; lhci exit 0, assertions green on 5 URLs (see lighthouse-gate-log.txt). All 28 verify:release steps now individually green on this build.

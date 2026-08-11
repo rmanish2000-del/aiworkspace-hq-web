@@ -1,0 +1,31 @@
+
+> aiworkspace-hq-web@0.7.0 test:lighthouse
+> lhci autorun
+
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+⚠️   GitHub token not set
+Healthcheck passed!
+
+Started a web server on port 49672...
+Running Lighthouse 1 time(s) on http://localhost:49672/index.html
+Run #1...done.
+Running Lighthouse 1 time(s) on http://localhost:49672/platform.html
+Run #1...done.
+Running Lighthouse 1 time(s) on http://localhost:49672/principles.html
+Run #1...done.
+Running Lighthouse 1 time(s) on http://localhost:49672/contact.html
+Run #1...done.
+Running Lighthouse 1 time(s) on http://localhost:49672/privacy.html
+Run #1...done.
+Done running Lighthouse!
+
+Checking assertions against 5 URL(s), 5 total run(s)
+
+All results processed!
+
+Dumping 5 reports to disk at C:\AI-Workspace-HQ\.lighthouseci...
+Done writing reports to disk.
+
+Done running autorun.
