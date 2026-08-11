@@ -30,19 +30,6 @@ interface Props {
    * assert something `02` §3 prohibits.
    */
   structuredData?: boolean;
-  /**
-   * Per-route social card. Additive and opt-in: omit both and the route keeps
-   * the single site-wide card exactly as before.
-   *
-   * `04` §8 says one card for every route and no per-route imagery, which held
-   * while every card would have had to be a brand asset (P-15). A route whose
-   * card is a screenshot of real program output is not a brand asset — it
-   * carries no wordmark, monogram or logotype — so the rule it was written for
-   * does not reach it. Both props must be supplied together: a card with no
-   * alt text is not shippable, and the type below does not let you ship one.
-   */
-  ogImage?: string;
-  ogImageAlt?: string;
 }
 
 const {
@@ -51,16 +38,7 @@ const {
   canonicalPath,
   indexableInProduction,
   structuredData = false,
-  ogImage: routeCard,
-  ogImageAlt: routeCardAlt,
 } = Astro.props;
-
-if ((routeCard === undefined) !== (routeCardAlt === undefined)) {
-  throw new Error(
-    `Base.astro (${canonicalPath}): ogImage and ogImageAlt must be supplied together. ` +
-      'A social card without alt text is not shippable.',
-  );
-}
 
 /**
  * P0 `08` SEO-10. `IS_INDEXABLE` is a constant `false`: nothing is deployed and
@@ -79,9 +57,8 @@ const canonical = canonicalUrl(canonicalPath);
  */
 const jsonLd = organizationJsonLd(meta.descriptionHome);
 
-/** `04` §8 — one social card for every route, unless a route supplies its own. */
-const ogImage = canonicalUrl(routeCard ?? '/og-image.png');
-const ogImageAlt = routeCardAlt ?? openGraph.imageAlt;
+/** `04` §8 — one social card for every route; no per-route imagery. */
+const ogImage = canonicalUrl('/og-image.png');
 ---
 
 <!doctype html>
@@ -98,14 +75,10 @@ const ogImageAlt = routeCardAlt ?? openGraph.imageAlt;
 
     {
       /*
-      `04` §8 / P1-J §4.3 — Open Graph. One card for every route, unless the
-      route passes its own via `ogImage` + `ogImageAlt`.
-
-      The comment that stood here said `og:image` was absent because the card
-      would be a brand asset and P-15 blocks those. The tags are emitted, so
-      that note had gone stale against its own file. The rule it recorded still
-      holds for anything carrying a wordmark, monogram or logotype; a card that
-      is a screenshot of real program output carries none of those.
+      `04` §8 / P1-J §4.3 — Open Graph. One card for every route; no per-route
+      imagery. `og:image` and `og:image:alt` are deliberately absent: the OG
+      image is a brand asset, and P-15 blocks brand assets while IP ownership
+      is unevidenced.
     */
     }
     <meta property="og:type" content={openGraph.type} />
@@ -117,10 +90,10 @@ const ogImageAlt = routeCardAlt ?? openGraph.imageAlt;
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:alt" content={openGraph.imageAlt} />
     <meta name="twitter:card" content={openGraph.twitterCard} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <meta name="twitter:image:alt" content={openGraph.imageAlt} />
 
     {/* Founder-approved Brand System V1.2 identity assets. */}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

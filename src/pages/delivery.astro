@@ -1,8 +1,8 @@
 ---
 /**
- * `/contact` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
+ * `/delivery` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
  *
- * The prose below renders from `src/legal/contact.md`, one of the six
+ * The prose below renders from `src/legal/delivery.md`, one of the six
  * merchant-verification pages. The text is under a founder content freeze:
  * scans A, B and C pass against the BUILT output, and the freeze check
  * fails the build if the rendered text drifts without an explicit founder
@@ -11,18 +11,18 @@
  */
 import Base from '../layouts/Base.astro';
 import Container from '../components/ui/Container.astro';
-import { Content } from '../legal/contact.md';
+import { Content } from '../legal/delivery.md';
 ---
 
 <Base
-  title="Contact"
-  description="How to reach the operator of Warrant Guardian."
-  canonicalPath="/contact/"
+  title="Delivery Policy"
+  description="How Warrant Guardian is delivered after purchase."
+  canonicalPath="/delivery/"
   indexableInProduction={true}
 >
   <Container>
     <article class="legal-page">
-      <h1>Contact</h1>
+      <h1>Delivery Policy</h1>
       <Content />
     </article>
   </Container>

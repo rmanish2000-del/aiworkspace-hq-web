@@ -72,6 +72,8 @@ jobs:
 
       - name: Build
         run: npm run build
+      - name: Content freeze (7 frozen routes, founder authorisation required to change)
+        run: npm run check:freeze
 
       - name: HTML validity
         run: npm run test:html

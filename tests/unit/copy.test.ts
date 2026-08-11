@@ -219,55 +219,12 @@ const PROHIBITED_CLAIM_PHRASES: readonly string[] = [
   'coming soon',
 ];
 
-/**
- * SENSE COLLISIONS — founder decision of record, 2026-08-05.
- *
- * The two lists above match a phrase, not a meaning. Three strings on
- * `/warrant-mcp` contain a listed phrase in a sense the rule was never written
- * about. The copy is verbatim and cannot be edited to dodge a matcher, and the
- * lists must not be widened — deleting "backed by" would let a real funding
- * claim through everywhere on the site. So the exemption is per string and per
- * phrase, it names both, and it argues each one.
- *
- * Each entry is an exact `path` plus the exact phrase. A different string, or a
- * different phrase in the same string, still fails. If the copy changes, the
- * path stops matching and the guard fires again — which is the behaviour we
- * want from an exemption that has been outgrown.
- *
- * WHAT WOULD MAKE THIS WRONG: adding an entry because a claim is inconvenient
- * rather than because the sense genuinely differs. The test below asserts every
- * entry still corresponds to a real collision, so a stale exemption is a
- * failure rather than dead weight.
- */
-const ALLOWED_SENSE_COLLISIONS: ReadonlyArray<{ path: string; phrase: string; why: string }> = [
-  {
-    path: 'warrantMcp.evidenceLesson',
-    phrase: 'live',
-    why: 'The holes LIVE IN the tool-mapping layer — the verb, meaning reside. The rule is about claiming something is live, i.e. deployed and serving traffic.',
-  },
-  {
-    path: 'warrantMcp.howSteps[1]',
-    phrase: 'backed by',
-    why: 'Clauses BACKED BY structured rules — one artefact supported by another. The rule is about "backed by" an investor, which is a funding claim.',
-  },
-  {
-    path: 'warrantMcp.limits[9]',
-    phrase: 'starting at',
-    why: 'Node STARTING AT ALL — the process launching. The rule is about "starting at" a price.',
-  },
-];
-
-const isSenseCollision = (path: string, phrase: string): boolean =>
-  ALLOWED_SENSE_COLLISIONS.some(
-    (entry) => entry.path === path && entry.phrase.toLowerCase() === phrase.toLowerCase(),
-  );
-
 describe('copy.prohibited', () => {
   it('contains no prohibited term from `02` §1.3, in any visible string', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
-      PROHIBITED_TERMS.filter(
-        (term) => containsTerm(value, term) && !isSenseCollision(path, term),
-      ).map((term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`),
+      PROHIBITED_TERMS.filter((term) => containsTerm(value, term)).map(
+        (term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`,
+      ),
     );
 
     expect(violations).toEqual([]);
@@ -275,9 +232,8 @@ describe('copy.prohibited', () => {
 
   it('contains no prohibited claim phrasing from `02` §3', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
-      PROHIBITED_CLAIM_PHRASES.filter(
-        (phrase) =>
-          value.toLowerCase().includes(phrase.toLowerCase()) && !isSenseCollision(path, phrase),
+      PROHIBITED_CLAIM_PHRASES.filter((phrase) =>
+        value.toLowerCase().includes(phrase.toLowerCase()),
       ).map((phrase) => `${path}: prohibited claim "${phrase}" in ${JSON.stringify(value)}`),
     );
 
@@ -540,43 +496,6 @@ describe('scope.prohibitions', () => {
       'https://github.com/rmanish2000-del/warrant-mcp',
     ];
 
-    /**
-     * OUTBOUND LINK ORIGINS — founder decision of record, 2026-08-04.
-     *
-     * A second, deliberately separate list. The one above is for URIs nobody
-     * ever dereferences; these ARE dereferenced, by a user who chooses to
-     * click. Keeping them apart is the point — merging them would quietly turn
-     * "never fetched" into "sometimes navigated", and the next reader would not
-     * know which guarantee they still had.
-     *
-     * PERMITTED, and only these two:
-     *
-     *   https://www.npmjs.com    the published package
-     *   https://github.com       the source, the security surface, the write-up
-     *
-     * WHY. `/warrant-mcp` states that the project's limitations and its full
-     * attack log are published, and then links to them. A page that claims its
-     * limits are in the open and does not link to them is worse than one that
-     * never claimed it: the links are the evidence for the claim, and removing
-     * them removes the reason to believe the page. That cost is higher than the
-     * cost of naming two origins here.
-     *
-     * WHAT IS NOT WEAKENED. These are `href` attributes. Nothing is fetched,
-     * embedded, preconnected or prefetched, so the guarantee that actually
-     * matters — no third-party request on first render — is untouched, and it
-     * is still asserted on the wire by
-     * `tests/e2e/metadata-and-boundary.spec.ts` rather than trusted from here.
-     * The zero-font, zero-analytics and zero-client-storage rules are all
-     * unaffected.
-     *
-     * WHAT WOULD MAKE THIS WRONG. Any new third-party origin needs its own
-     * amendment naming it and arguing it. This is not a precedent for "outbound
-     * links are fine" and must not be widened into one. A `src`, `srcset`,
-     * `<link>`, `fetch()` or preconnect to either origin is also NOT covered —
-     * those fetch, and this exemption is only about navigation a user starts.
-     */
-    const PERMITTED_OUTBOUND_LINK_ORIGINS = ['https://www.npmjs.com', 'https://github.com'];
-
     const forbiddenPatterns: Array<[RegExp, string]> = [
       [/\/api\/interest/, 'P-04 — no submission endpoint in this scope'],
       [/\/api\/form-token/, 'MF-1 — no form token endpoint in this scope'],
@@ -607,7 +526,6 @@ describe('scope.prohibitions', () => {
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
       let source = stripComments(readFileSync(file, 'utf8'));
       for (const uri of ALLOWED_NON_FETCHED_URIS) source = source.split(uri).join('');
-      for (const origin of PERMITTED_OUTBOUND_LINK_ORIGINS) source = source.split(origin).join('');
       if (file.startsWith(DS_DIR)) source = source.replace(DS_THEME_KEY_CALLS, '');
 
       return forbiddenPatterns
