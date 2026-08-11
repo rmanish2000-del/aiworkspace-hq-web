@@ -280,6 +280,20 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     text-decoration: none;
   }
 
+  .audience-nav a {
+    transition: border-color var(--motion-dur-quick) var(--motion-ease-standard);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .audience-nav__arrow {
+      transition: transform var(--motion-dur-quick) var(--motion-ease-enter);
+    }
+
+    .audience-nav a:hover .audience-nav__arrow {
+      transform: translateX(4px);
+    }
+  }
+
   .audience-nav a:hover {
     border-color: var(--border-strong);
     background: var(--bg-subtle);
@@ -443,13 +457,46 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .method-grid li {
+    position: relative;
     padding: var(--space-5);
-    border-block-start: 2px solid var(--fg);
+    border-block-start: 2px solid var(--rail-color);
+    transition: background-color var(--motion-dur-quick) var(--motion-ease-standard);
+  }
+
+  /* Node marker where each step joins the rail — the §3 sequence made visible. */
+  .method-grid li::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline-start: var(--space-5);
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--rail-color);
+    border: 2px solid var(--bg);
+    transition: background-color var(--motion-dur-quick) var(--motion-ease-standard);
+  }
+
+  .method-grid li:hover {
+    background: var(--band-wash);
+  }
+
+  .method-grid li:hover::before {
+    background: var(--rail-active);
+  }
+
+  @media (forced-colors: active) {
+    .method-grid li::before {
+      background: CanvasText;
+    }
   }
 
   .method-grid h3 {
-    margin-block-start: var(--space-6);
-    font-size: var(--type-h2);
+    /* Rail-label scale: h2 scale overflowed the step columns and broke the
+       verbs mid-word; the mono index and the rail carry the hierarchy. */
+    margin-block-start: var(--space-5);
+    font-size: var(--type-h3);
+    font-weight: var(--weight-semibold);
   }
 
   .method-grid p {
@@ -471,10 +518,28 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     border: 1px solid var(--border-strong);
     border-radius: calc(var(--radius) * 1.5);
     background: var(--bg);
+    transition: border-color var(--motion-dur-quick) var(--motion-ease-standard);
+  }
+
+  .portfolio-card:hover {
+    border-color: var(--rail-active);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .portfolio-card {
+      transition:
+        border-color var(--motion-dur-quick) var(--motion-ease-standard),
+        transform var(--motion-dur-quick) var(--motion-ease-standard);
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-3px);
+    }
   }
 
   .portfolio-card--primary {
-    background: var(--bg-subtle);
+    background: var(--band-wash);
+    border-inline-start: 3px solid var(--rail-color);
   }
 
   .portfolio-card--future {
@@ -596,8 +661,9 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .closing-cta {
     padding: var(--space-8) var(--space-5);
+    border-block-start: 2px solid var(--rail-color);
     border-radius: calc(var(--radius) * 2);
-    background: var(--bg-subtle);
+    background: var(--band-wash);
     text-align: center;
   }
 
@@ -641,7 +707,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     }
 
     .method-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      /* Word-safe minimum: squeezing below ~150px broke headings mid-word. */
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     .portfolio-grid {

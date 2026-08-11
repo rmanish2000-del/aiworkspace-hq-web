@@ -140,6 +140,25 @@
   --icon-lg: 24px;
 
   /*
+   * Motion + visual grammar — AIWHQ-CLAUDE-FABLE5-001 (§15). Semantic names;
+   * derived from the §8 duration family, collapsed together under reduced
+   * motion. Rails and nodes are the Brand V1.2 grammar carriers; the wash is
+   * the structural-indigo band at 5%, both themes, via color-mix so no new
+   * colour literal exists.
+   */
+  --motion-dur-quick: 160ms;
+  --motion-dur-flow: 420ms;
+  --motion-dur-entrance: 640ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-enter: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --motion-rise: 14px;
+  --rail-color: var(--accent);
+  --rail-active: var(--action);
+  /* 5% structural indigo over the page bg, precomputed per theme: color-mix
+     emits color(srgb …), which the painted-contrast test cannot parse. */
+  --band-wash: #edf0fa;
+
+  /*
    * Breakpoints, for reference only — CSS cannot use a custom property in a
    * media query, so every @media below repeats the literal. Source of truth:
    * src/lib/tokens.ts BREAKPOINTS. `07` §5: min 320, sm 640, lg 1024.
@@ -168,6 +187,7 @@
     --success: #5fd39b;
     --accent-hover: #9cacff;
     --accent-active: #b9c4ff;
+    --band-wash: #0d1322;
   }
 }
 
@@ -187,5 +207,9 @@
     --duration-fast: 0.01ms;
     --duration-swap: 0.01ms;
     --duration-spin: 0.01ms;
+    --motion-dur-quick: 0.01ms;
+    --motion-dur-flow: 0.01ms;
+    --motion-dur-entrance: 0.01ms;
+    --motion-rise: 0px;
   }
 }

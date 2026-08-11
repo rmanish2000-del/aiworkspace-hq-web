@@ -150,6 +150,79 @@ const nodes = [
     }
   }
 
+  /*
+   * Signature entrance — AIWHQ-CLAUDE-FABLE5-001 §4: controlled node
+   * activation, evidence resolving downward along the rail. Transform-only
+   * (text never fades, so contrast scans cannot sample a half-state), runs
+   * once per load, and the static end-state is identical to no-animation.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-node {
+      animation: flow-node-rise var(--motion-dur-entrance) var(--motion-ease-enter) both;
+    }
+
+    .flow-node:nth-child(2) {
+      animation-delay: 90ms;
+    }
+
+    .flow-node:nth-child(3) {
+      animation-delay: 180ms;
+    }
+
+    .flow-node:nth-child(4) {
+      animation-delay: 270ms;
+    }
+
+    .flow-node__connector {
+      transform-origin: top center;
+      animation: rail-draw var(--motion-dur-flow) var(--motion-ease-standard) both;
+    }
+
+    .flow-node:nth-child(2) .flow-node__connector {
+      animation-delay: 180ms;
+    }
+
+    .flow-node:nth-child(3) .flow-node__connector {
+      animation-delay: 270ms;
+    }
+
+    .operating-flow__audit {
+      animation: flow-node-rise var(--motion-dur-entrance) var(--motion-ease-enter) 360ms both;
+    }
+
+    @keyframes flow-node-rise {
+      from {
+        transform: translateY(var(--motion-rise));
+      }
+
+      to {
+        transform: none;
+      }
+    }
+
+    @keyframes rail-draw {
+      from {
+        transform: scaleY(0);
+      }
+
+      to {
+        transform: none;
+      }
+    }
+  }
+
+  /* Node activation on hover — the rail hands the accent to the active node. */
+  .flow-node {
+    transition:
+      border-color var(--motion-dur-quick) var(--motion-ease-standard),
+      background-color var(--motion-dur-quick) var(--motion-ease-standard);
+  }
+
+  .flow-node:hover {
+    border-color: var(--rail-active);
+    background: var(--band-wash);
+  }
+
   @media (forced-colors: active) {
     .operating-flow,
     .flow-node,

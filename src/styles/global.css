@@ -38,7 +38,22 @@ figure {
 h1,
 h2,
 h3 {
-  overflow-wrap: anywhere;
+  /* `break-word`, not `anywhere`: `anywhere` lets every character be a break
+     opportunity for intrinsic sizing, which collapses grid columns and broke
+     headings mid-word ("Connec t") at desktop. `break-word` still prevents
+     overflow but keeps word-width as the minimum. */
+  overflow-wrap: break-word;
+}
+
+/* At the 320–400px floor the opposite trade wins: a long word plus the
+   SC 1.4.12 letter-spacing override must be allowed to break anywhere, or the
+   route scrolls sideways. Desktop keeps words whole; the floor keeps content. */
+@media (max-width: 400px) {
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: anywhere;
+  }
 }
 
 ul {
