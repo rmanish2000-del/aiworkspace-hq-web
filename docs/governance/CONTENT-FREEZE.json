@@ -14,15 +14,28 @@
       "authorised_by": "founder (directive 2026-08-11: fix PR #33 a11y failures — 'run that spec locally... fix... push; I will merge only on green')",
       "reason": "AT-tree A11Y fix: the three converted pages had dropped the site-wide '— AI Workspace' <title> suffix, so assistive tech announced pages without the product name. Only the document title changed; body content in src/legal/*.md is untouched. The title text participates in the tag-stripped hash, hence the new values.",
       "routes_changed": ["/privacy", "/contact", "/about"]
+    },
+    {
+      "date": "2026-08-11",
+      "authorised_by": "founder (ruling 2026-08-11, Option A)",
+      "reason": "Product-identity separation: the six Guardian legal pages remount under /warrant-guardian/*; the root /about, /contact, /privacy return to the approved AI Workspace pages (P2-C four sections; wave-1 FD-AG4-A privacy — a binding surface that must never be silently replaced). Rendered Guardian text is BYTE-IDENTICAL at the new routes — every hash value is unchanged, only the route keys moved. Gateway-submitted root URLs /terms, /refunds, /delivery keep serving via edge redirects to /warrant-guardian/*; no content duplication.",
+      "routes_changed": [
+        "/warrant-guardian/terms",
+        "/warrant-guardian/privacy",
+        "/warrant-guardian/refunds",
+        "/warrant-guardian/delivery",
+        "/warrant-guardian/contact",
+        "/warrant-guardian/about"
+      ]
     }
   ],
   "routes": {
-    "/terms": "786f3a2c30224d5856cd4762e00ec3fa77543b68e840e5de33893ca7cc6eadf2",
-    "/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
-    "/refunds": "63af33d11ce6a3d5eb1f9376ea3f161b9b70d35d33b24c12e0fcc4f7ae59e61d",
-    "/delivery": "d00b52cf050def0bf63d6ece32a6f81099eeff3f2987b4b518d6db6bb55cba38",
-    "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
-    "/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
+    "/warrant-guardian/terms": "786f3a2c30224d5856cd4762e00ec3fa77543b68e840e5de33893ca7cc6eadf2",
+    "/warrant-guardian/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
+    "/warrant-guardian/refunds": "63af33d11ce6a3d5eb1f9376ea3f161b9b70d35d33b24c12e0fcc4f7ae59e61d",
+    "/warrant-guardian/delivery": "d00b52cf050def0bf63d6ece32a6f81099eeff3f2987b4b518d6db6bb55cba38",
+    "/warrant-guardian/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
+    "/warrant-guardian/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
     "/warrant-guardian/": "8d7aabd7a1897b065ab9666581762c8d6fc8dc7e926542088940dcfab59731be"
   }
 }

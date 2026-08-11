@@ -1,28 +1,28 @@
 ---
 /**
- * `/terms` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
+ * `/contact` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
  *
- * The prose below renders from `src/legal/terms.md`, one of the six
+ * The prose below renders from `src/legal/contact.md`, one of the six
  * merchant-verification pages. The text is under a founder content freeze:
  * scans A, B and C pass against the BUILT output, and the freeze check
  * fails the build if the rendered text drifts without an explicit founder
  * authorisation. The entity block (legal name, address, GSTIN, Udyam) is
  * CONTENT, not chrome — merchant verification reads it off the page.
  */
-import Base from '../layouts/Base.astro';
-import Container from '../components/ui/Container.astro';
-import { Content } from '../legal/terms.md';
+import Base from '../../layouts/Base.astro';
+import Container from '../../components/ui/Container.astro';
+import { Content } from '../../legal/contact.md';
 ---
 
 <Base
-  title="Terms of Service"
-  description="The terms under which Warrant Guardian is provided."
-  canonicalPath="/terms/"
+  title="Contact — AI Workspace"
+  description="How to reach the operator of Warrant Guardian."
+  canonicalPath="/warrant-guardian/contact"
   indexableInProduction={true}
 >
   <Container>
     <article class="legal-page">
-      <h1>Terms of Service</h1>
+      <h1>Contact</h1>
       <Content />
     </article>
   </Container>

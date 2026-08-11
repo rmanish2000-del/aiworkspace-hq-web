@@ -1,40 +1,122 @@
 ---
 /**
- * `/contact` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
+ * `/contact` — P1-J §8. **SHELL ONLY.**
  *
- * The prose below renders from `src/legal/contact.md`, one of the six
- * merchant-verification pages. The text is under a founder content freeze:
- * scans A, B and C pass against the BUILT output, and the freeze check
- * fails the build if the rendered text drifts without an explicit founder
- * authorisation. The entity block (legal name, address, GSTIN, Udyam) is
- * CONTENT, not chrome — merchant verification reads it off the page.
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ EVERY ADDRESS ON THIS PAGE IS WITHHELD, AND THAT IS THE POINT.            │
+ * │                                                                           │
+ * │ P1-J §8.1: "A contact page that publishes a non-existent address is worse │
+ * │ than no contact page." Open Item C is open — `{{PRIVACY_EMAIL}}` and      │
+ * │ `{{OPS_EMAIL}}` do not exist. B-F04 is open — there is no confirmed       │
+ * │ registered office, and P1-E flags the address of record as a care-of      │
+ * │ address at a director's residence, whose publication is a counsel         │
+ * │ question. P1-E R-6/R-7/R-8 leave the privacy, deletion and security       │
+ * │ contacts all unallocated.                                                 │
+ * │                                                                           │
+ * │ So this route renders its structure and its prose, and renders **no       │
+ * │ mailto link and no address**. `04`'s header note and P1-J §8.4 both       │
+ * │ forbid a `{{...}}` reaching the browser, and P-10 forbids editing an      │
+ * │ approved string to remove one. Withholding is the only option that        │
+ * │ breaks neither rule.                                                      │
+ * │                                                                           │
+ * │ Recorded in `WITHHELD_UNTIL_UNBLOCKED`. P1-J §8.1: "It is specified now   │
+ * │ so that when the mailboxes exist, the page is a transcription job."       │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * P1-J §8.2 — explicitly not on this page: no contact form (a second form
+ * doubles the data-collection surface for no benefit), no phone number, no live
+ * chat, no map, no office photograph, no team names or photographs, and no
+ * response-time promise beyond the two already committed in P0.
+ *
+ * Outline: h1 → h2 ×4.
  */
 import Base from '../layouts/Base.astro';
-import Container from '../components/ui/Container.astro';
-import { Content } from '../legal/contact.md';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Link from '../components/ui/Link.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import { contact, nav } from '../content/copy';
+
+const PRIVACY_ID = 'privacy-heading';
+const SECURITY_ID = 'security-heading';
+// `general-heading` and `location-heading` are absent while those two sections
+// are withheld — see the CONTACT-1 notes below.
+
+/**
+ * The lead sentence ends with "…the fastest route is to register interest.",
+ * where `register interest` is an inline link (P1-J §8.2). Split on the exact
+ * link text so the sentence is rendered whole and unedited, with the anchor
+ * placed inside it.
+ */
+const [leadBefore, leadAfter] = contact.lead.split(contact.leadLinkText);
 ---
 
 <Base
-  title="Contact — AI Workspace"
-  description="How to reach the operator of Warrant Guardian."
-  canonicalPath="/contact/"
-  indexableInProduction={true}
+  title={contact.metaTitle}
+  description={contact.metaDescription}
+  canonicalPath={contact.canonicalPath}
+  indexableInProduction={false}
 >
-  <Container>
-    <article class="legal-page">
-      <h1>Contact</h1>
-      <Content />
-    </article>
-  </Container>
-</Base>
+  <PageHeader heading={contact.heading}>
+    <Fragment slot="lead"
+      >{leadBefore}<Link href={nav.registerInterestHref}>{contact.leadLinkText}</Link>{
+        leadAfter
+      }</Fragment
+    >
+  </PageHeader>
 
-<style>
-  /* FIX-A11Y-06 (2026-08-11): the merchant pages carry long unbreakable
-     tokens - GSTIN, Udyam number, the contact email - and at 320px with the
-     SC 1.4.12 text-spacing overrides applied they pushed /privacy into a
-     sideways scroll. `anywhere` lets those tokens break; prose is
-     unaffected. Layout-only: no frozen text changes. */
-  .legal-page {
-    overflow-wrap: anywhere;
+  {
+    /*
+     * P1-M defect CONTACT-1 — "General enquiries" is NOT rendered.
+     *
+     * Its entire body is {{PRIVACY_EMAIL}}, withheld under Open Item C (P1-J
+     * §8.2 specifies a single published address at Phase 1; it does not exist
+     * yet). Rendering the heading on its own produced a heading followed by
+     * nothing — a visible gap on screen, and silence to a screen reader.
+     *
+     * The withholding pattern approved in P1-K holds a placeholder-bearing
+     * string verbatim and does not render it. A section that exists only to
+     * present such a string falls under the same rule; rendering its heading
+     * alone applied the pattern halfway. No copy is added and none is edited —
+     * `contact.generalHeading` is untouched in the copy module and the section
+     * returns unchanged the moment Open Item C is resolved.
+     *
+     * FLAGGED FOR FOUNDER CONFIRMATION: this changes the rendered structure of
+     * an approved page. See docs/reviews/release-candidate-report.md.
+     */
   }
-</style>
+
+  <Section headingId={PRIVACY_ID}>
+    <SectionHeader id={PRIVACY_ID} heading={contact.privacyHeading} />
+    {
+      /*
+      Both timeframes below are transcribed from P0 `05` §10 and `06` §8. They
+      are existing commitments, not new ones (P1-J §8.2).
+    */
+    }
+    <p class="section__lead">{contact.privacyBody}</p>
+    <p class="section__lead">
+      <Link href="/privacy">{contact.privacyLinkText}</Link>
+    </p>
+    {/* {{PRIVACY_EMAIL}} withheld — Open Item C. */}
+  </Section>
+
+  <Section headingId={SECURITY_ID}>
+    <SectionHeader id={SECURITY_ID} heading={contact.securityHeading} />
+    <p class="section__lead">{contact.securityBody}</p>
+    {/* {{PRIVACY_EMAIL}} withheld — Open Item C, and R-8 unallocated. */}
+  </Section>
+
+  {
+    /*
+     * P1-M defect CONTACT-1 — "Where we are" is NOT rendered, for the same
+     * reason as "General enquiries" above.
+     *
+     * Its entire body is {{LEGAL_ENTITY_NAME}} and {{REGISTERED_ADDRESS}},
+     * withheld under Open Item B and P1-E B-F04: publishing a care-of
+     * residential address is a counsel question, not an implementation detail.
+     *
+     * `contact.locationHeading` is untouched in the copy module.
+     */
+  }
+</Base>

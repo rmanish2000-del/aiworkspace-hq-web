@@ -185,6 +185,14 @@ function build({ prebuilt = false } = {}) {
       // so the demo's post-event removal does not leave a cached permanent
       // redirect behind.
       { source: '/warrant', destination: '/warrant/console', permanent: false },
+
+      // Founder ruling 2026-08-11 (Option A): gateway-submitted legal URLs
+      // keep resolving, served from the Guardian mount — one source, no
+      // duplicated content. Temporary, like /warrant, so a future re-mount
+      // is not fighting cached permanents.
+      { source: '/terms', destination: '/warrant-guardian/terms', permanent: false },
+      { source: '/refunds', destination: '/warrant-guardian/refunds', permanent: false },
+      { source: '/delivery', destination: '/warrant-guardian/delivery', permanent: false },
       {
         source: '/(.*)',
         has: [{ type: 'host', value: 'www.aiworkspacehq.com' }],

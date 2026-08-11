@@ -1,40 +1,101 @@
 ---
 /**
- * `/about` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
+ * `/about` — `AWHQ-WEB-P2C` §2.
  *
- * The prose below renders from `src/legal/about.md`, one of the six
- * merchant-verification pages. The text is under a founder content freeze:
- * scans A, B and C pass against the BUILT output, and the freeze check
- * fails the build if the rendered text drifts without an explicit founder
- * authorisation. The entity block (legal name, address, GSTIN, Udyam) is
- * CONTENT, not chrome — merchant verification reads it off the page.
+ * ┌───────────────────────────────────────────────────────────────────────────┐
+ * │ FOUR SECTIONS. THE FIFTH IS WITHHELD AND PRODUCES NO MARKUP.             │
+ * │                                                                           │
+ * │ P2-C §2.3 withholds "Who is behind this" — legal entity, registered       │
+ * │ address, founding date, founder name, location. Open Item B is open, the  │
+ * │ operating entity's capacity is unevidenced (P1-E OBJ-1…OBJ-10), and 0 of  │
+ * │ 8 IP assets have evidenced ownership, so naming an owner of AI Workspace  │
+ * │ would assert something no instrument supports.                            │
+ * │                                                                           │
+ * │ §2.3 and UX-11 are emphatic about HOW it is withheld: no heading, no      │
+ * │ placeholder, no reserved space, and **no comment in the shipped markup**. │
+ * │ "Omitting silently is correct; announcing an omission reveals internal    │
+ * │ state and invites the question."                                          │
+ * │                                                                           │
+ * │ This note is an Astro comment — it is compiled away and never reaches the │
+ * │ browser. A test asserts the section's absence from the built HTML.        │
+ * └───────────────────────────────────────────────────────────────────────────┘
+ *
+ * Structured data: **none** (P2-C §7.2). `Organization` JSON-LD stays on `/`.
+ * `AboutPage` adds nothing, and `Person` would publish founder identity through
+ * metadata — precisely what the body withholds. Withholding it in the copy and
+ * emitting it in JSON-LD would be a governance failure, not a technical detail.
+ *
+ * Navigation: footer only (P2-C §8.1). Not in primary nav until the withheld
+ * section publishes — primary nav is a promise of substance.
+ *
+ * Outline: h1 → h2 ×4. No h3.
  */
 import Base from '../layouts/Base.astro';
-import Container from '../components/ui/Container.astro';
-import { Content } from '../legal/about.md';
+import Section from '../components/ui/Section.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import TermList from '../components/ui/TermList.astro';
+import Link from '../components/ui/Link.astro';
+import { about, shared } from '../content/copy';
+
+const WHY_ID = 'why-heading';
+const TODAY_ID = 'today-heading';
+const CLAIMS_ID = 'claims-heading';
+const CONTACT_ID = 'contact-heading';
+
+/**
+ * The closing sentence carries two inline links. Split on the exact link texts
+ * so the approved sentence is rendered whole and unedited, with the anchors
+ * placed inside it — the same technique `/contact` uses for its lead.
+ */
+const [beforeRegister, afterRegister] = about.contactBody.split(about.contactRegisterLinkText) as [
+  string,
+  string,
+];
+const [betweenLinks, afterContact] = afterRegister.split(about.contactContactLinkText) as [
+  string,
+  string,
+];
 ---
 
 <Base
-  title="About — AI Workspace"
-  description="Who operates Warrant Guardian."
-  canonicalPath="/about/"
-  indexableInProduction={true}
+  title={about.metaTitle}
+  description={about.metaDescription}
+  canonicalPath={about.canonicalPath}
+  indexableInProduction={false}
 >
-  <Container>
-    <article class="legal-page">
-      <h1>About</h1>
-      <Content />
-    </article>
-  </Container>
-</Base>
+  <PageHeader heading={about.heading} lead={shared.coreProposition} />
 
-<style>
-  /* FIX-A11Y-06 (2026-08-11): the merchant pages carry long unbreakable
-     tokens - GSTIN, Udyam number, the contact email - and at 320px with the
-     SC 1.4.12 text-spacing overrides applied they pushed /privacy into a
-     sideways scroll. `anywhere` lets those tokens break; prose is
-     unaffected. Layout-only: no frozen text changes. */
-  .legal-page {
-    overflow-wrap: anywhere;
-  }
-</style>
+  <Section headingId={WHY_ID}>
+    <SectionHeader id={WHY_ID} heading={about.whyHeading} />
+    <p class="section__lead">{about.whyBody}</p>
+  </Section>
+
+  <Section headingId={TODAY_ID}>
+    <SectionHeader id={TODAY_ID} heading={about.todayHeading} />
+    {
+      /*
+      UX-7 — the stage disclosure gets its own section and its own h2 rather
+      than being buried in a footer line. `shared.stageDisclosure` is the same
+      entry `/`, `/platform` and `/principles` render (C-11).
+    */
+    }
+    <p class="section__lead">{shared.stageDisclosure}</p>
+    <p class="section__lead">{about.todayBody}</p>
+  </Section>
+
+  <Section headingId={CLAIMS_ID}>
+    <SectionHeader id={CLAIMS_ID} heading={about.claimsHeading} lead={about.claimsLead} />
+    {/* A-2 — a real <ul>, not styled paragraphs. */}
+    <TermList variant="statement" items={about.claims.map((claim) => ({ body: claim }))} />
+  </Section>
+
+  <Section headingId={CONTACT_ID}>
+    <SectionHeader id={CONTACT_ID} heading={about.contactHeading} />
+    <p class="section__lead">
+      {beforeRegister}<Link href="/#interest">{about.contactRegisterLinkText}</Link>{
+        betweenLinks
+      }<Link href="/contact">{about.contactContactLinkText}</Link>{afterContact}
+    </p>
+  </Section>
+</Base>
