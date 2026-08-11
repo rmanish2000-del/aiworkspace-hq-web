@@ -2,14 +2,21 @@
   "frozen_at": "2026-08-11",
   "assignment": "PUBLISH-GUARDIAN-PAGES",
   "rule": "The seven routes below are CONTENT-FROZEN at publication. The hash is the SHA-256 of each route's rendered visible text (built HTML, tags stripped, whitespace collapsed) - the artifact scans A, B and C passed against with zero findings. Any text change to these routes requires an explicit founder authorisation recorded in authorised_changes below, in the same commit as the new hash. CI fails otherwise.",
-  "authorised_changes": [],
+  "authorised_changes": [
+    {
+      "date": "2026-08-11",
+      "authorised_by": "founder (assignment REBASE-ONTO-BRAND)",
+      "reason": "Rebase onto Brand System V1.2: the six merchant pages now render through the branded Base.astro chrome, which changes every route's rendered text. Page CONTENT (src/legal/*.md) is unchanged; /warrant-guardian/ stays self-styled by founder ruling and its hash change reflects only the collection-notice alignment carried through the rebase. Scans A, B and C re-ran against the branded built output: zero findings.",
+      "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery", "/contact", "/about"]
+    }
+  ],
   "routes": {
-    "/about": "3351aed85660aeb951a5ef0a7c2a70dba9ffc97f92d0325581b13b3bc6fc0a47",
-    "/contact": "c65cb642b33b780a388d8982a95a56e02b66744398ef19afb4e806bdd3615df8",
-    "/delivery": "12e5027618cfc92877925b1ba1a84986fb7ef505dddf60cf907d790470a25044",
-    "/privacy": "5fb040085ab525f5a28c2d38e1ea33400b773d10e8778ae312e33c8724676e92",
-    "/refunds": "1ad697f062e3a6899367cdc1b276dbb61ed80a2ddc573d9eab76fc9e5bdba038",
-    "/terms": "76a94d6caee228ceb139aa87527af40c94081bfa1f3a79df0c55f71df44af87f",
+    "/terms": "786f3a2c30224d5856cd4762e00ec3fa77543b68e840e5de33893ca7cc6eadf2",
+    "/privacy": "f6eeb82081ba441d1ac8c5d260b637b43183bea55b936204cd24348dfe6819ab",
+    "/refunds": "63af33d11ce6a3d5eb1f9376ea3f161b9b70d35d33b24c12e0fcc4f7ae59e61d",
+    "/delivery": "d00b52cf050def0bf63d6ece32a6f81099eeff3f2987b4b518d6db6bb55cba38",
+    "/contact": "d8b9247bcd4976bbfe7f7670998d506325caeb5b3910fab11c7f8003cdccc008",
+    "/about": "1a3c3365401f7b82c68c334e829c8ab2afeff5877a3e9d499d9b618c68605216",
     "/warrant-guardian/": "8d7aabd7a1897b065ab9666581762c8d6fc8dc7e926542088940dcfab59731be"
   }
 }
