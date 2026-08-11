@@ -27,3 +27,14 @@ import { Content } from '../legal/terms.md';
     </article>
   </Container>
 </Base>
+
+<style>
+  /* FIX-A11Y-06 (2026-08-11): the merchant pages carry long unbreakable
+     tokens - GSTIN, Udyam number, the contact email - and at 320px with the
+     SC 1.4.12 text-spacing overrides applied they pushed /privacy into a
+     sideways scroll. `anywhere` lets those tokens break; prose is
+     unaffected. Layout-only: no frozen text changes. */
+  .legal-page {
+    overflow-wrap: anywhere;
+  }
+</style>
