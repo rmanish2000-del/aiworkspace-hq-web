@@ -1,5 +1,11 @@
 # HANDOFF
 
+> **Working rules for every agent:** [`REPO-CONSTITUTION.md`](REPO-CONSTITUTION.md)
+> (adopted 2026-08-12). Cross-workstream file edits require written
+> authorisation recorded in this file (constitution rule 4). Rules are labelled
+> TEST-ENFORCED or HONOUR-SYSTEM — an HONOUR-SYSTEM rule is an absent
+> protection, not a safeguard (DC-6).
+
 **From:** Claude Code, delegated implementer under AG-2-S
 **To:** Founder
 **Assignment:** Repository initialization and non-public development foundation
