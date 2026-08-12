@@ -159,8 +159,8 @@ const htmlFiles = () =>
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 15) {
-    throw new Error(`expected 15 route documents, found ${files.length}`);
+  if (files.length !== 22) {
+    throw new Error(`expected 22 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
