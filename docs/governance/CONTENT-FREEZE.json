@@ -27,6 +27,12 @@
         "/warrant-guardian/contact",
         "/warrant-guardian/about"
       ]
+    },
+    {
+      "date": "2026-08-12",
+      "authorised_by": "founder (ruling 2026-08-12, Option B)",
+      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal — client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
+      "routes_changed": ["/warrant-guardian/"]
     }
   ],
   "routes": {
@@ -36,6 +42,6 @@
     "/warrant-guardian/delivery": "d00b52cf050def0bf63d6ece32a6f81099eeff3f2987b4b518d6db6bb55cba38",
     "/warrant-guardian/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
     "/warrant-guardian/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
-    "/warrant-guardian/": "8d7aabd7a1897b065ab9666581762c8d6fc8dc7e926542088940dcfab59731be"
+    "/warrant-guardian/": "951ff26dc79319a74df145c93edfe71b161fafd1c9ad5c6c3f240aba873da0a7"
   }
 }
