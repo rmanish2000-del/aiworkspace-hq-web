@@ -27,15 +27,31 @@
         "/warrant-guardian/contact",
         "/warrant-guardian/about"
       ]
+    },
+    {
+      "date": "2026-08-12",
+      "authorised_by": "founder (ruling 2026-08-12, Option B)",
+      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal — client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
+      "routes_changed": ["/warrant-guardian/"]
+    },
+    {
+      "date": "2026-08-12",
+      "authorised_by": "founder (ruling 2026-08-12, Option B resume order; same defect class as the 2026-08-11 title-suffix authorisation)",
+      "reason": "AT-tree A11Y fix, completing the 2026-08-11 entry: the three merchant pages /warrant-guardian/terms, /refunds, /delivery still carried bare <title> values without the site-wide '— AI Workspace' suffix, so assistive tech announced them without the product name. Only the document titles changed; body prose in src/legal/*.md and the on-page <h1> headings are untouched. The title text participates in the tag-stripped hash, hence the new values.",
+      "routes_changed": [
+        "/warrant-guardian/terms",
+        "/warrant-guardian/refunds",
+        "/warrant-guardian/delivery"
+      ]
     }
   ],
   "routes": {
-    "/warrant-guardian/terms": "786f3a2c30224d5856cd4762e00ec3fa77543b68e840e5de33893ca7cc6eadf2",
+    "/warrant-guardian/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
     "/warrant-guardian/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
-    "/warrant-guardian/refunds": "63af33d11ce6a3d5eb1f9376ea3f161b9b70d35d33b24c12e0fcc4f7ae59e61d",
-    "/warrant-guardian/delivery": "d00b52cf050def0bf63d6ece32a6f81099eeff3f2987b4b518d6db6bb55cba38",
+    "/warrant-guardian/refunds": "064b87db7be370febbe1d41a632f607494bdb82269327a9acbbc561ab4614352",
+    "/warrant-guardian/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
     "/warrant-guardian/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
     "/warrant-guardian/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
-    "/warrant-guardian/": "8d7aabd7a1897b065ab9666581762c8d6fc8dc7e926542088940dcfab59731be"
+    "/warrant-guardian/": "951ff26dc79319a74df145c93edfe71b161fafd1c9ad5c6c3f240aba873da0a7"
   }
 }

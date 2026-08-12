@@ -988,6 +988,10 @@ test('M-9 every visible string on every route comes from the copy module', async
     'Dependency management',
     'Automated test and release pipeline',
     'Runs before anything ships',
+    // Frozen-route page headings that live in the .astro shell, not in
+    // src/legal/*.md — governed by CONTENT-FREEZE.json like the body text.
+    'Terms of Service',
+    'Delivery Policy',
   ]) {
     collect(extra);
   }

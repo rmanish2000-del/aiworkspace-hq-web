@@ -103,6 +103,21 @@
       "permanent": false
     },
     {
+      "source": "/terms",
+      "destination": "/warrant-guardian/terms",
+      "permanent": false
+    },
+    {
+      "source": "/refunds",
+      "destination": "/warrant-guardian/refunds",
+      "permanent": false
+    },
+    {
+      "source": "/delivery",
+      "destination": "/warrant-guardian/delivery",
+      "permanent": false
+    },
+    {
       "source": "/(.*)",
       "has": [
         {
