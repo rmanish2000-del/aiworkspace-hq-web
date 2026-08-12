@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en" data-page="warrant-guardian">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Warrant Guardian — a risk guardrail for your own automated trading</title>
+    <meta
+      name="description"
+      content="Warrant Guardian watches your own automated trading against limits you set yourself, and says UNKNOWN when it cannot tell. It cannot place an order. Not investment advice, no recommendations."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta
+      property="og:title"
+      content="Warrant Guardian — a white-box risk monitor for your own automated trading"
+    />
+    <meta
+      property="og:description"
+      content="Watches your own automated trading against limits you set yourself. Says UNKNOWN rather than guessing. Cannot place an order. Not investment advice."
+    />
+    <meta property="og:type" content="website" />
+    <style>
+      /* ============================================================
+   Warrant Guardian — landing page
+   Monochrome by design. No colour carries meaning anywhere on
+   this page: every state is also a border, a label, or a weight.
+   Safe to render in greyscale.
+   No external requests. No trackers. No fonts fetched.
+   ============================================================ */
+      :root {
+        --ink: #111315;
+        --ink-2: #3d4348;
+        --ink-3: #6b7278;
+        --rule: #d8dcdf;
+        --rule-2: #b3babf;
+        --bg: #fbfbfa;
+        --bg-2: #f2f2f0;
+        --panel: #ffffff;
+        --accent: #111315;
+        --max: 1080px;
+        --pad: 24px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          system-ui,
+          sans-serif;
+        font-feature-settings: 'kern' 1;
+      }
+      h1,
+      h2,
+      h3 {
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5em;
+      }
+      h1 {
+        font-size: clamp(32px, 5.2vw, 54px);
+        font-weight: 680;
+      }
+      h2 {
+        font-size: clamp(24px, 3.2vw, 34px);
+        font-weight: 660;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 640;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0 0 1em;
+        max-width: 62ch;
+      }
+      a {
+        color: var(--ink);
+        text-underline-offset: 3px;
+      }
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 var(--pad);
+      }
+      .eyebrow {
+        font-size: 12px;
+        font-weight: 680;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin: 0 0 14px;
+      }
+      .lede {
+        font-size: clamp(17px, 2vw, 20px);
+        color: var(--ink-2);
+        max-width: 58ch;
+      }
+      .skip {
+        position: absolute;
+        left: -9999px;
+      }
+      .skip:focus {
+        left: 12px;
+        top: 12px;
+        background: #fff;
+        border: 2px solid var(--ink);
+        padding: 10px 14px;
+        z-index: 99;
+      }
+      :focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 3px;
+      }
+
+      /* ---------- header ---------- */
+      header {
+        border-bottom: 1px solid var(--rule);
+        background: var(--bg);
+      }
+      .hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 0;
+      }
+      .mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        text-decoration: none;
+      }
+      .mark .glyph {
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--ink);
+        border-radius: 3px;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 800;
+        flex: none;
+      }
+      .mark small {
+        display: block;
+        font-size: 11px;
+        font-weight: 520;
+        color: var(--ink-3);
+        letter-spacing: 0.02em;
+      }
+      nav a {
+        margin-left: 22px;
+        font-size: 14px;
+        color: var(--ink-2);
+        text-decoration: none;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 640px) {
+        nav {
+          display: none;
+        }
+      }
+
+      /* ---------- badges ---------- */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--rule-2);
+        border-radius: 999px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 620;
+        color: var(--ink-2);
+        background: var(--panel);
+      }
+      .badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--ink);
+        flex: none;
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        padding: 72px 0 56px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .hero h1 {
+        margin-top: 18px;
+        max-width: 16ch;
+      }
+      .hero .lede {
+        margin-top: 8px;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+        align-items: center;
+      }
+      .btn {
+        display: inline-block;
+        border: 2px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        padding: 13px 22px;
+        font-size: 15px;
+        font-weight: 660;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #000;
+        border-color: #000;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink);
+      }
+      .btn-ghost:hover {
+        background: var(--bg-2);
+        color: var(--ink);
+      }
+      .hero-note {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-top: 14px;
+      }
+
+      /* ---------- generic section ---------- */
+      section {
+        padding: 64px 0;
+        border-bottom: 1px solid var(--rule);
+      }
+      .section-head {
+        max-width: 64ch;
+        margin-bottom: 36px;
+      }
+
+      /* ---------- grid + cards ---------- */
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      .g2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 820px) {
+        .g2,
+        .g3 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        border: 1px solid var(--rule);
+        background: var(--panel);
+        border-radius: 6px;
+        padding: 22px;
+      }
+      .card .n {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--ink-3);
+        display: block;
+        margin-bottom: 10px;
+      }
+      .card p {
+        font-size: 15px;
+        color: var(--ink-2);
+        margin: 0;
+      }
+
+      /* ---------- the boundary list (never-do) ---------- */
+      .never {
+        background: var(--bg-2);
+      }
+      .never ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0;
+        border-top: 1px solid var(--rule-2);
+      }
+      .never li {
+        border-bottom: 1px solid var(--rule-2);
+        padding: 16px 0 16px 42px;
+        position: relative;
+        font-size: 16px;
+        color: var(--ink);
+        max-width: 70ch;
+      }
+      .never li::before {
+        content: '✕';
+        position: absolute;
+        left: 8px;
+        top: 15px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .never li b {
+        font-weight: 660;
+      }
+
+      /* ---------- do list ---------- */
+      .do ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid var(--rule);
+      }
+      .do li {
+        border-bottom: 1px solid var(--rule);
+        padding: 16px 0 16px 42px;
+        position: relative;
+        max-width: 70ch;
+      }
+      .do li::before {
+        content: '✓';
+        position: absolute;
+        left: 8px;
+        top: 15px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      /* ---------- code-ish panel ---------- */
+      .panel {
+        border: 1px solid var(--rule-2);
+        border-left: 4px solid var(--ink);
+        background: var(--panel);
+        padding: 20px 22px;
+        border-radius: 0 6px 6px 0;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+        font-size: 13.5px;
+        line-height: 1.7;
+        color: var(--ink);
+        white-space: pre-wrap;
+        margin: 0;
+      }
+      .mono .dim {
+        color: var(--ink-3);
+      }
+
+      /* ---------- waitlist ---------- */
+      .waitlist {
+        background: var(--ink);
+        color: #fff;
+        border-bottom: none;
+      }
+      .waitlist h2,
+      .waitlist .eyebrow {
+        color: #fff;
+      }
+      .waitlist .eyebrow {
+        color: #b9bfc4;
+      }
+      .waitlist p {
+        color: #d6dade;
+      }
+      .waitlist .badge {
+        background: transparent;
+        border-color: #5c646a;
+        color: #e8eaec;
+      }
+      .waitlist .badge::before {
+        background: #fff;
+      }
+      .form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+        max-width: 520px;
+      }
+      .form input[type='email'] {
+        flex: 1 1 260px;
+        padding: 13px 14px;
+        font-size: 15px;
+        border: 2px solid #5c646a;
+        background: #1c1f22;
+        color: #fff;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+      .form input[type='email']::placeholder {
+        color: #8b9298;
+      }
+      .form input[type='email']:focus {
+        border-color: #fff;
+        outline: none;
+      }
+      .form .btn {
+        background: #fff;
+        color: var(--ink);
+        border-color: #fff;
+      }
+      .form .btn:hover {
+        background: #e8eaec;
+        border-color: #e8eaec;
+      }
+      .form-note {
+        font-size: 13px;
+        color: #a8afb5;
+        margin-top: 14px;
+        max-width: 56ch;
+      }
+      .form-note a {
+        color: #fff;
+      }
+
+      /* ---------- pricing ---------- */
+      .price-flag {
+        border: 1px solid var(--rule-2);
+        background: var(--bg-2);
+        padding: 14px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--ink-2);
+        margin-bottom: 28px;
+        max-width: 70ch;
+      }
+      .price-flag b {
+        color: var(--ink);
+      }
+      .tier {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--rule);
+        background: var(--panel);
+        border-radius: 6px;
+        padding: 24px;
+      }
+      .tier.gated {
+        border: 2px dashed var(--rule-2);
+        background: transparent;
+      }
+      .tier .tag {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin-bottom: 12px;
+      }
+      .tier .amt {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin: 0;
+      }
+      .tier .per {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin: 2px 0 18px;
+      }
+      .tier ul {
+        list-style: none;
+        margin: 0 0 20px;
+        padding: 0;
+        font-size: 14.5px;
+        color: var(--ink-2);
+      }
+      .tier li {
+        padding: 7px 0 7px 20px;
+        position: relative;
+        border-bottom: 1px solid var(--bg-2);
+      }
+      .tier li::before {
+        content: '—';
+        position: absolute;
+        left: 0;
+        color: var(--ink-3);
+      }
+      .tier .foot {
+        margin-top: auto;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .tier .gate-note {
+        border-top: 1px solid var(--rule-2);
+        margin-top: 14px;
+        padding-top: 14px;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+
+      /* ---------- disclaimer ---------- */
+      .disclaimer {
+        background: var(--bg-2);
+        border-top: 3px solid var(--ink);
+      }
+      .disclaimer .box {
+        border: 1px solid var(--rule-2);
+        background: var(--panel);
+        padding: 26px;
+        border-radius: 6px;
+      }
+      .disclaimer h2 {
+        font-size: 20px;
+      }
+      .disclaimer p {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        max-width: 78ch;
+      }
+      .disclaimer p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ---------- footer ---------- */
+      footer {
+        padding: 40px 0 56px;
+        font-size: 13.5px;
+        color: var(--ink-3);
+      }
+      footer .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+
+      /* Greyscale-safe state badges. No colour carries meaning:
+   WORKING = solid border + solid dot.  PLANNED = dashed border + hollow dot. */
+      .state {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+      .state::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex: none;
+      }
+      .state-working {
+        border: 1px solid var(--ink);
+        color: var(--ink);
+      }
+      .state-working::before {
+        background: var(--ink);
+      }
+      .state-planned {
+        border: 1px dashed var(--rule-2);
+        color: var(--ink-3);
+      }
+      .state-planned::before {
+        background: transparent;
+        border: 1px solid var(--ink-3);
+      }
+      .card.planned {
+        border-style: dashed;
+        background: transparent;
+      }
+      .card .n {
+        margin-bottom: 6px;
+      }
+
+      /* Utility classes replacing inline styles (repo policy: no-inline-style). */
+      .u-mt14 {
+        margin-top: 14px;
+      }
+      .u-mt16 {
+        margin-top: 16px;
+      }
+      .u-w60 {
+        max-width: 60ch;
+      }
+      .u-w46 {
+        max-width: 46ch;
+      }
+      .u-note {
+        margin-top: 22px;
+        font-size: 14px;
+        color: var(--ink-3);
+        max-width: 66ch;
+      }
+      .u-brand {
+        font-weight: 660;
+        color: var(--ink);
+      }
+      /* FUNNEL-02 §4.2: honeypot — CSS-positioned off-canvas, NOT display:none. */
+      .wl-extra {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header>
+      <div class="wrap hdr">
+        <a class="mark" href="/">
+          <span class="glyph" aria-hidden="true">G</span>
+          <span>Warrant Guardian<small>by AIWorkspace HQ</small></span>
+        </a>
+        <nav aria-label="Primary">
+          <a href="#what">What it does</a>
+          <a href="#never">What it never does</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#waitlist">Private beta</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <div class="hero">
+        <div class="wrap">
+          <span class="badge">Private beta — parts of this are still being built</span>
+          <h1 data-claim="01">You set the limits. Guardian watches every one of them.</h1>
+          <p class="lede">
+            A white-box risk monitor that reads your live positions and evaluates them against
+            limits you set yourself — and says <em>UNKNOWN</em> when it cannot tell.
+          </p>
+          <p class="lede u-mt14">
+            It does not tell you what to trade. It does not predict anything. It cannot place an
+            order. It watches the lines you drew.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#waitlist">Join the private beta waitlist</a>
+            <a class="btn btn-ghost" href="#never">Read what it will never do</a>
+          </div>
+          <p class="hero-note">
+            Not investment advice. No recommendations. No returns of any kind are claimed or
+            implied.
+          </p>
+        </div>
+      </div>
+
+      <!-- ============ PROBLEM ============ -->
+      <section id="problem">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">The problem</p>
+            <h2>Automation doesn't get tired. It also doesn't get scared.</h2>
+            <p>
+              Most people who automate their trading start by writing down their rules. Maximum loss
+              for the day. Maximum size in one position. Maximum number of entries. The rules are
+              usually sensible, because they were written calmly.
+            </p>
+            <p>
+              Then the code runs. And code has no instinct for "this has gone far enough." A
+              strategy that is having a bad morning will keep going with exactly the same confidence
+              it had at nine o'clock. The limits you wrote down live in a document, or in your head
+              — not in the execution path.
+            </p>
+            <p>
+              Warrant Guardian's only job is to move those limits out of your head and into
+              something that watches, continuously, and speaks up first.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ WHAT IT DOES ============ -->
+      <section id="what">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">What Guardian does</p>
+            <h2>Some of this works today. Some is being built.</h2>
+            <p>
+              Every card below says which. We would rather show you the line than let you assume it
+              isn't there.
+            </p>
+          </div>
+
+          <div class="grid g2">
+            <div class="card">
+              <span class="n" data-claim="01">01 — WATCHES</span>
+              <span class="state state-working">WORKING TODAY</span>
+              <h3>Five limits, against your live positions</h3>
+              <p>
+                Daily loss, loss on a single trade, position quantity, a consecutive-losing-trades
+                halt, and a square-off boundary. Guardian reads your live positions from your broker
+                account and evaluates every limit against them. Each threshold is a number you typed
+                in.
+              </p>
+            </div>
+
+            <div class="card">
+              <span class="n" data-claim="02a">02 — EVALUATES</span>
+              <span class="state state-working">WORKING TODAY</span>
+              <h3>Four states, and one of them is "I don't know"</h3>
+              <p>
+                Every limit resolves to OK, WARN, BREACH or UNKNOWN. WARN is a distinct state that
+                exists before a breach, not a note filed after one.
+              </p>
+            </div>
+
+            <div class="card">
+              <span class="n" data-claim="03u">03 — SAYS UNKNOWN</span>
+              <span class="state state-working">WORKING TODAY</span>
+              <h3>It does not guess</h3>
+              <p>
+                One unreadable row in your trade file means no losing-streak figure at all — not a
+                figure computed from the rows that happened to parse. When Guardian cannot tell,
+                that is what it reports.
+              </p>
+            </div>
+
+            <div class="card">
+              <span class="n" data-claim="04a">04 — RECONSTRUCTS</span>
+              <span class="state state-working">WORKING TODAY</span>
+              <h3>Your round-trips, FIFO</h3>
+              <p>
+                Guardian rebuilds your completed round-trips from your own trade records, first in
+                first out, and computes the losing streak from them.
+              </p>
+            </div>
+
+            <div class="card planned">
+              <span class="n">05 — ALERTS</span>
+              <span class="state state-planned">PLANNED — BUILT, NOT SWITCHED ON</span>
+              <h3>A warning that reaches you</h3>
+              <p>
+                Today Guardian computes a warning state. It does not yet deliver one. Until it does,
+                nothing on this page claims that Guardian will tell you anything — you would have to
+                look.
+              </p>
+            </div>
+
+            <div class="card planned">
+              <span class="n">06 — RECORDS</span>
+              <span class="state state-planned">PLANNED</span>
+              <h3>Guardian's own audit trail</h3>
+              <p>
+                Every limit you set, every warning raised, every breach, and every override — kept
+                for your own review and your own record-keeping, with export. Not built yet. The
+                round-trip reconstruction in card 04 is a different thing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ NEVER ============ -->
+      <section id="never" class="never">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">The boundary</p>
+            <h2>What Guardian will never do</h2>
+            <p>
+              This list is not a disclaimer bolted on at the end. It is the product definition. If
+              any of these ever changes, it changes here first, in public.
+            </p>
+          </div>
+          <ul>
+            <li>
+              <b>Never tells you what to trade.</b> No instruments, no strikes, no entries, no
+              exits, no signals, no tips, no watchlists.
+            </li>
+            <li>
+              <b>Never predicts a market.</b> There is no forecast anywhere in this product.
+              Guardian has no opinion about tomorrow.
+            </li>
+            <li>
+              <b
+                >Never claims or implies a profit, a return, a win rate, or performance of any
+                kind.</b
+              >
+              Not in the product, not on this page, not in any email we send you.
+            </li>
+            <li>
+              <b>Never places a trade — and the build enforces it.</b> Guardian cannot place, modify
+              or cancel an order, and our build fails if order-placing code appears in it. Being
+              straight about that test: it matches known order-method names, so it would not catch a
+              raw HTTP call to an order endpoint. We are hardening it to cover outbound destinations
+              too.
+            </li>
+            <li>
+              <b>Never gives investment advice.</b> Nothing Guardian outputs is a recommendation,
+              and nothing here should be read as one.
+            </li>
+            <li>
+              <b>Never hides its reasoning.</b> No score you can't trace, no model you can't
+              inspect, no "our algorithm determined."
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ WHITE BOX ============ -->
+      <section id="whitebox">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">White-box</p>
+            <h2>Read every line.</h2>
+            <p>
+              A risk tool you can't inspect is just another black box in a stack that already has
+              too many. Every rule Guardian applies is a rule you can open and read. When a limit
+              approaches the threshold you set,
+              <span data-claim="02a">that surfaces as an explicit WARN state</span> — not a score
+              you have to take on trust.
+            </p>
+          </div>
+          <div class="panel">
+            <p class="mono">
+              <span class="dim"># Illustrative — the shape of a Guardian warning.</span>
+              <span class="dim"># Not a real alert, and not a suggestion to do anything.</span>
+
+              LIMIT daily_loss_ceiling SET BY you, on
+              <span class="dim">&lt;the date you set it&gt;</span> THRESHOLD
+              <span class="dim">&lt;the figure you entered&gt;</span> CURRENT
+              <span class="dim">&lt;where you are now&gt;</span> STATE APPROACHING ACTION none taken
+              — Guardian warns, you decide
+            </p>
+          </div>
+          <p class="u-note">
+            No figures are shown above because we won't put invented numbers on a page about
+            trustworthiness. In the beta you'll see your own.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ WAITLIST ============ -->
+      <section id="waitlist" class="waitlist">
+        <div class="wrap">
+          <span class="badge">Private beta</span>
+          <h2 class="u-mt16">Guardian is not on sale yet.</h2>
+          <p class="u-w60" id="wl-blurb">
+            It is in private beta with a small number of users. We are not taking payment, and we
+            are not pretending the product is finished.
+          </p>
+
+          <!-- Waitlist form.
+         BACKEND: none in this slice. WAITLIST_ENDPOINT below is null, so the form
+         degrades to a plain mailto: link rather than silently swallowing an address.
+         Set WAITLIST_ENDPOINT to a real POST URL to activate the inline form. -->
+          <form class="form" id="wl-form" novalidate>
+            <label class="skip" for="wl-email">Email address</label>
+            <input
+              type="email"
+              id="wl-email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+            <div class="wl-extra" aria-hidden="true">
+              <label for="wl-ext-ref">Reference code (leave blank)</label>
+              <input type="text" id="wl-ext-ref" name="ext_ref" tabindex="-1" autocomplete="off" />
+            </div>
+            <button class="btn" type="submit" id="wl-btn">Join the waitlist</button>
+          </form>
+          <p class="form-note" id="wl-note">
+            We'll email you once when the beta opens up. No newsletter, no drip sequence, no sharing
+            your address with anyone.
+          </p>
+          <p class="form-note">
+            We collect your email address only, and hold it until the invite is sent plus 30 days,
+            then delete it &mdash; exactly as the privacy policy states. To be removed sooner: reply
+            to any email we send, or write to the address above.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ PRICING ============ -->
+      <section id="pricing">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Pricing</p>
+            <h2>What we think it should cost.</h2>
+          </div>
+
+          <div class="price-flag">
+            <b>Illustrative, and not final.</b> Nothing here is on sale today and no payment is
+            being collected anywhere on this site. These figures are what we currently intend to
+            charge; they may change before launch, and we will say so if they do.
+          </div>
+
+          <div class="grid g3">
+            <div class="tier">
+              <span class="tag">Free</span>
+              <p class="amt">₹0</p>
+              <p class="per">forever</p>
+              <ul>
+                <li data-claim="01">Five limits watched against your live positions</li>
+                <li data-claim="02a">Four-state evaluation — OK, WARN, BREACH, UNKNOWN</li>
+                <li data-claim="04a">FIFO round-trip reconstruction</li>
+              </ul>
+              <p class="foot">Everything that works today is here, and it stays here.</p>
+            </div>
+
+            <div class="tier gated">
+              <span class="tag">Pro</span>
+              <p class="amt">Not yet priced</p>
+              <p class="per">announced when Pro ships</p>
+              <ul>
+                <li>Everything in Free</li>
+                <li>Warnings delivered to you, off-device</li>
+                <li>Guardian's own audit trail, with export</li>
+                <li>Retained history</li>
+              </ul>
+              <p class="gate-note">
+                <b>Pro pricing is announced when Pro ships.</b> Every item above is planned, not
+                built. We are not going to price a tier before we can hand you the thing it
+                contains.
+              </p>
+            </div>
+
+            <div class="tier gated">
+              <span class="tag">Enforcer — waitlist only</span>
+              <p class="amt">₹1,499</p>
+              <p class="per">per month, intended</p>
+              <ul>
+                <li>Everything in Pro</li>
+                <li>Enforcement at the order path, not just warnings</li>
+              </ul>
+              <p class="gate-note">
+                <b>We cannot sell this yet, and we won't pretend otherwise.</b> It is our position,
+                pending counsel, that blocking an order on its way to an exchange is a regulated
+                activity. It is our position, pending counsel, that it requires exchange empanelment
+                we do not currently hold. Until that is resolved, Enforcer is a waitlist and nothing
+                more. <span class="gate-standing">OUR POSITION, NOT A LEGAL OPINION.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DISCLAIMER ============ -->
+      <section class="disclaimer">
+        <div class="wrap">
+          <div class="box">
+            <h2>Risk disclaimer — please read</h2>
+            <p>
+              <b>Warrant Guardian is not investment advice.</b> It does not provide recommendations,
+              signals, tips, or opinions about any security, derivative, or market. It does not tell
+              you what to buy, what to sell, or when. Nothing on this page and nothing produced by
+              the software should be treated as advice or as an inducement to trade.
+            </p>
+            <p>
+              <b
+                >Trading in securities and derivatives involves substantial risk, including the
+                total loss of capital.</b
+              >
+              Derivatives in particular can lose more than the amount initially committed. Whether
+              you trade, what you trade, and how much you risk are decisions that remain entirely
+              yours.
+            </p>
+            <p>
+              <b>Guardian is a monitoring and alerting tool, and monitoring tools can fail.</b>
+              Software has defects, connections drop, data feeds go stale, and machines lose power.
+              Guardian is intended to reduce the chance that you unknowingly breach a limit you set
+              for yourself. It is not a guarantee that a breach cannot occur, and it must not be
+              relied on as your only control.
+            </p>
+            <p>
+              <b>No performance of any kind is claimed.</b> We make no representation, express or
+              implied, about profit, loss, returns, win rates, or outcomes, and any such claim made
+              anywhere in our name would be one we did not authorise.
+            </p>
+            <p>
+              <b>You remain responsible for your own regulatory position.</b> If you are unsure
+              whether your activity, your automation, or your use of this tool is appropriate for
+              your circumstances, consult a qualified professional who is registered to advise you.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap row">
+        <div>
+          <div class="u-brand">AIWorkspace HQ</div>
+          <div>Warrant Guardian — private beta</div>
+        </div>
+        <div>
+          <a href="#never">What it never does</a> &nbsp;·&nbsp;
+          <a href="#pricing">Pricing</a> &nbsp;·&nbsp;
+          <a href="#waitlist">Waitlist</a>
+        </div>
+        <div class="u-w46">
+          Not investment advice. No recommendations. No returns claimed or implied. Trading involves
+          risk of total loss of capital.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* --------------------------------------------------------------
+   Waitlist behaviour.
+   WAITLIST_ENDPOINT is null in this slice — there is no signup
+   backend. Rather than accept an address and drop it, the form
+   hands off to the user's mail client so the submission is real.
+   Set WAITLIST_ENDPOINT to a POST URL to enable inline capture.
+   -------------------------------------------------------------- */
+      /* ── THE ONLY TWO LINES YOU NEED TO TOUCH ─────────────────────────────────
+   WAITLIST_EMAIL     Founder sets this. Empty until then — nothing is invented
+                      here. While empty, the form says signup isn't open rather
+                      than opening a broken mail client. See LANDING-COPY.md.
+   WAITLIST_ENDPOINT  FUNNEL-02 sets this to a POST URL accepting {"email":"..."}.
+                      null until that endpoint exists; a dead POST would silently
+                      swallow addresses, a mailto: actually delivers.
+   ──────────────────────────────────────────────────────────────────────── */
+      var WAITLIST_EMAIL = 'founder@aiworkspacehq.com'; // SL-2: the parachute — stays set even with the endpoint live
+      var WAITLIST_ENDPOINT = '/api/waitlist'; // FUNNEL-02 backend
+
+      (function () {
+        var form = document.getElementById('wl-form');
+        var note = document.getElementById('wl-note');
+        if (!form) return;
+
+        var blurb = document.getElementById('wl-blurb');
+
+        if (WAITLIST_ENDPOINT || WAITLIST_EMAIL) {
+          // A route exists — only now is it honest to promise we'll write back.
+          blurb.textContent +=
+            ' Leave your email and we will write to you when there is ' +
+            'a build worth your time — and nothing in between.';
+        }
+
+        if (!WAITLIST_ENDPOINT && !WAITLIST_EMAIL) {
+          // Neither route configured. Say so plainly rather than pretending to collect.
+          note.textContent =
+            "Waitlist signup isn't open yet — we haven't wired it up, and we'd rather say " +
+            'that than take your address and lose it. Check back shortly.';
+          form.querySelector('input').disabled = true;
+          form.querySelector('button').disabled = true;
+          form.querySelector('button').style.opacity = '.5';
+          form.querySelector('button').style.cursor = 'not-allowed';
+          return;
+        }
+
+        if (!WAITLIST_ENDPOINT) {
+          note.innerHTML =
+            "We haven't built the signup backend yet, so this form opens your email client " +
+            'instead of quietly storing your address. You can also write to ' +
+            '<a href="mailto:' +
+            WAITLIST_EMAIL +
+            '?subject=Warrant%20Guardian%20waitlist">' +
+            WAITLIST_EMAIL +
+            '</a> directly.';
+        }
+
+        var renderedAt = Date.now(); // §4.2 #2: time-to-submit signal
+
+        function mailtoFallback(value) {
+          // SL-1: degrade exactly one rung. The typed address STAYS in the field.
+          if (!WAITLIST_EMAIL) {
+            note.textContent =
+              "That didn't save — and we won't pretend it did. " +
+              'Signup is having trouble; please try again later.';
+            return;
+          }
+          note.innerHTML =
+            "That didn't save — and we won't pretend it did. " +
+            'You can email <a href="mailto:' +
+            WAITLIST_EMAIL +
+            '?subject=Warrant%20Guardian%20waitlist">' +
+            WAITLIST_EMAIL +
+            '</a> instead; your address is still in the box.';
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var input = document.getElementById('wl-email');
+          var button = document.getElementById('wl-btn');
+          var value = (input.value || '').trim();
+
+          if (!value || value.indexOf('@') < 1 || value.indexOf('.') < 0) {
+            note.textContent = "That doesn't look like an email address — mind checking it?";
+            input.focus();
+            return;
+          }
+
+          if (!WAITLIST_ENDPOINT) {
+            window.location.href =
+              'mailto:' +
+              WAITLIST_EMAIL +
+              '?subject=' +
+              encodeURIComponent('Warrant Guardian waitlist') +
+              '&body=' +
+              encodeURIComponent(
+                'Please add ' + value + ' to the Warrant Guardian private beta waitlist.',
+              );
+            note.textContent =
+              "Opening your email client — send the message and you're on the list.";
+            return;
+          }
+
+          if (button.disabled) return; // N: no double-submit
+          button.disabled = true;
+          var savingTimer = setTimeout(function () {
+            note.textContent = 'Saving…';
+          }, 400);
+
+          var controller = new AbortController(); // §6.2: abort at 5 s
+          var timeout = setTimeout(function () {
+            controller.abort();
+          }, 5000);
+
+          fetch(WAITLIST_ENDPOINT, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              email: value,
+              ext_ref: (document.getElementById('wl-ext-ref') || {}).value || '',
+              rendered_ms_ago: Date.now() - renderedAt,
+            }),
+            signal: controller.signal,
+          })
+            .then(function (r) {
+              if (r.status === 429) {
+                note.textContent = 'Too many attempts from here. Try again in a few minutes.';
+                return;
+              }
+              if (r.status === 400) {
+                note.textContent = "That doesn't look like an email address — mind checking it?";
+                input.focus();
+                return;
+              }
+              if (!r.ok) {
+                mailtoFallback(value);
+                return;
+              }
+              // Confirmed 200: the ONLY branch allowed to clear the field (N-2).
+              input.value = '';
+              note.textContent =
+                "You're on the list. We'll write once, when there's a build worth your time.";
+            })
+            .catch(function () {
+              if (!navigator.onLine) {
+                note.textContent =
+                  'You appear to be offline. Your address is still ' +
+                  "in the box — try again when you're back.";
+              } else {
+                mailtoFallback(value);
+              }
+            })
+            .finally(function () {
+              clearTimeout(timeout);
+              clearTimeout(savingTimer);
+              button.disabled = false;
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "matte": "--verdigris",
+  "brass": "--saffron",
+  "paper": "--bg",
+
+  "_floorException": [
+    "FOUNDER DECISION OF RECORD, 2026-08-05. The clause text on the shipped card",
+    "renders at 26.0px against the 32px floor in asset spec §1.4, and at 23.4px on",
+    "the square. The founder accepted the shortfall rather than take a fourth",
+    "capture. It is recorded here rather than passed silently: the compositor",
+    "still measures it, still prints BELOW FLOOR and the exact shortfall on every",
+    "run, and still refuses any capture this record does not name.",
+    "",
+    "WHY IT WAS ACCEPTABLE: the card is legible at the size it is actually seen —",
+    "the clause line lands near 10.8px at a 500px timeline render — and three",
+    "captures had already been taken. The floor is a quality bar, not a",
+    "correctness one.",
+    "",
+    "WHAT WOULD MAKE THIS WRONG: a different capture. The exception is keyed to",
+    "this file's exact dimensions, so re-shooting invalidates it and the refusal",
+    "returns. Lowering `clauseFloorPx` in the script instead would waive the bar",
+    "for every future card, which is not what was decided."
+  ],
+  "floorException": {
+    "captureWidth": 2112,
+    "captureHeight": 643,
+    "acceptedClausePx": 52
+  }
+}

@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import { parse } from 'yaml';
 
@@ -61,6 +62,12 @@ const ROUTES = [
   '/about',
   '/contact',
   '/privacy',
+  '/warrant-guardian/terms',
+  '/warrant-guardian/privacy',
+  '/warrant-guardian/refunds',
+  '/warrant-guardian/delivery',
+  '/warrant-guardian/contact',
+  '/warrant-guardian/about',
   '/404',
 ] as const;
 
@@ -916,6 +923,25 @@ test('M-9 every visible string on every route comes from the copy module', async
   };
   claimsLedger.claims.forEach((claim) => collect(claim.text));
   blocksLedger.blocks.forEach((entry) => collect(entry.copy));
+
+  /**
+   * PR #33 — the frozen legal routes (/about, /contact, /privacy, /terms,
+   * /refunds, /delivery) render from src/legal/*.md, which is a GOVERNED
+   * source with tighter change-control than the copy module: rendered text
+   * is hash-locked by docs/governance/CONTENT-FREEZE.json and
+   * scripts/content-freeze-check.mjs fails the build on any unauthorised
+   * change. M-9's job is "every visible string has a governed home"; the
+   * freeze IS one. Markdown syntax is stripped so rendered fragments match.
+   */
+  for (const legalFile of readdirSync('src/legal').filter((name) => name.endsWith('.md'))) {
+    const markdown = readFileSync(join('src/legal', legalFile), 'utf8')
+      .replace(/^---[\s\S]*?---/, '') // frontmatter
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links -> label
+      .replace(/[#*_`>]/g, '') // md syntax
+      .replace(/\s+/g, ' ')
+      .trim();
+    collect(markdown);
+  }
   for (const extra of [
     'VERIFIED',
     'APPROVED',
@@ -989,8 +1015,18 @@ test('M-9 every visible string on every route comes from the copy module', async
     for (const text of rendered) {
       // A text node may be a fragment of a longer approved string (the contact
       // lead is split around an inline link), so substring containment counts.
+      // Whitespace is normalised on both sides before the fallback substring
+      // check: a dt/dd block renders its markdown source's line break as a
+      // newline, which is a formatting difference, not a wording one. Words
+      // still have to match exactly.
+      const squash = (value: string) => value.replace(/\s+/g, ' ').trim();
+      const textSquashed = squash(text);
       const isApproved = [...approved].some(
-        (entry) => entry === text || entry.includes(text) || text.includes(entry),
+        (entry) =>
+          entry === text ||
+          entry.includes(text) ||
+          text.includes(entry) ||
+          squash(entry).includes(textSquashed),
       );
       // The privacy page renders a lone em dash for the withheld date.
       if (!isApproved && text !== '—' && text !== ':') {
@@ -1106,35 +1142,17 @@ for (const route of ROUTES) {
 
     if (route === '/privacy') {
       /**
-       * `/privacy` is the one deliberate exception, and it is frozen rather
-       * than excused.
-       *
-       * P1-J §9 REQUIRES all twelve `h2`s in P0 order — a heading with a
-       * withheld body tells the reader the section exists and tells a reviewer
-       * exactly what is missing. The page also must not be published in this
-       * state (`06` §7), so no reader is exposed to it.
-       *
-       * That reasoning does not extend to `/contact`, which IS intended for
-       * publication; see CONTACT-1. Listing the three by name means a fourth
-       * section quietly emptying out fails this test.
+       * PR #33 published the real privacy policy (FD-AG4-A): the withheld
+       * sections and their `privacy-section-N` skeleton no longer exist, so
+       * the pins that froze that withheld state are gone with it. What must
+       * now hold on a PUBLISHED policy: no heading announces into silence,
+       * and no build-time placeholder survives. The text itself is
+       * hash-locked by docs/governance/CONTENT-FREEZE.json.
        */
-      expect(empty, '/privacy: an unexpected region is empty').toEqual([]);
-      await expect(page.locator('h2#privacy-section-1 + h2#privacy-section-2')).toHaveCount(1);
-      await expect(page.locator('h2#privacy-section-7 + h2#privacy-section-8')).toHaveCount(1);
-
-      /**
-       * Section 12 "Contact" is not in that list only because the page's back
-       * link happens to be the next sibling, so it is not literally empty. Its
-       * own body — {{PRIVACY_EMAIL}} — is withheld like the other two.
-       *
-       * Recorded rather than fixed: moving the back link out of the article
-       * would be the semantically correct change, but it alters the structure
-       * of an approved page for no reader benefit while the page cannot be
-       * published anyway. See known-limitations.md L-7.
-       */
-      const contactBody = await page.locator('h2#privacy-section-12 + *').first().textContent();
-      expect(contactBody?.trim(), 'privacy §12 gained a real body — update L-7').toBe(
-        privacy.backLinkText,
+      expect(empty, '/privacy: a heading has no content beneath it').toEqual([]);
+      const html = await page.content();
+      expect(html, '/privacy: a build-time placeholder reached the published policy').not.toMatch(
+        /\{\{[^}]+\}\}/,
       );
       return;
     }

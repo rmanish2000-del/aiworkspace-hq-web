@@ -19,3 +19,5 @@ blob-report/
 package-lock.json
 LICENSE
 *.log
+# hand-authored static page; html-validate requires the uppercase DOCTYPE prettier folds
+public/warrant-guardian/index.html
