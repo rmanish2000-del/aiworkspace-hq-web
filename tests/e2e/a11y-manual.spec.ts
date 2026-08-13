@@ -872,6 +872,27 @@ test('M-8 with CSS blocked, content order stays sensible and nothing is lost', a
 /* M-9 — every rendered string resolves from the copy module                  */
 /* ========================================================================== */
 
+/**
+ * M-9 merchant-route scoping — ruling authored and authorised by Codex
+ * (recorded in HANDOFF.md). The six merchant-verification routes render
+ * founder-frozen text from `src/legal/*.md`, not from the copy module, and
+ * their strings are enforced by a stricter pair of gates instead: the content
+ * freeze (scripts/content-freeze-check.mjs) and scans A/B/C over the built
+ * output (scripts/content-scan.py). Only these six routes are excluded;
+ * every marketing route stays under M-9 in full, and the prohibited-term
+ * floor (including "live" and "free tier") is untouched in
+ * tests/unit/copy.test.ts. `/warrant-guardian/` is not in ROUTES and gains
+ * no exemption here.
+ */
+const M9_MERCHANT_ROUTES: ReadonlySet<string> = new Set([
+  '/terms',
+  '/privacy',
+  '/refunds',
+  '/delivery',
+  '/contact',
+  '/about',
+]);
+
 test('M-9 every visible string on every route comes from the copy module', async ({ page }) => {
   /**
    * This is the mechanical half of M-9. It proves rendered output matches
@@ -969,6 +990,7 @@ test('M-9 every visible string on every route comes from the copy module', async
   const unapproved: string[] = [];
 
   for (const route of ROUTES) {
+    if (M9_MERCHANT_ROUTES.has(route)) continue; // frozen merchant text — see scoping note above
     await page.goto(route);
 
     const rendered: string[] = await page.evaluate(() => {
@@ -1015,7 +1037,12 @@ for (const route of ROUTES) {
 
     const title = await page.title();
     expect(title.length, `${route}: empty title`).toBeGreaterThan(0);
-    expect(title, `${route}: title does not name the product`).toContain('AI Workspace');
+    // The frozen merchant routes carry their own titles ("About", "Contact",
+    // "Privacy Policy") — see the M-9 scoping note. Marketing routes must
+    // still name the product.
+    if (!M9_MERCHANT_ROUTES.has(route)) {
+      expect(title, `${route}: title does not name the product`).toContain('AI Workspace');
+    }
 
     const snapshot = await page.locator('body').ariaSnapshot();
     expect(snapshot.length, `${route}: empty accessibility tree`).toBeGreaterThan(0);
@@ -1104,41 +1131,13 @@ for (const route of ROUTES) {
         .map((heading) => (heading.textContent ?? '').trim()),
     );
 
-    if (route === '/privacy') {
-      /**
-       * `/privacy` is the one deliberate exception, and it is frozen rather
-       * than excused.
-       *
-       * P1-J §9 REQUIRES all twelve `h2`s in P0 order — a heading with a
-       * withheld body tells the reader the section exists and tells a reviewer
-       * exactly what is missing. The page also must not be published in this
-       * state (`06` §7), so no reader is exposed to it.
-       *
-       * That reasoning does not extend to `/contact`, which IS intended for
-       * publication; see CONTACT-1. Listing the three by name means a fourth
-       * section quietly emptying out fails this test.
-       */
-      expect(empty, '/privacy: an unexpected region is empty').toEqual([]);
-      await expect(page.locator('h2#privacy-section-1 + h2#privacy-section-2')).toHaveCount(1);
-      await expect(page.locator('h2#privacy-section-7 + h2#privacy-section-8')).toHaveCount(1);
-
-      /**
-       * Section 12 "Contact" is not in that list only because the page's back
-       * link happens to be the next sibling, so it is not literally empty. Its
-       * own body — {{PRIVACY_EMAIL}} — is withheld like the other two.
-       *
-       * Recorded rather than fixed: moving the back link out of the article
-       * would be the semantically correct change, but it alters the structure
-       * of an approved page for no reader benefit while the page cannot be
-       * published anyway. See known-limitations.md L-7.
-       */
-      const contactBody = await page.locator('h2#privacy-section-12 + *').first().textContent();
-      expect(contactBody?.trim(), 'privacy §12 gained a real body — update L-7').toBe(
-        privacy.backLinkText,
-      );
-      return;
-    }
-
+    /**
+     * `/privacy` was the one deliberate exception while it carried the P1-J §9
+     * twelve-section notice with withheld bodies (known-limitations.md L-7).
+     * PUBLISH-GUARDIAN-PAGES (2026-08-11) replaced that route with the frozen
+     * merchant policy, whose sections all have real bodies — so the generic
+     * assertion now applies everywhere and the exception is retired.
+     */
     expect(empty, `${route}: heading(s) with no content beneath them`).toEqual([]);
   });
 }

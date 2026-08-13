@@ -8,7 +8,15 @@ import { expect, test } from '@playwright/test';
  * must not be linked, and must not appear in the sitemap (P1-J §12, §13, §15).
  */
 
-const ROUTES = [
+type RouteExpectation = {
+  readonly path: string;
+  readonly title: string;
+  readonly h1: string;
+  /** Founder-frozen merchant-verification route — see the note on /about. */
+  readonly merchant?: boolean;
+};
+
+const ROUTES: readonly RouteExpectation[] = [
   {
     path: '/',
     title: 'AI Workspace — Governed enterprise AI operations',
@@ -65,19 +73,28 @@ const ROUTES = [
     title: 'Principles — AI Workspace',
     h1: 'How we are building it',
   },
-  { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
-  { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
+  /**
+   * PUBLISH-GUARDIAN-PAGES (2026-08-11): /about, /contact and /privacy are
+   * three of the six founder-frozen merchant-verification routes. Their text
+   * renders from `src/legal/*.md` under the content freeze
+   * (docs/governance/CONTENT-FREEZE.json), their canonicals carry a trailing
+   * slash, and they are indexable — merchant verification reads them off the
+   * live site. `merchant: true` drives those expectations below.
+   */
+  { path: '/about', title: 'About', h1: 'About', merchant: true },
+  { path: '/contact', title: 'Contact', h1: 'Contact', merchant: true },
   {
     path: '/privacy',
-    title: 'Privacy notice — AI Workspace',
-    h1: 'Privacy notice',
+    title: 'Privacy Policy',
+    h1: 'Privacy Policy',
+    merchant: true,
   },
   {
     path: '/404',
     title: 'Page not found — AI Workspace',
     h1: 'Page not found',
   },
-] as const;
+];
 
 /** FD-AG4 wave 1 (CC-009 §0) — exactly these five routes are indexable. */
 const WAVE_1 = [
@@ -157,8 +174,12 @@ for (const route of ROUTES) {
   }) => {
     await page.goto(route.path);
 
+    // The merchant routes canonicalise with a trailing slash (their frozen
+    // convention); the marketing routes without one.
     const expected =
-      route.path === '/' ? 'https://aiworkspacehq.com/' : `https://aiworkspacehq.com${route.path}`;
+      route.path === '/'
+        ? 'https://aiworkspacehq.com/'
+        : `https://aiworkspacehq.com${route.path}${route.merchant ? '/' : ''}`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', expected);
 
     /**
@@ -166,8 +187,11 @@ for (const route of ROUTES) {
      * `index, follow`; `/404` stays `noindex` — an error page in the index is
      * a defect, and `08` SEO-10 names indexing mistakes in BOTH directions.
      */
-    // FD-AG4 wave 1 (CC-009 §0): five indexable routes; everything else noindex.
-    const expectedRobots = WAVE_1.includes(route.path) ? /^index, follow$/ : /noindex/;
+    // FD-AG4 wave 1 (CC-009 §0): the wave-1 routes are indexable, and so are
+    // the founder-frozen merchant-verification routes — merchant verification
+    // must be able to find them. Everything else stays noindex.
+    const expectedRobots =
+      WAVE_1.includes(route.path) || route.merchant ? /^index, follow$/ : /noindex/;
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', expectedRobots);
   });
 
@@ -420,70 +444,54 @@ test('/platform preserves intent tense and renders only verified Assignment capa
   }
 });
 
-test('/contact publishes no address and no form', async ({ page }) => {
-  // P1-J §8.1: "A contact page that publishes a non-existent address is worse
-  // than no contact page." Open Item C is open.
+test('/contact publishes the frozen entity block and no form', async ({ page }) => {
+  /**
+   * PUBLISH-GUARDIAN-PAGES (2026-08-11) superseded the P1-J §8.1 "no address"
+   * rule for this route: /contact is now one of the six founder-frozen
+   * merchant-verification pages, and the entity block it publishes is CONTENT,
+   * not chrome — merchant verification reads it off the live site (see the
+   * Codex note in HANDOFF.md). The byte-exact text is enforced by the content
+   * freeze; this test asserts the parts whose absence would break merchant
+   * verification, and that the page still carries no form.
+   */
   await page.goto('/contact');
 
-  await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+  const body = (await page.textContent('main')) ?? '';
+  expect(body).toContain('Kartavya CSC Digital Seva');
+  expect(body).toContain('GSTIN: 23AKZPP1502D1ZB');
+  expect(body).toContain('Udyam Registration: UDYAM-MP-39-0001250');
+  await expect(page.locator('main a[href^="mailto:"]').first()).toBeVisible();
+
   await expect(page.locator('form')).toHaveCount(0);
   await expect(page.locator('input, textarea, select')).toHaveCount(0);
-
-  /**
-   * P1-M defect CONTACT-1 — two of the four specified sections are withheld.
-   *
-   * "General enquiries" and "Where we are" have no body that is not a withheld
-   * placeholder ({{PRIVACY_EMAIL}}; {{LEGAL_ENTITY_NAME}} + {{REGISTERED_ADDRESS}}).
-   * They previously rendered as a heading followed by nothing — a gap on screen
-   * and silence to a screen reader.
-   *
-   * That is the same failure §8.1 names above, one step removed: a section that
-   * announces a contact route and then supplies none is worse than no section.
-   * Both headings remain untouched in the copy module and return the moment
-   * Open Items B and C resolve.
-   *
-   * FLAGGED FOR FOUNDER CONFIRMATION — see release-candidate-report.md.
-   */
-  const headings = await page.locator('main h2').allTextContents();
-  expect(headings).toEqual(['Privacy and data requests', 'Security']);
-
-  // The withheld headings are absent from the page, not merely hidden.
-  const html = await page.content();
-  for (const withheld of ['General enquiries', 'Where we are']) {
-    expect(html, `${withheld} still reaches the document`).not.toContain(withheld);
-  }
 });
 
-test('/privacy renders all twelve sections in order, with no leaked text', async ({ page }) => {
-  // P1-J §9 acceptance: twelve h2s in P0 order.
+test('/privacy renders the frozen merchant policy with its standing statement', async ({
+  page,
+}) => {
+  /**
+   * PUBLISH-GUARDIAN-PAGES (2026-08-11) replaced the P1-J §9 twelve-section
+   * notice on this route with the founder-frozen Warrant Guardian privacy
+   * policy (src/legal/privacy.md). The byte-exact text is enforced by the
+   * content freeze; this test asserts the invariants a drift would most need
+   * to violate: the scan-C standing statement, the no-tracking commitment,
+   * and the entity identification merchant verification reads.
+   */
   await page.goto('/privacy');
 
-  const headings = await page.locator('article.prose > h2').allTextContents();
-  expect(headings).toEqual([
-    'Who we are',
-    'What we collect',
-    'Cookies',
-    'Why we use it, and on what basis',
-    'How long we keep it',
-    'Who we share it with',
-    'Where your information is held',
-    'Your rights and how to use them',
-    'How we protect it',
-    'Children',
-    'Changes to this notice',
-    'Contact',
-  ]);
+  const body = (await page.textContent('main')) ?? '';
 
-  const body = (await page.textContent('body')) ?? '';
+  // Scan C — regulatory characterisations require the standing statement.
+  expect(body).toContain('OUR POSITION, NOT A LEGAL OPINION');
 
-  // `06` §7 must not be published in its current form.
-  expect(body).not.toContain('may store and process information outside');
-  // The single-page claim is false at Phase 1.
-  expect(body).not.toContain('This site is a single page');
+  // The no-tracking commitment, in the frozen policy's own words.
+  expect(body).toContain('Cookies, analytics, pixels, trackers - none.');
+
+  // Entity identification.
+  expect(body).toContain('Kartavya CSC Digital Seva');
+  expect(body).toContain('GSTIN: 23AKZPP1502D1ZB');
+
   // No processing this build does not perform.
   expect(body).not.toContain('we measure aggregate usage');
   expect(body).not.toContain('bot check provided by');
-
-  // Binding commitment C-13 is present.
-  expect(body).toContain('We do not use tracking cookies on this site.');
 });

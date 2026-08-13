@@ -159,11 +159,24 @@ const htmlFiles = () =>
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 15) {
-    throw new Error(`expected 15 route documents, found ${files.length}`);
+  // 19 since PUBLISH-GUARDIAN-PAGES: the 12 marketing routes + /404 + the six
+  // merchant-verification pages + /warrant-guardian/ (founder-authorised,
+  // frozen in docs/governance/CONTENT-FREEZE.json).
+  if (files.length !== 19) {
+    throw new Error(`expected 19 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
+
+/**
+ * The static passthrough at /warrant-guardian/ is a founder-frozen artifact
+ * copied from public/ — it is not rendered through Base.astro, carries its
+ * own section-divider comments, and may not be edited (CONTENT-FREEZE.json).
+ * Checks that assert properties of the TEMPLATED head therefore skip it;
+ * its text is enforced by the freeze check and scans A/B/C instead.
+ */
+const STATIC_PASSTHROUGH = join(DIST, 'warrant-guardian', 'index.html');
+const templatedHtmlFiles = () => htmlFiles().filter((f) => f !== STATIC_PASSTHROUGH);
 
 check('no build-time placeholder reaches output', () => {
   const leaks = [];
@@ -190,17 +203,62 @@ check('no superseded copy reaches output', () => {
 });
 
 check('no internal comment reaches output', () => {
-  // Template comments once carried placeholder names into /privacy.
-  const withComments = htmlFiles().filter((f) => readFileSync(f, 'utf8').includes('<!--'));
+  // Template comments once carried placeholder names into /privacy. The frozen
+  // static passthrough is exempt — see STATIC_PASSTHROUGH above.
+  const withComments = templatedHtmlFiles().filter((f) => readFileSync(f, 'utf8').includes('<!--'));
   if (withComments.length) throw new Error(`HTML comments in ${withComments.join(', ')}`);
   return 'none';
+});
+
+check('every templated route declares its own canonical path', () => {
+  /**
+   * Canonical-path guard (LAND-THREE-STREAMS). Each route document rendered
+   * through Base.astro must carry exactly one rel=canonical, on the approved
+   * origin, whose path resolves back to the document that serves it — so a
+   * copied template can never ship pointing search engines at a different
+   * route, and no route can silently lose its canonical.
+   */
+  const ORIGIN = 'https://aiworkspacehq.com';
+  for (const file of templatedHtmlFiles()) {
+    const html = readFileSync(file, 'utf8');
+    const tags = [...html.matchAll(/<link rel="canonical" href="([^"]+)"\s*\/?>/g)];
+    if (tags.length !== 1) {
+      throw new Error(`${file}: expected exactly 1 canonical link, found ${tags.length}`);
+    }
+    const href = tags[0][1];
+    if (!href.startsWith(`${ORIGIN}/`)) {
+      throw new Error(`${file}: canonical "${href}" is not on the approved origin`);
+    }
+
+    // The path the file location implies: index.html -> '/', foo.html -> '/foo',
+    // dir/index.html -> '/dir/'. Trailing-slash style is the route's own choice
+    // (the merchant pages use it; the marketing routes do not), so compare with
+    // the trailing slash normalised away.
+    const key = file.slice(DIST.length + 1).replace(/\\/g, '/');
+    const expected =
+      key === 'index.html'
+        ? '/'
+        : key.endsWith('/index.html')
+          ? `/${key.slice(0, -'/index.html'.length)}/`
+          : `/${key.slice(0, -'.html'.length)}`;
+
+    const normalise = (p) => (p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p);
+    const actual = href.slice(ORIGIN.length);
+    if (normalise(actual) !== normalise(expected)) {
+      throw new Error(`${file}: canonical path "${actual}" does not match "${expected}"`);
+    }
+  }
+  return `${templatedHtmlFiles().length} routes, each canonical to itself`;
 });
 
 check('no client JavaScript ships', () => {
   const js = readdirSync(DIST, { recursive: true }).filter((f) => String(f).endsWith('.js'));
   if (js.length) throw new Error(`${js.length} script file(s) in dist/`);
 
-  for (const file of htmlFiles()) {
+  // The frozen /warrant-guardian/ passthrough carries its one authorised
+  // inline script (FUNNEL-02 wiring with one-rung degradation, commit
+  // 6b9a596) — every templated route still ships zero executable script.
+  for (const file of templatedHtmlFiles()) {
     const scripts = [...readFileSync(file, 'utf8').matchAll(/<script([^>]*)>/g)].map((m) => m[1]);
     const executable = scripts.filter((attrs) => !attrs.includes('application/ld+json'));
     if (executable.length) throw new Error(`${file} has ${executable.length} executable script(s)`);

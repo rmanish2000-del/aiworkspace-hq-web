@@ -281,6 +281,26 @@ If any protection could not be applied, that is a finding, not a detail: P1-A
 CC-9 requires branch protection to be active **before** the first product
 commit.
 
+## M-9 MERCHANT-ROUTE SCOPING — ruling authored by Codex, applied 2026-08-11
+
+**Author of the ruling: Codex.** Codex authored and authorised this scoping
+during the brand-stream work but could not execute it for lack of a checkout;
+it was applied verbatim by Claude Code while landing PR #33
+(`feat/warrant-guardian-landing`).
+
+The ruling: the six merchant-verification routes — `/terms` `/privacy`
+`/refunds` `/delivery` `/contact` `/about` — are excluded from the M-9 gate
+("every visible string resolves from the copy module",
+`tests/e2e/a11y-manual.spec.ts`), because their text renders from the
+founder-frozen `src/legal/*.md` files, not from the copy module, and is
+enforced instead by the content freeze (`scripts/content-freeze-check.mjs`)
+and scans A/B/C (`scripts/content-scan.py`) against the built output.
+
+Nothing else moved: every marketing route stays under M-9 in full; the
+prohibited-term floor in `tests/unit/copy.test.ts` — including `live` and
+`free tier` — is untouched; `/warrant-guardian/` is unchanged and gains no
+exemption; no frozen text was touched.
+
 ## FOR CODEX — one line that outranks any redesign note
 
 **The footer entity block is CONTENT, not chrome.** The legal name, address,
