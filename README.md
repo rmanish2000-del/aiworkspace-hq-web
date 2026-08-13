@@ -2,6 +2,12 @@
 
 The public product surface. Private repository.
 
+> **Working rules:** every agent works under
+> [`REPO-CONSTITUTION.md`](REPO-CONSTITUTION.md) — one canonical folder
+> (`C:\Push-to-Prod-2026\aiworkspace-hq-web`), rebase-only landings, push
+> before cleanup, freeze-governed content, script-recorded baselines. Each rule
+> is labelled TEST-ENFORCED or HONOUR-SYSTEM; read the labels literally.
+
 **This build is not deployed and is not deployable.** It runs on `localhost`
 only. Deployment requires gate AG-3, which has not been granted. See
 [`PROJECT_STATE.md`](PROJECT_STATE.md) for exactly what exists.

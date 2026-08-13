@@ -79,6 +79,30 @@ function finish(code) {
 /* 1. Static analysis — cheapest first                                        */
 /* -------------------------------------------------------------------------- */
 
+check('the build ran from the canonical folder', () => {
+  /**
+   * REPO-CONSTITUTION rule 1 (TEST-ENFORCED half). Release evidence produced
+   * from a retired working copy looks identical to real evidence — this is
+   * the DC-6 fix: the one-folder rule fails the build instead of relying on
+   * memory. CI runners build from ephemeral paths and are exempt via `CI`;
+   * `AIWHQ_PATH_EXEMPT=1` allows a one-off forensic run and must be reported.
+   */
+  if (process.env.CI) return 'CI runner — path guard exempt';
+  if (process.env.AIWHQ_PATH_EXEMPT === '1') {
+    return 'EXEMPT via AIWHQ_PATH_EXEMPT — this run must be reported as such';
+  }
+  const canonical = 'c:\\push-to-prod-2026\\aiworkspace-hq-web';
+  const actual = process.cwd().replace(/\//g, '\\').replace(/\\+$/, '').toLowerCase();
+  if (actual !== canonical) {
+    throw new Error(
+      `built from "${process.cwd()}" — the canonical working copy is ` +
+        'C:\\Push-to-Prod-2026\\aiworkspace-hq-web (REPO-CONSTITUTION rule 1). ' +
+        'A retired folder must not produce release evidence.',
+    );
+  }
+  return 'canonical';
+});
+
 check('the running Node version satisfies the pin', () => {
   /**
    * `npm ci` only WARNS when the runtime is below the `engines` floor, so a
