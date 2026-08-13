@@ -19,6 +19,7 @@
  * going produces a wall of consequential errors and buries the real one.
  */
 import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
@@ -397,6 +398,55 @@ run(
 /* -------------------------------------------------------------------------- */
 
 run('claim-ledger gate (G-LEDGER)', 'node scripts/ledger-gate.mjs');
+
+/* -------------------------------------------------------------------------- */
+/* 4b. Scans A/B/C — Cowork's scanners against the BUILT output               */
+/* (WIRE-SCANS-TO-BUILT-OUTPUT, 2026-08-13). Both scan Bs run: scan_c_built's */
+/* 15-phrase SHIPPED list and scan_b's truth-doc-derived set catch different  */
+/* things and neither supersedes the other. Exit 2 fails LOUDER than exit 1:  */
+/* a 2 means the scanner did not scan what it claims to have scanned — a      */
+/* false green, worse than a found defect.                                    */
+/* -------------------------------------------------------------------------- */
+
+check('scanner sources match SHA256SUMS.txt (verbatim-ness is testable)', () => {
+  const lines = readFileSync(join('scripts', 'scanners', 'SHA256SUMS.txt'), 'utf8')
+    .trim()
+    .split('\n');
+  for (const line of lines) {
+    const [want, rawName] = line.trim().split(/\s+/);
+    const name = rawName.replace(/^\*/, '');
+    const got = createHash('sha256')
+      .update(readFileSync(join('scripts', 'scanners', name)))
+      .digest('hex');
+    if (got !== want) throw new Error(`${name}: ${got} != recorded ${want} — NOT verbatim`);
+  }
+  return `${lines.length} files verbatim (scan_b.py, scan_c.py, truth doc)`;
+});
+
+for (const [label, args] of [
+  ['scan A/B/C (scan_c_built) on dist', 'scripts/scanners/scan_c_built.py'],
+  [
+    'scan B (feature truth) on the built landing',
+    'scripts/scanners/scan_b.py dist/warrant-guardian/index.html scripts/scanners/GUARDIAN-TIER0-FEATURE-TRUTH-v2.md',
+  ],
+]) {
+  check(label, () => {
+    const py = process.platform === 'win32' ? 'python' : 'python3';
+    try {
+      execSync(`${py} ${args}`, { stdio: 'pipe' });
+    } catch (error) {
+      const out = `${error.stdout ?? ''}${error.stderr ?? ''}`;
+      if (error.status === 2) {
+        throw new Error(
+          `SCANNER ABORT (exit 2) — the scanner DID NOT SCAN what it claims to have scanned. ` +
+            `This is a FALSE-GREEN condition and outranks any finding.\n${out}`,
+        );
+      }
+      throw new Error(`scanner findings (exit ${error.status}):\n${out}`);
+    }
+    return 'CLEAN — 0 findings';
+  });
+}
 
 /* -------------------------------------------------------------------------- */
 /* 5. Browser matrix — accessibility, routes, viewports, three engines        */

@@ -133,6 +133,29 @@ jobs:
       - name: Claim-ledger gate (G-LEDGER)
         run: node scripts/ledger-gate.mjs
 
+      # WIRE-SCANS-TO-BUILT-OUTPUT (2026-08-13): Cowork's scanners against the
+      # BUILT output. Exit 2 = the scanner did not scan what it claims to have
+      # scanned — a false green, and it fails louder than a finding.
+      - name: Scans A/B/C on the built output (scan_c_built)
+        run: |
+          python3 scripts/scanners/scan_c_built.py || {
+            code=$?
+            if [ "$code" -eq 2 ]; then
+              echo '::error::SCANNER ABORT (exit 2) — FALSE GREEN: the scanner did not scan what it claims to have scanned'
+            fi
+            exit "$code"
+          }
+
+      - name: Scan B (feature truth) on the built landing
+        run: |
+          python3 scripts/scanners/scan_b.py dist/warrant-guardian/index.html scripts/scanners/GUARDIAN-TIER0-FEATURE-TRUTH-v2.md || {
+            code=$?
+            if [ "$code" -eq 2 ]; then
+              echo '::error::SCANNER ABORT (exit 2) — FALSE GREEN: the scanner did not scan what it claims to have scanned'
+            fi
+            exit "$code"
+          }
+
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 

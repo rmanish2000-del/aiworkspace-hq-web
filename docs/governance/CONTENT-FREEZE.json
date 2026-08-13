@@ -49,6 +49,12 @@
       "authorised_by": "founder (ruling 2026-08-13, UNIFY-LEGAL-SURFACE Slice-1: ROOT canonical)",
       "reason": "One domain, one entity: the six legal routes move from /warrant-guardian/* back to the root, replacing the entity-less AI Workspace /privacy, /contact and /about \u2014 the certified Kartavya CSC Digital Seva text (controller, GSTIN, Udyam, Deori Sagar MP, founder@) now serves at the canonical root; /warrant-guardian/* redirects back. Rendered text is BYTE-IDENTICAL to the frozen values \u2014 every hash is unchanged, only route keys moved. One response commitment across all six: 'Within 3 business days' (certified frozen text wins; the AIW P0 promises are superseded with the replaced pages). Scan re-run pending - definitions held in Cowork seat, requested 2026-08-13.",
       "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery", "/contact", "/about"]
+    },
+    {
+      "date": "2026-08-13",
+      "authorised_by": "founder (ruling 2026-08-13, WIRE-SCANS-TO-BUILT-OUTPUT)",
+      "reason": "No rendered text changed - every hash is untouched. This entry records what the freeze RESTS ON. Finding: neither scanner had ever run against built Astro output; every prior 'zero findings' was against markdown sources and one standalone HTML file - artifacts that do not deploy (DC-1 under the freeze itself). As of this entry the scans run against dist/: scan_c_built.py (Cowork scan_c.py sha 53d3e18330e9..., MANIFEST repointed to the seven deployed documents) and scan_b.py (sha 7921db5c830f..., verbatim) both ran on the built output for the FIRST time - 7/7 surfaces, 0 findings each - and are wired into verify:release and CI with exit 2 failing louder than exit 1. Scan A's historical record, per ruling 3: what is true is 22 terms, 0 findings, seven surfaces, 2026-08-10; the referenced 42-term list does not exist and is recorded here as UNVERIFIABLE, not reconstructed.",
+      "routes_changed": []
     }
   ],
   "routes": {
