@@ -55,6 +55,12 @@
       "authorised_by": "founder (ruling 2026-08-13, WIRE-SCANS-TO-BUILT-OUTPUT)",
       "reason": "No rendered text changed - every hash is untouched. This entry records what the freeze RESTS ON. Finding: neither scanner had ever run against built Astro output; every prior 'zero findings' was against markdown sources and one standalone HTML file - artifacts that do not deploy (DC-1 under the freeze itself). As of this entry the scans run against dist/: scan_c_built.py (Cowork scan_c.py sha 53d3e18330e9..., MANIFEST repointed to the seven deployed documents) and scan_b.py (sha 7921db5c830f..., verbatim) both ran on the built output for the FIRST time - 7/7 surfaces, 0 findings each - and are wired into verify:release and CI with exit 2 failing louder than exit 1. Scan A's historical record, per ruling 3: what is true is 22 terms, 0 findings, seven surfaces, 2026-08-10; the referenced 42-term list does not exist and is recorded here as UNVERIFIABLE, not reconstructed.",
       "routes_changed": []
+    },
+    {
+      "date": "2026-08-13",
+      "authorised_by": "founder (AUDIT-EXCEPTION-AND-PR, ruling 2)",
+      "reason": "No text changed by this entry - it records a SUBSTITUTION already live so it stays visible: the AI Workspace privacy page carried the C-13 sentence 'We do not use tracking cookies on this site.'; UNIFY-LEGAL-SURFACE replaced that page with the frozen Guardian policy whose wording is 'Cookies, analytics, pixels, trackers - none.' The founder ruled the Guardian wording STANDS - it is stricter (bars all cookies, analytics, pixels and trackers, not only tracking cookies). C-13 behaviour remains machine-verified by G-C13. For the register (assignment scope 4): the previous freeze rested on markdown sources and a standalone HTML that never deploys - a DC-1 instance under the freeze itself, closed 2026-08-13 by the first built-output scan run (0 findings, 7/7 surfaces).",
+      "routes_changed": []
     }
   ],
   "routes": {
