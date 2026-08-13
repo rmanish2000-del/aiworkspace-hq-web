@@ -11,12 +11,12 @@ const freeze = JSON.parse(readFileSync('docs/governance/CONTENT-FREEZE.json', 'u
 // /warrant-guardian/*; the root /about /contact /privacy are AI Workspace
 // pages governed by the copy module, not this freeze.
 const FILES = {
-  '/warrant-guardian/terms': 'dist/warrant-guardian/terms.html',
-  '/warrant-guardian/privacy': 'dist/warrant-guardian/privacy.html',
-  '/warrant-guardian/refunds': 'dist/warrant-guardian/refunds.html',
-  '/warrant-guardian/delivery': 'dist/warrant-guardian/delivery.html',
-  '/warrant-guardian/contact': 'dist/warrant-guardian/contact.html',
-  '/warrant-guardian/about': 'dist/warrant-guardian/about.html',
+  '/terms': 'dist/terms.html',
+  '/privacy': 'dist/privacy.html',
+  '/refunds': 'dist/refunds.html',
+  '/delivery': 'dist/delivery.html',
+  '/contact': 'dist/contact.html',
+  '/about': 'dist/about.html',
   '/warrant-guardian/': 'dist/warrant-guardian/index.html',
 };
 

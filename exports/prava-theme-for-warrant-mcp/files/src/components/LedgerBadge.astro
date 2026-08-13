@@ -1,0 +1,79 @@
+---
+/**
+ * LedgerBadge — the CC-004 §6 tier encoding, rendered with the site's own
+ * tokens (the full CC-004 visual system arrives with its ratification; the
+ * ENCODING — hue, treatment, glyph, mono dated label — ships now, CC-008).
+ * Zero JavaScript; pure CSS.
+ */
+import type { Tier } from '../lib/ledger';
+
+export interface Props {
+  tier: Tier;
+  date: string;
+}
+
+const { tier, date } = Astro.props;
+
+const LABEL: Record<Tier, string> = {
+  Verified: 'VERIFIED',
+  Approved: 'APPROVED',
+  'Under-design': 'UNDER DESIGN',
+  Gated: 'GATED',
+};
+const GLYPH: Record<Tier, string> = {
+  Verified: '✓',
+  Approved: '→',
+  'Under-design': '◌',
+  Gated: '◆',
+};
+---
+
+<span class:list={['ledger-badge', `ledger-badge--${tier.toLowerCase()}`]}>
+  <span aria-hidden="true">{GLYPH[tier]}</span>
+  <span>{LABEL[tier]} · {date}</span>
+</span>
+
+<style>
+  .ledger-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 1px var(--space-3);
+    border-radius: var(--radius-sm);
+    /* The mono voice now has a token, and the token leads with IBM Plex Mono. */
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--type-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .ledger-badge--verified {
+    background-color: var(--success);
+    color: var(--accent-fg);
+  }
+
+  .ledger-badge--approved {
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    background-color: transparent;
+  }
+
+  .ledger-badge--under-design {
+    border: 1.5px dashed var(--fg-muted);
+    color: var(--fg-muted);
+    background-color: transparent;
+  }
+
+  .ledger-badge--gated {
+    background-color: var(--bg-subtle);
+    color: var(--fg-muted);
+  }
+
+  @media (forced-colors: active) {
+    .ledger-badge {
+      border: 1px solid CanvasText;
+    }
+  }
+</style>

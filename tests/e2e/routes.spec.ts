@@ -65,12 +65,29 @@ const ROUTES = [
     title: 'Principles — AI Workspace',
     h1: 'How we are building it',
   },
-  { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
+  // UNIFY-LEGAL-SURFACE (founder ruling 2026-08-13): the six legal routes are
+  // canonical at root, serving the certified frozen Kartavya text.
+  { path: '/about', title: 'About — AI Workspace', h1: 'About' },
   { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
   {
     path: '/privacy',
-    title: 'Privacy notice — AI Workspace',
-    h1: 'Privacy notice',
+    title: 'Privacy Policy — AI Workspace',
+    h1: 'Privacy Policy',
+  },
+  {
+    path: '/terms',
+    title: 'Terms of Service — AI Workspace',
+    h1: 'Terms of Service',
+  },
+  {
+    path: '/refunds',
+    title: 'Refund and Cancellation Policy — AI Workspace',
+    h1: 'Refund and Cancellation Policy',
+  },
+  {
+    path: '/delivery',
+    title: 'Delivery Policy — AI Workspace',
+    h1: 'Delivery Policy',
   },
   {
     path: '/404',

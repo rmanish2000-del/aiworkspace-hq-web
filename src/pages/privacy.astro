@@ -1,176 +1,40 @@
 ---
 /**
- * `/privacy` — P0 `06` Part B, via P1-J §9.
+ * `/privacy` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
  *
- * ┌───────────────────────────────────────────────────────────────────────────┐
- * │ THIS PAGE IS BUILT. IT IS NOT PUBLISHABLE.                                │
- * │                                                                           │
- * │ `06` opens with "⚠️ LEGAL REVIEW REQUIRED — DO NOT PUBLISH AS-IS". Open   │
- * │ Item A (counsel) and Open Item B (entity, jurisdiction, regime) are both  │
- * │ open, AG-4 is ungranted, and every route in this build is `noindex`.      │
- * │                                                                           │
- * │ Three transformations are applied, each required by an approved rule:     │
- * │                                                                           │
- * │  1. `[LEGAL]` markers stripped. `06` Part A: "Flags are markers for       │
- * │     review and must be stripped before publication." They never appear    │
- * │     in `copy.ts`, so they cannot leak.                                    │
- * │                                                                           │
- * │  2. Sentences carrying a `{{...}}` build-time placeholder are WITHHELD.   │
- * │     `04`'s header note and P1-J §9 both forbid one reaching the browser,  │
- * │     and P-10 forbids editing an approved string to remove it.             │
- * │                                                                           │
- * │  3. Sentences describing processing this build does not perform are also  │
- * │     withheld. `06` Part A is explicit: "the notice must not describe any  │
- * │     processing the implementation does not perform." There is no          │
- * │     analytics (P-06), no bot mitigation (P-08), no store and no email —   │
- * │     so §2's measurement and bot-check paragraphs and §6's processor list  │
- * │     describe things that do not exist.                                    │
- * │                                                                           │
- * │ Every withheld string is held verbatim in `copy.ts` and listed with its   │
- * │ reason in `WITHHELD_UNTIL_UNBLOCKED`. A test asserts none reaches output. │
- * └───────────────────────────────────────────────────────────────────────────┘
- *
- * P1-J §9 requires all twelve `h2`s in P0 order, and they are all here — a
- * heading with a withheld body still tells the reader the section exists and
- * tells a reviewer exactly what is missing.
- *
- * §7 is the sharpest case: `06` §7 and Part C item 2 both say it "must not be
- * published in this form". The heading renders; the body does not.
- *
- * Structure per P1-J §9: plainer than every other route — no CTA, no callout,
- * long-form reading measure.
+ * The prose below renders from `src/legal/privacy.md`, one of the six
+ * merchant-verification pages. The text is under a founder content freeze:
+ * scans A, B and C pass against the BUILT output, and the freeze check
+ * fails the build if the rendered text drifts without an explicit founder
+ * authorisation. The entity block (legal name, address, GSTIN, Udyam) is
+ * CONTENT, not chrome — merchant verification reads it off the page.
  */
 import Base from '../layouts/Base.astro';
-import Link from '../components/ui/Link.astro';
-import { meta, privacy } from '../content/copy';
-
-/** Section headings, addressed by number so the order cannot drift. */
-const s = (n: number): string => privacy.sections.find((x) => x.n === n)!.heading;
-const id = (n: number): string => `privacy-section-${n}`;
+import Container from '../components/ui/Container.astro';
+import { Content } from '../legal/privacy.md';
 ---
 
 <Base
-  title={privacy.metaTitle}
-  description={meta.descriptionPrivacy}
-  canonicalPath={privacy.canonicalPath}
+  title="Privacy Policy — AI Workspace"
+  description="What Warrant Guardian collects, why, and for how long."
+  canonicalPath="/privacy"
   indexableInProduction={true}
 >
-  <article class="prose">
-    <h1 class="page-head__title">{privacy.heading}</h1>
-
-    {
-      /*
-      "Last updated: {{LAST_UPDATED}}" — the date is set at publication, and
-      there is no publication. The label renders without a value rather than
-      inventing one or leaking the placeholder.
-    */
-    }
-    <p class="prose__meta">{privacy.lastUpdatedLabel}: —</p>
-
-    <p>{privacy.intro}</p>
-    {
-      /*
-      WITHHELD: "This site is a single page. It does not have accounts, does not
-      sell anything, and does not track you across the web."
-
-      The first sentence became factually false the moment a second content
-      route shipped — the identical defect P1-J §10 caught in the `04` §11 404
-      string and corrected. P1-J did not catch this one. Raised as a finding.
-    */
-    }
-
-    <h2 id={id(1)}>{s(1)}</h2>
-    {
-      /*
-      WITHHELD in full — Open Item B. Every sentence in `06` §1 carries
-      {{LEGAL_ENTITY_NAME}}, {{REGISTERED_ADDRESS}} or {{PRIVACY_EMAIL}}.
-    */
-    }
-
-    <h2 id={id(2)}>{s(2)}</h2>
-    <p>{privacy.collectIntro}</p>
-    <ul>
-      {privacy.collectItems.map((item) => <li>{item}</li>)}
-    </ul>
-    <p>{privacy.collectNot}</p>
-    <p>{privacy.collectLogs}</p>
-    {
-      /*
-      WITHHELD: the visit-measurement paragraph and the bot-check paragraph.
-      This build performs neither — no analytics (P-06), no bot mitigation
-      (P-08). `06` Part A forbids describing processing that does not happen.
-    */
-    }
-
-    <h2 id={id(3)}>{s(3)}</h2>
-    <p>{privacy.cookies}</p>
-
-    <h2 id={id(4)}>{s(4)}</h2>
-    <p>{privacy.whyPurpose}</p>
-    <p>{privacy.whyNotElse}</p>
-    <p>{privacy.whyBasis}</p>
-    {/* WITHHELD: the aggregate-measurement sentence — no analytics exists. */}
-
-    <h2 id={id(5)}>{s(5)}</h2>
-    <p>{privacy.retention}</p>
-    <p>{privacy.retentionStub}</p>
-    <p>{privacy.retentionLogs}</p>
-
-    <h2 id={id(6)}>{s(6)}</h2>
-    <p>{privacy.shareNot}</p>
-    {
-      /*
-      WITHHELD: the four-item processor list and the "acts on our instructions"
-      sentence. Open Item D is open, so the processor set is not fixed — P1-B
-      F-1 warns that reviewing it early buys a review of the wrong list. This
-      build has no processor at all.
-    */
-    }
-    <p>{privacy.shareLegal}</p>
-
-    <h2 id={id(7)}>{s(7)}</h2>
-    {
-      /*
-      WITHHELD in full. `06` §7 carries its own instruction: "this section must
-      be completed by counsel once providers and entity jurisdiction are fixed;
-      it currently states an incomplete position and must not be published in
-      this form." Part C item 2 repeats it. The heading stays so the gap is
-      visible; the body does not exist yet.
-    */
-    }
-
-    <h2 id={id(8)}>{s(8)}</h2>
-    <p>{privacy.rightsIntro}</p>
-    <ul>
-      {privacy.rightsItems.map((item) => <li>{item}</li>)}
-    </ul>
-    {/* WITHHELD: the address to email — Open Item C, no mailbox exists. */}
-    <p>{privacy.rightsTimeframe}</p>
-    <p>{privacy.rightsNoReason}</p>
-    <p>{privacy.rightsComplain}</p>
-
-    <h2 id={id(9)}>{s(9)}</h2>
-    <ul>
-      {privacy.protectItems.map((item) => <li>{item}</li>)}
-    </ul>
-    <p>{privacy.protectDisclaimer}</p>
-
-    <h2 id={id(10)}>{s(10)}</h2>
-    <p>{privacy.children}</p>
-
-    <h2 id={id(11)}>{s(11)}</h2>
-    <p>{privacy.changes}</p>
-
-    <h2 id={id(12)}>{s(12)}</h2>
-    {
-      /*
-      WITHHELD in full — Open Items B and C. `06` §12 is composed entirely of
-      {{PRIVACY_EMAIL}}, {{LEGAL_ENTITY_NAME}} and {{REGISTERED_ADDRESS}}.
-    */
-    }
-
-    <p class="prose__back">
-      <Link href="/">{privacy.backLinkText}</Link>
-    </p>
-  </article>
+  <Container>
+    <article class="legal-page">
+      <h1>Privacy Policy</h1>
+      <Content />
+    </article>
+  </Container>
 </Base>
+
+<style>
+  /* FIX-A11Y-06 (2026-08-11): the merchant pages carry long unbreakable
+     tokens - GSTIN, Udyam number, the contact email - and at 320px with the
+     SC 1.4.12 text-spacing overrides applied they pushed /privacy into a
+     sideways scroll. `anywhere` lets those tokens break; prose is
+     unaffected. Layout-only: no frozen text changes. */
+  .legal-page {
+    overflow-wrap: anywhere;
+  }
+</style>
