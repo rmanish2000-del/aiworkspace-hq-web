@@ -6,6 +6,13 @@
 > TEST-ENFORCED or HONOUR-SYSTEM — an HONOUR-SYSTEM rule is an absent
 > protection, not a safeguard (DC-6).
 
+> **Cross-workstream authorisation (rule 4), 2026-08-13 —
+> POST-MERGE-VERIFY-AND-BADGE:** by founder/Chat ruling ("name that evidence
+> inline, or DROP the badge"), the web session edited the Codex-owned
+> `src/content/copy.ts` Verified-tier legend to name its evidence: the public
+> warrant-mcp repository's 227 passing tests and its published bypass
+> disclosure (SECURITY-SURFACE.md), verified at commit eea5496de1cc.
+
 > **Cross-workstream authorisation (rule 4), 2026-08-13 — UNIFY-LEGAL-SURFACE
 > Slice-1:** by founder ruling ("ROOT is canonical; one domain, one entity"),
 > the web session replaced the Codex-owned root `/about`, `/contact` and
