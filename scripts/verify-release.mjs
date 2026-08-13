@@ -440,9 +440,10 @@ for (const [label, args] of [
         throw new Error(
           `SCANNER ABORT (exit 2) — the scanner DID NOT SCAN what it claims to have scanned. ` +
             `This is a FALSE-GREEN condition and outranks any finding.\n${out}`,
+          { cause: error },
         );
       }
-      throw new Error(`scanner findings (exit ${error.status}):\n${out}`);
+      throw new Error(`scanner findings (exit ${error.status}):\n${out}`, { cause: error });
     }
     return 'CLEAN — 0 findings';
   });
