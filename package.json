@@ -23,7 +23,7 @@
     "test:e2e": "npm run ds:build && playwright test",
     "test:html": "html-validate \"dist/**/*.html\"",
     "test:lighthouse": "lhci autorun",
-    "audit:deps": "npm audit --audit-level=high",
+    "audit:deps": "node scripts/audit-gate.mjs",
     "screenshots": "node scripts/screenshots.mjs",
     "ds:dev": "astro dev --host 127.0.0.1 --config scripts/ds-gallery.config.mjs",
     "ds:build": "astro build --config scripts/ds-gallery.config.mjs",

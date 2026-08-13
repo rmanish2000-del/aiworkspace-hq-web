@@ -6,6 +6,16 @@
 > TEST-ENFORCED or HONOUR-SYSTEM — an HONOUR-SYSTEM rule is an absent
 > protection, not a safeguard (DC-6).
 
+> **Cross-workstream authorisation (rule 4), 2026-08-13 — UNIFY-LEGAL-SURFACE
+> Slice-1:** by founder ruling ("ROOT is canonical; one domain, one entity"),
+> the web session replaced the Codex-owned root `/about`, `/contact` and
+> `/privacy` pages with the merchant workstream's certified frozen versions
+> (rendering `src/legal/*.md`), retired the superseded P2-C `about.spec.ts`,
+> and updated the route pins in `routes.spec.ts`. The AIW P0 response promises
+> are superseded by the one frozen commitment "Within 3 business days".
+> Codex's copy-module exports for the replaced pages remain in
+> `src/content/copy.ts`, now unrendered.
+
 **From:** Claude Code, delegated implementer under AG-2-S
 **To:** Founder
 **Assignment:** Repository initialization and non-public development foundation

@@ -103,18 +103,33 @@
       "permanent": false
     },
     {
-      "source": "/terms",
-      "destination": "/warrant-guardian/terms",
+      "source": "/warrant-guardian/terms",
+      "destination": "/terms",
       "permanent": false
     },
     {
-      "source": "/refunds",
-      "destination": "/warrant-guardian/refunds",
+      "source": "/warrant-guardian/refunds",
+      "destination": "/refunds",
       "permanent": false
     },
     {
-      "source": "/delivery",
-      "destination": "/warrant-guardian/delivery",
+      "source": "/warrant-guardian/delivery",
+      "destination": "/delivery",
+      "permanent": false
+    },
+    {
+      "source": "/warrant-guardian/privacy",
+      "destination": "/privacy",
+      "permanent": false
+    },
+    {
+      "source": "/warrant-guardian/contact",
+      "destination": "/contact",
+      "permanent": false
+    },
+    {
+      "source": "/warrant-guardian/about",
+      "destination": "/about",
       "permanent": false
     },
     {

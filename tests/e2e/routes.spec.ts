@@ -65,12 +65,29 @@ const ROUTES = [
     title: 'Principles — AI Workspace',
     h1: 'How we are building it',
   },
-  { path: '/about', title: 'About — AI Workspace', h1: 'About AI Workspace' },
+  // UNIFY-LEGAL-SURFACE (founder ruling 2026-08-13): the six legal routes are
+  // canonical at root, serving the certified frozen Kartavya text.
+  { path: '/about', title: 'About — AI Workspace', h1: 'About' },
   { path: '/contact', title: 'Contact — AI Workspace', h1: 'Contact' },
   {
     path: '/privacy',
-    title: 'Privacy notice — AI Workspace',
-    h1: 'Privacy notice',
+    title: 'Privacy Policy — AI Workspace',
+    h1: 'Privacy Policy',
+  },
+  {
+    path: '/terms',
+    title: 'Terms of Service — AI Workspace',
+    h1: 'Terms of Service',
+  },
+  {
+    path: '/refunds',
+    title: 'Refund and Cancellation Policy — AI Workspace',
+    h1: 'Refund and Cancellation Policy',
+  },
+  {
+    path: '/delivery',
+    title: 'Delivery Policy — AI Workspace',
+    h1: 'Delivery Policy',
   },
   {
     path: '/404',
@@ -166,8 +183,15 @@ for (const route of ROUTES) {
      * `index, follow`; `/404` stays `noindex` — an error page in the index is
      * a defect, and `08` SEO-10 names indexing mistakes in BOTH directions.
      */
-    // FD-AG4 wave 1 (CC-009 §0): five indexable routes; everything else noindex.
-    const expectedRobots = WAVE_1.includes(route.path) ? /^index, follow$/ : /noindex/;
+    // FD-AG4 wave 1 (CC-009 §0): the wave-1 routes index. The six legal routes
+    // have carried `index, follow` since PUBLISH-GUARDIAN-PAGES (#33) and keep
+    // it at their canonical root paths (UNIFY-LEGAL-SURFACE, 2026-08-13) —
+    // same directives, new paths, sitemap unchanged. Everything else noindex.
+    const LEGAL_ROUTES = ['/about', '/contact', '/privacy', '/terms', '/refunds', '/delivery'];
+    const expectedRobots =
+      WAVE_1.includes(route.path) || LEGAL_ROUTES.includes(route.path)
+        ? /^index, follow$/
+        : /noindex/;
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', expectedRobots);
   });
 
@@ -420,70 +444,39 @@ test('/platform preserves intent tense and renders only verified Assignment capa
   }
 });
 
-test('/contact publishes no address and no form', async ({ page }) => {
-  // P1-J §8.1: "A contact page that publishes a non-existent address is worse
-  // than no contact page." Open Item C is open.
+test('/contact publishes the entity block and no form', async ({ page }) => {
+  /**
+   * UNIFY-LEGAL-SURFACE (founder ruling 2026-08-13) supersedes P1-J §8.1's
+   * no-address rule and P1-M CONTACT-1: /contact now serves the certified
+   * frozen Kartavya text, and the entity block is CONTENT — merchant
+   * verification reads it off the page. What must still be true: a real
+   * entity is named, and no form ships (the no-forms invariant is unchanged).
+   */
   await page.goto('/contact');
 
-  await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+  const body = (await page.textContent('body')) ?? '';
+  expect(body).toContain('Kartavya CSC Digital Seva');
+  expect(body).toContain('GSTIN: 23AKZPP1502D1ZB');
+  expect(body).toContain('Within 3 business days');
+
   await expect(page.locator('form')).toHaveCount(0);
   await expect(page.locator('input, textarea, select')).toHaveCount(0);
-
-  /**
-   * P1-M defect CONTACT-1 — two of the four specified sections are withheld.
-   *
-   * "General enquiries" and "Where we are" have no body that is not a withheld
-   * placeholder ({{PRIVACY_EMAIL}}; {{LEGAL_ENTITY_NAME}} + {{REGISTERED_ADDRESS}}).
-   * They previously rendered as a heading followed by nothing — a gap on screen
-   * and silence to a screen reader.
-   *
-   * That is the same failure §8.1 names above, one step removed: a section that
-   * announces a contact route and then supplies none is worse than no section.
-   * Both headings remain untouched in the copy module and return the moment
-   * Open Items B and C resolve.
-   *
-   * FLAGGED FOR FOUNDER CONFIRMATION — see release-candidate-report.md.
-   */
-  const headings = await page.locator('main h2').allTextContents();
-  expect(headings).toEqual(['Privacy and data requests', 'Security']);
-
-  // The withheld headings are absent from the page, not merely hidden.
-  const html = await page.content();
-  for (const withheld of ['General enquiries', 'Where we are']) {
-    expect(html, `${withheld} still reaches the document`).not.toContain(withheld);
-  }
 });
 
-test('/privacy renders all twelve sections in order, with no leaked text', async ({ page }) => {
-  // P1-J §9 acceptance: twelve h2s in P0 order.
+test('/privacy names the controller and carries a real date', async ({ page }) => {
+  /**
+   * UNIFY-LEGAL-SURFACE (founder ruling 2026-08-13): /privacy serves the
+   * certified frozen Guardian policy. The twelve-section P1-J §9 pin is
+   * superseded — structure and wording are now hash-locked by the content
+   * freeze. What a test still adds: the controller is NAMED and the policy is
+   * DATED — the two defects the ruling exists to fix — and the no-tracking
+   * commitment survives in the frozen wording.
+   */
   await page.goto('/privacy');
 
-  const headings = await page.locator('article.prose > h2').allTextContents();
-  expect(headings).toEqual([
-    'Who we are',
-    'What we collect',
-    'Cookies',
-    'Why we use it, and on what basis',
-    'How long we keep it',
-    'Who we share it with',
-    'Where your information is held',
-    'Your rights and how to use them',
-    'How we protect it',
-    'Children',
-    'Changes to this notice',
-    'Contact',
-  ]);
-
   const body = (await page.textContent('body')) ?? '';
-
-  // `06` §7 must not be published in its current form.
-  expect(body).not.toContain('may store and process information outside');
-  // The single-page claim is false at Phase 1.
-  expect(body).not.toContain('This site is a single page');
-  // No processing this build does not perform.
-  expect(body).not.toContain('we measure aggregate usage');
-  expect(body).not.toContain('bot check provided by');
-
-  // Binding commitment C-13 is present.
-  expect(body).toContain('We do not use tracking cookies on this site.');
+  expect(body).toContain('Kartavya CSC Digital Seva');
+  expect(body).toMatch(/Effective: \d{4}-\d{2}-\d{2}/);
+  expect(body).toContain('Cookies, analytics, pixels, trackers - none.');
+  expect(body).not.toMatch(/\{\{[^}]+\}\}/);
 });

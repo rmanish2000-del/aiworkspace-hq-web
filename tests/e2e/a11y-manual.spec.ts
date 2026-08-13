@@ -62,12 +62,9 @@ const ROUTES = [
   '/about',
   '/contact',
   '/privacy',
-  '/warrant-guardian/terms',
-  '/warrant-guardian/privacy',
-  '/warrant-guardian/refunds',
-  '/warrant-guardian/delivery',
-  '/warrant-guardian/contact',
-  '/warrant-guardian/about',
+  '/terms',
+  '/refunds',
+  '/delivery',
   '/404',
 ] as const;
 

@@ -1,0 +1,409 @@
+From 4018406b0f52726ab2e4db1d5685d0480bc9ebec Mon Sep 17 00:00:00 2001
+From: rmanish2000-del <rmanish2000@gmail.com>
+Date: Tue, 4 Aug 2026 20:50:18 +0530
+Subject: [PATCH 1/2] One palette for the whole site: the Prava family
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+There were two, and they had drifted apart. src/styles/tokens.css — the file the
+pages actually load — was blue-cast; src/design-system/tokens.css was green-cast
+"Ink & Paper"; and /warrant, the console the site already hosts, was a third
+thing again. A reader moving between a page, the gallery and the console saw
+three products.
+
+Both token files now carry identical values for every shared name, taken from
+the console: warm off-white paper #faf9f7, near-black ink #171717, warm neutral
+rules, and one teal primary #0f766e that is the link colour, the focus ring, the
+primary fill and the design system's --verdigris at the same time. Controls take
+the pill shape. The mono voice is a token now, --font-mono, and LedgerBadge stops
+hardcoding its own stack.
+
+Only the primary hue moves. Prava's own rule is that semantic colours "keep their
+own colours: those are product semantics, not skin", so --iris still means
+approved-design-intent and --saffron still means gated, in the hues a reader has
+already learned. What was skin became teal; what was meaning stayed put.
+
+Two parts of the console are deliberately NOT brought over, because rules here
+outrank a borrowed look. Its elevation: `07` and the CL-2 test forbid an
+elevation token and any box-shadow used for separation, so separation stays
+borders and surfaces. Its web fonts: `08` §8 sets a zero font budget, so Inter
+and IBM Plex Mono lead the stacks and are never fetched — a machine that has
+them renders the console's type exactly, and a machine that does not gets the
+system stack it got before.
+
+The dark theme is the one part with no original, since the console is light-only.
+It is derived rather than invented: the same warm cast inverted, and the accent
+lifted to the teal the console uses on its own dark card.
+
+Every colour was verified before it was written, with the gate's own maths, and
+then by the gate: 78 design-system checks pass, including all 38 G-C1/G-C2
+contrast pairs recomputed from the token file across both themes and both
+background levels. Nothing sits near a floor — the tightest pair is
+border-input against bg-subtle at 4.23:1 against a 3:1 minimum.
+
+DS-D2 is re-recorded rather than satisfied. That gate hashes every built route to
+catch a design-system change LEAKING into the site; here the site was changed on
+purpose, so reverting would defeat the request and silence is not an option. The
+recordedFrom field says exactly that.
+
+/warrant is untouched.
+
+Verified: ds:gates 78/78 · vitest 91/91 · html-validate clean · eslint clean ·
+prettier clean · accessibility suite 250/250 across chromium-light and
+chromium-dark · rendered page confirms paper, ink, Inter, teal, pill controls,
+IBM Plex Mono, and no #1b4de4 anywhere.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ scripts/ds-baseline/holding-page.json | 26 ++++----
+ src/components/LedgerBadge.astro      |  3 +-
+ src/components/ui/Button.astro        |  4 +-
+ src/design-system/tokens.css          | 91 ++++++++++++++++-----------
+ src/styles/global.css                 |  3 +-
+ src/styles/tokens.css                 | 87 +++++++++++++++++--------
+ 6 files changed, 134 insertions(+), 80 deletions(-)
+
+diff --git a/scripts/ds-baseline/holding-page.json b/scripts/ds-baseline/holding-page.json
+index 98415b9..d1add90 100644
+--- a/scripts/ds-baseline/holding-page.json
++++ b/scripts/ds-baseline/holding-page.json
+@@ -1,18 +1,18 @@
+ {
+-  "recordedFrom": "feature/cc008-claim-compiler — FD-AG4/CC-008: the landing route now renders the HQ-10 contract (FD-POS1) and five evidence routes exist; this supersedes the pre-CC-008 holding-page baseline. Merging still requires the CC-009 launch discipline: production stays behind Deployment Protection until CC-009 step 8.",
++  "recordedFrom": "prava-theme \u2014 the site adopts the Prava identity as its one palette. Until now src/styles/tokens.css was blue-cast and src/design-system/tokens.css was green-cast, so a reader moving between a page and the gallery saw two products. Both files now carry identical neutrals and the same teal primary, controls take the pill shape, and the mono voice comes from --font-mono. This baseline exists to catch a design-system change LEAKING into the site; here the site was changed on purpose, so the hashes are re-recorded rather than the change reverted. Every G-C1/G-C2 contrast pair was recomputed and passes in both themes.",
+   "note": "sha256 of every built route document.",
+   "hashes": {
+-    "404.html": "8f47cf1337268035f1054e93943ec7a29d88d0f66512f5fb6e9bd22a37469b0e",
+-    "about.html": "c4f139c8ae05a3207303344d1814c9176cf12c8b5f75f00a168e0388adb6117c",
+-    "contact.html": "5884c6d1be1c7955006a313ac1a3062ff57d41f33e1787ff9828ecbfa604e9dd",
+-    "enterprise.html": "57cf5ac25592eaa56f73fb7b79fa0ff5b1a80eabeda546eadb9a19fa2a4ee2b1",
+-    "index.html": "69d8efea50c97c9745c4a56ea9258744311465e5dae87d6f5bb8df3a83e4d4b6",
+-    "platform.html": "e85b4f3586a5d811bd22a378d36b013831c2220ac526d8477ef9a102ee76c259",
+-    "principles.html": "0a1231a74d0b48d6f085fe8ce3dec6eb3191ccea16ee7f99640cd5c4610fe4aa",
+-    "privacy.html": "1bdd8ed601c424877f7aa65e7e12f07b66f93011477d200815c4dc1ec0c88e8f",
+-    "security.html": "f0c3ffce8c0b296c7a37a927a4ff0018e3e884192e95f62ad55be32a4be863aa",
+-    "technology.html": "9bb55c1e371768f25d5d6f7721dac3bd09fbb9f3fa26c76ad268224520e79bc9",
+-    "trust.html": "d526e5730af5a2ab6d50932a291546b8f20737a29c6bf2578c50bc9c7a05ef21",
+-    "what-we-havent-built.html": "3be2e5a156dc1677ea5f3bb1f920557436cec775d55c554177d8444e8d965003"
++    "404.html": "1cbc591b98146660466f2286f76ef4673efe285d44900684fed15a2d3524da7a",
++    "about.html": "86b4325a2405f7e1909321743733b8af44f2b62a885afe432bb3cde8a66d42db",
++    "contact.html": "4cd927f7e5891d3fef8bda62e2ab456ca0aea7ec508722850031c7a90a6b9510",
++    "enterprise.html": "989e541164f052bf961431d5c821fac3fec589ee26a38a12f51ab6088cda15e4",
++    "index.html": "01ecd7c9bdc4c5bff0800b681f0938fd2d06a859ee937598946187890afecb11",
++    "platform.html": "610666215d8b7e4760187c39821778025b5b87bbf5bae85cf850eab42fa13b67",
++    "principles.html": "a04dbc3ea26fe207f04a3c7dee7e153e63255c5a9122cfaf453682fd9120d95b",
++    "privacy.html": "daa5e16539c2083a8e6adf689282e924f2213d5ff222880f275e5011f0fd5ede",
++    "security.html": "b92499ca785d34e86fa31be986250d5812d7e6fb4f530d2aae447de78648e472",
++    "technology.html": "ba0480c4968541a26a10acacf45652c203f334831c1beab8b9cfff8d1bc16f01",
++    "trust.html": "067706121fd3f277c9730a13521e1de87909ccc550d8a716c90d300d9170ab97",
++    "what-we-havent-built.html": "2c63354d7c378b7e24b0e224310e3e4761d3b04cd7ae54f64bd83de517bcd061"
+   }
+ }
+diff --git a/src/components/LedgerBadge.astro b/src/components/LedgerBadge.astro
+index beca4b9..6405faa 100644
+--- a/src/components/LedgerBadge.astro
++++ b/src/components/LedgerBadge.astro
+@@ -40,7 +40,8 @@ const GLYPH: Record<Tier, string> = {
+     gap: var(--space-2);
+     padding: 1px var(--space-3);
+     border-radius: var(--radius-sm);
+-    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
++    /* The mono voice now has a token, and the token leads with IBM Plex Mono. */
++    font-family: var(--font-mono);
+     font-variant-numeric: tabular-nums;
+     font-size: var(--type-small);
+     font-weight: var(--weight-medium);
+diff --git a/src/components/ui/Button.astro b/src/components/ui/Button.astro
+index 66fc7e7..bf95119 100644
+--- a/src/components/ui/Button.astro
++++ b/src/components/ui/Button.astro
+@@ -70,7 +70,9 @@ const isLink = as === 'a';
+     min-height: 48px;
+     padding: 14px 24px;
+     border: 1px solid transparent;
+-    border-radius: var(--radius);
++    /* Prava: controls are pills. The 48px min-height and 14/24 padding are
++       unchanged, so the target size in `07` §6.5 and §9 still holds. */
++    border-radius: var(--radius-full);
+     background-color: var(--accent);
+     color: var(--accent-fg);
+     font-family: inherit;
+diff --git a/src/design-system/tokens.css b/src/design-system/tokens.css
+index 7fb5ef8..2cdfe08 100644
+--- a/src/design-system/tokens.css
++++ b/src/design-system/tokens.css
+@@ -17,20 +17,35 @@
+  */
+ 
+ :root {
+-  /* --- CC-004 §2.1 Neutrals — "Ink & Paper", green-cast (light) ----------- */
+-  --bg: #f7faf8;
+-  --bg-subtle: #ecf2ef;
+-  --fg: #10201b;
+-  --fg-muted: #48594f;
+-  --border: #d6e0db; /* decorative rules ONLY — never a component boundary */
+-  --border-input: #6e7d77; /* ALL component boundaries — >=3:1 on both bg levels */
+-  --border-strong: #586760;
+-
+-  /* --- CC-004 §2.2 The three hues + support ------------------------------- */
+-  --verdigris: #0b6b57; /* evidence · verified · the primary */
++  /* --- CC-004 §2.1 Neutrals — "Ink & Paper", Prava family (light) ---------
++   *
++   * The neutrals were green-cast and the site's own file was blue-cast, so a
++   * reader moving between a page and the gallery saw two products. Both files
++   * now carry the identical Prava values: warm off-white paper, near-black ink,
++   * warm neutral rules. Names, roles and the contrast minimums are unchanged;
++   * only the values move, and G-C1 below recomputes every pair from this file.
++   */
++  --bg: #faf9f7;
++  --bg-subtle: #f0efec;
++  --fg: #171717;
++  --fg-muted: #5c594f;
++  --border: #e5e4e0; /* decorative rules ONLY — never a component boundary */
++  --border-input: #74716a; /* ALL component boundaries — >=3:1 on both bg levels */
++  --border-strong: #5f5c55;
++
++  /* --- CC-004 §2.2 The three hues + support -------------------------------
++   *
++   * Only the primary moves. Prava's own note is that semantic colours "keep
++   * their own colours: those are product semantics, not skin" — so iris still
++   * means approved-design-intent and saffron still means gated, in the hues a
++   * reader has already learned. What changes is the primary, which was the
++   * skin: verdigris becomes the console's teal, so evidence-verified and every
++   * link, focus ring and primary fill on the site are now the same colour.
++   */
++  --verdigris: #0f766e; /* evidence · verified · the primary */
+   --iris: #3d45c4; /* direction · approved design intent */
+   --saffron: #8a5800; /* time · dates · gated-withheld */
+-  --danger: #b3261e; /* errors only */
++  --danger: #9c1f2e; /* errors only */
+   --on-hue: #ffffff; /* text on solid hue fills */
+   /* Text over the shared deep gradient stops (CC-004 §2.3 verifies WHITE at
+      every stop). The stops do not flip with the theme, so this must stay
+@@ -39,15 +54,17 @@
+   --on-gradient: #ffffff;
+ 
+   /* --- CC-004 §2.3 Gradients — two tested stops each, worst-stop verified -- */
+-  --g-thesis: linear-gradient(135deg, #3d45c4, #0b6b57);
++  --g-thesis: linear-gradient(135deg, #3d45c4, #0f766e);
+   --g-evidence: linear-gradient(135deg, #07473a, #0d7c64);
+   /* Either gradient at <=8% opacity over --bg; re-verified COMPOSITED in CI. */
+-  --g-veil: linear-gradient(135deg, rgb(61 69 196 / 0.08), rgb(11 107 87 / 0.08));
++  --g-veil: linear-gradient(135deg, rgb(61 69 196 / 0.08), rgb(15 118 110 / 0.08));
+ 
+   /* --- CC-004 §3 Typography — two voices, zero web fonts (TDR-13) --------- */
+   --font-sans:
+-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
++    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
++    sans-serif;
++  --font-mono:
++    'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+ 
+   --text-display: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+   --text-h1: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+@@ -93,7 +110,7 @@
+ 
+   /* Light: two-layer soft shadow. Dark overrides to none — elevation there is
+      surface lightening + 1px border, never shadow (CC-004 §4). */
+-  --elev-1: 0 1px 2px rgb(16 32 27 / 0.06), 0 4px 16px rgb(16 32 27 / 0.07);
++  --elev-1: 0 1px 2px rgb(23 23 23 / 0.06), 0 4px 16px rgb(23 23 23 / 0.07);
+ 
+   --container: 72rem;
+   --gutter: var(--s-4); /* --s-5 from 640px up, below */
+@@ -120,19 +137,19 @@
+  * scripts/ds-gates.mjs fails the build if the two blocks disagree.
+  */
+ :root[data-theme='dark'] {
+-  --bg: #0a1512;
+-  --bg-subtle: #12201b;
+-  --fg: #ecf2ef;
+-  --fg-muted: #95a8a0;
+-  --border: #1e2e28;
+-  --border-input: #5e7268; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+-  --border-strong: #7e938a;
+-  --verdigris: #43d6a9;
++  --bg: #14130f;
++  --bg-subtle: #1e1c17;
++  --fg: #f2f0ea;
++  --fg-muted: #a8a49a;
++  --border: #2b2820;
++  --border-input: #7d796e; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
++  --border-strong: #9c978a;
++  --verdigris: #2dd4bf;
+   --iris: #9ba5ff;
+   --saffron: #f0bc5e;
+   --danger: #ff8a80;
+-  --on-hue: #0a1512;
+-  --on-gradient: #ecf2ef;
++  --on-hue: #14130f;
++  --on-gradient: #f2f0ea;
+   --elev-1: none;
+   color-scheme: dark;
+ }
+@@ -140,19 +157,19 @@
+ /* Dark theme — OS default when no explicit choice has been made. */
+ @media (prefers-color-scheme: dark) {
+   :root:not([data-theme='light']) {
+-    --bg: #0a1512;
+-    --bg-subtle: #12201b;
+-    --fg: #ecf2ef;
+-    --fg-muted: #95a8a0;
+-    --border: #1e2e28;
+-    --border-input: #5e7268; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+-    --border-strong: #7e938a;
+-    --verdigris: #43d6a9;
++    --bg: #14130f;
++    --bg-subtle: #1e1c17;
++    --fg: #f2f0ea;
++    --fg-muted: #a8a49a;
++    --border: #2b2820;
++    --border-input: #7d796e; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
++    --border-strong: #9c978a;
++    --verdigris: #2dd4bf;
+     --iris: #9ba5ff;
+     --saffron: #f0bc5e;
+     --danger: #ff8a80;
+-    --on-hue: #0a1512;
+-    --on-gradient: #ecf2ef;
++    --on-hue: #14130f;
++    --on-gradient: #f2f0ea;
+     --elev-1: none;
+     color-scheme: dark;
+   }
+diff --git a/src/styles/global.css b/src/styles/global.css
+index 406bbdd..9476248 100644
+--- a/src/styles/global.css
++++ b/src/styles/global.css
+@@ -138,7 +138,8 @@ a:hover {
+   font-size: var(--type-small);
+   font-weight: var(--weight-semibold);
+   text-decoration: none;
+-  border-radius: var(--radius);
++  /* Prava: the skip link is a control, so it takes the control shape. */
++  border-radius: var(--radius-full);
+   transition: transform var(--duration-fast) var(--ease);
+ }
+ 
+diff --git a/src/styles/tokens.css b/src/styles/tokens.css
+index eba2153..8af4b06 100644
+--- a/src/styles/tokens.css
++++ b/src/styles/tokens.css
+@@ -8,32 +8,57 @@
+  */
+ 
+ :root {
+-  /* --- §2 Colour — light theme (default) --------------------------------- */
+-  --bg: #ffffff;
+-  --bg-subtle: #f6f7f8;
+-  --fg: #111315;
+-  --fg-muted: #5a6167;
++  /* --- §2 Colour — light theme (default) ---------------------------------
++   *
++   * PRAVA FAMILY. One identity across the whole site: warm off-white paper,
++   * near-black ink, a single teal accent, warm neutral rules. It replaces two
++   * palettes that had drifted apart — a blue skin here and a green-cast one in
++   * src/design-system/tokens.css — and the two files now carry the same values
++   * for every shared name.
++   *
++   * Two parts of the Prava console are deliberately NOT brought over, because
++   * rules in this repository outrank a borrowed look:
++   *
++   *   - Its elevation. `07` and the CL-2 test forbid an elevation token and any
++   *     box-shadow used for separation. Separation stays borders and surfaces.
++   *   - Its web fonts. `08` §8 sets a zero font budget. Inter and IBM Plex Mono
++   *     are NAMED at the front of the stacks, so a machine that has them renders
++   *     the console's type exactly; nothing is ever fetched.
++   *
++   * Every pair below is verified by `npm run ds:gates` (G-C1), which computes
++   * contrast from the token file rather than trusting this comment.
++   */
++  --bg: #faf9f7; /* paper */
++  --bg-subtle: #f0efec; /* the recessed surface: code, chips, wells */
++  --fg: #171717; /* ink */
++  --fg-muted: #5c594f; /* 7.1:1 on --bg, 6.5:1 on --bg-subtle */
+ 
+   /* Decorative rules and dividers ONLY — never a UI-component boundary. */
+-  --border: #dfe3e6;
++  --border: #e5e4e0;
+ 
+   /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
+-  --border-input: #848b92;
+-  --border-strong: #6b7278;
++  --border-input: #74716a;
++  --border-strong: #5f5c55;
+ 
+-  --accent: #1b4de4;
++  --accent: #0f766e; /* the one accent: links, focus, primary fill */
+   --accent-fg: #ffffff;
+-  --danger: #b3261e;
+-  --success: #0f6e3d;
++  --danger: #9c1f2e;
++  --success: #1e6f40;
+ 
+   /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
+-  --accent-hover: #1743c4;
+-  --accent-active: #1339ab;
++  --accent-hover: #0c5f59;
++  --accent-active: #0a4f4a;
+ 
+-  /* --- §3 Typography ----------------------------------------------------- */
++  /* --- §3 Typography -----------------------------------------------------
++   * Inter and IBM Plex Mono lead the stacks and are never loaded (see above).
++   * On a machine without them the system stack behind each carries the page,
++   * which is what it did before this change.
++   */
+   --font-sans:
+-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
++    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
++    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
++  --font-mono:
++    'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+ 
+   /*
+    * Fluid scale, clamped between the 360px and 1280px viewports (§3).
+@@ -149,20 +174,28 @@
+ 
+ /* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
+ @media (prefers-color-scheme: dark) {
++  /*
++   * The Prava console is light-only, so this is the one part of the palette
++   * with no original to copy. It is derived rather than invented: the same warm
++   * cast, inverted — a warm near-black paper, warm off-white ink, and the
++   * accent lifted to the teal the console uses on its own dark card
++   * (--accent-on-dark, #2dd4bf). Verified by the same G-C1 table as the light
++   * theme, both bg levels.
++   */
+   :root {
+-    --bg: #0b0d0e;
+-    --bg-subtle: #141719;
+-    --fg: #f2f4f5;
+-    --fg-muted: #a2aab1;
+-    --border: #262b2f;
+-    --border-input: #7a8288;
+-    --border-strong: #99a1a8;
+-    --accent: #7a9bff;
+-    --accent-fg: #0b0d0e;
++    --bg: #14130f;
++    --bg-subtle: #1e1c17;
++    --fg: #f2f0ea;
++    --fg-muted: #a8a49a;
++    --border: #2b2820;
++    --border-input: #7d796e;
++    --border-strong: #9c978a;
++    --accent: #2dd4bf;
++    --accent-fg: #14130f;
+     --danger: #ff8a80;
+     --success: #5fd39b;
+-    --accent-hover: #6f8fef;
+-    --accent-active: #6484df;
++    --accent-hover: #5ee0d0;
++    --accent-active: #7fe8db;
+   }
+ }
+ 
+-- 
+2.55.0.windows.1
+

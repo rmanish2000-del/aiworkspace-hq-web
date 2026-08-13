@@ -1,0 +1,609 @@
+/*
+ * global.css — the whole page's styling.
+ *
+ * Source: P0 `07-visual-and-interaction-spec.md`.
+ * No CSS framework, no utility-class library, no grid framework (`08` ARCH-07).
+ * Single column at every breakpoint (`07` §4).
+ *
+ * Rule that governs everything below: the page must look correct with CSS
+ * partially loaded and remain readable with CSS entirely absent (`07` §1).
+ * Semantic HTML order is the fallback layout.
+ */
+
+@import './tokens.css';
+@import './print.css';
+
+/* -------------------------------------------------------------------------- */
+/* Reset — only what is needed, nothing decorative                            */
+/* -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* §8 — smooth scroll only where motion is not a problem. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Base                                                                       */
+/* -------------------------------------------------------------------------- */
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+
+  /* §5 — no horizontal scrolling at any width >=320px. */
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+/*
+ * §5 — safe-area insets for notched devices. Applied on the page wrapper so the
+ * inset adds to, rather than replaces, the container padding.
+ */
+.page {
+  padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
+}
+
+/* -------------------------------------------------------------------------- */
+/* §7 Focus — one consistent treatment on every interactive element           */
+/*                                                                            */
+/* `outline: none` without a replacement indicator is prohibited anywhere in   */
+/* this stylesheet. `:focus-visible` is used so mouse clicks do not paint      */
+/* rings; `:focus` is the fallback for browsers without :focus-visible.        */
+/* -------------------------------------------------------------------------- */
+
+:focus {
+  outline: var(--focus-ring-width) solid var(--accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* §2 — Windows High Contrast must remain usable; never suppress system colours. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* §6.12 Links — underlined, never merely coloured                            */
+/* -------------------------------------------------------------------------- */
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness var(--duration-fast) var(--ease);
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* §6.1 Skip link — first focusable element, never display:none               */
+/* -------------------------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  z-index: 10;
+  inset-inline-start: var(--space-3);
+  inset-block-start: var(--space-3);
+  transform: translateY(-200%);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  font-size: var(--type-small);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  /* Prava: the skip link is a control, so it takes the control shape. */
+  border-radius: var(--radius-full);
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------------- */
+/* §6.2 Header — wordmark left, nothing right. No border, no shadow, not sticky */
+/* -------------------------------------------------------------------------- */
+
+.site-header {
+  padding-block: var(--space-5);
+}
+
+/* -------------------------------------------------------------------------- */
+/* §4 Vertical rhythm — mobile column, desktop column below                   */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * The hero's own top padding now lives in the design system's Hero component.
+ * What stays here is the rhythm BETWEEN blocks, which is the page's concern
+ * rather than any one component's — a component that sets its own outer margin
+ * cannot be reused at a different rhythm.
+ *
+ * `07` §4 gives the same gap to "Hero -> principles" and "Principles -> form".
+ * `.hero` does not carry the `.section` class, so it needs naming explicitly —
+ * without it the CTA butts straight into the next heading.
+ */
+/*
+ * P2-B defect UX-2 — the rhythm is a FLOW rule, not a list of sibling pairs.
+ *
+ * It used to enumerate the pairs it knew about: `.hero + .section`,
+ * `.section + .section`, `.page-head + .section`, `.section + .page-close`.
+ * Any block whose type was not in that list broke the chain and collided with
+ * whatever followed. That shipped: on `/principles` the list of five
+ * principles is a direct child of `main` and is not a `.section`, so the
+ * "What this means for this site" heading butted straight against the last
+ * principle's final sentence, with no gap at all.
+ *
+ * Every top-level block in `main` now takes the same gap from the one before
+ * it, so a new block type cannot reintroduce the collision. Blocks that need
+ * to sit closer opt out below, which is a visible decision rather than an
+ * accident of which pairs someone remembered to enumerate.
+ */
+.page > main > * + * {
+  margin-block-start: var(--space-11);
+}
+
+.site-footer {
+  margin-block-start: var(--space-10);
+}
+
+@media (min-width: 1024px) {
+  .page > main > * + * {
+    margin-block-start: var(--space-12);
+  }
+
+  .site-footer {
+    margin-block-start: var(--space-11);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* §6.3 Eyebrow — a <p>, not a link, not a badge, no pill background          */
+/* -------------------------------------------------------------------------- */
+
+.eyebrow {
+  font-size: var(--type-eyebrow);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Hero typography                                                            */
+/* -------------------------------------------------------------------------- */
+
+.hero__headline {
+  margin-block-start: var(--space-3);
+  max-width: var(--measure-h1);
+  font-size: var(--type-h1);
+  font-weight: var(--weight-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
+  text-wrap: balance;
+}
+
+.hero__supporting {
+  margin-block-start: var(--space-5);
+  max-width: var(--measure-body);
+  font-size: var(--type-hero-supporting);
+  line-height: var(--leading-hero-supporting);
+  text-wrap: pretty;
+}
+
+@media (min-width: 1024px) {
+  .hero__headline {
+    margin-block-start: var(--space-4);
+  }
+}
+
+/*
+ * §6.4 Stage disclosure. The border, padding, type and colour now come from the
+ * design system's Callout (neutral tone). What remains here is the placement:
+ * where it sits in the hero, and how wide it is allowed to get.
+ */
+.stage-disclosure {
+  margin-block-start: var(--space-6);
+  max-width: var(--measure-body);
+}
+
+/*
+ * §4 — "Stage disclosure -> CTA: --space-6". The Button component supplies the
+ * control's own appearance and its full-width-below-640px behaviour (`block`);
+ * where it sits in the hero is the page's concern.
+ */
+.hero__cta {
+  margin-block-start: var(--space-6);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Principles                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.section__heading {
+  font-size: var(--type-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+
+.section__lead {
+  margin-block-start: var(--space-4);
+  max-width: var(--measure-body);
+  text-wrap: pretty;
+}
+
+/* §3 Block 3 — no icons, no numbering, no cards with competing borders. */
+/* -------------------------------------------------------------------------- */
+/* §6.6 Form fields                                                           */
+/*                                                                            */
+/* Labels are always visible, always above the input, never floating, never    */
+/* placeholder-only. No placeholder text is used anywhere (`04` §5.1).         */
+/* -------------------------------------------------------------------------- */
+
+.form {
+  margin-block-start: var(--space-7);
+}
+
+.field + .field {
+  margin-block-start: var(--space-5);
+}
+
+.field__label {
+  display: block;
+  font-size: var(--type-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-body);
+}
+
+.field__hint {
+  margin-block-start: var(--space-1);
+  font-size: var(--type-small);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+.field__input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-block-start: var(--space-2);
+  padding: 12px 14px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: var(--type-input); /* never below 16px: iOS Safari auto-zoom */
+  line-height: var(--leading-input);
+  transition:
+    border-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+}
+
+.field__input:hover {
+  border-color: var(--border-strong);
+}
+
+.field__input:focus-visible {
+  border-color: var(--accent);
+  outline: var(--focus-ring-width) solid var(--accent);
+  outline-offset: 1px;
+}
+
+.field__input--textarea {
+  /* §6.6 — vertically resizable only. */
+  resize: vertical;
+  min-height: calc(5 * 1.4em + 24px);
+}
+
+/* -------------------------------------------------------------------------- */
+/* §6.7 Consent checkbox                                                      */
+/*                                                                            */
+/* A native checkbox. Never styled into a toggle switch — a switch implies a   */
+/* preference; this is a consent.                                             */
+/* -------------------------------------------------------------------------- */
+
+.consent {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-block-start: var(--space-5);
+  /* 44x44 hit area around a 24x24 box (§6.7, §9). */
+  min-height: 44px;
+  padding-block: 10px;
+}
+
+.consent__box {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.consent__label {
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+}
+
+/* -------------------------------------------------------------------------- */
+/* §5.4 Privacy micro-notice, and the status region                           */
+/* -------------------------------------------------------------------------- */
+
+.form .button {
+  margin-block-start: var(--space-5);
+}
+
+.micro-notice {
+  margin-block-start: var(--space-4);
+  max-width: var(--measure-body);
+  font-size: var(--type-small);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+/*
+ * Present from first render (§7), empty in this scope. It occupies no space
+ * while empty, but is never display:none — a hidden live region is not
+ * announced.
+ */
+.status-region:empty {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * §6.11 Footer — the rule, padding, type and colour now come from the design
+ * system's Footer component. Only its position in the page rhythm remains here
+ * (see the vertical-rhythm block above).
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Phase 1 inner routes — P1-J §6, §7, §8, §9                                 */
+/*                                                                            */
+/* No new visual language. Every value below is an existing token, and the     */
+/* type roles are the ones `07` §3 already defines. `07` §4's single-column    */
+/* rule holds on every route.                                                  */
+/* -------------------------------------------------------------------------- */
+
+.page-head {
+  padding-block-start: var(--space-9);
+}
+
+@media (min-width: 1024px) {
+  .page-head {
+    padding-block-start: var(--space-11);
+  }
+}
+
+.page-head__title {
+  margin-block-start: var(--space-3);
+  max-width: var(--measure-h1);
+  font-size: var(--type-h1);
+  font-weight: var(--weight-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
+  text-wrap: balance;
+}
+
+.page-head__lead {
+  margin-block-start: var(--space-5);
+  max-width: var(--measure-body);
+  font-size: var(--type-hero-supporting);
+  line-height: var(--leading-hero-supporting);
+  text-wrap: pretty;
+}
+
+/* Superseded by the flow rule above — kept as a note, not a duplicate rule. */
+
+/* A list of statements: a bold lead-in, then a sentence. No bullets, no cards. */
+/*
+ * `07` §4 — the principles list on `/principles` carries the same rhythm it
+ * has on `/`, but follows a page lead rather than a section heading.
+ */
+/* A definition list: category paired with what distinguishes it. */
+.page-close__cta {
+  margin-block-start: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .page-close__cta {
+    width: auto;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Term lists — one rhythm for three shapes (see TermList.astro)              */
+/*                                                                            */
+/* Replaces `.statement-list`, `.principles__list` and `.distinctions`, which  */
+/* were byte-equivalent apart from their names across five call sites.         */
+/* -------------------------------------------------------------------------- */
+
+.term-list {
+  margin-block-start: var(--space-7);
+}
+
+.term-list__row + .term-list__row {
+  margin-block-start: var(--space-6);
+}
+
+.term-list__term {
+  display: block;
+  font-size: var(--type-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h3);
+  color: var(--fg);
+}
+
+/*
+ * P2-B defect UX-1 — a term that is a real `h2` takes `h2` scale.
+ *
+ * The `/principles` titles were semantic `h2` carrying `--type-h3`, so they
+ * rendered at 18px desktop and 16px mobile — SMALLER than the 17px body text
+ * beneath them, on the page whose whole substance is those five headings.
+ * TermList now derives tag and scale from one `level` prop, so the two cannot
+ * drift apart again.
+ */
+.term-list__term--h2 {
+  font-size: var(--type-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+
+/* Larger terms need more air between rows, or the list reads as one mass. */
+.term-list--heading:has(.term-list__term--h2) .term-list__row + .term-list__row {
+  margin-block-start: var(--space-8);
+}
+
+.term-list__body {
+  margin-block-start: var(--space-2);
+  margin-inline-start: 0;
+  max-width: var(--measure-body);
+  color: var(--fg-muted);
+  text-wrap: pretty;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Long-form prose — /privacy                                                 */
+/*                                                                            */
+/* `03` §6: deliberately plainer than every other route. No CTA, no callout,   */
+/* nothing but a comfortable reading measure.                                  */
+/* -------------------------------------------------------------------------- */
+
+.prose {
+  padding-block-start: var(--space-9);
+  max-width: var(--measure-body);
+}
+
+@media (min-width: 1024px) {
+  .prose {
+    padding-block-start: var(--space-11);
+  }
+}
+
+.prose__meta {
+  margin-block-start: var(--space-4);
+  font-size: var(--type-small);
+  color: var(--fg-muted);
+}
+
+.prose > p {
+  margin-block-start: var(--space-4);
+  text-wrap: pretty;
+}
+
+.prose > h2 {
+  margin-block-start: var(--space-8);
+  font-size: var(--type-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+
+.prose > ul {
+  margin-block-start: var(--space-4);
+  padding-inline-start: var(--space-5);
+  list-style: disc;
+}
+
+.prose > ul > li {
+  margin-block-start: var(--space-2);
+}
+
+.prose__back {
+  margin-block-start: var(--space-8);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 404                                                                        */
+/* -------------------------------------------------------------------------- */
+
+.notfound {
+  padding-block-start: var(--space-9);
+}
+
+.notfound__heading {
+  max-width: var(--measure-h1);
+  font-size: var(--type-h1);
+  font-weight: var(--weight-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
+  text-wrap: balance;
+}
+
+.notfound__body {
+  margin-block-start: var(--space-5);
+  max-width: var(--measure-body);
+  font-size: var(--type-hero-supporting);
+  line-height: var(--leading-hero-supporting);
+}
+
+.notfound__links {
+  margin-block-start: var(--space-6);
+}
+
+.notfound__link {
+  display: inline-block;
+
+  /* §9 — touch target >=44x44px with room around it. */
+  min-height: 44px;
+  padding-block: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .notfound {
+    padding-block-start: var(--space-11);
+  }
+}

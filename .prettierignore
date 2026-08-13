@@ -21,3 +21,6 @@ LICENSE
 *.log
 # hand-authored static page; html-validate requires the uppercase DOCTYPE prettier folds
 public/warrant-guardian/index.html
+
+# Verbatim Cowork scanner artifacts — hash-pinned in SHA256SUMS.txt; reformatting breaks verbatim-ness
+scripts/scanners/

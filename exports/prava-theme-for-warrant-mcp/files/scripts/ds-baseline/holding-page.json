@@ -1,0 +1,18 @@
+{
+  "recordedFrom": "prava-theme \u2014 the site adopts the Prava identity as its one palette. Until now src/styles/tokens.css was blue-cast and src/design-system/tokens.css was green-cast, so a reader moving between a page and the gallery saw two products. Both files now carry identical neutrals and the same teal primary, controls take the pill shape, and the mono voice comes from --font-mono. This baseline exists to catch a design-system change LEAKING into the site; here the site was changed on purpose, so the hashes are re-recorded rather than the change reverted. Every G-C1/G-C2 contrast pair was recomputed and passes in both themes.",
+  "note": "sha256 of every built route document.",
+  "hashes": {
+    "404.html": "1cbc591b98146660466f2286f76ef4673efe285d44900684fed15a2d3524da7a",
+    "about.html": "86b4325a2405f7e1909321743733b8af44f2b62a885afe432bb3cde8a66d42db",
+    "contact.html": "4cd927f7e5891d3fef8bda62e2ab456ca0aea7ec508722850031c7a90a6b9510",
+    "enterprise.html": "989e541164f052bf961431d5c821fac3fec589ee26a38a12f51ab6088cda15e4",
+    "index.html": "01ecd7c9bdc4c5bff0800b681f0938fd2d06a859ee937598946187890afecb11",
+    "platform.html": "610666215d8b7e4760187c39821778025b5b87bbf5bae85cf850eab42fa13b67",
+    "principles.html": "a04dbc3ea26fe207f04a3c7dee7e153e63255c5a9122cfaf453682fd9120d95b",
+    "privacy.html": "daa5e16539c2083a8e6adf689282e924f2213d5ff222880f275e5011f0fd5ede",
+    "security.html": "b92499ca785d34e86fa31be986250d5812d7e6fb4f530d2aae447de78648e472",
+    "technology.html": "ba0480c4968541a26a10acacf45652c203f334831c1beab8b9cfff8d1bc16f01",
+    "trust.html": "067706121fd3f277c9730a13521e1de87909ccc550d8a716c90d300d9170ab97",
+    "what-we-havent-built.html": "2c63354d7c378b7e24b0e224310e3e4761d3b04cd7ae54f64bd83de517bcd061"
+  }
+}

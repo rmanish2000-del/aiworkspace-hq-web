@@ -1,0 +1,15 @@
+{
+  "rule": "Each entry is a DATED, SCOPED exception to the dependency-audit gate, founder-authorised, for ONE advisory with no upstream fix. scripts/audit-gate.mjs allows a high/critical finding ONLY if its root advisory is listed here AND the advisory is still unfixed upstream (the gate checks the registry: a published version of the package outside vulnerable_range EXPIRES the exception and turns the gate red until the tree is updated and the entry removed). Any advisory not listed here fails the gate exactly as before. An exception is never renewed by editing its range - a new founder authorisation writes a new entry.",
+  "exceptions": [
+    {
+      "ghsa": "GHSA-jmr9-qjv8-65gv",
+      "package": "extract-zip",
+      "vulnerable_range": "<=2.0.1",
+      "severity": "high",
+      "granted": "2026-08-13",
+      "authorised_by": "founder (AUDIT-EXCEPTION-AND-PR, ruling 1)",
+      "scope": "dev-only chain @lhci/cli -> lighthouse -> puppeteer-core -> @puppeteer/browsers -> extract-zip; production deps audit clean at 0 vulnerabilities (npm audit --omit=dev)",
+      "revisit_trigger": "upstream ships a patched extract-zip (any published version > 2.0.1); the gate detects this from the registry and goes red until the exception is removed"
+    }
+  ]
+}

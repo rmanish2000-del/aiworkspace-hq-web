@@ -1,0 +1,108 @@
+From f58a3bdcf7f5500a3920e336b901f45e3cc3c39c Mon Sep 17 00:00:00 2001
+From: rmanish2000-del <rmanish2000@gmail.com>
+Date: Tue, 4 Aug 2026 21:04:41 +0530
+Subject: [PATCH 2/2] Take out the last blue: iris joins the green family
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The previous commit left one hue behind on the argument that a semantic colour
+is not skin — iris, the approved-design-intent badge and the info callout, stayed
+indigo. That argument loses to the thing a reader actually sees. Two unrelated
+hues on one surface read as two products, which is the complaint this whole
+change exists to answer, and "keep it, it means something" is not a defence a
+reader can see.
+
+Iris is now #1f5130 light and #8fd6a6 dark — the deep forest green of the same
+family. The thesis gradient loses its indigo stop with it, and the veil follows.
+
+What still separates the tiers is what CC-004 said carried them in the first
+place: fill vs outline vs dashed vs weight, "no two alike at a glance", not hue.
+Verified stays a solid teal fill; approved stays a 2px outline and is now green.
+Saffron and danger keep theirs, because amber and red are warnings and a warning
+that matches the page is not one.
+
+There is now no blue in the repository: not in src/, not in dist/, not in the
+built gallery.
+
+DS-D2 passing unchanged is worth reading as evidence rather than as a formality.
+It proves the site's built bytes did not move, which means iris never appeared on
+a site page at all — it lives only in the design-system layer and its gallery.
+The accessibility run from the previous commit therefore still stands on
+identical output.
+
+ds:gates 78/78 with every contrast pair recomputed — iris now 8.76:1 on paper
+and 10.92:1 on the dark ground, both gradient stops clear on-gradient text.
+vitest 91/91, html-validate, eslint and prettier clean.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ src/design-system/tokens.css | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/src/design-system/tokens.css b/src/design-system/tokens.css
+index 2cdfe08..17d54b7 100644
+--- a/src/design-system/tokens.css
++++ b/src/design-system/tokens.css
+@@ -35,15 +35,20 @@
+ 
+   /* --- CC-004 §2.2 The three hues + support -------------------------------
+    *
+-   * Only the primary moves. Prava's own note is that semantic colours "keep
+-   * their own colours: those are product semantics, not skin" — so iris still
+-   * means approved-design-intent and saffron still means gated, in the hues a
+-   * reader has already learned. What changes is the primary, which was the
+-   * skin: verdigris becomes the console's teal, so evidence-verified and every
+-   * link, focus ring and primary fill on the site are now the same colour.
++   * ONE HUE FAMILY. An earlier pass kept iris indigo on the argument that a
++   * semantic colour is not skin. That argument loses to the thing a reader
++   * actually sees: two unrelated hues on one surface read as two products,
++   * which is the complaint this whole change exists to answer. Iris is now the
++   * deep forest green of the same family.
++   *
++   * What still separates the tiers is what CC-004 said carried them in the
++   * first place — fill vs outline vs dashed vs weight, "no two alike at a
++   * glance" — not hue. Verified stays a solid teal fill; approved stays a 2px
++   * outline, now green. Saffron and danger keep their hues because amber and
++   * red are warnings, and a warning that matches the page is not one.
+    */
+   --verdigris: #0f766e; /* evidence · verified · the primary */
+-  --iris: #3d45c4; /* direction · approved design intent */
++  --iris: #1f5130; /* direction · approved design intent */
+   --saffron: #8a5800; /* time · dates · gated-withheld */
+   --danger: #9c1f2e; /* errors only */
+   --on-hue: #ffffff; /* text on solid hue fills */
+@@ -54,10 +59,10 @@
+   --on-gradient: #ffffff;
+ 
+   /* --- CC-004 §2.3 Gradients — two tested stops each, worst-stop verified -- */
+-  --g-thesis: linear-gradient(135deg, #3d45c4, #0f766e);
++  --g-thesis: linear-gradient(135deg, #1f5130, #0f766e);
+   --g-evidence: linear-gradient(135deg, #07473a, #0d7c64);
+   /* Either gradient at <=8% opacity over --bg; re-verified COMPOSITED in CI. */
+-  --g-veil: linear-gradient(135deg, rgb(61 69 196 / 0.08), rgb(15 118 110 / 0.08));
++  --g-veil: linear-gradient(135deg, rgb(31 81 48 / 0.08), rgb(15 118 110 / 0.08));
+ 
+   /* --- CC-004 §3 Typography — two voices, zero web fonts (TDR-13) --------- */
+   --font-sans:
+@@ -145,7 +150,7 @@
+   --border-input: #7d796e; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+   --border-strong: #9c978a;
+   --verdigris: #2dd4bf;
+-  --iris: #9ba5ff;
++  --iris: #8fd6a6;
+   --saffron: #f0bc5e;
+   --danger: #ff8a80;
+   --on-hue: #14130f;
+@@ -165,7 +170,7 @@
+     --border-input: #7d796e; /* corrected from a 2.82:1 candidate — CC-004 §2.1 */
+     --border-strong: #9c978a;
+     --verdigris: #2dd4bf;
+-    --iris: #9ba5ff;
++    --iris: #8fd6a6;
+     --saffron: #f0bc5e;
+     --danger: #ff8a80;
+     --on-hue: #14130f;
+-- 
+2.55.0.windows.1
+

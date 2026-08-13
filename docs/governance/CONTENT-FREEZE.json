@@ -11,14 +11,14 @@
     },
     {
       "date": "2026-08-11",
-      "authorised_by": "founder (directive 2026-08-11: fix PR #33 a11y failures — 'run that spec locally... fix... push; I will merge only on green')",
-      "reason": "AT-tree A11Y fix: the three converted pages had dropped the site-wide '— AI Workspace' <title> suffix, so assistive tech announced pages without the product name. Only the document title changed; body content in src/legal/*.md is untouched. The title text participates in the tag-stripped hash, hence the new values.",
+      "authorised_by": "founder (directive 2026-08-11: fix PR #33 a11y failures \u2014 'run that spec locally... fix... push; I will merge only on green')",
+      "reason": "AT-tree A11Y fix: the three converted pages had dropped the site-wide '\u2014 AI Workspace' <title> suffix, so assistive tech announced pages without the product name. Only the document title changed; body content in src/legal/*.md is untouched. The title text participates in the tag-stripped hash, hence the new values.",
       "routes_changed": ["/privacy", "/contact", "/about"]
     },
     {
       "date": "2026-08-11",
       "authorised_by": "founder (ruling 2026-08-11, Option A)",
-      "reason": "Product-identity separation: the six Guardian legal pages remount under /warrant-guardian/*; the root /about, /contact, /privacy return to the approved AI Workspace pages (P2-C four sections; wave-1 FD-AG4-A privacy — a binding surface that must never be silently replaced). Rendered Guardian text is BYTE-IDENTICAL at the new routes — every hash value is unchanged, only the route keys moved. Gateway-submitted root URLs /terms, /refunds, /delivery keep serving via edge redirects to /warrant-guardian/*; no content duplication.",
+      "reason": "Product-identity separation: the six Guardian legal pages remount under /warrant-guardian/*; the root /about, /contact, /privacy return to the approved AI Workspace pages (P2-C four sections; wave-1 FD-AG4-A privacy \u2014 a binding surface that must never be silently replaced). Rendered Guardian text is BYTE-IDENTICAL at the new routes \u2014 every hash value is unchanged, only the route keys moved. Gateway-submitted root URLs /terms, /refunds, /delivery keep serving via edge redirects to /warrant-guardian/*; no content duplication.",
       "routes_changed": [
         "/warrant-guardian/terms",
         "/warrant-guardian/privacy",
@@ -31,27 +31,45 @@
     {
       "date": "2026-08-12",
       "authorised_by": "founder (ruling 2026-08-12, Option B)",
-      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal — client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
+      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal \u2014 client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
       "routes_changed": ["/warrant-guardian/"]
     },
     {
       "date": "2026-08-12",
       "authorised_by": "founder (ruling 2026-08-12, Option B resume order; same defect class as the 2026-08-11 title-suffix authorisation)",
-      "reason": "AT-tree A11Y fix, completing the 2026-08-11 entry: the three merchant pages /warrant-guardian/terms, /refunds, /delivery still carried bare <title> values without the site-wide '— AI Workspace' suffix, so assistive tech announced them without the product name. Only the document titles changed; body prose in src/legal/*.md and the on-page <h1> headings are untouched. The title text participates in the tag-stripped hash, hence the new values.",
+      "reason": "AT-tree A11Y fix, completing the 2026-08-11 entry: the three merchant pages /warrant-guardian/terms, /refunds, /delivery still carried bare <title> values without the site-wide '\u2014 AI Workspace' suffix, so assistive tech announced them without the product name. Only the document titles changed; body prose in src/legal/*.md and the on-page <h1> headings are untouched. The title text participates in the tag-stripped hash, hence the new values.",
       "routes_changed": [
         "/warrant-guardian/terms",
         "/warrant-guardian/refunds",
         "/warrant-guardian/delivery"
       ]
+    },
+    {
+      "date": "2026-08-13",
+      "authorised_by": "founder (ruling 2026-08-13, UNIFY-LEGAL-SURFACE Slice-1: ROOT canonical)",
+      "reason": "One domain, one entity: the six legal routes move from /warrant-guardian/* back to the root, replacing the entity-less AI Workspace /privacy, /contact and /about \u2014 the certified Kartavya CSC Digital Seva text (controller, GSTIN, Udyam, Deori Sagar MP, founder@) now serves at the canonical root; /warrant-guardian/* redirects back. Rendered text is BYTE-IDENTICAL to the frozen values \u2014 every hash is unchanged, only route keys moved. One response commitment across all six: 'Within 3 business days' (certified frozen text wins; the AIW P0 promises are superseded with the replaced pages). Scan re-run pending - definitions held in Cowork seat, requested 2026-08-13.",
+      "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery", "/contact", "/about"]
+    },
+    {
+      "date": "2026-08-13",
+      "authorised_by": "founder (ruling 2026-08-13, WIRE-SCANS-TO-BUILT-OUTPUT)",
+      "reason": "No rendered text changed - every hash is untouched. This entry records what the freeze RESTS ON. Finding: neither scanner had ever run against built Astro output; every prior 'zero findings' was against markdown sources and one standalone HTML file - artifacts that do not deploy (DC-1 under the freeze itself). As of this entry the scans run against dist/: scan_c_built.py (Cowork scan_c.py sha 53d3e18330e9..., MANIFEST repointed to the seven deployed documents) and scan_b.py (sha 7921db5c830f..., verbatim) both ran on the built output for the FIRST time - 7/7 surfaces, 0 findings each - and are wired into verify:release and CI with exit 2 failing louder than exit 1. Scan A's historical record, per ruling 3: what is true is 22 terms, 0 findings, seven surfaces, 2026-08-10; the referenced 42-term list does not exist and is recorded here as UNVERIFIABLE, not reconstructed.",
+      "routes_changed": []
+    },
+    {
+      "date": "2026-08-13",
+      "authorised_by": "founder (AUDIT-EXCEPTION-AND-PR, ruling 2)",
+      "reason": "No text changed by this entry - it records a SUBSTITUTION already live so it stays visible: the AI Workspace privacy page carried the C-13 sentence 'We do not use tracking cookies on this site.'; UNIFY-LEGAL-SURFACE replaced that page with the frozen Guardian policy whose wording is 'Cookies, analytics, pixels, trackers - none.' The founder ruled the Guardian wording STANDS - it is stricter (bars all cookies, analytics, pixels and trackers, not only tracking cookies). C-13 behaviour remains machine-verified by G-C13. For the register (assignment scope 4): the previous freeze rested on markdown sources and a standalone HTML that never deploys - a DC-1 instance under the freeze itself, closed 2026-08-13 by the first built-output scan run (0 findings, 7/7 surfaces).",
+      "routes_changed": []
     }
   ],
   "routes": {
-    "/warrant-guardian/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
-    "/warrant-guardian/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
-    "/warrant-guardian/refunds": "064b87db7be370febbe1d41a632f607494bdb82269327a9acbbc561ab4614352",
-    "/warrant-guardian/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
-    "/warrant-guardian/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
-    "/warrant-guardian/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
+    "/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
+    "/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
+    "/refunds": "064b87db7be370febbe1d41a632f607494bdb82269327a9acbbc561ab4614352",
+    "/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
+    "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
+    "/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
     "/warrant-guardian/": "951ff26dc79319a74df145c93edfe71b161fafd1c9ad5c6c3f240aba873da0a7"
   }
 }

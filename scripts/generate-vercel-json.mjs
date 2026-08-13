@@ -186,13 +186,17 @@ function build({ prebuilt = false } = {}) {
       // redirect behind.
       { source: '/warrant', destination: '/warrant/console', permanent: false },
 
-      // Founder ruling 2026-08-11 (Option A): gateway-submitted legal URLs
-      // keep resolving, served from the Guardian mount — one source, no
-      // duplicated content. Temporary, like /warrant, so a future re-mount
-      // is not fighting cached permanents.
-      { source: '/terms', destination: '/warrant-guardian/terms', permanent: false },
-      { source: '/refunds', destination: '/warrant-guardian/refunds', permanent: false },
-      { source: '/delivery', destination: '/warrant-guardian/delivery', permanent: false },
+      // Founder ruling 2026-08-13 (UNIFY-LEGAL-SURFACE): ROOT is canonical for
+      // all six legal routes — one domain, one entity, one tree. The former
+      // /warrant-guardian/* mounts redirect back so links minted under the
+      // Option A remount keep resolving. Temporary, like /warrant, so any
+      // future re-mount is not fighting cached permanents.
+      { source: '/warrant-guardian/terms', destination: '/terms', permanent: false },
+      { source: '/warrant-guardian/refunds', destination: '/refunds', permanent: false },
+      { source: '/warrant-guardian/delivery', destination: '/delivery', permanent: false },
+      { source: '/warrant-guardian/privacy', destination: '/privacy', permanent: false },
+      { source: '/warrant-guardian/contact', destination: '/contact', permanent: false },
+      { source: '/warrant-guardian/about', destination: '/about', permanent: false },
       {
         source: '/(.*)',
         has: [{ type: 'host', value: 'www.aiworkspacehq.com' }],

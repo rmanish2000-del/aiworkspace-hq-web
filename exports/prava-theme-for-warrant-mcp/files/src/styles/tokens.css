@@ -1,0 +1,219 @@
+/*
+ * tokens.css — design tokens, transcribed from P0 `07-visual-and-interaction-spec.md`.
+ *
+ * §2 colour · §3 typography · §4 spacing and layout · §8 motion.
+ *
+ * Every token here exists because the page needs it. This is not a design
+ * system. No value is invented: each is specified in `07`.
+ */
+
+:root {
+  /* --- §2 Colour — light theme (default) ---------------------------------
+   *
+   * PRAVA FAMILY. One identity across the whole site: warm off-white paper,
+   * near-black ink, a single teal accent, warm neutral rules. It replaces two
+   * palettes that had drifted apart — a blue skin here and a green-cast one in
+   * src/design-system/tokens.css — and the two files now carry the same values
+   * for every shared name.
+   *
+   * Two parts of the Prava console are deliberately NOT brought over, because
+   * rules in this repository outrank a borrowed look:
+   *
+   *   - Its elevation. `07` and the CL-2 test forbid an elevation token and any
+   *     box-shadow used for separation. Separation stays borders and surfaces.
+   *   - Its web fonts. `08` §8 sets a zero font budget. Inter and IBM Plex Mono
+   *     are NAMED at the front of the stacks, so a machine that has them renders
+   *     the console's type exactly; nothing is ever fetched.
+   *
+   * Every pair below is verified by `npm run ds:gates` (G-C1), which computes
+   * contrast from the token file rather than trusting this comment.
+   */
+  --bg: #faf9f7; /* paper */
+  --bg-subtle: #f0efec; /* the recessed surface: code, chips, wells */
+  --fg: #171717; /* ink */
+  --fg-muted: #5c594f; /* 7.1:1 on --bg, 6.5:1 on --bg-subtle */
+
+  /* Decorative rules and dividers ONLY — never a UI-component boundary. */
+  --border: #e5e4e0;
+
+  /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
+  --border-input: #74716a;
+  --border-strong: #5f5c55;
+
+  --accent: #0f766e; /* the one accent: links, focus, primary fill */
+  --accent-fg: #ffffff;
+  --danger: #9c1f2e;
+  --success: #1e6f40;
+
+  /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
+  --accent-hover: #0c5f59;
+  --accent-active: #0a4f4a;
+
+  /* --- §3 Typography -----------------------------------------------------
+   * Inter and IBM Plex Mono lead the stacks and are never loaded (see above).
+   * On a machine without them the system stack behind each carries the page,
+   * which is what it did before this change.
+   */
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
+  /*
+   * Fluid scale, clamped between the 360px and 1280px viewports (§3).
+   * Each clamp() is derived from the min/max pair in the `07` §3 table; the
+   * middle term is the line through (360px, min) and (1280px, max).
+   */
+  --type-wordmark: clamp(1.0625rem, 1.0136rem + 0.2174vw, 1.1875rem); /* 17 -> 19 */
+  --type-eyebrow: clamp(0.8125rem, 0.788rem + 0.1087vw, 0.875rem); /* 13 -> 14 */
+  --type-h1: clamp(2rem, 1.413rem + 2.6087vw, 3.5rem); /* 32 -> 56 */
+  --type-hero-supporting: clamp(1.0625rem, 0.9647rem + 0.4348vw, 1.3125rem); /* 17 -> 21 */
+  --type-stage: clamp(0.875rem, 0.8505rem + 0.1087vw, 0.9375rem); /* 14 -> 15 */
+  --type-h2: clamp(1.375rem, 1.1793rem + 0.8696vw, 1.875rem); /* 22 -> 30 */
+  --type-h3: clamp(1rem, 0.9511rem + 0.2174vw, 1.125rem); /* 16 -> 18 */
+  --type-body: clamp(1rem, 0.9755rem + 0.1087vw, 1.0625rem); /* 16 -> 17 */
+  --type-small: clamp(0.8125rem, 0.788rem + 0.1087vw, 0.875rem); /* 13 -> 14 */
+  --type-input: 1rem; /* never below 16px: iOS Safari auto-zoom */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-h1: 620;
+
+  --leading-h1: 1.08;
+  --leading-wordmark: 1.2;
+  --leading-h2: 1.2;
+  --leading-eyebrow: 1.3;
+  --leading-h3: 1.35;
+  --leading-input: 1.4;
+  --leading-stage: 1.5;
+  --leading-small: 1.5;
+  --leading-hero-supporting: 1.55;
+  --leading-body: 1.6;
+
+  --tracking-wordmark: -0.01em;
+  --tracking-eyebrow: 0.06em;
+  --tracking-h1: -0.02em;
+  --tracking-h2: -0.01em;
+
+  /* §3 Measure */
+  --measure-body: 68ch;
+  --measure-h1: 18ch;
+
+  /* --- §4 Spacing — base unit 4px, every value a multiple ---------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --space-11: 112px;
+  --space-12: 160px;
+
+  /* §4 Container */
+  --container-max: 720px;
+  --container-pad: var(--space-5); /* raised to --space-7 at >=640px */
+
+  /* §6 Shape */
+  --radius: 8px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* --- §8 Motion --------------------------------------------------------- */
+  --duration-fast: 120ms;
+  --duration-swap: 160ms;
+  --duration-spin: 800ms;
+  --ease: ease;
+  --ease-linear: linear;
+
+  /* ======================================================================= */
+  /* EXTENSION TOKENS — new in P1-I. `07` specifies nothing here.            */
+  /*                                                                         */
+  /* Values are derived from the canonical scales above, not invented freely, */
+  /* and they REMAIN UNAPPROVED until ratified. A token being defined is not  */
+  /* permission to use it — see docs/design-system/usage-rules.md.            */
+  /* Typed mirror and provenance: src/lib/tokens.ts.                          */
+  /* ======================================================================= */
+
+  /* Radius scale. `--radius` (8px) above stays the canonical alias. */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 9999px;
+
+  /*
+   * Z-index. `07` §6.1 gives the skip link `z-index: 10`; nothing else stacks.
+   * There are no modals, menus, or carousels (`07` §7), so this scale exists to
+   * replace a magic number, not to enable layering.
+   */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-sticky: 5; /* reserved — `07` §6.2: the header is NOT sticky */
+  --z-skip-link: 10;
+
+  /* Icon sizing. `07` §6.8's error glyph is sized to the 14px error type. */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+
+  /*
+   * Breakpoints, for reference only — CSS cannot use a custom property in a
+   * media query, so every @media below repeats the literal. Source of truth:
+   * src/lib/tokens.ts BREAKPOINTS. `07` §5: min 320, sm 640, lg 1024.
+   */
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 1024px;
+
+  color-scheme: light dark;
+}
+
+/* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
+@media (prefers-color-scheme: dark) {
+  /*
+   * The Prava console is light-only, so this is the one part of the palette
+   * with no original to copy. It is derived rather than invented: the same warm
+   * cast, inverted — a warm near-black paper, warm off-white ink, and the
+   * accent lifted to the teal the console uses on its own dark card
+   * (--accent-on-dark, #2dd4bf). Verified by the same G-C1 table as the light
+   * theme, both bg levels.
+   */
+  :root {
+    --bg: #14130f;
+    --bg-subtle: #1e1c17;
+    --fg: #f2f0ea;
+    --fg-muted: #a8a49a;
+    --border: #2b2820;
+    --border-input: #7d796e;
+    --border-strong: #9c978a;
+    --accent: #2dd4bf;
+    --accent-fg: #14130f;
+    --danger: #ff8a80;
+    --success: #5fd39b;
+    --accent-hover: #5ee0d0;
+    --accent-active: #7fe8db;
+  }
+}
+
+/* --- §4 Container padding steps up at 640px ------------------------------- */
+@media (min-width: 640px) {
+  :root {
+    --container-pad: var(--space-7);
+  }
+}
+
+/*
+ * §8 Reduced motion. Durations go to a near-zero value rather than 0, so that
+ * `transitionend` handlers are not broken.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-swap: 0.01ms;
+    --duration-spin: 0.01ms;
+  }
+}

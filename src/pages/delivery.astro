@@ -1,28 +1,28 @@
 ---
 /**
- * `/refunds` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
+ * `/delivery` — PUBLISH-GUARDIAN-PAGES (2026-08-11). CONTENT-FROZEN ROUTE.
  *
- * The prose below renders from `src/legal/refunds.md`, one of the six
+ * The prose below renders from `src/legal/delivery.md`, one of the six
  * merchant-verification pages. The text is under a founder content freeze:
  * scans A, B and C pass against the BUILT output, and the freeze check
  * fails the build if the rendered text drifts without an explicit founder
  * authorisation. The entity block (legal name, address, GSTIN, Udyam) is
  * CONTENT, not chrome — merchant verification reads it off the page.
  */
-import Base from '../../layouts/Base.astro';
-import Container from '../../components/ui/Container.astro';
-import { Content } from '../../legal/refunds.md';
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import { Content } from '../legal/delivery.md';
 ---
 
 <Base
-  title="Refund and Cancellation Policy — AI Workspace"
-  description="How cancellation and refunds work for Warrant Guardian."
-  canonicalPath="/warrant-guardian/refunds"
+  title="Delivery Policy — AI Workspace"
+  description="How Warrant Guardian is delivered after purchase."
+  canonicalPath="/delivery"
   indexableInProduction={true}
 >
   <Container>
     <article class="legal-page">
-      <h1>Refund and Cancellation Policy</h1>
+      <h1>Delivery Policy</h1>
       <Content />
     </article>
   </Container>
