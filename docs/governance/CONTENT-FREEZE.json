@@ -61,6 +61,12 @@
       "authorised_by": "founder (AUDIT-EXCEPTION-AND-PR, ruling 2)",
       "reason": "No text changed by this entry - it records a SUBSTITUTION already live so it stays visible: the AI Workspace privacy page carried the C-13 sentence 'We do not use tracking cookies on this site.'; UNIFY-LEGAL-SURFACE replaced that page with the frozen Guardian policy whose wording is 'Cookies, analytics, pixels, trackers - none.' The founder ruled the Guardian wording STANDS - it is stricter (bars all cookies, analytics, pixels and trackers, not only tracking cookies). C-13 behaviour remains machine-verified by G-C13. For the register (assignment scope 4): the previous freeze rested on markdown sources and a standalone HTML that never deploys - a DC-1 instance under the freeze itself, closed 2026-08-13 by the first built-output scan run (0 findings, 7/7 surfaces).",
       "routes_changed": []
+    },
+    {
+      "date": "2026-08-14",
+      "authorised_by": "founder ruling via Chat, 2026-08-14 10:20 (SWEEP-1-RULINGS item c, restated in BRANCH-DISPOSITION-RULING ruling 5): ADD THE ENTITY BLOCK",
+      "reason": "The Guardian landing named no legal entity - it deferred to the linked legal pages. A payment gateway reads the page in front of it and does not follow a link to learn who is legally selling. The certified entity block is now in the landing footer, wording taken verbatim from the frozen legal sources (src/legal/terms.md line 2-4 / about.md): operator Kartavya CSC Digital Seva, sole proprietorship of Manish Patel, Tilak Ward, Deori, District Sagar, Madhya Pradesh 470226, GSTIN 23AKZPP1502D1ZB, Udyam UDYAM-MP-39-0001250, founder@aiworkspacehq.com. Per REPO-CONSTITUTION rule 6 this block is CONTENT, not chrome, so it participates in the hash - hence the new value. Nothing else on the page changed.",
+      "routes_changed": ["/warrant-guardian/"]
     }
   ],
   "routes": {
@@ -70,6 +76,6 @@
     "/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
     "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
     "/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
-    "/warrant-guardian/": "951ff26dc79319a74df145c93edfe71b161fafd1c9ad5c6c3f240aba873da0a7"
+    "/warrant-guardian/": "47f8ae7f0b9aa0b9fdcf0c37037cf5fa358670b184c7f6b9ab3096cbd3e6a416"
   }
 }
