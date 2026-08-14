@@ -108,4 +108,25 @@ export default tseslint.config(
       ],
     },
   },
+
+  {
+    files: ['api/**/*.mjs'],
+    rules: {
+      /**
+       * Vercel serverless functions (RAZORPAY-INTEGRATION, 2026-08-14). MF-1
+       * bans `fetch` because the PAGE must make no network call — these files
+       * are not the page. They never reach `dist/`, ship no bytes to a browser,
+       * and calling Razorpay's API is their entire purpose. Storage and cookies
+       * stay banned: a function has no business touching either. `no-console`
+       * is off because the assignment requires provider errors to be LOGGED,
+       * not swallowed, and a function's log is its only voice.
+       */
+      'no-console': 'off',
+      'no-restricted-globals': [
+        'error',
+        { name: 'localStorage', message: 'P-07 — no persistent storage in this scope.' },
+        { name: 'sessionStorage', message: 'P-07 — no persistent storage in this scope.' },
+      ],
+    },
+  },
 );
