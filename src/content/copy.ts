@@ -689,7 +689,16 @@ export const experience = {
     evidenceLead:
       'Verified statements point to repository evidence. Design intent, demonstrations and limitations are labelled separately so a buyer can distinguish proof from direction.',
     evidenceItems: [
-      { label: 'Verified', body: 'Implemented and checked against named evidence.' },
+      {
+        label: 'Verified',
+        // POST-MERGE-VERIFY-AND-BADGE (2026-08-13): the evidence is NAMED, not
+        // gestured at. Verified from the public warrant-mcp repository at
+        // eea5496de1cc: README ("npm test  # 227 tests, including the SPEC.md
+        // conformance corpus") and SECURITY-SURFACE.md (the bypass table:
+        // eleven routes tested, seven bypasses found, five closed, one still
+        // open, one mitigated — published, not hidden).
+        body: 'Implemented and checked against named public evidence: the warrant-mcp repository’s 227 passing tests and its published bypass disclosure (SECURITY-SURFACE.md).',
+      },
       { label: 'Demonstration', body: 'Reviewable behaviour with a stated operating boundary.' },
       { label: 'In development', body: 'A direction that is not presented as delivered.' },
     ],
