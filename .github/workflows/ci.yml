@@ -146,6 +146,9 @@ jobs:
             exit "$code"
           }
 
+      - name: Pricing gate (no invented number ships)
+        run: node scripts/pricing-gate.mjs
+
       - name: Scan B (feature truth) on the built landing
         run: |
           python3 scripts/scanners/scan_b.py dist/warrant-guardian/index.html scripts/scanners/GUARDIAN-TIER0-FEATURE-TRUTH-v2.md || {

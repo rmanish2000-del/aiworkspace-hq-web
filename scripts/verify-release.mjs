@@ -449,6 +449,8 @@ for (const [label, args] of [
   });
 }
 
+run('pricing gate — no invented number ships (PRICING-SCAFFOLD)', 'node scripts/pricing-gate.mjs');
+
 /* -------------------------------------------------------------------------- */
 /* 5. Browser matrix — accessibility, routes, viewports, three engines        */
 /* -------------------------------------------------------------------------- */

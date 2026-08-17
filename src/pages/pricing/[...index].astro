@@ -1,0 +1,44 @@
+---
+/**
+ * `/pricing` — exists ONLY when the founder's number is set AND sealed
+ * (PRICING-SCAFFOLD, 2026-08-18).
+ *
+ * The rest-parameter route is the mechanism: `getStaticPaths` returns ZERO
+ * paths while `src/config/pricing.ts` holds null, so the built output carries
+ * no /pricing document, no nav entry, no "coming soon", no hidden markup.
+ * When the value is present, `sealedPrice()` THROWS at build unless a matching
+ * founder seal exists in docs/governance/PRICING-SEAL.json — an unsealed
+ * number cannot ship even by editing this file.
+ */
+import Base from '../../layouts/Base.astro';
+import Container from '../../components/ui/Container.astro';
+import { sealedPrice } from '../../config/pricing';
+
+export function getStaticPaths() {
+  const price = sealedPrice();
+  return price.publish ? [{ params: { index: undefined } }] : [];
+}
+
+const price = sealedPrice();
+if (!price.publish) throw new Error('unreachable: getStaticPaths emitted no path');
+const rupees = price.amountInr.toLocaleString('en-IN');
+---
+
+<Base
+  title="Pricing — AI Workspace"
+  description="Warrant Guardian pricing."
+  canonicalPath="/pricing"
+  indexableInProduction={false}
+>
+  <Container>
+    <article class="pricing-page">
+      <h1>Pricing</h1>
+      <p>
+        Warrant Guardian is <strong>₹{rupees} per month</strong>.
+      </p>
+      <p class="pricing-page__seal">
+        Price set by {price.seal.sealed_by} on {price.seal.date} ({price.seal.ref}).
+      </p>
+    </article>
+  </Container>
+</Base>
