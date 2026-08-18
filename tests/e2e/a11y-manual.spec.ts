@@ -65,6 +65,7 @@ const ROUTES = [
   '/terms',
   '/refunds',
   '/delivery',
+  '/pricing',
   '/404',
 ] as const;
 
@@ -989,6 +990,11 @@ test('M-9 every visible string on every route comes from the copy module', async
     // src/legal/*.md — governed by CONTENT-FREEZE.json like the body text.
     'Terms of Service',
     'Delivery Policy',
+    // /pricing strings — governed by docs/governance/PRICING-SEAL.json: the
+    // amounts render only from the founder-sealed config, never free text.
+    'Pricing',
+    'Warrant Guardian is ₹999 per month, GST as applicable (about $12 per month).',
+    'Price set by the founder on 2026-08-18.',
   ]) {
     collect(extra);
   }

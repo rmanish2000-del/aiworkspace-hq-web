@@ -90,6 +90,12 @@ const ROUTES = [
     h1: 'Delivery Policy',
   },
   {
+    // PRICING-SEAL: the amounts on this route come only from the sealed config.
+    path: '/pricing',
+    title: 'Pricing — AI Workspace',
+    h1: 'Pricing',
+  },
+  {
     path: '/404',
     title: 'Page not found — AI Workspace',
     h1: 'Page not found',

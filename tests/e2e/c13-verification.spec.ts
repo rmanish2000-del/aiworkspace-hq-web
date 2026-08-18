@@ -43,6 +43,7 @@ const ROUTES = [
   '/terms',
   '/refunds',
   '/delivery',
+  '/pricing',
   '/404.html',
 ];
 
