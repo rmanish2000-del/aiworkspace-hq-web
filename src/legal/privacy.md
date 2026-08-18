@@ -19,7 +19,7 @@ Where this policy describes how the law applies to Warrant Guardian, that is our
    Device, browser, referrer - no.
    Cookies, analytics, pixels, trackers - none.
    Two fields. An email address and a date.
-   Our website makes no requests to any third party: no fonts, no content delivery network, no analytics, no tag manager.
+   Our website makes no requests to any third party - no fonts, no content delivery network, no analytics, no tag manager - except the payment processor, Razorpay, on the checkout page during payment. Razorpay sets its own cookies on its own domains during checkout, under its own privacy policy.
 
 2. Why we hold nothing about your trading
    Guardian runs on your own machine, using your own broker credentials, read-only. Your trading data never reaches us because it never leaves your computer.

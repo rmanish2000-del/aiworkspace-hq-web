@@ -67,11 +67,17 @@
       "authorised_by": "founder ruling via Chat, 2026-08-14 10:20 (SWEEP-1-RULINGS item c, restated in BRANCH-DISPOSITION-RULING ruling 5): ADD THE ENTITY BLOCK",
       "reason": "The Guardian landing named no legal entity - it deferred to the linked legal pages. A payment gateway reads the page in front of it and does not follow a link to learn who is legally selling. The certified entity block is now in the landing footer, wording taken verbatim from the frozen legal sources (src/legal/terms.md line 2-4 / about.md): operator Kartavya CSC Digital Seva, sole proprietorship of Manish Patel, Tilak Ward, Deori, District Sagar, Madhya Pradesh 470226, GSTIN 23AKZPP1502D1ZB, Udyam UDYAM-MP-39-0001250, founder@aiworkspacehq.com. Per REPO-CONSTITUTION rule 6 this block is CONTENT, not chrome, so it participates in the hash - hence the new value. Nothing else on the page changed.",
       "routes_changed": ["/warrant-guardian/"]
+    },
+    {
+      "date": "2026-08-18",
+      "authorised_by": "Founder (Manish Patel) - chat act, verbatim: 'clause GO' (2026-08-18 ~14:30 IST), authorising the payment-processor exception the WEB seat put to him in 2026-08-18_1302_WEB_R4-CHECKOUT-BUILT-GATE-RUNNING.md",
+      "reason": "R4-CHECKOUT: the /checkout page loads the Razorpay checkout, which makes third-party requests and sets Razorpay's own cookies on Razorpay's own domains during payment. The frozen /privacy sentence 'Our website makes no requests to any third party: no fonts, no content delivery network, no analytics, no tag manager.' would have become false the moment checkout shipped; shipping was held until this authorisation. The sentence now reads: '... - except the payment processor, Razorpay, on the checkout page during payment. Razorpay sets its own cookies on its own domains during checkout, under its own privacy policy.' Nothing else in the policy changed. C-13's own scope note lives in the C-13 suite header; the DPDP question (whether payment data needs fuller policy coverage) remains OPEN for founder and counsel and is NOT resolved by this entry.",
+      "routes_changed": ["/privacy"]
     }
   ],
   "routes": {
     "/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
-    "/privacy": "333e3c128c4cbfa2fa9d48a75d8d681bfc0e4e9f1fd547fa2678420047893067",
+    "/privacy": "9ff21bcec733299d46d57785d36b2d60cc3efbbedd78fddd801094d40c15b8f4",
     "/refunds": "064b87db7be370febbe1d41a632f607494bdb82269327a9acbbc561ab4614352",
     "/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
     "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
