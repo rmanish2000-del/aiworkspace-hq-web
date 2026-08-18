@@ -64,6 +64,38 @@ const rupees = price.inr.toLocaleString('en-IN');
   const say = (text) => {
     document.getElementById('state').textContent = text;
   };
+  // R4-RETURN-PATH: a visitor arriving back from the bank lands here with
+  // ?return=…; confirm against Razorpay itself before saying anything is paid.
+  const returned = new URLSearchParams(window.location.search);
+  if (returned.get('return') === 'paid' && returned.get('sub')) {
+    say('Payment submitted — confirming with the payment provider…');
+    fetch('/api/razorpay/subscription-status?id=' + encodeURIComponent(returned.get('sub')))
+      .then((status) => (status.ok ? status.json() : null))
+      .then((truth) => {
+        if (truth && (truth.status === 'active' || truth.status === 'authenticated')) {
+          say(
+            'Payment received — subscription ' +
+              truth.subscription_id +
+              ' is ' +
+              truth.status +
+              '. A receipt follows from Razorpay.',
+          );
+        } else {
+          say(
+            'Your payment was submitted but is not confirmed yet (status: ' +
+              (truth ? truth.status : 'unknown') +
+              '). If money left your account it will reconcile.',
+          );
+        }
+      })
+      .catch(() => say('Your payment was submitted but confirmation could not be fetched.'));
+  } else if (returned.get('return') === 'unverified') {
+    say(
+      'The return from the payment page could not be verified, so nothing is shown as paid. ' +
+        'If you completed a payment it is still real — Razorpay will email a receipt.',
+    );
+  }
+
   document.getElementById('pay').addEventListener('click', async () => {
     say('Preparing your subscription…');
     let order;
@@ -84,6 +116,12 @@ const rupees = price.inr.toLocaleString('en-IN');
       subscription_id: order.subscription_id,
       name: 'Warrant Guardian',
       description: 'Monthly subscription (test mode)',
+      // R4-RETURN-PATH: bank-authentication pages (3DS, the test-mode demo
+      // bank) REDIRECT rather than returning to the modal. callback_url
+      // brings the visitor home via /api/razorpay/return, which verifies the
+      // subscription-flow signature server-side before landing them here.
+      callback_url: window.location.origin + '/api/razorpay/return',
+      redirect: true,
       handler: async (result) => {
         say('Payment submitted — confirming with the payment provider…');
         try {
