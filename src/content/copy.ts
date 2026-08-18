@@ -560,10 +560,21 @@ export const experience = {
     eyebrow: 'Enterprise AI operating layer · In development',
     heading: 'Put organizational context behind every AI-assisted action.',
     lead: 'AI Workspace retrieves scoped context from an approved source, moves work through governed assignments, and keeps evidence, review and accountability attached to the result.',
-    primaryAction: 'Explore the platform',
-    primaryHref: '/platform',
-    secondaryAction: 'Inspect the evidence',
-    secondaryHref: '/trust',
+    /**
+     * HOME-CTA-AND-BETA-PATH (Chat ruling, founder input, 2026-08-18): ONE
+     * primary action site-wide — "View verified evidence", matching
+     * nav.primaryAction — the evidence-first positioning is the moat. The
+     * platform path moves to the secondary slot; the capability-section link
+     * (which renders secondaryAction against /platform) becomes coherent with
+     * it. Strings sealed by that assignment file, quoted verbatim.
+     */
+    primaryAction: 'View verified evidence',
+    primaryHref: '/trust',
+    secondaryAction: 'Explore the platform',
+    secondaryHref: '/platform',
+    /** Beta path (same ruling): small, secondary, must not imply purchasability. */
+    pricingAction: 'See pricing',
+    pricingHref: '/pricing',
     stage: 'A working Founder Edition exists locally. Early access is not yet open.',
     visualLabel: 'Verified operating flow',
     visualTitle: 'Context enters with provenance. Work leaves with evidence.',

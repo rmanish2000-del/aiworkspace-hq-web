@@ -219,12 +219,22 @@ const PROHIBITED_CLAIM_PHRASES: readonly string[] = [
   'coming soon',
 ];
 
+/**
+ * HOME-CTA-AND-BETA-PATH (2026-08-18): "pricing" entered the prohibited list
+ * when no price was decided, so the word could only ever smuggle in a claim.
+ * A founder-sealed price now exists and /pricing is live, and the ruling names
+ * "See pricing" as sanctioned wording for the one beta-path link. The
+ * allowance is EXACTLY those two strings — every other use of the word still
+ * fails, including any new denial-phrasing drift the original entry guards.
+ */
+const SEALED_PRICING_STRINGS = new Set(['See pricing', '/pricing']);
+
 describe('copy.prohibited', () => {
   it('contains no prohibited term from `02` §1.3, in any visible string', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
-      PROHIBITED_TERMS.filter((term) => containsTerm(value, term)).map(
-        (term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`,
-      ),
+      PROHIBITED_TERMS.filter(
+        (term) => containsTerm(value, term) && !SEALED_PRICING_STRINGS.has(value),
+      ).map((term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`),
     );
 
     expect(violations).toEqual([]);
