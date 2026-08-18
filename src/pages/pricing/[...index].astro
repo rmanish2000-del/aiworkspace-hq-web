@@ -39,9 +39,35 @@ const dollars = price.usd.toLocaleString('en-US');
         Warrant Guardian is <strong>₹{rupees} per month</strong>, GST as applicable
         <span class="pricing-page__usd">(about ${dollars} per month)</span>.
       </p>
+      <p class="pricing-page__availability">
+        {
+          /* PRICING-AVAILABILITY-LINE (founder GO 2026-08-18 ~16:30 IST):
+            founder-approved wording, VERBATIM — same visual group as the
+            price, above the fold, per GROK's T4 finding. Revisit the moment
+            /pricing links to a checkout. */
+        }
+        Published price; private beta not open — no checkout on this page.
+      </p>
       <p class="pricing-page__seal">
         Price set by the founder on {price.seal.date}.
       </p>
     </article>
   </Container>
 </Base>
+
+<style>
+  .pricing-page {
+    padding-block: var(--space-9);
+    max-width: var(--measure-body);
+  }
+  /* The availability line sits in the price's own visual group — bold enough
+     to read before anyone looks for a pay button (GROK T4). */
+  .pricing-page__availability {
+    font-weight: var(--weight-semibold);
+    margin-block-start: var(--space-2);
+  }
+  .pricing-page__seal {
+    color: var(--fg-muted);
+    font-size: var(--type-small);
+  }
+</style>

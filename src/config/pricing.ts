@@ -22,7 +22,24 @@
  *   Either half without the other FAILS the build: a value with no seal is an
  *   invented number; a seal with no value is a record of nothing.
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+/**
+ * Two honest locations, tried in order:
+ *   1. relative to THIS module — correct when the dev server runs with a
+ *      different working directory (`astro dev --root`, found the hard way);
+ *   2. relative to process.cwd() — correct during `astro build`, where the
+ *      module executes from a bundled location under dist/ and (1) resolves
+ *      into the build output instead of the repository.
+ * Both point at the same committed file; whichever exists wins.
+ */
+const SEAL_CANDIDATES = [
+  fileURLToPath(new URL('../../docs/governance/PRICING-SEAL.json', import.meta.url)),
+  'docs/governance/PRICING-SEAL.json',
+];
+const SEAL_REGISTER: string =
+  SEAL_CANDIDATES.find((candidate) => existsSync(candidate)) ?? 'docs/governance/PRICING-SEAL.json';
 
 /**
  * Warrant Guardian's flat monthly price — INR primary, USD secondary — or
@@ -41,7 +58,7 @@ export interface PricingSeal {
 
 /** Reads the seal register. Build-time only (Node fs) — never shipped. */
 export function readSeals(): PricingSeal[] {
-  return JSON.parse(readFileSync('docs/governance/PRICING-SEAL.json', 'utf8')).seals;
+  return JSON.parse(readFileSync(SEAL_REGISTER, 'utf8')).seals;
 }
 
 /**

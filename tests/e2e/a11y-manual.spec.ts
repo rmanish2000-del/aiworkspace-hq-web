@@ -994,6 +994,8 @@ test('M-9 every visible string on every route comes from the copy module', async
     // amounts render only from the founder-sealed config, never free text.
     'Pricing',
     'Warrant Guardian is ₹999 per month, GST as applicable (about $12 per month).',
+    // PRICING-AVAILABILITY-LINE — founder-approved wording, verbatim.
+    'Published price; private beta not open — no checkout on this page.',
     'Price set by the founder on 2026-08-18.',
   ]) {
     collect(extra);
