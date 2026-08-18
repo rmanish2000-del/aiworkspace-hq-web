@@ -29,7 +29,7 @@ import { readFileSync } from 'node:fs';
  * null while undecided.
  * ⚠ Setting this without a matching seal entry fails the build — see above.
  */
-export const PRICING_GUARDIAN_MONTHLY: { inr: number; usd: number } | null = null;
+export const PRICING_GUARDIAN_MONTHLY: { inr: number; usd: number } | null = { inr: 999, usd: 12 };
 
 export interface PricingSeal {
   amount_inr: number;

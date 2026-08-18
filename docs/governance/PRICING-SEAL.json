@@ -1,4 +1,12 @@
 {
   "rule": "A price is a founder value. Each entry here is a dated founder act naming ONE flat-monthly Guardian price in BOTH currencies (amount_inr primary, amount_usd secondary - founder ruling 2026-08-18: 'GUARDIAN - BOTH, INR primary'); src/config/pricing.ts must cite a matching entry (both amounts equal to the config values) or the build fails - scripts/pricing-gate.mjs and the page itself both check. An empty list means NO price exists and no INR or USD figure may appear on any non-frozen route. The seven content-frozen routes are governed by their own seal (CONTENT-FREEZE.json), including the landing's 'intended' tier copy. Entries are appended, never edited: a price change is a new act, and the old act stays on the record.",
-  "seals": []
+  "seals": [
+    {
+      "amount_inr": 999,
+      "amount_usd": 12,
+      "sealed_by": "Founder (Manish Patel) - chat act, verbatim: 'OK B'",
+      "date": "2026-08-18",
+      "ref": "GROK candidate B, 2026-08-18_1000_GROK_GUARDIAN-PRICING-LANDSCAPE.md; put to the founder in 2026-08-18_1055_WEB_GUARDIAN-PRICE-ONE-WORD-NEEDED.md; recommendation-and-pick recorded in chat 2026-08-18 ~11:10 IST"
+    }
+  ]
 }

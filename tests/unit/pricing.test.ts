@@ -11,15 +11,24 @@ import { PRICING_GUARDIAN_MONTHLY, readSeals, sealedPrice } from '../../src/conf
  */
 
 describe('the pricing config', () => {
-  it('defaults to ABSENT — null, not zero, not a placeholder', () => {
-    // If this fails, someone set a price. That is a founder act and requires a
-    // seal entry in docs/governance/PRICING-SEAL.json in the same commit —
-    // see sealedPrice(), which throws without one.
-    expect(PRICING_GUARDIAN_MONTHLY).toBeNull();
-  });
-
-  it('reports publish: false while the value is absent', () => {
-    expect(sealedPrice()).toEqual({ publish: false });
+  it('is either ABSENT or founder-sealed — no third state', () => {
+    // The absent default guarded this scaffold until 2026-08-18, when the
+    // founder spoke the number ("OK B" — ₹999/$12) and the seal entry landed
+    // in the same commit. From then on the invariant is: a present value MUST
+    // resolve to a matching founder seal (sealedPrice() throws otherwise).
+    if (PRICING_GUARDIAN_MONTHLY === null) {
+      expect(sealedPrice()).toEqual({ publish: false });
+    } else {
+      const price = sealedPrice();
+      expect(price.publish).toBe(true);
+      if (price.publish) {
+        expect(price.inr).toBe(PRICING_GUARDIAN_MONTHLY.inr);
+        expect(price.usd).toBe(PRICING_GUARDIAN_MONTHLY.usd);
+        expect(price.seal.sealed_by.toLowerCase()).toContain('founder');
+        expect(price.seal.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        expect(price.seal.ref.length).toBeGreaterThan(0);
+      }
+    }
   });
 
   it('has a seal register with the append-only rule stated', () => {
