@@ -503,6 +503,8 @@ describe('scope.prohibitions', () => {
       'https://checkout.razorpay.com/v1/checkout.js',
       'https://checkout.razorpay.com',
       'https://api.razorpay.com',
+      'https://cdn.razorpay.com',
+      'https://lumberjack-cx.razorpay.com',
       'https://lumberjack.razorpay.com',
       'https://*.razorpay.com',
     ];
