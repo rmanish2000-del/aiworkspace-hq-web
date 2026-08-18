@@ -38,8 +38,8 @@ const SEAL_CANDIDATES = [
   fileURLToPath(new URL('../../docs/governance/PRICING-SEAL.json', import.meta.url)),
   'docs/governance/PRICING-SEAL.json',
 ];
-const SEAL_REGISTER =
-  SEAL_CANDIDATES.find((candidate) => existsSync(candidate)) ?? SEAL_CANDIDATES[1];
+const SEAL_REGISTER: string =
+  SEAL_CANDIDATES.find((candidate) => existsSync(candidate)) ?? 'docs/governance/PRICING-SEAL.json';
 
 /**
  * Warrant Guardian's flat monthly price — INR primary, USD secondary — or
