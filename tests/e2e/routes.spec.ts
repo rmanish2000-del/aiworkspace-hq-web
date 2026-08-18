@@ -96,6 +96,13 @@ const ROUTES = [
     h1: 'Pricing',
   },
   {
+    // R4-CHECKOUT: the ONE page with client JS (Razorpay). Its script
+    // allowance is asserted below, not ignored.
+    path: '/checkout',
+    title: 'Checkout — AI Workspace',
+    h1: 'Checkout',
+  },
+  {
     path: '/404',
     title: 'Page not found — AI Workspace',
     h1: 'Page not found',
@@ -208,13 +215,29 @@ for (const route of ROUTES) {
     expect(html, `placeholder leaked on ${route.path}`).not.toMatch(/\{\{[^}]+\}\}/);
     expect(html, `[LEGAL] marker leaked on ${route.path}`).not.toContain('[LEGAL');
 
-    // JSON-LD is data, not code; no executable script anywhere.
+    // JSON-LD is data, not code; no executable script anywhere — except
+    // /checkout (R4-CHECKOUT), whose ONLY allowed scripts are the Razorpay
+    // loader plus its own inline driver, asserted exactly.
     const executable = await page.evaluate(() =>
       [...document.querySelectorAll('script')]
         .filter((s) => s.type !== 'application/ld+json')
         .map((s) => s.src || 'inline'),
     );
-    expect(executable).toEqual([]);
+    if (route.path === '/checkout') {
+      // Our shipped scripts are exactly the loader + the inline driver; the
+      // loader then injects Razorpay's own bundles (risk detection was
+      // observed) from their origins. Assert the whitelist, not a frozen
+      // list of THEIR internals.
+      const allowed = (src: string) =>
+        src === 'inline' ||
+        src.startsWith('https://checkout.razorpay.com/') ||
+        src.startsWith('https://cdn.razorpay.com/');
+      expect(executable.filter((src) => !allowed(src))).toEqual([]);
+      expect(executable).toContain('https://checkout.razorpay.com/v1/checkout.js');
+      expect(executable).toContain('inline');
+    } else {
+      expect(executable).toEqual([]);
+    }
   });
 }
 

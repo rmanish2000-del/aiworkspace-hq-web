@@ -110,6 +110,25 @@ export default tseslint.config(
   },
 
   {
+    /**
+     * R4-CHECKOUT (2026-08-18): /checkout is the ONE page with client script —
+     * the Razorpay modal needs `fetch` to reach the serverless endpoints and
+     * the provider. MF-1 stays intact everywhere else; storage and cookies
+     * remain banned even here (Razorpay's own cookies live on ITS origins).
+     */
+    // The extra patterns cover eslint-plugin-astro's virtual filenames for
+    // extracted <script> blocks (checkout.astro/*.js).
+    files: ['**/checkout.astro', '**/checkout.astro/*.js', '**/checkout.astro/**'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        { name: 'localStorage', message: 'P-07 — no persistent storage in this scope.' },
+        { name: 'sessionStorage', message: 'P-07 — no persistent storage in this scope.' },
+      ],
+    },
+  },
+
+  {
     files: ['api/**/*.mjs'],
     rules: {
       /**

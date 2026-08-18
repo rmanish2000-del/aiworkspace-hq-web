@@ -1,0 +1,161 @@
+---
+/**
+ * `/checkout` — THE ONE PAGE THAT SHIPS CLIENT JAVASCRIPT (R4-CHECKOUT,
+ * 2026-08-18). Every other route keeps the zero-JS invariant; the gates
+ * exempt exactly `dist/checkout.html` and say so where they do it.
+ *
+ * Honesty contract of this page:
+ *   - the price shown comes from the founder-sealed config, never free text;
+ *   - GST is stated BEFORE the pay button;
+ *   - a dismissed modal is a normal outcome, not an error;
+ *   - "payment received" is only ever said after /api/razorpay/subscription-status
+ *     (which asks Razorpay itself) answers authenticated/active — the redirect
+ *     alone proves nothing, and the webhook remains the server-side truth.
+ *
+ * noindex; not in the sitemap; linked from nowhere yet — reaching it today
+ * means typing the URL. Making it reachable from /pricing is a separate,
+ * deliberate copy change.
+ */
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import { sealedPrice } from '../config/pricing';
+
+const price = sealedPrice();
+if (!price.publish) {
+  throw new Error('R4: /checkout must not build without a founder-sealed price');
+}
+const rupees = price.inr.toLocaleString('en-IN');
+---
+
+<Base
+  title="Checkout — AI Workspace"
+  description="Warrant Guardian subscription checkout."
+  canonicalPath="/checkout"
+  indexableInProduction={false}
+>
+  <Container>
+    <article class="checkout-page">
+      <h1>Checkout</h1>
+      <p>
+        Warrant Guardian — <strong>₹{rupees} per month</strong>. GST as applicable is added at
+        payment. Test mode: no real money moves.
+      </p>
+      <p>
+        <button id="pay" class="checkout-page__pay" type="button"
+          >Subscribe — ₹{rupees}/month</button
+        >
+      </p>
+      <p id="state" class="checkout-page__state" aria-live="polite"></p>
+      <p class="checkout-page__legal">
+        Operated by Kartavya CSC Digital Seva. Before paying, you can read the
+        <a href="/terms">Terms of Service</a>, <a href="/privacy">Privacy Policy</a>,
+        <a href="/refunds">Refund and Cancellation Policy</a>,
+        <a href="/delivery">Delivery Policy</a>, <a href="/contact">Contact</a> and
+        <a href="/about">About</a> pages.
+      </p>
+    </article>
+  </Container>
+</Base>
+
+<script is:inline src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script is:inline>
+  // R4-CHECKOUT: the one sanctioned client script. All state text goes through
+  // say() so every outcome — including cancellation — is presented honestly.
+  const say = (text) => {
+    document.getElementById('state').textContent = text;
+  };
+  document.getElementById('pay').addEventListener('click', async () => {
+    say('Preparing your subscription…');
+    let order;
+    try {
+      const created = await fetch('/api/razorpay/create-subscription', { method: 'POST' });
+      if (!created.ok) {
+        say('Payments are not available right now. Nothing was charged.');
+        return;
+      }
+      order = await created.json();
+    } catch {
+      say('Payments are not available right now. Nothing was charged.');
+      return;
+    }
+
+    const rzp = new Razorpay({
+      key: order.key_id,
+      subscription_id: order.subscription_id,
+      name: 'Warrant Guardian',
+      description: 'Monthly subscription (test mode)',
+      handler: async (result) => {
+        say('Payment submitted — confirming with the payment provider…');
+        try {
+          const status = await fetch(
+            '/api/razorpay/subscription-status?id=' + encodeURIComponent(order.subscription_id),
+          );
+          const truth = status.ok ? await status.json() : null;
+          if (truth && (truth.status === 'active' || truth.status === 'authenticated')) {
+            say(
+              'Payment received — subscription ' +
+                truth.subscription_id +
+                ' is ' +
+                truth.status +
+                '. A receipt follows from Razorpay.',
+            );
+          } else {
+            say(
+              'Your payment was submitted but is not confirmed yet (status: ' +
+                (truth ? truth.status : 'unknown') +
+                '). If money left your account it will reconcile — the payment id is ' +
+                result.razorpay_payment_id +
+                '.',
+            );
+          }
+        } catch {
+          say(
+            'Your payment was submitted but confirmation could not be fetched. The payment id is ' +
+              result.razorpay_payment_id +
+              '.',
+          );
+        }
+      },
+      modal: {
+        ondismiss: () => say('Checkout closed — nothing was charged. You can try again any time.'),
+      },
+    });
+    rzp.on('payment.failed', (failure) => {
+      say(
+        'The payment did not go through (' +
+          (failure.error && failure.error.description ? failure.error.description : 'declined') +
+          '). Nothing was charged.',
+      );
+    });
+    rzp.open();
+  });
+</script>
+
+<style>
+  .checkout-page {
+    padding-block: var(--space-9);
+    max-width: var(--measure-body);
+  }
+  .checkout-page__pay {
+    font: inherit;
+    font-weight: var(--weight-semibold);
+    color: var(--accent-fg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-6);
+    cursor: pointer;
+  }
+  .checkout-page__pay:hover {
+    background: var(--accent-hover);
+  }
+  .checkout-page__state {
+    min-height: 1.6em;
+    color: var(--fg-muted);
+  }
+  .checkout-page__legal {
+    margin-block-start: var(--space-6);
+    font-size: var(--type-small);
+    color: var(--fg-muted);
+  }
+</style>

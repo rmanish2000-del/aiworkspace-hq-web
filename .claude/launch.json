@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aiworkspace-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["astro", "dev", "--host", "127.0.0.1", "--port", "4399"],
+      "port": 4399,
+      "autoPort": false
+    }
+  ]
+}

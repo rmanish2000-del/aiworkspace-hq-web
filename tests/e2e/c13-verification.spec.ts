@@ -23,6 +23,13 @@ import { expect, test, type Page } from '@playwright/test';
  * SCOPE LIMITATION (CC-006): this verifies the current artifact in a local
  * environment. Edge injection by a hosting platform is re-verified at first
  * deployment (CC-007).
+ *
+ * EXCLUDED ROUTE — /checkout (R4-CHECKOUT, 2026-08-18): the one payment
+ * surface loads the Razorpay checkout, which necessarily makes third-party
+ * requests and sets Razorpay's own cookies during payment. That page is
+ * deliberately NOT in ROUTES below; the C-13 sentence's scope is the content
+ * site, and the checkout exclusion is stated here rather than hidden. Every
+ * other route remains fully asserted.
  */
 
 const ROUTES = [

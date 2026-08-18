@@ -98,6 +98,48 @@ export function securityHeaders(scriptHashes: readonly string[] = []): HeaderReq
 }
 
 /**
+ * The CSP for /checkout ONLY (R4-CHECKOUT, 2026-08-18) — the single payment
+ * surface. The Razorpay checkout requires its script, its iframe and its API
+ * origins; nothing else on this site loosens, exactly as the /warrant proxy
+ * subtree set the precedent. Origins are Razorpay's published requirements:
+ * checkout.razorpay.com (script + frame), cdn.razorpay.com (the risk-
+ * detection bundle checkout.js injects — observed in the e2e run, not
+ * guessed), api.razorpay.com (calls + frame), lumberjack(-cx).razorpay.com
+ * (their checkout telemetry — theirs, not ours).
+ * `payment=(self)` relaxes the Permissions-Policy on this route alone.
+ */
+export function checkoutSecurityHeaders(): HeaderRequirement[] {
+  const base = securityHeaders();
+  const csp = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https://*.razorpay.com",
+    "font-src 'self' https://checkout.razorpay.com",
+    "connect-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://lumberjack.razorpay.com https://lumberjack-cx.razorpay.com",
+    'frame-src https://api.razorpay.com https://checkout.razorpay.com',
+    "form-action 'self' https://api.razorpay.com",
+    "frame-ancestors 'none'",
+    "base-uri 'none'",
+    "object-src 'none'",
+    'upgrade-insecure-requests',
+  ].join('; ');
+  return base.map((header) => {
+    if (header.name === 'Content-Security-Policy') {
+      return { ...header, value: csp, source: 'R4-CHECKOUT 2026-08-18' };
+    }
+    if (header.name === 'Permissions-Policy') {
+      return {
+        ...header,
+        value: header.value.replace('payment=()', 'payment=(self)'),
+        source: 'R4-CHECKOUT 2026-08-18',
+      };
+    }
+    return header;
+  });
+}
+
+/**
  * Cache policy. `08` §8: "immutable long-cache headers on hashed assets and a
  * short cache on HTML".
  *
