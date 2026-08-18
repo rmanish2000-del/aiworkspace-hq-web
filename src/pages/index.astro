@@ -25,7 +25,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
       <div class="action-row">
         <Button as="a" href={home.primaryHref}>{home.primaryAction}</Button>
         <Link href={home.secondaryHref}>{home.secondaryAction}</Link>
-        <Link class="action-row__pricing" href={home.pricingHref}>{home.pricingAction}</Link>
+        <Link href={home.pricingHref}>{home.pricingAction}</Link>
       </div>
       <p class="home-hero__stage">{home.stage}</p>
     </div>
@@ -236,13 +236,6 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     gap: var(--space-4);
     align-items: center;
     margin-block-start: var(--space-6);
-  }
-
-  /* HOME-CTA-AND-BETA-PATH: the pricing path is deliberately the quietest
-     element in the row — never competing with the primary CTA. */
-  .action-row :global(.action-row__pricing) {
-    font-size: var(--type-small);
-    color: var(--fg-muted);
   }
 
   .action-row :global(a) {
