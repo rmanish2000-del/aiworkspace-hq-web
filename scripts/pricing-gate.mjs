@@ -32,7 +32,9 @@ const FROZEN = [
   join('dist', 'warrant-guardian', 'index.html'),
 ];
 
-const INR_FIGURE = /(₹|\bRs\.?\s?|\bINR\s?)[0-9][0-9,]*/g;
+// BOTH currencies police the leak (founder ruling 2026-08-18: INR primary,
+// USD secondary — an invented number in either currency must not ship).
+const PRICE_FIGURE = /(₹|\bRs\.?\s?|\bINR\s?|\$|\bUSD\s?)[0-9][0-9,]*/g;
 
 function htmlFiles(dir) {
   const out = [];
@@ -64,21 +66,30 @@ if (!price.publish) {
   }
   for (const file of htmlFiles('dist')) {
     if (FROZEN.includes(file)) continue;
-    const hits = readFileSync(file, 'utf8').match(INR_FIGURE);
+    const hits = readFileSync(file, 'utf8').match(PRICE_FIGURE);
     if (hits)
-      failures.push(`${file}: INR figure(s) ${[...new Set(hits)].join(', ')} with no sealed price`);
+      failures.push(
+        `${file}: price figure(s) ${[...new Set(hits)].join(', ')} with no sealed price`,
+      );
   }
 } else {
   if (!existsSync(pricingDoc) && !existsSync(pricingDir)) {
     failures.push('a sealed price exists but no /pricing document was built');
   }
-  const allowed = price.amountInr.toLocaleString('en-IN');
+  const allowed = new Set([
+    price.inr.toLocaleString('en-IN'),
+    String(price.inr),
+    price.usd.toLocaleString('en-US'),
+    String(price.usd),
+  ]);
   for (const file of htmlFiles('dist')) {
     if (FROZEN.includes(file)) continue;
-    for (const hit of readFileSync(file, 'utf8').match(INR_FIGURE) ?? []) {
+    for (const hit of readFileSync(file, 'utf8').match(PRICE_FIGURE) ?? []) {
       const digits = hit.replace(/[^0-9,]/g, '');
-      if (digits !== allowed && digits !== String(price.amountInr)) {
-        failures.push(`${file}: figure "${hit}" does not equal the sealed amount ₹${allowed}`);
+      if (!allowed.has(digits)) {
+        failures.push(
+          `${file}: figure "${hit}" equals neither the sealed ₹${price.inr} nor $${price.usd}`,
+        );
       }
     }
   }
@@ -91,6 +102,6 @@ if (failures.length) {
 }
 console.log(
   price.publish
-    ? `sealed price ₹${price.amountInr.toLocaleString('en-IN')} — /pricing built, no stray figures`
-    : 'price ABSENT — no /pricing route, no INR figure on any non-frozen route',
+    ? `sealed price ₹${price.inr.toLocaleString('en-IN')} / $${price.usd.toLocaleString('en-US')} — /pricing built, no stray figures`
+    : 'price ABSENT — no /pricing route, no INR or USD figure on any non-frozen route',
 );

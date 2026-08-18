@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { PRICING_GUARDIAN_MONTHLY_INR, readSeals, sealedPrice } from '../../src/config/pricing';
+import { PRICING_GUARDIAN_MONTHLY, readSeals, sealedPrice } from '../../src/config/pricing';
 
 /**
  * PRICING-SCAFFOLD (2026-08-18). The number is the founder's; until he speaks
@@ -15,7 +15,7 @@ describe('the pricing config', () => {
     // If this fails, someone set a price. That is a founder act and requires a
     // seal entry in docs/governance/PRICING-SEAL.json in the same commit —
     // see sealedPrice(), which throws without one.
-    expect(PRICING_GUARDIAN_MONTHLY_INR).toBeNull();
+    expect(PRICING_GUARDIAN_MONTHLY).toBeNull();
   });
 
   it('reports publish: false while the value is absent', () => {
