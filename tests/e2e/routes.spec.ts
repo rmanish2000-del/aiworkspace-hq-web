@@ -224,7 +224,17 @@ for (const route of ROUTES) {
         .map((s) => s.src || 'inline'),
     );
     if (route.path === '/checkout') {
-      expect(executable).toEqual(['https://checkout.razorpay.com/v1/checkout.js', 'inline']);
+      // Our shipped scripts are exactly the loader + the inline driver; the
+      // loader then injects Razorpay's own bundles (risk detection was
+      // observed) from their origins. Assert the whitelist, not a frozen
+      // list of THEIR internals.
+      const allowed = (src) =>
+        src === 'inline' ||
+        src.startsWith('https://checkout.razorpay.com/') ||
+        src.startsWith('https://cdn.razorpay.com/');
+      expect(executable.filter((src) => !allowed(src))).toEqual([]);
+      expect(executable).toContain('https://checkout.razorpay.com/v1/checkout.js');
+      expect(executable).toContain('inline');
     } else {
       expect(executable).toEqual([]);
     }
