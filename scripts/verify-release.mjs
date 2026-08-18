@@ -184,8 +184,8 @@ const htmlFiles = () =>
 check('build output exists', () => {
   if (!existsSync(DIST)) throw new Error('dist/ is missing — the build did not run');
   const files = htmlFiles();
-  if (files.length !== 20) {
-    throw new Error(`expected 20 route documents, found ${files.length}`);
+  if (files.length !== 21) {
+    throw new Error(`expected 21 route documents, found ${files.length}`);
   }
   return `${files.length} routes built`;
 });
@@ -221,16 +221,25 @@ check('no internal comment reaches output', () => {
   return 'none';
 });
 
-check('no client JavaScript ships', () => {
+check('no client JavaScript ships (except the /checkout payment surface)', () => {
+  /**
+   * R4-CHECKOUT (2026-08-18): dist/checkout.html is the ONE document allowed
+   * executable script — the Razorpay checkout requires it, and payment is its
+   * entire purpose. It carries its own CSP (checkoutSecurityHeaders) and is
+   * excluded from the C-13 route list with the exclusion documented there.
+   * Every other document stays at zero bytes, exactly as before.
+   */
+  const CHECKOUT = join(DIST, 'checkout.html');
   const js = readdirSync(DIST, { recursive: true }).filter((f) => String(f).endsWith('.js'));
   if (js.length) throw new Error(`${js.length} script file(s) in dist/`);
 
   for (const file of htmlFiles()) {
+    if (file === CHECKOUT) continue;
     const scripts = [...readFileSync(file, 'utf8').matchAll(/<script([^>]*)>/g)].map((m) => m[1]);
     const executable = scripts.filter((attrs) => !attrs.includes('application/ld+json'));
     if (executable.length) throw new Error(`${file} has ${executable.length} executable script(s)`);
   }
-  return '0 bytes';
+  return '0 bytes outside dist/checkout.html';
 });
 
 check('no web font ships', () => {

@@ -61,8 +61,11 @@ function loadProduction(hash) {
   const bundle = esbuild.buildSync({
     stdin: {
       contents: `
-        import { securityHeaders } from './src/lib/production';
-        process.stdout.write(JSON.stringify(securityHeaders(${JSON.stringify([hash])})));
+        import { securityHeaders, checkoutSecurityHeaders } from './src/lib/production';
+        process.stdout.write(JSON.stringify({
+          site: securityHeaders(${JSON.stringify([hash])}),
+          checkout: checkoutSecurityHeaders(),
+        }));
       `,
       resolveDir: process.cwd(),
       loader: 'ts',
@@ -93,7 +96,9 @@ function loadProduction(hash) {
  */
 function build({ prebuilt = false } = {}) {
   const hash = jsonLdHash();
-  const headers = loadProduction(hash).map(({ name, value }) => ({ key: name, value }));
+  const production = loadProduction(hash);
+  const headers = production.site.map(({ name, value }) => ({ key: name, value }));
+  const checkoutHeaders = production.checkout.map(({ name, value }) => ({ key: name, value }));
 
   /**
    * The Warrant demo console is proxied under /warrant (see `rewrites` below).
@@ -128,10 +133,21 @@ function build({ prebuilt = false } = {}) {
       // `08` §9.2 — every security header except the CSP, on every response.
       { source: '/(.*)', headers: nonCspHeaders },
 
-      // The CSP everywhere EXCEPT the proxied /warrant subtree (and only
-      // there — /warranty-style paths still get it). The console's own
-      // deployment governs its content; nothing else on this site loosens.
-      { source: '/((?!warrant/|warrant$).*)', headers: cspHeaders },
+      // The CSP everywhere EXCEPT the proxied /warrant subtree and the single
+      // /checkout payment surface (R4-CHECKOUT). /warranty-style paths still
+      // get it. The console's own deployment governs its content; /checkout
+      // gets its OWN stricter-than-nothing policy below.
+      { source: '/((?!warrant/|warrant$|checkout$).*)', headers: cspHeaders },
+
+      // R4-CHECKOUT (2026-08-18): the payment surface's own CSP + payment=(self)
+      // Permissions-Policy — Razorpay's checkout origins and nothing more.
+      // Values come from checkoutSecurityHeaders() in production.ts.
+      {
+        source: '/checkout',
+        headers: checkoutHeaders.filter(
+          ({ key }) => key === 'Content-Security-Policy' || key === 'Permissions-Policy',
+        ),
+      },
 
       // `08` §8 / OPS-08 — HTML must revalidate so a rollback takes effect at
       // once. A long-lived document cache would keep serving the rolled-back

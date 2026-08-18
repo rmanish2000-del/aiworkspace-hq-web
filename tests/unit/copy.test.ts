@@ -494,7 +494,19 @@ describe('scope.prohibitions', () => {
       // third-party traffic before interaction.
       'https://github.com/rmanish2000-del/warrant',
       'https://github.com/rmanish2000-del/warrant-mcp',
+      // R4-CHECKOUT (2026-08-18): the ONE payment surface. The Razorpay
+      // origins are allowed in exactly two files (asserted below): the
+      // checkout page (script + fetch — the page's entire purpose) and
+      // production.ts (CSP directive VALUES for that route — a policy string,
+      // never a request). Every other route still proves zero third-party
+      // traffic on the wire.
+      'https://checkout.razorpay.com/v1/checkout.js',
+      'https://checkout.razorpay.com',
+      'https://api.razorpay.com',
+      'https://lumberjack.razorpay.com',
+      'https://*.razorpay.com',
     ];
+    const RAZORPAY_FILES = ['checkout.astro', 'production.ts'];
 
     const forbiddenPatterns: Array<[RegExp, string]> = [
       [/\/api\/interest/, 'P-04 — no submission endpoint in this scope'],
@@ -525,7 +537,14 @@ describe('scope.prohibitions', () => {
     // NOT strip them — P-16 covers comments and metadata too.
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
       let source = stripComments(readFileSync(file, 'utf8'));
-      for (const uri of ALLOWED_NON_FETCHED_URIS) source = source.split(uri).join('');
+      for (const uri of ALLOWED_NON_FETCHED_URIS) {
+        // The Razorpay origins are permitted in the payment surface and the
+        // CSP module ONLY — the allowance is exactly as wide as R4, nowhere
+        // else.
+        if (uri.includes('razorpay') && !RAZORPAY_FILES.some((name) => file.endsWith(name)))
+          continue;
+        source = source.split(uri).join('');
+      }
       if (file.startsWith(DS_DIR)) source = source.replace(DS_THEME_KEY_CALLS, '');
 
       return forbiddenPatterns

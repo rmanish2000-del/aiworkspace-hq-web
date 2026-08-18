@@ -66,6 +66,7 @@ const ROUTES = [
   '/refunds',
   '/delivery',
   '/pricing',
+  '/checkout',
   '/404',
 ] as const;
 
@@ -997,6 +998,12 @@ test('M-9 every visible string on every route comes from the copy module', async
     // PRICING-AVAILABILITY-LINE — founder-approved wording, verbatim.
     'Published price; private beta not open — no checkout on this page.',
     'Price set by the founder on 2026-08-18.',
+    // /checkout strings (R4-CHECKOUT) — price from the sealed config; the
+    // legal-link sentence names the entity and the six frozen pages.
+    'Checkout',
+    'Warrant Guardian — ₹999 per month. GST as applicable is added at payment. Test mode: no real money moves.',
+    'Subscribe — ₹999/month',
+    'Operated by Kartavya CSC Digital Seva. Before paying, you can read the Terms of Service, Privacy Policy, Refund and Cancellation Policy, Delivery Policy, Contact and About pages.',
   ]) {
     collect(extra);
   }
