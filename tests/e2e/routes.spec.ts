@@ -228,7 +228,7 @@ for (const route of ROUTES) {
       // loader then injects Razorpay's own bundles (risk detection was
       // observed) from their origins. Assert the whitelist, not a frozen
       // list of THEIR internals.
-      const allowed = (src) =>
+      const allowed = (src: string) =>
         src === 'inline' ||
         src.startsWith('https://checkout.razorpay.com/') ||
         src.startsWith('https://cdn.razorpay.com/');
