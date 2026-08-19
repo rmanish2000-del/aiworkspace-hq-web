@@ -21,7 +21,7 @@ test('the home route has exactly one h1, with no skipped heading levels', async 
 
   expect(outline[0]).toEqual({
     level: 1,
-    text: 'Put organizational context behind every AI-assisted action.',
+    text: 'The context layer for accountable AI.',
   });
   expect(outline.filter((heading) => heading.level === 2).map((heading) => heading.text)).toEqual([
     'Start with the question you need answered.',
