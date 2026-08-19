@@ -1,0 +1,12 @@
+{
+  "rule": "P-16 forbids naming the excluded programmes anywhere in repository content, metadata or commit messages, and is machine-checked by tests/unit/copy.test.ts. An exclusion is lifted ONLY by a founder act recorded here, naming exactly which programmes may be named and on what terms. Everything not listed stays excluded and still fails the test. Entries are appended, never edited.",
+  "disclosures": [
+    {
+      "date": "2026-08-19",
+      "authorised_by": "Founder instruction, relayed with AUTH signature in the assignment 2026-08-19_0810_WEB_THREE-PROJECTS-ON-SITE_QUEUED.md, verbatim: 'Integrate all three projects into aiworkspacehq.com with public content, correct placement, and world-class UI/UX.'",
+      "programmes": ["EduOS", "UrjaOps", "LegalEngineering"],
+      "terms": "Named ONLY on /building, as day-zero work in progress: what it is, who it is for, its honest current state, and its kill date. No claim of availability, usability, beta, customers, or a delivery date. Source of every fact: GROK's THREE-PROJECTS-BOOTSTRAP report (Drive id 1Gpx9_n4NjlQbTN8SXL5KYJNCBUhB7wTt) and the per-project definition files it cites. Nothing invented.",
+      "still_excluded": ["ProjectOS", "TradeOS", "Urjadata"]
+    }
+  ]
+}

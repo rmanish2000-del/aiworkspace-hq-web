@@ -67,6 +67,7 @@ const ROUTES = [
   '/delivery',
   '/pricing',
   '/checkout',
+  '/building',
   '/404',
 ] as const;
 

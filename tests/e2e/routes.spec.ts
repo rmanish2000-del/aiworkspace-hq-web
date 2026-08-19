@@ -103,6 +103,13 @@ const ROUTES = [
     h1: 'Checkout',
   },
   {
+    // THREE-PROJECTS-ON-SITE: day-zero efforts, named under the P-16
+    // disclosure act in docs/governance/PROGRAMME-DISCLOSURE.json.
+    path: '/building',
+    title: 'What we are building — AI Workspace',
+    h1: 'Three efforts at day zero, with the date we would stop each one.',
+  },
+  {
     path: '/404',
     title: 'Page not found — AI Workspace',
     h1: 'Page not found',

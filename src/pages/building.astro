@@ -1,0 +1,162 @@
+---
+/**
+ * `/building` — THREE-PROJECTS-ON-SITE (founder instruction, 2026-08-19).
+ *
+ * Three efforts at day zero, presented as exactly that. The page's whole job
+ * is to make the honest state legible on the face of each entry: what it is,
+ * who it is for, that nothing is built, and the date we would stop. Every
+ * fact comes from `building` in the copy module, which transcribes GROK's
+ * bootstrap report — no feature, buyer, date or claim of availability is
+ * invented here.
+ *
+ * Design: the existing section/card grammar (page-head + section + term-list
+ * rows), no new visual language. noindex, and not in the sitemap: this is
+ * context for someone already on the site, not a page to rank.
+ */
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import Link from '../components/ui/Link.astro';
+import { building } from '../content/copy';
+---
+
+<Base
+  title={building.metaTitle}
+  description={building.metaDescription}
+  canonicalPath="/building"
+  indexableInProduction={false}
+>
+  <Container>
+    <header class="page-head">
+      <p class="eyebrow">{building.eyebrow}</p>
+      <h1>{building.heading}</h1>
+      <p class="page-head__lead">{building.lead}</p>
+    </header>
+
+    <section class="section" aria-labelledby="efforts-heading">
+      <h2 class="section__heading" id="efforts-heading">{building.eyebrow}</h2>
+      <ol class="building-list">
+        {
+          building.projects.map((project) => (
+            <li class="building-card">
+              <h3>{project.name}</h3>
+              <p class="building-card__what">{project.what}</p>
+              <dl class="building-card__facts">
+                <div>
+                  <dt>{building.forLabel}</dt>
+                  <dd>{project.intendedFor}</dd>
+                </div>
+                <div>
+                  <dt>{building.stateLabel}</dt>
+                  <dd>{project.state}</dd>
+                </div>
+                <div>
+                  <dt>{building.killLabel}</dt>
+                  <dd>
+                    <strong>{project.kill}</strong> — {project.killWhy}
+                  </dd>
+                </div>
+              </dl>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <p class="building-closing">
+      {building.closing}
+      <Link href={building.closingHref}>{building.closingAction}</Link>.
+    </p>
+  </Container>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-9) var(--space-7);
+  }
+
+  .page-head h1 {
+    margin-block-start: var(--space-3);
+    max-width: var(--measure-h1);
+    font-size: var(--type-h1);
+    font-weight: var(--weight-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+  }
+
+  .page-head__lead {
+    margin-block-start: var(--space-5);
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+    font-size: var(--type-hero-supporting);
+    line-height: var(--leading-hero-supporting);
+  }
+
+  .section {
+    padding-block-end: var(--space-8);
+  }
+
+  .section__heading {
+    font-size: var(--type-h2);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-h2);
+  }
+
+  .building-list {
+    display: grid;
+    gap: var(--space-5);
+    margin-block-start: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .building-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-6);
+    background: var(--bg-subtle);
+  }
+
+  .building-card h3 {
+    font-size: var(--type-h3);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-h3);
+  }
+
+  .building-card__what {
+    margin-block-start: var(--space-2);
+    max-width: var(--measure-body);
+  }
+
+  .building-card__facts {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-start: var(--space-5);
+  }
+
+  .building-card__facts dt {
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .building-card__facts dd {
+    margin: 0;
+    margin-block-start: var(--space-1);
+    max-width: var(--measure-body);
+  }
+
+  .building-closing {
+    padding-block-end: var(--space-9);
+    max-width: var(--measure-body);
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 640px) {
+    .building-card__facts {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+  }
+</style>
