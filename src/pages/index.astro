@@ -89,7 +89,12 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
       }
     </div>
     <p class="capability-section__evidence">
-      <Link href="/platform#verified-capability-heading">{home.secondaryAction}</Link>
+      {
+        /* The capability link keeps the platform label (platformCard.action —
+          an existing approved string) now that the hero secondary points at
+          the gap list; "Read the gap list" -> /platform would lie. */
+      }
+      <Link href="/platform#verified-capability-heading">{home.platformCard.action}</Link>
     </p>
   </section>
 

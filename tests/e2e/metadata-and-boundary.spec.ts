@@ -161,9 +161,7 @@ test('primary content is present without executing JavaScript', async ({ browser
   const page = await context.newPage();
 
   await page.goto('/');
-  await expect(page.locator('h1')).toHaveText(
-    'Put organizational context behind every AI-assisted action.',
-  );
+  await expect(page.locator('h1')).toHaveText('The context layer for accountable AI.');
   // The proof-led landing page renders verified evidence without JavaScript.
   await expect(page.locator('[data-block="CB-84"]')).toBeVisible();
 

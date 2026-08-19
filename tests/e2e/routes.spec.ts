@@ -13,7 +13,7 @@ const ROUTES = [
     path: '/',
     title: 'AI Workspace — Governed enterprise AI operations',
     // CC-008 CB-01 — FD-POS1 category claim on the landing route.
-    h1: 'Put organizational context behind every AI-assisted action.',
+    h1: 'The context layer for accountable AI.',
   },
   {
     path: '/trust',

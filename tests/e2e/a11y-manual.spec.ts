@@ -870,7 +870,7 @@ test('M-8 with CSS blocked, content order stays sensible and nothing is lost', a
 
   expect(order[0]).toBe(PROVISIONAL.skipLinkText);
   expect(order[1]).toBe(header.wordmark);
-  expect(order).toContain('Put organizational context behind every AI-assisted action.');
+  expect(order).toContain('The context layer for accountable AI.');
   expect(order).toContain('Every capability carries its boundary.');
 
   // Primary paths and their destination copy remain available without styling.

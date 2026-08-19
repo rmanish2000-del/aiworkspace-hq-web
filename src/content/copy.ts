@@ -558,7 +558,7 @@ export const experience = {
     metaDescription:
       'AI Workspace brings approved organizational knowledge, governed work and accountable AI-agent operations into one evidence-backed layer.',
     eyebrow: 'Enterprise AI operating layer · In development',
-    heading: 'Put organizational context behind every AI-assisted action.',
+    heading: 'The context layer for accountable AI.',
     lead: 'AI Workspace retrieves scoped context from an approved source, moves work through governed assignments, and keeps evidence, review and accountability attached to the result.',
     /**
      * HOME-CTA-AND-BETA-PATH (Chat ruling, founder input, 2026-08-18): ONE
@@ -570,8 +570,13 @@ export const experience = {
      */
     primaryAction: 'View verified evidence',
     primaryHref: '/trust',
-    secondaryAction: 'Explore the platform',
-    secondaryHref: '/platform',
+    /**
+     * H1-P3-CTA-C2 (founder decision, 2026-08-19, Drive id
+     * 1ojSAjcvvSACoPMuMFydBDKyFDQ1i9jlF proposal C2): the hero secondary
+     * points at the honesty page — the site's differentiator.
+     */
+    secondaryAction: 'Read the gap list',
+    secondaryHref: '/what-we-havent-built',
     /** Beta path (same ruling): small, secondary, must not imply purchasability. */
     pricingAction: 'See pricing',
     pricingHref: '/pricing',
