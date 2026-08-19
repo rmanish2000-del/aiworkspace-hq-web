@@ -229,11 +229,23 @@ const PROHIBITED_CLAIM_PHRASES: readonly string[] = [
  */
 const SEALED_PRICING_STRINGS = new Set(['See pricing', '/pricing']);
 
+/**
+ * Programme names a founder act has disclosed (see the P-16 guard below for the
+ * full reasoning). Read from the register so the two tests cannot disagree.
+ */
+const DISCLOSED_PROGRAMMES: string[] = JSON.parse(
+  readFileSync('docs/governance/PROGRAMME-DISCLOSURE.json', 'utf8'),
+).disclosures.flatMap((entry: { programmes: string[] }) => entry.programmes);
+
 describe('copy.prohibited', () => {
   it('contains no prohibited term from `02` §1.3, in any visible string', () => {
     const violations = ALL_STRINGS.flatMap(({ path, value }) =>
       PROHIBITED_TERMS.filter(
-        (term) => containsTerm(value, term) && !SEALED_PRICING_STRINGS.has(value),
+        (term) =>
+          containsTerm(value, term) &&
+          !SEALED_PRICING_STRINGS.has(value) &&
+          !DISCLOSED_PROGRAMMES.includes(term) &&
+          !(term === 'Legal Engineering' && DISCLOSED_PROGRAMMES.includes('LegalEngineering')),
       ).map((term) => `${path}: prohibited term "${term}" in ${JSON.stringify(value)}`),
     );
 
@@ -432,7 +444,21 @@ describe('scope.prohibitions', () => {
   it('never names an excluded programme or the operating entity anywhere in src/', () => {
     // P-16 and P1-A §10.2(9). Applies to source, comments, and metadata — not
     // only to rendered copy.
-    const forbidden = ['ProjectOS', 'TradeOS', 'EduOS', 'UrjaOps', 'Legal Engineering', 'Urjadata'];
+    /**
+     * P-16's exclusion list, minus whatever a founder act has disclosed.
+     * THREE-PROJECTS-ON-SITE (2026-08-19): the founder instructed that three
+     * programmes be published on /building as day-zero work; the act, its
+     * terms and the names it covers are recorded in
+     * docs/governance/PROGRAMME-DISCLOSURE.json — which is READ here rather
+     * than duplicated, so the test can never drift from the authorisation.
+     * Everything still excluded (ProjectOS, TradeOS, Urjadata) still fails.
+     */
+    const disclosed = DISCLOSED_PROGRAMMES;
+    const forbidden = ['ProjectOS', 'TradeOS', 'EduOS', 'UrjaOps', 'Legal Engineering', 'Urjadata']
+      .filter((term) => !disclosed.includes(term))
+      // "LegalEngineering" (disclosed) and "Legal Engineering" (excluded) are
+      // different strings; the disclosure covers the compound form only.
+      .filter((term) => !(term === 'Legal Engineering' && disclosed.includes('LegalEngineering')));
 
     const violations = walkFiles(SRC_DIR, ['.astro', '.ts', '.css']).flatMap((file) => {
       const source = readFileSync(file, 'utf8');

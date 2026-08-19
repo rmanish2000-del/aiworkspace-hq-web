@@ -146,6 +146,9 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
         <p class="portfolio-card__status">
           <span>{experience.common.maturityLabel}</span>{home.futureCard.status}
         </p>
+        <p class="portfolio-card__link">
+          <Link href={home.futureCard.href}>{home.futureCard.action}</Link>
+        </p>
       </article>
     </div>
   </section>

@@ -109,6 +109,66 @@ export const shared = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
+/* /building — THREE-PROJECTS-ON-SITE (founder instruction, 2026-08-19)        */
+/*                                                                            */
+/* Every fact below is transcribed from GROK's THREE-PROJECTS-BOOTSTRAP report */
+/* (Drive id 1Gpx9_n4NjlQbTN8SXL5KYJNCBUhB7wTt) and the per-project definition */
+/* files it cites. Nothing is invented: no feature, no buyer, no date, and no  */
+/* claim that any of the three is available, usable, in trial, or has anyone   */
+/* on it. The programme names are published under the founder act recorded in  */
+/* docs/governance/PROGRAMME-DISCLOSURE.json (P-16 disclosure).                */
+/* -------------------------------------------------------------------------- */
+
+export const building = {
+  metaTitle: 'What we are building — AI Workspace',
+  metaDescription:
+    'Three efforts at day zero, each with its problem, its intended operator, its honest state and the date we would stop.',
+  eyebrow: 'What we are building',
+  heading: 'Three efforts at day zero, with the date we would stop each one.',
+  lead: 'None of these is a product yet. Each has a written problem, an intended operator, and a kill date — the day we archive it if the one thing it must prove has not happened. Publishing the kill date is the point: it is what stops an idea outliving its evidence.',
+  stateLabel: 'State today',
+  forLabel: 'Intended for',
+  killLabel: 'We stop it on',
+  projects: [
+    {
+      name: 'LegalEngineering',
+      what: 'A durable index and chronology for document-heavy case work, so exhibits and timelines are found rather than rebuilt.',
+      intendedFor:
+        'Ourselves first, on one real matter. Chambers only after internal use has proved it.',
+      state:
+        'Day zero. A written definition and a first task list exist. No software has been built.',
+      kill: '19 October 2026',
+      killWhy: 'if the index and chronology are not in weekly use on that matter by then.',
+    },
+    {
+      name: 'UrjaOps',
+      what: 'A register that shows which solar site is blocked on which filing or document, without ten folders and a message thread.',
+      intendedFor:
+        'Operations leads at EPCs and aggregators, who track this today in spreadsheets, shared drives and field calls.',
+      state:
+        'Day zero. A written definition and a first task list exist. No software has been built.',
+      kill: '19 November 2026',
+      killWhy:
+        'if no operator has put a real site list into the register and confirmed it does the job of their weekly spreadsheet.',
+    },
+    {
+      name: 'EduOS',
+      what: 'A way for cohort operators to prove completion with evidence, instead of reconstructing it from spreadsheets afterwards.',
+      intendedFor:
+        'Training leads and small education teams, who chase this today through spreadsheets and messages.',
+      state:
+        'Day zero, and deliberately parked: no build work begins until a named design partner exists. Attention is finite and two other efforts rank ahead of it.',
+      kill: '19 November 2026',
+      killWhy: 'if no design partner has committed by then.',
+    },
+  ],
+  closing:
+    'If one of these describes a problem you have, the contact page reaches a person. There is nothing to buy here.',
+  closingAction: 'Contact',
+  closingHref: '/contact',
+} as const;
+
+/* -------------------------------------------------------------------------- */
 /* 3. Hero — `04` §3                                                          */
 /* -------------------------------------------------------------------------- */
 
@@ -699,6 +759,10 @@ export const experience = {
       title: 'Evidence gate first',
       body: 'Future domain surfaces appear only after their repository capability and maturity boundary are accepted.',
       status: 'Not presented as available',
+      /** THREE-PROJECTS-ON-SITE (2026-08-19): the abstract placeholder now
+       *  leads somewhere real — three named, dated, day-zero efforts. */
+      action: 'See what we are building next',
+      href: '/building',
     },
     evidenceEyebrow: 'Evidence before claims',
     evidenceHeading: 'Every capability carries its boundary.',
@@ -1389,6 +1453,9 @@ export const copy = {
   principlesPage,
   contact,
   privacy,
+  // THREE-PROJECTS-ON-SITE (2026-08-19): in the aggregate so the prohibited-term
+  // gate and M-9's approved-string set both see every /building string.
+  building,
 } as const;
 
 export default copy;

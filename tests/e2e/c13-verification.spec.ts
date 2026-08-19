@@ -51,6 +51,7 @@ const ROUTES = [
   '/refunds',
   '/delivery',
   '/pricing',
+  '/building',
   '/404.html',
 ];
 
