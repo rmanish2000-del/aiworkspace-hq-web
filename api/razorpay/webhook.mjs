@@ -20,6 +20,8 @@
  */
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
+import { stampPaymentNote } from '../_lib/razorpay-note.mjs';
+
 export const config = { api: { bodyParser: false } };
 
 async function rawBody(request) {
@@ -70,6 +72,19 @@ export default async function handler(request, response) {
       `subscription=${event.payload?.subscription?.entity?.id ?? '-'} ` +
       `payment=${event.payload?.payment?.entity?.id ?? '-'}`,
   );
+
+  // R4-SELF-EVIDENCING: the webhook is the server-side truth, so its verified
+  // receipt is stamped onto the same payment object the return path uses. This
+  // is what lets the run record say "the webhook arrived AND verified" without
+  // a datastore and without anyone reading a dashboard.
+  const paymentId = event.payload?.payment?.entity?.id;
+  if (paymentId) {
+    await stampPaymentNote(paymentId, {
+      aiwhq_webhook: `${event.event ?? 'unnamed'} verified`,
+      aiwhq_webhook_at: new Date().toISOString(),
+      aiwhq_webhook_event_id: String(eventId),
+    });
+  }
 
   return response.status(200).json({ verified: true });
 }
