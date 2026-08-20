@@ -122,38 +122,19 @@ const rupees = price.inr.toLocaleString('en-IN');
       // subscription-flow signature server-side before landing them here.
       callback_url: window.location.origin + '/api/razorpay/return',
       redirect: true,
-      handler: async (result) => {
-        say('Payment submitted — confirming with the payment provider…');
-        try {
-          const status = await fetch(
-            '/api/razorpay/subscription-status?id=' + encodeURIComponent(order.subscription_id),
-          );
-          const truth = status.ok ? await status.json() : null;
-          if (truth && (truth.status === 'active' || truth.status === 'authenticated')) {
-            say(
-              'Payment received — subscription ' +
-                truth.subscription_id +
-                ' is ' +
-                truth.status +
-                '. A receipt follows from Razorpay.',
-            );
-          } else {
-            say(
-              'Your payment was submitted but is not confirmed yet (status: ' +
-                (truth ? truth.status : 'unknown') +
-                '). If money left your account it will reconcile — the payment id is ' +
-                result.razorpay_payment_id +
-                '.',
-            );
-          }
-        } catch {
-          say(
-            'Your payment was submitted but confirmation could not be fetched. The payment id is ' +
-              result.razorpay_payment_id +
-              '.',
-          );
-        }
-      },
+      // RETURN-PATH / CALLBACK-NOT-INVOKED (2026-08-20): there is NO `handler`
+      // here, deliberately. Razorpay's own option reference says `redirect`
+      // decides "whether to post a response to the event handler post payment
+      // completion OR redirect to Callback URL" — the two are alternatives,
+      // and passing both left the choice to the library. Five real test
+      // payments proved the consequence: the server callback was never
+      // invoked, so no payment ever carried a return stamp, while the payer
+      // (whose window closes on the demo-bank redirect) saw no confirmation
+      // from the handler either. Redirect-only removes the ambiguity and is
+      // the ONLY shape that survives the window closing: the browser posts to
+      // /api/razorpay/return, which verifies the signature SERVER-SIDE before
+      // anything is shown or recorded. The browser is still never believed —
+      // the landing re-confirms with Razorpay via subscription-status.
       modal: {
         ondismiss: () => say('Checkout closed — nothing was charged. You can try again any time.'),
       },
