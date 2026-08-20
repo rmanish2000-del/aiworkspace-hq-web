@@ -16,6 +16,8 @@
  */
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
+import { stampPaymentNote } from '../_lib/razorpay-note.mjs';
+
 export const config = { api: { bodyParser: false } };
 
 function parseParams(raw, url) {
@@ -60,6 +62,14 @@ export default async function handler(request, response) {
     console.error('razorpay return: SIGNATURE MISMATCH — sent back unverified');
     return fail();
   }
+
+  // R4-SELF-EVIDENCING: record the outcome where it survives the tab closing —
+  // on Razorpay's own payment object. Best-effort: never block the return.
+  await stampPaymentNote(paymentId, {
+    aiwhq_return: 'verified',
+    aiwhq_return_at: new Date().toISOString(),
+    aiwhq_subscription: subscriptionId,
+  });
 
   // Only public identifiers travel in the URL — never the signature or any
   // secret-derived value.
