@@ -94,7 +94,22 @@ export default async function handler(request, response) {
     }
 
     const notes = payment?.notes ?? {};
-    const returnVerified = notes.aiwhq_return === 'verified';
+    const returnOutcome = typeof notes.aiwhq_return === 'string' ? notes.aiwhq_return : null;
+    const returnVerified = returnOutcome === 'verified';
+    /**
+     * RETURN-PATH-DIAGNOSED (2026-08-20): the return handler now stamps EVERY
+     * invocation, so absence and rejection are no longer the same reading.
+     *   a stamp saying 'verified'      -> the leg completed
+     *   a stamp saying anything else   -> OUR handler ran and rejected it (a
+     *                                     defect, with the reason named)
+     *   no stamp at all                -> the handler was never called; the
+     *                                     browser did not reach us
+     */
+    const returnDiagnosis = returnVerified
+      ? 'the return leg completed and verified'
+      : returnOutcome
+        ? `OUR HANDLER RAN AND REJECTED THE RETURN — reason: ${returnOutcome} (arrived as ${notes.aiwhq_return_shape ?? 'unknown shape'}, parameters: ${notes.aiwhq_return_keys ?? 'unknown'}). This is a defect on our side, not payer behaviour.`
+        : 'NO RETURN STAMP AT ALL — our handler was never called for this payment. Either the browser never reached it, or this payment predates the stamping (payments before 2026-08-20 carry no return stamp by construction).';
     const webhookVerified =
       typeof notes.aiwhq_webhook === 'string' && notes.aiwhq_webhook.includes('verified');
     const paid = subscription.status === 'active' || subscription.status === 'authenticated';
@@ -107,7 +122,7 @@ export default async function handler(request, response) {
         : returnVerified
           ? 'RUN COMPLETED, RETURN VERIFIED — the webhook has not stamped this payment; see cannot_see before concluding it never fired'
           : webhookVerified
-            ? 'RUN COMPLETED, WEBHOOK VERIFIED — the return path did not stamp this payment (the payer may have closed the tab before returning)'
+            ? `RUN COMPLETED, WEBHOOK VERIFIED — the return leg did not verify. ${returnDiagnosis}`
             : 'RUN COMPLETED AT THE PROVIDER, NOT SELF-EVIDENCED — the subscription is live at Razorpay but neither our return path nor our webhook stamped it; this is the state a payment made BEFORE this record existed leaves behind';
 
     return response.status(200).json({
@@ -131,6 +146,7 @@ export default async function handler(request, response) {
         : null,
       payment_captured: captured,
       return_path_verified: returnVerified,
+      return_path_diagnosis: returnDiagnosis,
       webhook_verified: webhookVerified,
       evidence_notes: notes,
       cannot_see: CANNOT_SEE,
