@@ -1,6 +1,6 @@
 /**
  * GET /api/razorpay/run-record — "did an end-to-end run happen, and did it
- * verify?" (R4-SELF-EVIDENCING-CLOSE, 2026-08-19).
+ * verify?" (R4-SELF-EVIDENCING-CLOSE, 2026-08-19; RETURN-PATH-DIAGNOSED 2026-08-20).
  *
  * The closing evidence for R4 used to depend on a human transcribing a screen
  * correctly, once, on a phone. This removes that joint: the run is
@@ -16,10 +16,16 @@
  *
  * ?id=sub_… inspects one subscription; with no id it takes the most recent
  * subscription on the account that got past `created`.
+ *
+ * 2026-08-20: verdict text no longer defaults "return missing" to user-closed-tab.
+ * Notes merge fix means both stamps can coexist; remaining false means the
+ * return handler never successfully stamped (signature fail, never called, or
+ * stamp error) — not assumed user behaviour.
  */
 const CANNOT_SEE = [
   "Razorpay's webhook 'Recent deliveries' HTTP status — that log is dashboard-only and has no API for a key-holder. If the run record below says webhook_verified: false, check Razorpay Dashboard -> Webhooks -> your endpoint -> Recent deliveries before concluding the webhook never fired.",
   'Anything in test mode proves the plumbing, not real money movement. Live mode is a separate founder act.',
+  'Vercel function logs for /api/razorpay/return — required to distinguish "handler never called" from "handler called but stamp failed".',
 ];
 
 async function razorpay(path, keyId, keySecret) {
@@ -61,8 +67,6 @@ export default async function handler(request, response) {
           cannot_see: CANNOT_SEE,
         });
       }
-      // The most recent subscription that got past `created` — i.e. one where
-      // a human actually completed authentication.
       subscription =
         (list.payload.items ?? [])
           .filter((item) => item.status !== 'created')
@@ -78,7 +82,6 @@ export default async function handler(request, response) {
       });
     }
 
-    // The payment behind it, via the invoice Razorpay raises per cycle.
     let payment = null;
     const invoices = await razorpay(
       `invoices?subscription_id=${encodeURIComponent(subscription.id)}&count=10`,
@@ -107,7 +110,7 @@ export default async function handler(request, response) {
         : returnVerified
           ? 'RUN COMPLETED, RETURN VERIFIED — the webhook has not stamped this payment; see cannot_see before concluding it never fired'
           : webhookVerified
-            ? 'RUN COMPLETED, WEBHOOK VERIFIED — the return path did not stamp this payment (the payer may have closed the tab before returning)'
+            ? 'RUN COMPLETED, WEBHOOK VERIFIED — the return path did not stamp this payment. Possible causes (in order): (1) notes overwrite by later stamp before merge fix, (2) return handler never reached, (3) signature rejection, (4) stamp failed. Not assumed user-closed-tab; founder eyewitness reported redirect on at least one run.'
             : 'RUN COMPLETED AT THE PROVIDER, NOT SELF-EVIDENCED — the subscription is live at Razorpay but neither our return path nor our webhook stamped it; this is the state a payment made BEFORE this record existed leaves behind';
 
     return response.status(200).json({
