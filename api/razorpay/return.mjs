@@ -1,6 +1,6 @@
 /**
  * POST/GET /api/razorpay/return — the bank-redirect landing
- * (R4-RETURN-PATH-AND-WEBHOOK, 2026-08-18).
+ * (R4-RETURN-PATH-AND-WEBHOOK, 2026-08-18; R4-SELF-EVIDENCING 2026-08-20).
  *
  * Born from the founder's first successful test payment: the demo bank's
  * Success page never brought him back to the site, so the page's own proof
@@ -13,6 +13,10 @@
  * identifiers. The page then re-confirms against Razorpay via
  * subscription-status before saying anything is paid — the signature gets the
  * visitor home; Razorpay's own answer is still the only success authority.
+ *
+ * Self-evidencing (2026-08-20): structured log of every verified return so a
+ * reviewer can reconstruct the run from Vercel function logs without relying
+ * on a human transcription of the screen. No local datastore is invented.
  */
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
@@ -41,6 +45,16 @@ export default async function handler(request, response) {
   const idShape = /^(pay|sub)_[A-Za-z0-9]+$/;
 
   const fail = () => {
+    console.error(
+      JSON.stringify({
+        event: 'r4_return',
+        outcome: 'unverified',
+        payment_id: paymentId || null,
+        subscription_id: subscriptionId || null,
+        reason: 'missing_malformed_or_signature_mismatch',
+        at: new Date().toISOString(),
+      }),
+    );
     response.statusCode = 303;
     response.setHeader('location', '/checkout?return=unverified');
     response.end();
@@ -61,9 +75,24 @@ export default async function handler(request, response) {
     return fail();
   }
 
+  // Durable, reviewable record in function logs (survives tab close).
+  console.log(
+    JSON.stringify({
+      event: 'r4_return',
+      outcome: 'signature_verified',
+      payment_id: paymentId,
+      subscription_id: subscriptionId,
+      signature_ok: true,
+      at: new Date().toISOString(),
+    }),
+  );
+
   // Only public identifiers travel in the URL — never the signature or any
-  // secret-derived value.
+  // secret-derived value. Bookmarkable: the founder can keep this URL.
   response.statusCode = 303;
-  response.setHeader('location', `/checkout?return=paid&sub=${encodeURIComponent(subscriptionId)}`);
+  response.setHeader(
+    'location',
+    `/checkout?return=paid&sub=${encodeURIComponent(subscriptionId)}&pay=${encodeURIComponent(paymentId)}`,
+  );
   return response.end();
 }

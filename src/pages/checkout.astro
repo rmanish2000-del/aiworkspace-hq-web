@@ -1,7 +1,7 @@
 ---
 /**
  * `/checkout` — THE ONE PAGE THAT SHIPS CLIENT JAVASCRIPT (R4-CHECKOUT,
- * 2026-08-18). Every other route keeps the zero-JS invariant; the gates
+ * 2026-08-18; R4-SELF-EVIDENCING 2026-08-20). Every other route keeps the zero-JS invariant; the gates
  * exempt exactly `dist/checkout.html` and say so where they do it.
  *
  * Honesty contract of this page:
@@ -11,6 +11,12 @@
  *   - "payment received" is only ever said after /api/razorpay/subscription-status
  *     (which asks Razorpay itself) answers authenticated/active — the redirect
  *     alone proves nothing, and the webhook remains the server-side truth.
+ *
+ * Self-evidencing (2026-08-20): return lands with public ids; state text
+ * includes subscription + payment ids and an explicit note of what this
+ * surface cannot see (Razorpay dashboard Recent deliveries). The URL itself
+ * is the durable client-side record; Vercel function logs hold the server-side
+ * signature verification. No local datastore invented.
  *
  * noindex; not in the sitemap; linked from nowhere yet — reaching it today
  * means typing the URL. Making it reachable from /pricing is a separate,
@@ -46,6 +52,7 @@ const rupees = price.inr.toLocaleString('en-IN');
         >
       </p>
       <p id="state" class="checkout-page__state" aria-live="polite"></p>
+      <p id="evidence" class="checkout-page__evidence" hidden></p>
       <p class="checkout-page__legal">
         Operated by Kartavya CSC Digital Seva. Before paying, you can read the
         <a href="/terms">Terms of Service</a>, <a href="/privacy">Privacy Policy</a>,
@@ -64,12 +71,20 @@ const rupees = price.inr.toLocaleString('en-IN');
   const say = (text) => {
     document.getElementById('state').textContent = text;
   };
-  // R4-RETURN-PATH: a visitor arriving back from the bank lands here with
-  // ?return=…; confirm against Razorpay itself before saying anything is paid.
+  const showEvidence = (html) => {
+    const el = document.getElementById('evidence');
+    el.hidden = false;
+    el.innerHTML = html;
+  };
+  // R4-RETURN-PATH + SELF-EVIDENCING: visitor arriving back from the bank lands
+  // here with ?return=…; confirm against Razorpay itself before saying paid.
+  // The resulting URL (with sub + pay) is bookmarkable and is the client record.
   const returned = new URLSearchParams(window.location.search);
   if (returned.get('return') === 'paid' && returned.get('sub')) {
+    const sub = returned.get('sub');
+    const pay = returned.get('pay') || '(not in URL)';
     say('Payment submitted — confirming with the payment provider…');
-    fetch('/api/razorpay/subscription-status?id=' + encodeURIComponent(returned.get('sub')))
+    fetch('/api/razorpay/subscription-status?id=' + encodeURIComponent(sub))
       .then((status) => (status.ok ? status.json() : null))
       .then((truth) => {
         if (truth && (truth.status === 'active' || truth.status === 'authenticated')) {
@@ -80,20 +95,37 @@ const rupees = price.inr.toLocaleString('en-IN');
               truth.status +
               '. A receipt follows from Razorpay.',
           );
+          showEvidence(
+            '<strong>R4 evidence (this URL is the durable record)</strong><br>' +
+              'subscription_id: ' + truth.subscription_id + '<br>' +
+              'payment_id (from return): ' + pay + '<br>' +
+              'status from Razorpay: ' + truth.status + '<br>' +
+              'current_end: ' + (truth.current_end ?? 'n/a') + '<br>' +
+              '<em>This surface cannot see Razorpay dashboard Recent deliveries (2xx). ' +
+              'Founder still eyeballs that one line if needed. Vercel function logs hold the signature verification.</em>',
+          );
         } else {
           say(
             'Your payment was submitted but is not confirmed yet (status: ' +
               (truth ? truth.status : 'unknown') +
               '). If money left your account it will reconcile.',
           );
+          showEvidence(
+            'subscription_id: ' + sub + '<br>payment_id: ' + pay +
+              '<br><em>Not yet active/authenticated on Razorpay. No green claim made.</em>',
+          );
         }
       })
-      .catch(() => say('Your payment was submitted but confirmation could not be fetched.'));
+      .catch(() => {
+        say('Your payment was submitted but confirmation could not be fetched.');
+        showEvidence('subscription_id: ' + sub + '<br>payment_id: ' + pay);
+      });
   } else if (returned.get('return') === 'unverified') {
     say(
       'The return from the payment page could not be verified, so nothing is shown as paid. ' +
         'If you completed a payment it is still real — Razorpay will email a receipt.',
     );
+    showEvidence('<em>Return signature did not verify. No green claim.</em>');
   }
 
   document.getElementById('pay').addEventListener('click', async () => {
@@ -136,6 +168,15 @@ const rupees = price.inr.toLocaleString('en-IN');
                 ' is ' +
                 truth.status +
                 '. A receipt follows from Razorpay.',
+            );
+            showEvidence(
+              '<strong>R4 evidence</strong><br>subscription_id: ' +
+                truth.subscription_id +
+                '<br>payment_id: ' +
+                result.razorpay_payment_id +
+                '<br>status: ' +
+                truth.status +
+                '<br><em>Razorpay dashboard Recent deliveries still required for full webhook proof.</em>',
             );
           } else {
             say(
@@ -190,6 +231,15 @@ const rupees = price.inr.toLocaleString('en-IN');
   .checkout-page__state {
     min-height: 1.6em;
     color: var(--fg-muted);
+  }
+  .checkout-page__evidence {
+    margin-block-start: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: var(--type-small);
+    color: var(--fg-muted);
+    background: var(--bg-muted);
   }
   .checkout-page__legal {
     margin-block-start: var(--space-6);
