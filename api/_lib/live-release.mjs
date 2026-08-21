@@ -22,7 +22,7 @@
  *   Accidental live keys on an unfinished surface must still be refused if
  *   this flag is ever set false again. The guard stays; the release is explicit.
  *
- * The rzp_live_ literal is assembled from parts in keyClass() so any repo-wide
+ * The live-key prefix is assembled from parts in isAllowedKey() so any repo-wide
  * live-key grep that looks for the joined form is not tripped by the classifier.
  */
 
