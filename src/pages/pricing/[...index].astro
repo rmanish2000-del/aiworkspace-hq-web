@@ -29,8 +29,12 @@ const dollars = price.usd.toLocaleString('en-US');
     <article class="pricing-page">
       <h1>{pricingPage.heading}</h1>
       <p>
-        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{pricingPage.gstNote}
-        <span class="pricing-page__usd">({pricingPage.about} ${dollars} {pricingPage.perMonth})</span>.
+        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{
+          pricingPage.gstNote
+        }
+        <span class="pricing-page__usd"
+          >({pricingPage.about} ${dollars} {pricingPage.perMonth})</span
+        >.
       </p>
       <p class="pricing-page__availability">
         {pricingPage.subscribeAt}
@@ -39,7 +43,8 @@ const dollars = price.usd.toLocaleString('en-US');
         {pricingPage.monitored}
       </p>
       <p class="pricing-page__seal">
-        {pricingPage.sealLead} {price.seal.date}.
+        {pricingPage.sealLead}
+        {price.seal.date}.
       </p>
     </article>
   </Container>
