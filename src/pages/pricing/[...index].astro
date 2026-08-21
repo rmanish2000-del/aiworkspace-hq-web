@@ -18,6 +18,7 @@
 import Base from '../../layouts/Base.astro';
 import Container from '../../components/ui/Container.astro';
 import { sealedPrice } from '../../config/pricing';
+import { pricingPage } from '../../content/copy';
 
 export function getStaticPaths() {
   const price = sealedPrice();
@@ -31,30 +32,26 @@ const dollars = price.usd.toLocaleString('en-US');
 ---
 
 <Base
-  title="Pricing — AI Workspace"
-  description="Warrant Guardian pricing."
+  title={pricingPage.metaTitle}
+  description={pricingPage.metaDescription}
   canonicalPath="/pricing"
   indexableInProduction={false}
 >
   <Container>
     <article class="pricing-page">
-      <h1>Pricing</h1>
+      <h1>{pricingPage.heading}</h1>
       <p>
-        Warrant Guardian is <strong>₹{rupees} per month</strong>, GST as applicable
-        <span class="pricing-page__usd">(about ${dollars} per month)</span>.
+        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{pricingPage.gstNote}
+        <span class="pricing-page__usd">({pricingPage.about} ${dollars} {pricingPage.perMonth})</span>.
       </p>
       <p class="pricing-page__availability">
-        {
-          /* PRICING-AVAILABILITY-LINE — updated 2026-08-21 (GROK B1 live release):
-            live keys released in the same commit. Checkout is the pay path.
-            Support remains founder@aiworkspacehq.com. */
-        }
-        Subscribe at <a href="/checkout">/checkout</a>. Questions before you pay:
+        {pricingPage.subscribeAt}
+        <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
         <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>
-        (monitored).
+        {pricingPage.monitored}.
       </p>
       <p class="pricing-page__seal">
-        Price set by the founder on {price.seal.date}.
+        {pricingPage.sealLead} {price.seal.date}.
       </p>
     </article>
   </Container>
@@ -64,15 +61,21 @@ const dollars = price.usd.toLocaleString('en-US');
   .pricing-page {
     padding-block: var(--space-9);
     max-width: var(--measure-body);
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   /* The availability line sits in the price's own visual group — bold enough
      to read before anyone looks for a pay button (GROK T4). */
   .pricing-page__availability {
     font-weight: var(--weight-semibold);
     margin-block-start: var(--space-2);
+    overflow-wrap: anywhere;
   }
   .pricing-page__seal {
     color: var(--fg-muted);
     font-size: var(--type-small);
+  }
+  .pricing-page__usd {
+    overflow-wrap: anywhere;
   }
 </style>
