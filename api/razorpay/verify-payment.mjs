@@ -11,8 +11,12 @@
  * signature returns `verified: true` and the key the caller must record. When a
  * store exists, the grant goes behind a check on that key. Inventing
  * persistence here would be the worse failure.
+ *
+ * Live keys accepted only when LIVE_PAYMENTS_RELEASED is true
+ * (api/_lib/live-release.mjs — BUSINESS-QUEUE B1, 2026-08-21).
  */
 import { idempotencyKey, verifyPaymentSignature } from '../_lib/razorpay.mjs';
+import { isAllowedKey } from '../_lib/live-release.mjs';
 
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
@@ -25,8 +29,10 @@ export default async function handler(request, response) {
     console.error('razorpay: credentials are not configured');
     return response.status(500).json({ error: 'payments are not configured' });
   }
-  if (!keyId.startsWith('rzp_test_')) {
-    console.error('razorpay: refusing a non-test key — this integration is unreleased');
+  if (!isAllowedKey(keyId)) {
+    console.error(
+      'razorpay: refusing key — not test, and live payments are not released (see api/_lib/live-release.mjs)',
+    );
     return response.status(500).json({ error: 'payments are not configured' });
   }
 
