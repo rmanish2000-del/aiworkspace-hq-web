@@ -7,7 +7,12 @@
  * returns only the status and the id. The success page calls this instead of
  * trusting its own redirect; "active"/"authenticated" from HERE is the only
  * thing the UI may present as paid.
+ *
+ * Live keys accepted only when LIVE_PAYMENTS_RELEASED is true
+ * (api/_lib/live-release.mjs — BUSINESS-QUEUE B1, 2026-08-21).
  */
+import { isAllowedKey } from '../_lib/live-release.mjs';
+
 export default async function handler(request, response) {
   if (request.method !== 'GET') {
     return response.status(405).json({ error: 'method not allowed' });
@@ -15,8 +20,10 @@ export default async function handler(request, response) {
 
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
-  if (!keyId || !keySecret || !keyId.startsWith('rzp_test_')) {
-    console.error('razorpay: credentials missing or non-test — refusing');
+  if (!keyId || !keySecret || !isAllowedKey(keyId)) {
+    console.error(
+      'razorpay: credentials missing or not allowed (see api/_lib/live-release.mjs)',
+    );
     return response.status(500).json({ error: 'payments are not configured' });
   }
 
