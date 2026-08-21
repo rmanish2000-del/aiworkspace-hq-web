@@ -10,6 +10,10 @@
  * When the value is present, `sealedPrice()` THROWS at build unless a founder
  * seal matching BOTH amounts exists in docs/governance/PRICING-SEAL.json — an
  * unsealed number cannot ship even by editing this file.
+ *
+ * Availability line updated 2026-08-21 (BUSINESS-QUEUE B1 live release):
+ * private-beta-closed wording removed in the same commit that allows live
+ * keys. Words and capability ship together.
  */
 import Base from '../../layouts/Base.astro';
 import Container from '../../components/ui/Container.astro';
@@ -41,14 +45,11 @@ const dollars = price.usd.toLocaleString('en-US');
       </p>
       <p class="pricing-page__availability">
         {
-          /* PRICING-AVAILABILITY-LINE — updated 2026-08-21 (GROK B3):
-            private beta still closed; no checkout. Point to the already-
-            monitored founder email (contact.md) so a willing buyer has a
-            path without inventing capture the site cannot honour. InterestForm
-            remains intentionally inert (ADR-0003). */
+          /* PRICING-AVAILABILITY-LINE — updated 2026-08-21 (GROK B1 live release):
+            live keys released in the same commit. Checkout is the pay path.
+            Support remains founder@aiworkspacehq.com. */
         }
-        Private beta is not open yet — no checkout on this page. To ask for a
-        place when it opens, write
+        Subscribe at <a href="/checkout">/checkout</a>. Questions before you pay:
         <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>
         (monitored).
       </p>
