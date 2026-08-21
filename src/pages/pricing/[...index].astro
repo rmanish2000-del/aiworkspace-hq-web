@@ -4,6 +4,13 @@
  * (PRICING-SCAFFOLD, 2026-08-18; Guardian flat-monthly, INR primary + USD
  * secondary per the founder ruling "GUARDIAN · BOTH (INR primary)").
  *
+ * The rest-parameter route is the mechanism: `getStaticPaths` returns ZERO
+ * paths while `src/config/pricing.ts` holds null, so the built output carries
+ * no /pricing document, no nav entry, no "coming soon", no hidden markup.
+ * When the value is present, `sealedPrice()` THROWS at build unless a founder
+ * seal matching BOTH amounts exists in docs/governance/PRICING-SEAL.json — an
+ * unsealed number cannot ship even by editing this file.
+ *
  * Availability line updated 2026-08-21 (BUSINESS-QUEUE B1 live release):
  * private-beta-closed wording removed in the same commit that allows live
  * keys. Words and capability ship together.
@@ -34,14 +41,18 @@ const dollars = price.usd.toLocaleString('en-US');
     <article class="pricing-page">
       <h1>{pricingPage.heading}</h1>
       <p>
-        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{pricingPage.gstNote}<span
-          class="pricing-page__usd">({pricingPage.about} ${dollars} {pricingPage.perMonth})</span>.
+        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{pricingPage.gstNote}
+        <span class="pricing-page__usd">({pricingPage.about} ${dollars} {pricingPage.perMonth})</span>.
       </p>
       <p class="pricing-page__availability">
-        {pricingPage.subscribeAt} <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
-        <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a> {pricingPage.monitored}
+        {pricingPage.subscribeAt}
+        <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
+        <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>
+        {pricingPage.monitored}
       </p>
-      <p class="pricing-page__seal">{pricingPage.sealLead} {price.seal.date}.</p>
+      <p class="pricing-page__seal">
+        {pricingPage.sealLead} {price.seal.date}.
+      </p>
     </article>
   </Container>
 </Base>
@@ -53,6 +64,8 @@ const dollars = price.usd.toLocaleString('en-US');
     overflow-wrap: anywhere;
     word-break: break-word;
   }
+  /* The availability line sits in the price's own visual group — bold enough
+     to read before anyone looks for a pay button (GROK T4). */
   .pricing-page__availability {
     font-weight: var(--weight-semibold);
     margin-block-start: var(--space-2);
