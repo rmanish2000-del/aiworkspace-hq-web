@@ -9,12 +9,11 @@
  * The amount is validated SERVER-SIDE. An amount that arrives from the browser
  * is a request, not an instruction.
  *
- * TEST KEYS ONLY while this is unreleased: RAZORPAY_KEY_ID must start with
- * `rzp_test_`, and this handler refuses to run otherwise. That refusal is
- * deliberate — a live key reaching an unfinished checkout is the failure this
- * whole slice is written to prevent.
+ * Live keys accepted only when LIVE_PAYMENTS_RELEASED is true
+ * (api/_lib/live-release.mjs — BUSINESS-QUEUE B1, 2026-08-21).
  */
 import { validateOrderRequest } from '../_lib/razorpay.mjs';
+import { isAllowedKey } from '../_lib/live-release.mjs';
 
 export default async function handler(request, response) {
   if (request.method !== 'POST') {
@@ -27,8 +26,10 @@ export default async function handler(request, response) {
     console.error('razorpay: credentials are not configured');
     return response.status(500).json({ error: 'payments are not configured' });
   }
-  if (!keyId.startsWith('rzp_test_')) {
-    console.error('razorpay: refusing a non-test key — this integration is unreleased');
+  if (!isAllowedKey(keyId)) {
+    console.error(
+      'razorpay: refusing key — not test, and live payments are not released (see api/_lib/live-release.mjs)',
+    );
     return response.status(500).json({ error: 'payments are not configured' });
   }
 
