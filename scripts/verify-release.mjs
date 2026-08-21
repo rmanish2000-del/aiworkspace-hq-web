@@ -21,7 +21,7 @@
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const started = Date.now();
@@ -297,6 +297,43 @@ check('deferred files are not emitted', () => {
   const emitted = deferred.filter((f) => existsSync(join(DIST, f)));
   if (emitted.length) throw new Error(`${emitted.join(', ')} emitted but still blocked`);
   return 'all absent';
+});
+
+check('the fleet dashboard reached no part of the published artifact', () => {
+  /**
+   * FOUNDER-DASHBOARD-HTML (2026-08-21). The founder's fleet dashboard renders
+   * operational status — which seats are blocked, what is waiting on him — and
+   * this site has no authentication capability to put in front of it. So it is
+   * not a route: it lives entirely in `scripts/`, serves on 127.0.0.1, and is
+   * never built.
+   *
+   * That boundary would be HONOUR-SYSTEM without this check, which makes it
+   * TEST-ENFORCED: if anyone later adds the route, imports the renderer from a
+   * page, or bakes a snapshot into the output, the release stops here.
+   */
+  const walk = (dir) =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)],
+    );
+  const emitted = walk(DIST);
+
+  const routes = emitted.filter((file) => /fleet|internal/i.test(relative(DIST, file)));
+  if (routes.length) {
+    throw new Error(`${routes.map((f) => relative(DIST, f)).join(', ')} must not be published`);
+  }
+
+  const MARKERS = ['FOUNDER-FLEET-DASHBOARD', 'FOUNDER ACTION REQUIRED', 'UNRECOGNISED STATUS'];
+  const leaked = emitted
+    .filter((file) => /\.(html|js|css|xml|txt|json)$/.test(file))
+    .flatMap((file) => {
+      const body = readFileSync(file, 'utf8');
+      return MARKERS.filter((marker) => body.includes(marker)).map(
+        (marker) => `${relative(DIST, file)} contains "${marker}"`,
+      );
+    });
+  if (leaked.length) throw new Error(leaked.join('; '));
+
+  return `${emitted.length} files, none of them fleet status`;
 });
 
 check('static assets are present and non-empty', () => {
