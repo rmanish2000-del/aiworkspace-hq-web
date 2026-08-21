@@ -14,7 +14,8 @@ export function getStaticPaths() {
 }
 
 const price = sealedPrice();
-if (!price.publish) throw new Error('unreachable: getStaticPaths emitted no path');
+if (!price.publish)
+  throw new Error('unreachable: getStaticPaths emitted no path');
 const rupees = price.inr.toLocaleString('en-IN');
 const dollars = price.usd.toLocaleString('en-US');
 ---
@@ -29,12 +30,23 @@ const dollars = price.usd.toLocaleString('en-US');
     <article class="pricing-page">
       <h1>{pricingPage.heading}</h1>
       <p>
-        {pricingPage.priceLeadBefore}<strong>₹{rupees} {pricingPage.perMonth}</strong>{pricingPage.gstNote}<span class="pricing-page__usd">({pricingPage.about} ${dollars} {pricingPage.perMonth})</span>.
+        {pricingPage.priceLeadBefore}<strong
+          >₹{rupees} {pricingPage.perMonth}</strong
+        >{pricingPage.gstNote}
+        <span class="pricing-page__usd"
+          >({pricingPage.about} ${dollars} {pricingPage.perMonth})</span
+        >.
       </p>
       <p class="pricing-page__availability">
-        {pricingPage.subscribeAt}<a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}<a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>{pricingPage.monitored}
+        {pricingPage.subscribeAt}
+        <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
+        <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>
+        {pricingPage.monitored}
       </p>
-      <p class="pricing-page__seal">{pricingPage.sealLead} {price.seal.date}.</p>
+      <p class="pricing-page__seal">
+        {pricingPage.sealLead}
+        {price.seal.date}.
+      </p>
     </article>
   </Container>
 </Base>
