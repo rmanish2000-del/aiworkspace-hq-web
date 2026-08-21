@@ -12,9 +12,9 @@
  *     (which asks Razorpay itself) answers authenticated/active — the redirect
  *     alone proves nothing, and the webhook remains the server-side truth.
  *
- * noindex; not in the sitemap; linked from nowhere yet — reaching it today
- * means typing the URL. Making it reachable from /pricing is a separate,
- * deliberate copy change.
+ * Live release (BUSINESS-QUEUE B1, 2026-08-21): test-mode wording removed in
+ * the same commit that allows live keys. Real money moves when live keys are
+ * present and LIVE_PAYMENTS_RELEASED is true.
  */
 import Base from '../layouts/Base.astro';
 import Container from '../components/ui/Container.astro';
@@ -38,7 +38,7 @@ const rupees = price.inr.toLocaleString('en-IN');
       <h1>Checkout</h1>
       <p>
         Warrant Guardian — <strong>₹{rupees} per month</strong>. GST as applicable is added at
-        payment. Test mode: no real money moves.
+        payment.
       </p>
       <p>
         <button id="pay" class="checkout-page__pay" type="button"
@@ -115,11 +115,11 @@ const rupees = price.inr.toLocaleString('en-IN');
       key: order.key_id,
       subscription_id: order.subscription_id,
       name: 'Warrant Guardian',
-      description: 'Monthly subscription (test mode)',
-      // R4-RETURN-PATH: bank-authentication pages (3DS, the test-mode demo
-      // bank) REDIRECT rather than returning to the modal. callback_url
-      // brings the visitor home via /api/razorpay/return, which verifies the
-      // subscription-flow signature server-side before landing them here.
+      description: 'Monthly subscription',
+      // R4-RETURN-PATH: bank-authentication pages (3DS) REDIRECT rather than
+      // returning to the modal. callback_url brings the visitor home via
+      // /api/razorpay/return, which verifies the subscription-flow signature
+      // server-side before landing them here.
       callback_url: window.location.origin + '/api/razorpay/return',
       redirect: true,
       // RETURN-PATH / CALLBACK-NOT-INVOKED (2026-08-20): there is NO `handler`
