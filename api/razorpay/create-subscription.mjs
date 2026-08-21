@@ -11,8 +11,11 @@
  * The plan is created once and reused: we look it up by the exact amount and
  * period before creating, so replays do not mint duplicate plans.
  *
- * TEST KEYS ONLY while unreleased — refuses any key not starting rzp_test_.
+ * Live keys accepted only when LIVE_PAYMENTS_RELEASED is true
+ * (api/_lib/live-release.mjs — BUSINESS-QUEUE B1, 2026-08-21).
  */
+
+import { isAllowedKey } from '../_lib/live-release.mjs';
 
 const SEALED_INR = 999; // must equal the sealed amount; the pricing gate holds the page, this holds the charge
 const PLAN_PERIOD = 'monthly';
@@ -47,8 +50,10 @@ export default async function handler(request, response) {
     console.error('razorpay: credentials are not configured');
     return response.status(500).json({ error: 'payments are not configured' });
   }
-  if (!keyId.startsWith('rzp_test_')) {
-    console.error('razorpay: refusing a non-test key — this integration is unreleased');
+  if (!isAllowedKey(keyId)) {
+    console.error(
+      'razorpay: refusing key — not test, and live payments are not released (see api/_lib/live-release.mjs)',
+    );
     return response.status(500).json({ error: 'payments are not configured' });
   }
 

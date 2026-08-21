@@ -11,14 +11,14 @@
     },
     {
       "date": "2026-08-11",
-      "authorised_by": "founder (directive 2026-08-11: fix PR #33 a11y failures \u2014 'run that spec locally... fix... push; I will merge only on green')",
-      "reason": "AT-tree A11Y fix: the three converted pages had dropped the site-wide '\u2014 AI Workspace' <title> suffix, so assistive tech announced pages without the product name. Only the document title changed; body content in src/legal/*.md is untouched. The title text participates in the tag-stripped hash, hence the new values.",
+      "authorised_by": "founder (directive 2026-08-11: fix PR #33 a11y failures — 'run that spec locally... fix... push; I will merge only on green')",
+      "reason": "AT-tree A11Y fix: the three converted pages had dropped the site-wide '— AI Workspace' <title> suffix, so assistive tech announced pages without the product name. Only the document title changed; body content in src/legal/*.md is untouched. The title text participates in the tag-stripped hash, hence the new values.",
       "routes_changed": ["/privacy", "/contact", "/about"]
     },
     {
       "date": "2026-08-11",
       "authorised_by": "founder (ruling 2026-08-11, Option A)",
-      "reason": "Product-identity separation: the six Guardian legal pages remount under /warrant-guardian/*; the root /about, /contact, /privacy return to the approved AI Workspace pages (P2-C four sections; wave-1 FD-AG4-A privacy \u2014 a binding surface that must never be silently replaced). Rendered Guardian text is BYTE-IDENTICAL at the new routes \u2014 every hash value is unchanged, only the route keys moved. Gateway-submitted root URLs /terms, /refunds, /delivery keep serving via edge redirects to /warrant-guardian/*; no content duplication.",
+      "reason": "Product-identity separation: the six Guardian legal pages remount under /warrant-guardian/*; the root /about, /contact, /privacy return to the approved AI Workspace pages (P2-C four sections; wave-1 FD-AG4-A privacy — a binding surface that must never be silently replaced). Rendered Guardian text is BYTE-IDENTICAL at the new routes — every hash value is unchanged, only the route keys moved. Gateway-submitted root URLs /terms, /refunds, /delivery keep serving via edge redirects to /warrant-guardian/*; no content duplication.",
       "routes_changed": [
         "/warrant-guardian/terms",
         "/warrant-guardian/privacy",
@@ -31,13 +31,13 @@
     {
       "date": "2026-08-12",
       "authorised_by": "founder (ruling 2026-08-12, Option B)",
-      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal \u2014 client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
+      "reason": "Zero-JS commitment holds site-wide: the Guardian landing's waitlist script and inline form (POST to /api/waitlist with email, ext_ref honeypot and a time-to-submit signal — client JS plus form capture, both barred by the standing prohibitions) are removed. The form is replaced by a plain mailto: link ('Join the waitlist by email'); the two retention/no-sharing notes are unchanged. The Guardian waitlist returns later as a separate assignment with a real backend and privacy coverage. Internal HTML comments were also stripped (invisible; not part of this hash change).",
       "routes_changed": ["/warrant-guardian/"]
     },
     {
       "date": "2026-08-12",
       "authorised_by": "founder (ruling 2026-08-12, Option B resume order; same defect class as the 2026-08-11 title-suffix authorisation)",
-      "reason": "AT-tree A11Y fix, completing the 2026-08-11 entry: the three merchant pages /warrant-guardian/terms, /refunds, /delivery still carried bare <title> values without the site-wide '\u2014 AI Workspace' suffix, so assistive tech announced them without the product name. Only the document titles changed; body prose in src/legal/*.md and the on-page <h1> headings are untouched. The title text participates in the tag-stripped hash, hence the new values.",
+      "reason": "AT-tree A11Y fix, completing the 2026-08-11 entry: the three merchant pages /warrant-guardian/terms, /refunds, /delivery still carried bare <title> values without the site-wide '— AI Workspace' suffix, so assistive tech announced them without the product name. Only the document titles changed; body prose in src/legal/*.md and the on-page <h1> headings are untouched. The title text participates in the tag-stripped hash, hence the new values.",
       "routes_changed": [
         "/warrant-guardian/terms",
         "/warrant-guardian/refunds",
@@ -47,7 +47,7 @@
     {
       "date": "2026-08-13",
       "authorised_by": "founder (ruling 2026-08-13, UNIFY-LEGAL-SURFACE Slice-1: ROOT canonical)",
-      "reason": "One domain, one entity: the six legal routes move from /warrant-guardian/* back to the root, replacing the entity-less AI Workspace /privacy, /contact and /about \u2014 the certified Kartavya CSC Digital Seva text (controller, GSTIN, Udyam, Deori Sagar MP, founder@) now serves at the canonical root; /warrant-guardian/* redirects back. Rendered text is BYTE-IDENTICAL to the frozen values \u2014 every hash is unchanged, only route keys moved. One response commitment across all six: 'Within 3 business days' (certified frozen text wins; the AIW P0 promises are superseded with the replaced pages). Scan re-run pending - definitions held in Cowork seat, requested 2026-08-13.",
+      "reason": "One domain, one entity: the six legal routes move from /warrant-guardian/* back to the root, replacing the entity-less AI Workspace /privacy, /contact and /about — the certified Kartavya CSC Digital Seva text (controller, GSTIN, Udyam, Deori Sagar MP, founder@) now serves at the canonical root; /warrant-guardian/* redirects back. Rendered text is BYTE-IDENTICAL to the frozen values — every hash is unchanged, only route keys moved. One response commitment across all six: 'Within 3 business days' (certified frozen text wins; the AIW P0 promises are superseded with the replaced pages). Scan re-run pending - definitions held in Cowork seat, requested 2026-08-13.",
       "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery", "/contact", "/about"]
     },
     {
@@ -73,12 +73,18 @@
       "authorised_by": "Founder (Manish Patel) - chat act, verbatim: 'clause GO' (2026-08-18 ~14:30 IST), authorising the payment-processor exception the WEB seat put to him in 2026-08-18_1302_WEB_R4-CHECKOUT-BUILT-GATE-RUNNING.md",
       "reason": "R4-CHECKOUT: the /checkout page loads the Razorpay checkout, which makes third-party requests and sets Razorpay's own cookies on Razorpay's own domains during payment. The frozen /privacy sentence 'Our website makes no requests to any third party: no fonts, no content delivery network, no analytics, no tag manager.' would have become false the moment checkout shipped; shipping was held until this authorisation. The sentence now reads: '... - except the payment processor, Razorpay, on the checkout page during payment. Razorpay sets its own cookies on its own domains during checkout, under its own privacy policy.' Nothing else in the policy changed. C-13's own scope note lives in the C-13 suite header; the DPDP question (whether payment data needs fuller policy coverage) remains OPEN for founder and counsel and is NOT resolved by this entry.",
       "routes_changed": ["/privacy"]
+    },
+    {
+      "date": "2026-08-21",
+      "authorised_by": "Founder (Manish Patel) — GO 2026-08-21 BUSINESS-QUEUE B1 live-payments release",
+      "reason": "Live Razorpay keys released in the same PR. /refunds §1 previously said free tier only and no payment collected — false the moment live checkout is enabled. §1 and §2 rewritten to state the paid monthly subscription is offered at the published price via /checkout; cancellation/refund rules unchanged in substance. HASH for /refunds must be stamped from dist/refunds.html after build (CI content-freeze-check reports the actual digest).",
+      "routes_changed": ["/refunds"]
     }
   ],
   "routes": {
     "/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
     "/privacy": "9ff21bcec733299d46d57785d36b2d60cc3efbbedd78fddd801094d40c15b8f4",
-    "/refunds": "064b87db7be370febbe1d41a632f607494bdb82269327a9acbbc561ab4614352",
+    "/refunds": "fa0b241af547830d094ad957593d7e2fff4101b10a0a778fdbf722d02fec05da",
     "/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
     "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
     "/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
