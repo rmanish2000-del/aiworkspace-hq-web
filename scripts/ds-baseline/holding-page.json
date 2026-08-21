@@ -1,5 +1,5 @@
 {
-  "recordedFrom": "GROK PR62-FINISH-GREEN — baseline from CI Build artifact dist.zip (run 32461941130 / artifact 9439237995) after B1 live payments + pricing a11y string move.",
+  "recordedFrom": "GROK PR62-FINISH-GREEN — baseline from CI Build artifact dist.zip (run 32467801487 / artifact 9441357262) after prettier-aligned pricing markup + CL-49 source fix.",
   "note": "sha256 of every built route document.",
   "hashes": {
     "404.html": "edb2b1007e9623c5cb5b7fa222d1bf323c7aac36a8da8f854113cebba28f5b32",
@@ -11,7 +11,7 @@
     "enterprise.html": "54eefa18c3ba7dcb06bcbab339e294a38382a7fff95910b1957296f582e1ad84",
     "index.html": "63045077ae6045b224eda60768233d881f9bb1490432fccec6f13aeb547297e0",
     "platform.html": "5bdcc1f7aee9bd7a708280ad1911ccc9f4c4cef6a83179873750b0dfe953f72b",
-    "pricing.html": "0bba6e7aa59e9eaa0ad01f3d0bb3fc9d4f2ae81c1f7dbeada62bc4ac63e24fc7",
+    "pricing.html": "6745e77dee367c9527d27bac8fa030e230d66b98b4aa85f3584aa8ff39531541",
     "principles.html": "a392479d951d21ab4228ab6d8b4f09e0b44d32eedb4bbea4d17e39cb4580cc90",
     "privacy.html": "2cc3f09e0694a30515629bcbee6cff665c5c1e0a3e3bca6d7b9f345d2cb9e4be",
     "products.html": "17cafb75b4a2ac10bca959bb9eca9aa891ea060aeda6ff75f989fbd75d30b3d2",
