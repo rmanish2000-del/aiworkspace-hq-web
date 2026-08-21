@@ -1,19 +1,7 @@
 ---
 /**
- * `/pricing` — exists ONLY when the founder's numbers are set AND sealed
- * (PRICING-SCAFFOLD, 2026-08-18; Guardian flat-monthly, INR primary + USD
- * secondary per the founder ruling "GUARDIAN · BOTH (INR primary)").
- *
- * The rest-parameter route is the mechanism: `getStaticPaths` returns ZERO
- * paths while `src/config/pricing.ts` holds null, so the built output carries
- * no /pricing document, no nav entry, no "coming soon", no hidden markup.
- * When the value is present, `sealedPrice()` THROWS at build unless a founder
- * seal matching BOTH amounts exists in docs/governance/PRICING-SEAL.json — an
- * unsealed number cannot ship even by editing this file.
- *
- * Availability line updated 2026-08-21 (BUSINESS-QUEUE B1 live release):
- * private-beta-closed wording removed in the same commit that allows live
- * keys. Words and capability ship together.
+ * `/pricing` — sealed-price only (PRICING-SCAFFOLD). Live availability
+ * line from B1 (2026-08-21). Words and capability ship together.
  */
 import Base from '../../layouts/Base.astro';
 import Container from '../../components/ui/Container.astro';
@@ -48,7 +36,7 @@ const dollars = price.usd.toLocaleString('en-US');
         {pricingPage.subscribeAt}
         <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
         <a href="mailto:founder@aiworkspacehq.com">founder@aiworkspacehq.com</a>
-        {pricingPage.monitored}.
+        {pricingPage.monitored}
       </p>
       <p class="pricing-page__seal">
         {pricingPage.sealLead} {price.seal.date}.
@@ -64,8 +52,6 @@ const dollars = price.usd.toLocaleString('en-US');
     overflow-wrap: anywhere;
     word-break: break-word;
   }
-  /* The availability line sits in the price's own visual group — bold enough
-     to read before anyone looks for a pay button (GROK T4). */
   .pricing-page__availability {
     font-weight: var(--weight-semibold);
     margin-block-start: var(--space-2);

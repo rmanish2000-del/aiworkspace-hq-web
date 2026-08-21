@@ -28,6 +28,15 @@ claims:
     source: 'hq10-website-content_HQ10_VERIFIED_WEBSITE_CONTENT_PACK.md · CL-01 (C-11 binding)'
     routes: ['/']
     reverify: { cadence: quarterly, last: '2026-07-27' }
+  - id: CL-49
+    text: >-
+      Subscribe at /checkout. Questions before you pay:
+      founder@aiworkspacehq.com (monitored).
+    tier: Verified
+    date: '2026-08-21'
+    source: 'docs/specs/hq10-website-content_HQ10_VERIFIED_WEBSITE_CONTENT_PACK.md · B1 live-release availability line (pricing-page.ts)'
+    routes: ['/pricing']
+    reverify: { cadence: quarterly, last: '2026-08-21' }
   - id: CL-02
     text: 'We will only contact you about AI Workspace early access.'
     tier: Verified
