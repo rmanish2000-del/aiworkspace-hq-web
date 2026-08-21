@@ -43,10 +43,7 @@ export const LIVE_PAYMENTS_RELEASED_REF =
 export function isAllowedKey(keyId) {
   if (!keyId || typeof keyId !== 'string') return false;
   if (keyId.startsWith('rzp_test_')) return true;
-  if (
-    LIVE_PAYMENTS_RELEASED &&
-    keyId.startsWith(['rzp', 'live', ''].join('_'))
-  ) {
+  if (LIVE_PAYMENTS_RELEASED && keyId.startsWith(['rzp', 'live', ''].join('_'))) {
     return true;
   }
   return false;

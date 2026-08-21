@@ -21,9 +21,7 @@ export default async function handler(request, response) {
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
   if (!keyId || !keySecret || !isAllowedKey(keyId)) {
-    console.error(
-      'razorpay: credentials missing or not allowed (see api/_lib/live-release.mjs)',
-    );
+    console.error('razorpay: credentials missing or not allowed (see api/_lib/live-release.mjs)');
     return response.status(500).json({ error: 'payments are not configured' });
   }
 
