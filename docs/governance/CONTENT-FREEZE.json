@@ -75,6 +75,12 @@
       "routes_changed": ["/privacy"]
     },
     {
+      "date": "2026-08-22",
+      "authorised_by": "founder (CR-004: 'The founder authorises correcting any frozen page whose text is factually false about the product's current state. /about, /contact, and shared components are covered. Truth outranks the freeze. Nothing else on those pages may change.')",
+      "reason": "CR-004 factual-correction pass: shared.stageDisclosure updated from 'Early access is not yet open.' to 'Founder Edition is available for purchase.' (reflects live ₹999 Founder Edition checkout); shared.noPricePlan updated to acknowledge the sealed Founder Edition price is published; building.closing: 'There is nothing to buy here.' removed (false — checkout exists); contact.lead: false early-access-not-open framing removed; about.contactBody: 'when early access opens' framing removed. No new claims, no traction, no customer/user language, no layout change. Hash values to be stamped from CI dist/ in a follow-up commit.",
+      "routes_changed": ["/about", "/contact"]
+    },
+    {
       "date": "2026-08-21",
       "authorised_by": "Founder (Manish Patel) — GO 2026-08-21 BUSINESS-QUEUE B1 live-payments release",
       "reason": "Live Razorpay keys released in the same PR. /refunds §1 previously said free tier only and no payment collected — false the moment live checkout is enabled. §1 and §2 rewritten to state the paid monthly subscription is offered at the published price via /checkout; cancellation/refund rules unchanged in substance. HASH for /refunds must be stamped from dist/refunds.html after build (CI content-freeze-check reports the actual digest).",

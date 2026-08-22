@@ -95,7 +95,7 @@ export const shared = {
    * [V] P0 `04` §3, verbatim. **Binding commitment C-11.**
    * Referenced by: `/`, `/platform`, `/principles`, `/about`.
    */
-  stageDisclosure: 'AI Workspace is in development. Early access is not yet open.',
+  stageDisclosure: 'AI Workspace is in development. Founder Edition is available for purchase.',
 
   /**
    * [V] P1-J §7.1. Referenced by: `/principles`, `/about`.
@@ -105,7 +105,7 @@ export const shared = {
    * "improve" it back** (P2-C §5, §12.2).
    */
   noPricePlan:
-    'We publish no price, no availability date, and no forward plan, because none of those has been decided.',
+    'A sealed Founder Edition price is published. No further availability date and no forward plan is published.',
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -163,7 +163,7 @@ export const building = {
     },
   ],
   closing:
-    'If one of these describes a problem you have, the contact page reaches a person. There is nothing to buy here.',
+    'If one of these describes a problem you have, the contact page reaches a person.',
   closingAction: 'Contact',
   closingHref: '/contact',
 } as const;
@@ -640,7 +640,7 @@ export const experience = {
     /** Beta path (same ruling): small, secondary, must not imply purchasability. */
     pricingAction: 'See pricing',
     pricingHref: '/pricing',
-    stage: 'A working Founder Edition exists locally. Early access is not yet open.',
+    stage: 'A working Founder Edition exists locally. Founder Edition is available for purchase.',
     visualLabel: 'Verified operating flow',
     visualTitle: 'Context enters with provenance. Work leaves with evidence.',
     sourceLabel: 'Approved source',
@@ -837,7 +837,7 @@ export const experience = {
     explore: 'Explore',
     verify: 'Verify',
     engage: 'Engage',
-    status: 'AI Workspace is in development. Early access is not yet open.',
+    status: 'AI Workspace is in development. Founder Edition is available for purchase.',
   },
 } as const;
 
@@ -1034,7 +1034,7 @@ export const contact = {
   heading: 'Contact',
 
   /** [V] Inline link `register interest` -> `/#interest`. */
-  lead: 'AI Workspace is in development and early access is not yet open. If you want to hear from us when it does, the fastest route is to register interest.',
+  lead: 'AI Workspace is in development. If you want to get in touch, the contact routes below reach a person.',
   leadLinkText: 'register interest',
 
   generalHeading: 'General enquiries',
@@ -1271,7 +1271,7 @@ export const about = {
    * `/contact`. Both link texts are meaningful out of context (P2-C A-3).
    */
   contactBody:
-    'If you want to hear from us when early access opens, register interest. For anything else, contact us.',
+    'To register interest or get in touch, use the contact routes below.',
 
   /** The two link texts, split out so the sentence is never rebuilt by hand. */
   contactRegisterLinkText: 'register interest',
