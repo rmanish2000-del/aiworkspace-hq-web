@@ -322,7 +322,7 @@ describe('copy.verbatim', () => {
   it('preserves the four binding commitments verbatim', () => {
     // C-11 — `02` §2, stage disclosure.
     expect(copy.hero.stageDisclosure).toBe(
-      'AI Workspace is in development. Early access is not yet open.',
+      'AI Workspace is in development. Founder Edition is available for purchase.',
     );
 
     // C-12, C-13, C-14 all live inside the privacy micro-notice, `04` §5.4.
