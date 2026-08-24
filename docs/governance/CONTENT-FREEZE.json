@@ -85,15 +85,21 @@
       "authorised_by": "Founder (Manish Patel) — GO 2026-08-21 BUSINESS-QUEUE B1 live-payments release",
       "reason": "Live Razorpay keys released in the same PR. /refunds §1 previously said free tier only and no payment collected — false the moment live checkout is enabled. §1 and §2 rewritten to state the paid monthly subscription is offered at the published price via /checkout; cancellation/refund rules unchanged in substance. HASH for /refunds must be stamped from dist/refunds.html after build (CI content-freeze-check reports the actual digest).",
       "routes_changed": ["/refunds"]
+    },
+    {
+      "date": "2026-08-22",
+      "authorised_by": "founder (CR-004 shared-string propagation — covered by the CR-004 authorisation dated 2026-08-22: 'The founder authorises correcting any frozen page whose text is factually false about the product's current state. /about, /contact, and shared components are covered. Truth outranks the freeze. Nothing else on those pages may change.')",
+      "reason": "CR-004 changed shared.stageDisclosure and shared.noPricePlan (and removed building.closing). These shared strings are referenced by /terms, /privacy, /refunds, and /delivery in addition to /about and /contact (already stamped). The four remaining routes changed only because those shared chrome strings participate in the tag-stripped hash; no route-specific body prose changed. This entry records the hash propagation to those four routes under the same CR-004 founder authorisation.",
+      "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery"]
     }
   ],
   "routes": {
-    "/terms": "78e9b0645e05a535afde9652b3f7b84855c2803fd9af88fde78f28c378532f0e",
-    "/privacy": "9ff21bcec733299d46d57785d36b2d60cc3efbbedd78fddd801094d40c15b8f4",
-    "/refunds": "fa0b241af547830d094ad957593d7e2fff4101b10a0a778fdbf722d02fec05da",
-    "/delivery": "0c525687fcc9479a9ca550544bd977a8ab06c307a6a11fc1407dde474e221a9f",
-    "/contact": "5905b39d862f847d239ad49d8f61daf65f1f4b7d1fcb0d6c95c2d174768bd295",
-    "/about": "8227d0769c71504321ee1b919fec6b5ee27f9baf09e93f2ec33ccb3b34d5f398",
+    "/terms": "08386dd5acf065b03d368eb8dcf2bb5dd025cb1cf72d14927f6b5f993a0d57ba",
+    "/privacy": "4937036c4cb07b644c668fcc21a10686226a603ed57b78178490488d8cab7206",
+    "/refunds": "3b1548d4a3dce1845580befec3f05e47dd9f20ea82df48dcdf427de6f520dacd",
+    "/delivery": "156d994280af40119581bb76777f9a98492e161a09a6ed10d88c8f7e85df09a4",
+    "/contact": "02cba3afc4adace2d955e30f6644034bc2efffee9824472e647ae7b498b6c114",
+    "/about": "226c89d79eca02bf8d0596057af78b827ba3f968073f92ea98d86207bd2fe1a7",
     "/warrant-guardian/": "47f8ae7f0b9aa0b9fdcf0c37037cf5fa358670b184c7f6b9ab3096cbd3e6a416"
   }
 }

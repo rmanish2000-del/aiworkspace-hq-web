@@ -162,8 +162,7 @@ export const building = {
       killWhy: 'if no design partner has committed by then.',
     },
   ],
-  closing:
-    'If one of these describes a problem you have, the contact page reaches a person.',
+  closing: 'If one of these describes a problem you have, the contact page reaches a person.',
   closingAction: 'Contact',
   closingHref: '/contact',
 } as const;
@@ -1270,8 +1269,7 @@ export const about = {
    * Two inline links: `register interest` → `/#interest`, `contact us` →
    * `/contact`. Both link texts are meaningful out of context (P2-C A-3).
    */
-  contactBody:
-    'To register interest or get in touch, use the contact routes below.',
+  contactBody: 'To register interest or get in touch, use the contact routes below.',
 
   /** The two link texts, split out so the sentence is never rebuilt by hand. */
   contactRegisterLinkText: 'register interest',
