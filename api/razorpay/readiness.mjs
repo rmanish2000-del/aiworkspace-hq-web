@@ -26,6 +26,8 @@ export default async function handler(request, response) {
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
   const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const opsEmail = process.env.OPS_EMAIL;
 
   const report = {
     razorpay_key_id: keyId ? 'present' : 'MISSING',
@@ -40,6 +42,10 @@ export default async function handler(request, response) {
         : 'clean'
       : 'n/a',
     razorpay_webhook_secret: webhookSecret ? 'present' : 'MISSING (webhook route only)',
+    // Presence only. Mail credentials and addresses are never echoed, measured,
+    // masked, hashed, or partially disclosed by this unauthenticated route.
+    resend_api_key: resendApiKey ? 'present' : 'absent',
+    ops_email: opsEmail ? 'present' : 'absent',
     key_class: keyClass(keyId),
     upstream_auth: 'not checked',
     ready: false,

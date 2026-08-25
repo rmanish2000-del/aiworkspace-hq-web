@@ -27,6 +27,7 @@ import {
   RESPONSE_WINDOW,
 } from '../../api/_lib/payer.mjs';
 import { NOT_CONFIGURED, sendEmail } from '../../api/_lib/email.mjs';
+import readiness from '../../api/razorpay/readiness.mjs';
 import webhook from '../../api/razorpay/webhook.mjs';
 
 const WEBHOOK_SECRET = 'whsec_for_unit_tests_only';
@@ -154,6 +155,28 @@ afterEach(() => {
 /* -------------------------------------------------------------------------- */
 /* The four the assignment names                                              */
 /* -------------------------------------------------------------------------- */
+
+describe('readiness: mail configuration presence', () => {
+  it('reports both mail variables as present without disclosing either value', async () => {
+    const res = response();
+    await readiness({ method: 'GET' }, res);
+
+    expect(res.code).toBe(200);
+    expect(res.payload).toMatchObject({ resend_api_key: 'present', ops_email: 'present' });
+    expect(JSON.stringify(res.payload)).not.toContain(process.env.RESEND_API_KEY);
+    expect(JSON.stringify(res.payload)).not.toContain(process.env.OPS_EMAIL);
+  });
+
+  it('reports both mail variables as absent', async () => {
+    delete process.env.RESEND_API_KEY;
+    delete process.env.OPS_EMAIL;
+    const res = response();
+    await readiness({ method: 'GET' }, res);
+
+    expect(res.code).toBe(200);
+    expect(res.payload).toMatchObject({ resend_api_key: 'absent', ops_email: 'absent' });
+  });
+});
 
 describe('webhook: a verified payment produces a record and an email', () => {
   it('records the payer and writes to them', async () => {
