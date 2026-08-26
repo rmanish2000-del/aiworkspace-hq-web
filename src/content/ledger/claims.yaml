@@ -30,10 +30,14 @@ claims:
     reverify: { cadence: quarterly, last: '2026-07-27' }
   - id: CL-49
     text: >-
-      Subscribe at /checkout. Questions before you pay:
+      This is a private beta build that you install on your own Linux host. You
+      need Docker, your own domain, and ports 80 and 443 available. Setup is
+      manual, with hands-on support from the founder. It is not for buyers who
+      want a hosted service or single sign-on with their own identity provider.
+      Subscribe for Rs 999 per month at /checkout. Questions before you pay:
       founder@aiworkspacehq.com (monitored).
     tier: Verified
-    date: '2026-08-21'
+    date: '2026-08-26'
     source: 'docs/specs/hq10-website-content_HQ10_VERIFIED_WEBSITE_CONTENT_PACK.md · B1 live-release availability line (pricing-page.ts)'
     routes: ['/pricing']
     reverify: { cadence: quarterly, last: '2026-08-21' }

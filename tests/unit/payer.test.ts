@@ -338,8 +338,14 @@ describe('the confirmation a payer receives', () => {
   });
 
   it('says access is set up by hand rather than implying an automatic delivery', () => {
-    expect(mail.text).toContain('set up by hand');
-    expect(mail.text).toContain('It is not provisioned');
+    expect(mail.text).toContain('private beta build');
+    expect(mail.text).toContain('Linux host');
+    expect(mail.text).toContain('Docker');
+    expect(mail.text).toContain('your own domain');
+    expect(mail.text).toContain('ports 80 and 443');
+    expect(mail.text).toContain('not a hosted service');
+    expect(mail.text).toContain('single sign-on');
+    expect(mail.text).toContain('Setup is done by hand');
     expect(mail.text).toContain(RESPONSE_WINDOW);
   });
 

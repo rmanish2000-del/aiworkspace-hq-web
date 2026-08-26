@@ -36,10 +36,9 @@ Where these terms describe how the law applies to Warrant Guardian, that is our 
    Warrant Guardian is operated by Kartavya CSC Digital Seva, which is the sole proprietorship of Manish Patel. It is not a company and has no corporate identification number. Its registration numbers are the GSTIN and Udyam number printed above.
 
 6. Tiers
-   Free, Rs 0 - the only tier currently offered.
-   Pro - not offered, not priced. Announced if and when it ships.
+   Founder Edition private beta - Rs 999 per month, GST as applicable. You install it on your own Linux host using Docker and your own domain; setup is manual with hands-on support from the founder. It is not a hosted service and does not support single sign-on with your own identity provider.
    Enforcer - not offered. We do not hold exchange empanelment. It is our position, pending counsel review, that order-path enforcement would require it.
-   No payment is collected anywhere on this site.
+   Payment for Founder Edition is collected through Razorpay at checkout.
 
 7. Safety does not depend on billing
    If and when paid tiers exist, a lapsed, failed or cancelled subscription will never stop Guardian watching mid-session, and will never disable the kill-switch when that ships. Any downgrade takes effect only at a session boundary.

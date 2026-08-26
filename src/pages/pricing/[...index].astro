@@ -36,6 +36,8 @@ const dollars = price.usd.toLocaleString('en-US');
           >({pricingPage.about} ${dollars} {pricingPage.perMonth})</span
         >.
       </p>
+      <p class="pricing-page__offer">{pricingPage.offer}</p>
+      <p class="pricing-page__not-for"><strong>{pricingPage.notFor}</strong></p>
       <p class="pricing-page__availability">
         {pricingPage.subscribeAt}
         <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
@@ -61,6 +63,10 @@ const dollars = price.usd.toLocaleString('en-US');
     font-weight: var(--weight-semibold);
     margin-block-start: var(--space-2);
     overflow-wrap: anywhere;
+  }
+  .pricing-page__offer,
+  .pricing-page__not-for {
+    margin-block-start: var(--space-4);
   }
   .pricing-page__seal {
     color: var(--fg-muted);

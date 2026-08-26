@@ -7,9 +7,9 @@ Effective: 2026-08-07
 Delivery of a digital service
 Warrant Guardian is software. Nothing physical is shipped, and there are no delivery charges, delivery addresses or delivery times in the ordinary sense.
 
-Free tier: access is available immediately on signup, delivered electronically over the internet.
-Paid tiers, if and when offered: access is provisioned electronically and immediately on successful payment. No physical delivery occurs.
-Territory: the service is provided over the internet and is not restricted to a delivery area.
+The paid Founder Edition is a private beta build that you install on your own Linux host. It requires Docker, your own domain, and ports 80 and 443. It is not a hosted service and does not support single sign-on with your own identity provider.
+Setup is manual, with hands-on support from the founder. After payment, the founder will contact you within 3 business days to begin setup. No physical delivery occurs.
+Territory: delivery is electronic and is not restricted to a delivery area.
 Non-delivery: if you pay and access is not provisioned, write to founder@aiworkspacehq.com and we will resolve it or refund the charge in full. This is distinct from the no-partial-refund position in the Refund and Cancellation Policy, which concerns cancellation of a working service.
 
 Contact: founder@aiworkspacehq.com
