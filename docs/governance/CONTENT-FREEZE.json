@@ -91,13 +91,19 @@
       "authorised_by": "founder (CR-004 shared-string propagation — covered by the CR-004 authorisation dated 2026-08-22: 'The founder authorises correcting any frozen page whose text is factually false about the product's current state. /about, /contact, and shared components are covered. Truth outranks the freeze. Nothing else on those pages may change.')",
       "reason": "CR-004 changed shared.stageDisclosure and shared.noPricePlan (and removed building.closing). These shared strings are referenced by /terms, /privacy, /refunds, and /delivery in addition to /about and /contact (already stamped). The four remaining routes changed only because those shared chrome strings participate in the tag-stripped hash; no route-specific body prose changed. This entry records the hash propagation to those four routes under the same CR-004 founder authorisation.",
       "routes_changed": ["/terms", "/privacy", "/refunds", "/delivery"]
+    },
+    {
+      "date": "2026-08-26",
+      "authorised_by": "founder (assignment SELL IT AS WHAT IT IS: A PRIVATE BETA; CR-004 authorises correcting frozen text that is false about the current product state)",
+      "reason": "The frozen Terms said only a free tier existed and no payment was collected; the frozen Delivery Policy promised immediate internet access. Both were false against the founder-sealed Rs 999/month private-beta offer. The two pages now disclose self-hosting on the buyer's Linux host, Docker, own domain, ports 80/443, manual founder-supported setup, no hosted service, and no customer identity-provider SSO. Hashes were taken from CI-built dist output after commit 56fa066; no other frozen route changed.",
+      "routes_changed": ["/terms", "/delivery"]
     }
   ],
   "routes": {
-    "/terms": "08386dd5acf065b03d368eb8dcf2bb5dd025cb1cf72d14927f6b5f993a0d57ba",
+    "/terms": "be8e3455d8d47098a89bf89c07d6094952659aa30cf0148479a5f0bad5f4aefc",
     "/privacy": "4937036c4cb07b644c668fcc21a10686226a603ed57b78178490488d8cab7206",
     "/refunds": "3b1548d4a3dce1845580befec3f05e47dd9f20ea82df48dcdf427de6f520dacd",
-    "/delivery": "156d994280af40119581bb76777f9a98492e161a09a6ed10d88c8f7e85df09a4",
+    "/delivery": "ef19a74e14ad29a0f00e709e7c4ab1ab2df6c15aac7d1eef8850bd1f4c3ffc57",
     "/contact": "02cba3afc4adace2d955e30f6644034bc2efffee9824472e647ae7b498b6c114",
     "/about": "226c89d79eca02bf8d0596057af78b827ba3f968073f92ea98d86207bd2fe1a7",
     "/warrant-guardian/": "47f8ae7f0b9aa0b9fdcf0c37037cf5fa358670b184c7f6b9ab3096cbd3e6a416"
