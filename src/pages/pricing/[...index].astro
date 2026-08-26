@@ -2,6 +2,7 @@
 /**
  * `/pricing` — sealed-price only (PRICING-SCAFFOLD). Live availability
  * line from B1 (2026-08-21). Words and capability ship together.
+ * Concrete Guardian example (2026-08-26): one before-and-after before pay.
  */
 import Base from '../../layouts/Base.astro';
 import Container from '../../components/ui/Container.astro';
@@ -36,6 +37,24 @@ const dollars = price.usd.toLocaleString('en-US');
           >({pricingPage.about} ${dollars} {pricingPage.perMonth})</span
         >.
       </p>
+
+      <section class="pricing-page__example" aria-labelledby="guardian-example-heading">
+        <p class="pricing-page__example-eyebrow">{pricingPage.exampleEyebrow}</p>
+        <h2 id="guardian-example-heading">{pricingPage.exampleHeading}</h2>
+        <p>{pricingPage.exampleLead}</p>
+        <dl class="pricing-page__example-pair">
+          <div>
+            <dt>{pricingPage.exampleBeforeLabel}</dt>
+            <dd><code>{pricingPage.exampleBefore}</code></dd>
+          </div>
+          <div>
+            <dt>{pricingPage.exampleAfterLabel}</dt>
+            <dd><code>{pricingPage.exampleAfter}</code></dd>
+          </div>
+        </dl>
+        <p class="pricing-page__example-note">{pricingPage.exampleNote}</p>
+      </section>
+
       <p class="pricing-page__availability">
         {pricingPage.subscribeAt}
         <a href="/checkout">/checkout</a>. {pricingPage.questionsBeforePay}
@@ -68,5 +87,46 @@ const dollars = price.usd.toLocaleString('en-US');
   }
   .pricing-page__usd {
     overflow-wrap: anywhere;
+  }
+  .pricing-page__example {
+    margin-block: var(--space-7);
+    padding: var(--space-5);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+  }
+  .pricing-page__example-eyebrow {
+    font-size: var(--type-small);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-2);
+  }
+  .pricing-page__example h2 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--type-h3, 1.25rem);
+  }
+  .pricing-page__example-pair {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+  }
+  .pricing-page__example-pair dt {
+    font-size: var(--type-small);
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-1);
+  }
+  .pricing-page__example-pair dd {
+    margin: 0;
+  }
+  .pricing-page__example-pair code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: var(--type-small);
+  }
+  .pricing-page__example-note {
+    margin: 0;
+    font-size: var(--type-small);
+    color: var(--fg-muted);
   }
 </style>
