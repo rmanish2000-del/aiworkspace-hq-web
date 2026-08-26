@@ -29,5 +29,5 @@ export const pricingPage = {
   exampleAfterLabel: 'Guardian decision',
   exampleAfter: 'DENY — protected path',
   exampleNote:
-    'This is the same class of check shown on the Warrant MCP product page and in its public test suite. No customer result is claimed.',
+    'This is the same class of check shown on the Warrant MCP product page and in its public test suite. No paid-installation outcome is claimed.',
 } as const;
