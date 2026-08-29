@@ -27,7 +27,8 @@ const isHome = currentPath === '/';
     inset-block-start: 0;
     padding-block: var(--space-3);
     border-block-end: 1px solid var(--border);
-    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(16px);
   }
 
   .site-header__inner {
@@ -51,3 +52,4 @@ const isHome = currentPath === '/';
     }
   }
 </style>
+
