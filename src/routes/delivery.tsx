@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import markdown from "@/content/legal/delivery.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
-import { PageHead, Section } from "@/components/site/primitives";
+import { Section } from "@/components/site/primitives";
+import { PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/delivery")({
   head: () => ({
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/delivery")({
 function DeliveryPage() {
   return (
     <>
-      <PageHead eyebrow="Legal" title="Delivery" />
+      <PageHero badge="Legal" title="Delivery" />
       <Section>
         <LegalDoc markdown={markdown} />
       </Section>

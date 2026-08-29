@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WITHHELD_NOTICE } from "@/content/ledger";
 import { LedgerBlock } from "@/components/site/ledger-block";
-import { PageHead, Section, TermList } from "@/components/site/primitives";
+import { Section, TermList } from "@/components/site/primitives";
+import { CtaBand, PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/security")({
   head: () => ({
@@ -26,13 +27,21 @@ export const Route = createFileRoute("/security")({
 function SecurityPage() {
   return (
     <>
-      <PageHead eyebrow="Security" title={<LedgerBlock id="CB-70" badge={false} bare />} />
+      <PageHero
+        badge="Security"
+        title={<LedgerBlock id="CB-70" badge={false} bare />}
+        primary={{ to: "/contact", label: "Ask For Evidence" }}
+        secondary={{ to: "/trust", label: "Read Trust" }}
+      />
 
-      <Section heading="The gate on this page" id="notice-heading">
-        <LedgerBlock id="CB-71" className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground" />
+      <Section eyebrow="Boundary" heading="The gate on this page" id="notice-heading">
+        <LedgerBlock
+          id="CB-71"
+          className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground"
+        />
       </Section>
 
-      <Section heading="What is true today" id="facts-heading">
+      <Section eyebrow="Evidence" heading="What is true today" id="facts-heading">
         <TermList
           items={["CB-72", "CB-73"].map((id) => ({
             body: <LedgerBlock id={id} />,
@@ -41,9 +50,20 @@ function SecurityPage() {
         <p className="micro-notice mt-8">{WITHHELD_NOTICE}</p>
       </Section>
 
-      <Section heading="Where this page stops" id="boundary-heading">
-        <LedgerBlock id="CB-75" badge={false} className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground" />
+      <Section eyebrow="Limits" heading="Where this page stops" id="boundary-heading">
+        <LedgerBlock
+          id="CB-75"
+          badge={false}
+          className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground"
+        />
       </Section>
+
+      <CtaBand
+        heading="Security review before deployment"
+        lead="We share what exists and name what does not."
+        primary={{ to: "/contact", label: "Contact Us" }}
+        secondary={{ to: "/enterprise", label: "For Enterprise" }}
+      />
     </>
   );
 }
