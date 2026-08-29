@@ -9,19 +9,19 @@
 
 :root {
   /* --- §2 Colour — light theme (default) --------------------------------- */
-  --bg: #f7f9fc;
-  --bg-subtle: #edf2f8;
-  --fg: #0c1424;
-  --fg-muted: #58657a;
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f8;
+  --fg: #09090b;
+  --fg-muted: #52525b;
 
   /* Decorative rules and dividers ONLY — never a UI-component boundary. */
-  --border: #cbd5e1;
+  --border: #e4e4e7;
 
   /* All form-control borders. Verified >=3:1 against --bg and --bg-subtle. */
-  --border-input: #64748b;
-  --border-strong: #475569;
+  --border-input: #a1a1aa;
+  --border-strong: #d4d4d8;
 
-  --accent: #2746d8;
+  --accent: #2563eb;
   --accent-fg: #ffffff;
   --action: #007e7e;
   --action-bright: #00a6a6;
@@ -29,8 +29,8 @@
   --success: #0f6e3d;
 
   /* Hover/active derivations for the primary button (§6.5: ~8% / ~14% darker). */
-  --accent-hover: #1f3bbd;
-  --accent-active: #17308f;
+  --accent-hover: #1d4ed8;
+  --accent-active: #1e40af;
 
   /* --- §3 Typography ----------------------------------------------------- */
   --font-sans:
@@ -172,15 +172,15 @@
 /* --- §2 Colour — dark theme, first-class, driven by the OS setting -------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #070c16;
-    --bg-subtle: #131e31;
-    --fg: #f1f5fb;
-    --fg-muted: #aab7c8;
-    --border: #304059;
-    --border-input: #71839e;
-    --border-strong: #8da0ba;
-    --accent: #8296ff;
-    --accent-fg: #070c16;
+    --bg: #09090b;
+    --bg-subtle: #18181b;
+    --fg: #fafafa;
+    --fg-muted: #a1a1aa;
+    --border: #27272a;
+    --border-input: #71717a;
+    --border-strong: #3f3f46;
+    --accent: #3b82f6;
+    --accent-fg: #ffffff;
     --action: #36d1c7;
     --action-bright: #7ce9e2;
     --danger: #ff8a80;
@@ -213,3 +213,4 @@
     --motion-rise: 0px;
   }
 }
+
