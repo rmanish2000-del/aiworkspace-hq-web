@@ -48,8 +48,7 @@ function WarrantPage() {
       <Section heading={copy.workflowHeading}>
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {copy.workflow.map((s) => (
-            <Card key={s.step}>
-              <span className="eyebrow">{s.step}</span>
+            <Card key={s.label}>
               <h3 className="h3 mt-3">{s.label}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
             </Card>
@@ -72,7 +71,7 @@ function WarrantPage() {
       </Section>
 
       <Section heading={copy.tryHeading} lead={copy.tryBody}>
-        <ButtonLink href={copy.githubHref} variant="outline" className="mt-6">
+        <ButtonLink to={copy.githubHref} variant="secondary" className="mt-6">
           {copy.githubLabel}
         </ButtonLink>
       </Section>

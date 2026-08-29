@@ -10,21 +10,32 @@ export function LedgerBlock(props: {
   id: string;
   className?: string;
   badge?: boolean;
-  as?: "p" | "h1" | "h2";
+  /** Render bare inline text — for nesting inside an existing h1/p wrapper. */
+  bare?: boolean;
 }) {
   const block = ledger[props.id];
   if (!block) return null;
-  const Tag = props.as ?? "p";
   const badge = props.badge ?? true;
+  const badgeEl =
+    badge && block.claim ? (
+      <span className="mt-3 block">
+        <StatusChip tone="verified">Verified · {block.claim}</StatusChip>
+      </span>
+    ) : null;
+
+  if (props.bare) {
+    return (
+      <>
+        {block.copy}
+        {badgeEl}
+      </>
+    );
+  }
 
   return (
-    <span className={cn("block", props.className)}>
-      <Tag className="leading-relaxed">{block.copy}</Tag>
-      {badge && block.claim ? (
-        <span className="mt-3 inline-block">
-          <StatusChip tone="verified">Verified · {block.claim}</StatusChip>
-        </span>
-      ) : null}
-    </span>
+    <div className={cn(props.className)}>
+      <p className="leading-relaxed">{block.copy}</p>
+      {badgeEl}
+    </div>
   );
 }

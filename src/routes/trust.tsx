@@ -28,8 +28,8 @@ function TrustPage() {
     <>
       <PageHead
         eyebrow="Trust"
-        title={<LedgerBlock id="CB-10" badge={false} />}
-        lead={<LedgerBlock id="CB-11" badge={false} />}
+        title={<LedgerBlock id="CB-10" badge={false} bare />}
+        lead={<LedgerBlock id="CB-11" badge={false} bare />}
       />
 
       <Section heading="What we do not have" id="missing-heading">

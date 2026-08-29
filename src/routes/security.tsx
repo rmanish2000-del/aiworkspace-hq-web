@@ -26,7 +26,7 @@ export const Route = createFileRoute("/security")({
 function SecurityPage() {
   return (
     <>
-      <PageHead eyebrow="Security" title={<LedgerBlock id="CB-70" badge={false} />} />
+      <PageHead eyebrow="Security" title={<LedgerBlock id="CB-70" badge={false} bare />} />
 
       <Section heading="The gate on this page" id="notice-heading">
         <LedgerBlock id="CB-71" className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground" />

@@ -12,7 +12,8 @@ function inline(text: string): ReactNode {
   return parts.map((part, i) => {
     const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (link) {
-      const [, label, href] = link;
+      const label = link[1]!;
+      const href = link[2]!;
       const external = href.startsWith("http");
       return (
         <a

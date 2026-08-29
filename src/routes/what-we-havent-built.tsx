@@ -28,8 +28,8 @@ function GapsPage() {
     <>
       <PageHead
         eyebrow="What we have not built"
-        title={<LedgerBlock id="CB-40" badge={false} />}
-        lead={<LedgerBlock id="CB-41" badge={false} />}
+        title={<LedgerBlock id="CB-40" badge={false} bare />}
+        lead={<LedgerBlock id="CB-41" badge={false} bare />}
       />
 
       <Section heading="The gaps" id="gaps-heading">
