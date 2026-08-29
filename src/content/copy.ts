@@ -651,6 +651,7 @@ export const experience = {
     resultLabel: 'Result',
     resultValue: 'Verified · Reviewed',
     auditLabel: 'Accountability trail retained',
+    audienceEyebrow: 'Choose your route',
     audienceHeading: 'Start with the evidence you need.',
     audiences: [
       {
