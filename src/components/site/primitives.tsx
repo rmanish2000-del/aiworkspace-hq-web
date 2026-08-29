@@ -2,6 +2,21 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+/** Hash hrefs bypass typed routes; render a plain anchor for them. */
+function isHashHref(to: string) {
+  return to.includes("#");
+}
+
+function linkClass(variant: "primary" | "secondary", className?: string) {
+  return cn(
+    "inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-colors duration-150",
+    variant === "primary"
+      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+      : "border border-border bg-background text-foreground hover:bg-accent",
+    className,
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Shared primitives for the AI Workspace site.                        */
 /* ------------------------------------------------------------------ */
@@ -78,17 +93,17 @@ export function ButtonLink(props: {
   className?: string;
 }) {
   const variant = props.variant ?? "primary";
+  const cls = linkClass(variant, props.className);
+  if (isHashHref(props.to)) {
+    return (
+      <a href={props.to} className={cls}>
+        {props.children}
+        <span aria-hidden>→</span>
+      </a>
+    );
+  }
   return (
-    <Link
-      to={props.to}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-colors duration-150",
-        variant === "primary"
-          ? "bg-primary text-primary-foreground hover:bg-primary/90"
-          : "border border-border bg-background text-foreground hover:bg-accent",
-        props.className,
-      )}
-    >
+    <Link to={props.to} className={cls}>
       {props.children}
       <span aria-hidden>→</span>
     </Link>
@@ -96,18 +111,27 @@ export function ButtonLink(props: {
 }
 
 export function ArrowLink(props: { to: string; children: ReactNode; className?: string }) {
+  const cls = cn(
+    "group inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary",
+    props.className,
+  );
+  const arrow = (
+    <span aria-hidden className="transition-transform duration-150 group-hover:translate-x-0.5">
+      →
+    </span>
+  );
+  if (isHashHref(props.to)) {
+    return (
+      <a href={props.to} className={cls}>
+        {props.children}
+        {arrow}
+      </a>
+    );
+  }
   return (
-    <Link
-      to={props.to}
-      className={cn(
-        "group inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary",
-        props.className,
-      )}
-    >
+    <Link to={props.to} className={cls}>
       {props.children}
-      <span aria-hidden className="transition-transform duration-150 group-hover:translate-x-0.5">
-        →
-      </span>
+      {arrow}
     </Link>
   );
 }
