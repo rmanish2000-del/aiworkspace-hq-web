@@ -31,12 +31,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <Link
-            to={experience.nav.primaryHref}
+          <a
+            href={experience.nav.primaryHref}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             {experience.nav.primaryAction}
-          </Link>
+          </a>
         </div>
 
         <button
@@ -64,13 +64,13 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              to={experience.nav.primaryHref}
+            <a
+              href={experience.nav.primaryHref}
               onClick={() => setOpen(false)}
               className="mt-4 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
             >
               {experience.nav.primaryAction}
-            </Link>
+            </a>
           </nav>
         </div>
       ) : null}
