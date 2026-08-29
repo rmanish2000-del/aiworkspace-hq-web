@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { about as copy, shared } from "@/content/copy";
-import { ArrowLink, Card, PageHead, Section } from "@/components/site/primitives";
+import { about as copy } from "@/content/copy";
+import { ArrowLink, Card, PageHead, Section, TermList } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -19,62 +19,30 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <>
-      <PageHead title={copy.heading} lead={copy.lead} />
+      <PageHead title={copy.heading} />
 
-      <Section heading={copy.principlesHeading}>
-        <p className="lead mt-2">{copy.principlesBody}</p>
-        <ArrowLink to={copy.principlesLinkHref} className="mt-6 inline-flex">
-          {copy.principlesLinkText}
-        </ArrowLink>
+      <Section heading={copy.whyHeading}>
+        <p className="lead mt-2">{copy.whyBody}</p>
       </Section>
 
-      <Section heading={copy.founderHeading}>
-        <div className="mt-8 grid gap-4 md:grid-cols-[1.2fr_1fr]">
-          <Card>
-            <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">
-              {copy.founderBody}
-            </p>
-          </Card>
-          <Card>
-            <p className="eyebrow">{copy.founderCardLabel}</p>
-            <p className="mt-3 text-lg font-semibold tracking-tight">{copy.founderCardName}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{copy.founderCardBio}</p>
-            <p className="mt-3 font-mono text-xs text-muted-foreground">{copy.founderCardNote}</p>
-          </Card>
-        </div>
+      <Section heading={copy.todayHeading}>
+        <p className="lead mt-2">{copy.todayBody}</p>
       </Section>
 
-      <Section heading={copy.stackHeading}>
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-          {copy.stackItems.map((item) => (
-            <li
-              key={item}
-              className="flex gap-3 rounded-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground"
-            >
-              <span aria-hidden className="text-[var(--color-verified)]">
-                ▸
-              </span>
-              {item}
-            </li>
-          ))}
-        </ul>
+      <Section heading={copy.claimsHeading} lead={copy.claimsLead}>
+        <TermList items={copy.claims.map((c) => ({ body: c }))} />
       </Section>
 
-      <Section>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <p className="eyebrow">{copy.companyHeading}</p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {shared.singleEngineer} {shared.noPricePlan}
-            </p>
-          </Card>
-          <Card>
-            <p className="eyebrow">{copy.originHeading}</p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {copy.originBody}
-            </p>
-          </Card>
-        </div>
+      <Section heading={copy.contactHeading}>
+        <Card className="mt-8 max-w-2xl">
+          <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">
+            {copy.contactBody}
+          </p>
+          <div className="mt-5 flex flex-wrap gap-6">
+            <ArrowLink to="/#interest">{copy.contactRegisterLinkText}</ArrowLink>
+            <ArrowLink to="/contact">{copy.contactContactLinkText}</ArrowLink>
+          </div>
+        </Card>
       </Section>
     </>
   );
