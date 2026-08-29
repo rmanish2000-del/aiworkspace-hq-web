@@ -565,4 +565,6 @@ export function block(id: string): string {
   return b.copy;
 }
 
-export const REVIEW_STAMP = '25 October 2026';
+export const REVIEW_STAMP = '21 August 2026';
+
+export const WITHHELD_NOTICE = 'This statement is withheld until its verification completes. The gap is deliberate.';
