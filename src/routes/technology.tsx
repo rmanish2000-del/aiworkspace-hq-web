@@ -28,8 +28,8 @@ function TechnologyPage() {
     <>
       <PageHead
         eyebrow="Technology"
-        title={<LedgerBlock id="CB-30" badge={false} />}
-        lead={<LedgerBlock id="CB-31" badge={false} />}
+        title={<LedgerBlock id="CB-30" badge={false} bare />}
+        lead={<LedgerBlock id="CB-31" badge={false} bare />}
       />
 
       <Section heading="The exit strategy came first" id="exit-heading">

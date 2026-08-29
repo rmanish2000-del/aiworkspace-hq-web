@@ -28,8 +28,8 @@ function EnterprisePage() {
     <>
       <PageHead
         eyebrow="For enterprise"
-        title={<LedgerBlock id="CB-50" badge={false} />}
-        lead={<LedgerBlock id="CB-51" badge={false} />}
+        title={<LedgerBlock id="CB-50" badge={false} bare />}
+        lead={<LedgerBlock id="CB-51" badge={false} bare />}
       />
 
       <Section heading="The questions" id="questions-heading">
