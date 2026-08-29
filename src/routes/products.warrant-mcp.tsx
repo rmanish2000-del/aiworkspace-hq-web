@@ -1,22 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { warrantMcpProduct as w } from "@/content/copy";
-import { block } from "@/content/ledger";
-import {
-  ArrowLink,
-  Card,
-  PageHead,
-  Section,
-  StatusChip,
-  TermList,
-} from "@/components/site/primitives";
+import { warrantMcpProduct as copy } from "@/content/copy";
+import { LedgerBlock } from "@/components/site/ledger-block";
+import { ArrowLink, ButtonLink, Card, PageHead, Section, TermList } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/products/warrant-mcp")({
   head: () => ({
     meta: [
-      { title: w.metaTitle },
-      { name: "description", content: w.metaDescription },
-      { property: "og:title", content: w.metaTitle },
-      { property: "og:description", content: w.metaDescription },
+      { title: copy.metaTitle },
+      { name: "description", content: copy.metaDescription },
+      { property: "og:title", content: copy.metaTitle },
+      { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -27,82 +20,75 @@ export const Route = createFileRoute("/products/warrant-mcp")({
 function WarrantMcpPage() {
   return (
     <>
-      <PageHead eyebrow="Agent tool policy" title={w.name} lead={w.tagline}>
-        <p className="mt-6">
-          <StatusChip tone="review">{w.referenceBadge}</StatusChip>
-        </p>
-      </PageHead>
+      <PageHead eyebrow={copy.eyebrow} title={copy.heading} lead={copy.lead} />
 
-      <Section heading={w.referenceHeading}>
-        <p className="lead mt-2">{w.referenceBody}</p>
-        <TermList items={w.referencePoints.map((p) => ({ body: p }))} />
-        <ArrowLink to={w.referenceRepoHref} className="mt-8 inline-flex">
-          {w.referenceRepoLabel}
-        </ArrowLink>
+      <Section>
+        <Card className="border-l-2">
+          <p className="text-[0.9375rem] leading-relaxed">{copy.maturity}</p>
+        </Card>
       </Section>
 
-      <Section heading={w.evidenceHeading}>
-        <TermList
-          items={w.evidencePoints.map((p) => ({
-            body: p,
-            badge: <StatusChip tone="verified">{w.evidenceStatus}</StatusChip>,
-          }))}
-        />
+      <Section heading={copy.problemHeading}>
+        <p className="lead mt-4">{copy.problemBody}</p>
       </Section>
 
-      <Section heading={w.claudeHeading}>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          {w.claudeFacts.map((f) => (
-            <Card key={f}>
-              <p className="text-sm leading-relaxed">{f}</p>
+      <Section heading={copy.quickstartHeading} lead={copy.quickstartBody}>
+        <pre
+          aria-label="Warrant MCP installation and first policy check"
+          className="mt-6 overflow-x-auto rounded-md border border-border bg-muted p-5 font-mono text-[0.8125rem] leading-relaxed"
+        >
+          <code>{copy.quickstartCommands.join("\n")}</code>
+        </pre>
+        <ButtonLink href={copy.githubHref} variant="outline" className="mt-6">
+          {copy.installLabel}
+        </ButtonLink>
+      </Section>
+
+      <Section heading={copy.lifecycleHeading}>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          {copy.lifecycle.map((s) => (
+            <Card key={s.step}>
+              <span className="eyebrow">{s.step}</span>
+              <h3 className="h3 mt-3">{s.label}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
             </Card>
           ))}
         </div>
       </Section>
 
-      <Section heading={w.coverageHeading}>
-        <ul className="mt-8 flex flex-wrap gap-2">
-          {w.coverageTools.map((t) => (
-            <li
-              key={t}
-              className="rounded-md border border-border bg-muted/40 px-3 py-1.5 font-mono text-xs"
-            >
-              {t}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {w.coverageBoundary}
-        </p>
-      </Section>
-
-      <Section heading={w.principlesHeading}>
-        <TermList items={w.principlesList.map((p) => ({ body: p }))} />
-        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {block("CB-91")} {block("CB-93")}
-        </p>
-      </Section>
-
-      <Section heading={w.roadmapHeading}>
+      <Section heading={copy.vocabularyHeading} lead={copy.specBody}>
         <TermList
-          items={w.roadmap.map((r) => ({
-            title: r.title,
-            body: r.body,
-            badge: <StatusChip tone="intent">{r.status}</StatusChip>,
+          className="mt-8"
+          items={copy.vocabulary.map((v) => ({ body: v }))}
+        />
+        <ArrowLink to={copy.specHref} className="mt-6 inline-flex">
+          {copy.specLabel}
+        </ArrowLink>
+      </Section>
+
+      <Section heading={copy.capabilitiesHeading}>
+        <TermList
+          items={["CB-91", "CB-92", "CB-93"].map((id) => ({
+            body: <LedgerBlock id={id} />,
           }))}
         />
-        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {block("CB-92")}
-        </p>
       </Section>
 
-      <Section>
-        <p className="lead">{w.ctaLead}</p>
-        <div className="mt-6 flex flex-wrap gap-6">
-          <ArrowLink to={w.ctaRepoHref}>{w.ctaRepo}</ArrowLink>
-          <ArrowLink to="/platform">{w.ctaPlatform}</ArrowLink>
-          <ArrowLink to="/what-we-havent-built">{w.ctaGaps}</ArrowLink>
-        </div>
+      <Section heading={copy.integrationHeading} lead={copy.integrationBody} />
+
+      <Section heading={copy.recordHeading} lead={copy.recordBody} />
+
+      <Section heading={copy.limitationsHeading}>
+        <TermList items={copy.limitations.map((l) => ({ body: l }))} />
+        <ArrowLink to={copy.securityHref} className="mt-6 inline-flex">
+          {copy.securityLabel}
+        </ArrowLink>
+      </Section>
+
+      <Section heading={copy.partnershipHeading} lead={copy.partnershipBody}>
+        <ArrowLink to={copy.partnershipHref} className="mt-6 inline-flex">
+          {copy.partnershipLabel}
+        </ArrowLink>
       </Section>
     </>
   );

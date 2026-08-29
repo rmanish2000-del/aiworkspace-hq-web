@@ -3,7 +3,7 @@ import { experience, products as copy } from "@/content/copy";
 import { LedgerBlock } from "@/components/site/ledger-block";
 import { ArrowLink, Card, PageHead, Section, StatusChip } from "@/components/site/primitives";
 
-export const Route = createFileRoute("/products")({
+export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
       { title: copy.metaTitle },

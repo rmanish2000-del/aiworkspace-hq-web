@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { warrantProduct as w } from "@/content/copy";
-import { block } from "@/content/ledger";
-import { ArrowLink, PageHead, Section, StatusChip, TermList } from "@/components/site/primitives";
+import { warrantProduct as copy } from "@/content/copy";
+import { LedgerBlock } from "@/components/site/ledger-block";
+import { ArrowLink, ButtonLink, Card, PageHead, Section, TermList } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/products/warrant")({
   head: () => ({
     meta: [
-      { title: w.metaTitle },
-      { name: "description", content: w.metaDescription },
-      { property: "og:title", content: w.metaTitle },
-      { property: "og:description", content: w.metaDescription },
+      { title: copy.metaTitle },
+      { name: "description", content: copy.metaDescription },
+      { property: "og:title", content: copy.metaTitle },
+      { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -20,76 +20,75 @@ export const Route = createFileRoute("/products/warrant")({
 function WarrantPage() {
   return (
     <>
-      <PageHead eyebrow="Commerce authorization" title={w.name} lead={w.tagline}>
-        <p className="mt-6 flex flex-wrap items-center gap-3">
-          <StatusChip tone="review">{w.demoBadge}</StatusChip>
-          <span className="text-sm text-muted-foreground">
-            {w.pricing.setup} · {w.pricing.price}
-          </span>
-        </p>
-      </PageHead>
-
-      <Section heading={w.demoHeading}>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          {w.demoOutcomes.map((o) => (
-            <div key={o} className="rounded-lg border border-border bg-card p-5 text-center">
-              <span className="font-mono text-sm font-semibold tracking-wide">{o}</span>
-            </div>
-          ))}
-        </div>
-        <p className="mt-6 text-sm text-muted-foreground">{w.demoNote}</p>
-      </Section>
-
-      <Section heading={w.sandboxHeading}>
-        <TermList
-          items={w.sandboxPoints.map((p) => ({
-            body: p,
-            badge: <StatusChip tone="verified">{w.sandboxStatus}</StatusChip>,
-          }))}
-        />
-        <p className="mt-6 text-sm text-muted-foreground">{block("CB-88")}</p>
-      </Section>
-
-      <Section heading={w.evidenceHeading}>
-        <TermList
-          items={w.evidencePoints.map((p) => ({
-            body: p,
-            badge: <StatusChip tone="verified">{w.evidenceStatus}</StatusChip>,
-          }))}
-        />
-      </Section>
-
-      <Section heading={w.roadmapHeading}>
-        <div className="mt-10 border-t border-border">
-          {w.roadmap.map((r) => (
-            <div
-              key={r.title}
-              className="grid gap-2 border-b border-border py-6 md:grid-cols-[10rem_1fr] md:gap-6"
-            >
-              <StatusChip tone={r.status === "Available today" ? "verified" : "intent"}>
-                {r.status}
-              </StatusChip>
-              <div>
-                <h3 className="text-base font-semibold tracking-tight">{r.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{r.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <p className="mt-6 text-sm text-muted-foreground">{block("CB-89")}</p>
-      </Section>
-
-      <Section heading={w.stackHeading}>
-        <TermList items={w.stackPoints.map((p) => ({ body: p }))} />
-      </Section>
+      <PageHead eyebrow={copy.eyebrow} title={copy.heading} lead={copy.lead} />
 
       <Section>
-        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">{block("CB-90")}</p>
-        <p className="lead mt-6">{w.ctaLead}</p>
-        <div className="mt-6 flex flex-wrap gap-6">
-          <ArrowLink to="/platform">{w.ctaPlatform}</ArrowLink>
-          <ArrowLink to="/what-we-havent-built">{w.ctaGaps}</ArrowLink>
+        <Card className="border-l-2">
+          <p className="text-[0.9375rem] leading-relaxed">{copy.maturity}</p>
+        </Card>
+      </Section>
+
+      <Section heading={copy.audienceHeading}>
+        <ul className="mt-8 grid gap-2 sm:grid-cols-2">
+          {copy.audiences.map((a) => (
+            <li
+              key={a}
+              className="rounded-md border border-border bg-muted px-4 py-3 text-[0.875rem] text-muted-foreground"
+            >
+              {a}
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section heading={copy.problemHeading}>
+        <p className="lead mt-4">{copy.problemBody}</p>
+      </Section>
+
+      <Section heading={copy.workflowHeading}>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          {copy.workflow.map((s) => (
+            <Card key={s.step}>
+              <span className="eyebrow">{s.step}</span>
+              <h3 className="h3 mt-3">{s.label}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </Card>
+          ))}
         </div>
+      </Section>
+
+      <Section heading={copy.refusalHeading}>
+        <Card className="border-l-2 border-l-foreground">
+          <p className="text-[0.9375rem] leading-relaxed">{copy.refusalBody}</p>
+        </Card>
+      </Section>
+
+      <Section heading={copy.capabilitiesHeading}>
+        <TermList
+          items={["CB-88", "CB-89", "CB-90"].map((id) => ({
+            body: <LedgerBlock id={id} />,
+          }))}
+        />
+      </Section>
+
+      <Section heading={copy.tryHeading} lead={copy.tryBody}>
+        <ButtonLink href={copy.githubHref} variant="outline" className="mt-6">
+          {copy.githubLabel}
+        </ButtonLink>
+      </Section>
+
+      <Section heading={copy.trustHeading}>
+        <h3 className="h3 mt-2">{copy.limitationsHeading}</h3>
+        <TermList
+          className="mt-4"
+          items={copy.limitations.map((l) => ({ body: l }))}
+        />
+      </Section>
+
+      <Section heading={copy.partnershipHeading} lead={copy.partnershipBody}>
+        <ArrowLink to={copy.partnershipHref} className="mt-6 inline-flex">
+          {copy.partnershipLabel}
+        </ArrowLink>
       </Section>
     </>
   );
