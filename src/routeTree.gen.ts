@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as BuildingRouteImport } from './routes/building'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PrinciplesRouteImport } from './routes/principles'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
 import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
@@ -20,9 +23,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildingRoute = BuildingRouteImport.update({
+  id: '/building',
+  path: '/building',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrinciplesRoute = PrinciplesRouteImport.update({
+  id: '/principles',
+  path: '/principles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
@@ -43,14 +61,20 @@ const ProductsWarrantMcpRoute = ProductsWarrantMcpRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
   '/platform': typeof PlatformRoute
+  '/principles': typeof PrinciplesRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
   '/platform': typeof PlatformRoute
+  '/principles': typeof PrinciplesRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
@@ -58,7 +82,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
   '/platform': typeof PlatformRoute
+  '/principles': typeof PrinciplesRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -67,21 +94,30 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/building'
     | '/platform'
+    | '/principles'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/building'
     | '/platform'
+    | '/principles'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products'
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/building'
     | '/platform'
+    | '/principles'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -89,7 +125,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BuildingRoute: typeof BuildingRoute
   PlatformRoute: typeof PlatformRoute
+  PrinciplesRoute: typeof PrinciplesRoute
   ProductsWarrantRoute: typeof ProductsWarrantRoute
   ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -104,11 +143,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/building': {
+      id: '/building'
+      path: '/building'
+      fullPath: '/building'
+      preLoaderRoute: typeof BuildingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/platform': {
       id: '/platform'
       path: '/platform'
       fullPath: '/platform'
       preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/principles': {
+      id: '/principles'
+      path: '/principles'
+      fullPath: '/principles'
+      preLoaderRoute: typeof PrinciplesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -137,7 +197,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BuildingRoute: BuildingRoute,
   PlatformRoute: PlatformRoute,
+  PrinciplesRoute: PrinciplesRoute,
   ProductsWarrantRoute: ProductsWarrantRoute,
   ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,
