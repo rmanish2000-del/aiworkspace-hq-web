@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BuildingRouteImport } from './routes/building'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as EnterpriseRouteImport } from './routes/enterprise'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrinciplesRouteImport } from './routes/principles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
@@ -42,6 +44,11 @@ const BuildingRoute = BuildingRouteImport.update({
   path: '/building',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DeliveryRoute = DeliveryRouteImport.update({
   id: '/delivery',
   path: '/delivery',
@@ -55,6 +62,11 @@ const EnterpriseRoute = EnterpriseRouteImport.update({
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrinciplesRoute = PrinciplesRouteImport.update({
@@ -117,9 +129,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -136,9 +150,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -156,9 +172,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -177,9 +195,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/contact'
     | '/delivery'
     | '/enterprise'
     | '/platform'
+    | '/pricing'
     | '/principles'
     | '/privacy'
     | '/refunds'
@@ -196,9 +216,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/contact'
     | '/delivery'
     | '/enterprise'
     | '/platform'
+    | '/pricing'
     | '/principles'
     | '/privacy'
     | '/refunds'
@@ -215,9 +237,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/contact'
     | '/delivery'
     | '/enterprise'
     | '/platform'
+    | '/pricing'
     | '/principles'
     | '/privacy'
     | '/refunds'
@@ -235,9 +259,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BuildingRoute: typeof BuildingRoute
+  ContactRoute: typeof ContactRoute
   DeliveryRoute: typeof DeliveryRoute
   EnterpriseRoute: typeof EnterpriseRoute
   PlatformRoute: typeof PlatformRoute
+  PricingRoute: typeof PricingRoute
   PrinciplesRoute: typeof PrinciplesRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
@@ -274,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuildingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/delivery': {
       id: '/delivery'
       path: '/delivery'
@@ -293,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/platform'
       fullPath: '/platform'
       preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/principles': {
@@ -379,9 +419,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BuildingRoute: BuildingRoute,
+  ContactRoute: ContactRoute,
   DeliveryRoute: DeliveryRoute,
   EnterpriseRoute: EnterpriseRoute,
   PlatformRoute: PlatformRoute,
+  PricingRoute: PricingRoute,
   PrinciplesRoute: PrinciplesRoute,
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
