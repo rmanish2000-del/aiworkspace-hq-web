@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import markdown from "@/content/legal/privacy.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
-import { PageHead, Section } from "@/components/site/primitives";
+import { Section } from "@/components/site/primitives";
+import { PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/privacy")({
 function PrivacyPage() {
   return (
     <>
-      <PageHead eyebrow="Legal" title="Privacy" />
+      <PageHero badge="Legal" title="Privacy" />
       <Section>
         <LegalDoc markdown={markdown} />
       </Section>

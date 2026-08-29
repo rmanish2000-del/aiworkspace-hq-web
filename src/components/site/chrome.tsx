@@ -1,24 +1,32 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
 import { experience, nav } from "@/content/copy";
 import { cn } from "@/lib/utils";
+
+const primaryNav = [
+  { href: "/platform", label: "Platform" },
+  { href: "/products", label: "Products" },
+  { href: "/trust", label: "Trust" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/resources", label: "Resources" },
+] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="border-b border-border bg-background">
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="container-site flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="AI Workspace home">
-          <span className="flex size-6 items-center justify-center rounded-md bg-primary font-mono text-[0.6875rem] font-bold text-primary-foreground">
-            AW
+        <Link to="/" className="flex min-h-11 items-center gap-2.5" aria-label="AI Workspace HQ home">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Shield className="size-4" />
           </span>
-          <span className="text-[0.9375rem] font-semibold tracking-tight">AI Workspace</span>
+          <span className="text-[0.9375rem] font-semibold tracking-tight">AI Workspace HQ</span>
         </Link>
 
-        <nav aria-label={nav.label} className="hidden items-center gap-6 lg:flex">
-          {nav.items.map((item) => (
+        <nav aria-label={nav.label} className="hidden items-center gap-8 lg:flex">
+          {primaryNav.map((item) => (
             <Link
               key={item.href}
               to={item.href}
@@ -33,9 +41,9 @@ export function SiteHeader() {
         <div className="hidden lg:block">
           <a
             href={experience.nav.primaryHref}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex min-h-11 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
-            {experience.nav.primaryAction}
+            Request Early Access
           </a>
         </div>
 
@@ -43,23 +51,24 @@ export function SiteHeader() {
           type="button"
           className="inline-flex size-10 items-center justify-center rounded-md border border-border lg:hidden"
           aria-expanded={open}
-          aria-label={open ? experience.nav.menu : experience.nav.menu}
+          aria-label={experience.nav.menu}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
+
       {open ? (
         <div className="border-t border-border lg:hidden">
           <nav aria-label={nav.label} className="container-site flex flex-col py-4">
             <p className="eyebrow pb-3">{experience.nav.menuEyebrow}</p>
-            {nav.items.map((item) => (
+            {[...primaryNav, ...nav.items.filter((i) => !primaryNav.some((p) => p.href === i.href))].map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-border py-3 text-[0.9375rem] last:border-b-0"
+                className="flex min-h-11 items-center border-b border-border py-3 text-[0.9375rem] last:border-b-0"
               >
                 {item.label}
               </Link>
@@ -67,7 +76,7 @@ export function SiteHeader() {
             <a
               href={experience.nav.primaryHref}
               onClick={() => setOpen(false)}
-              className="mt-4 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
+              className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
             >
               {experience.nav.primaryAction}
             </a>
@@ -130,13 +139,13 @@ export function SiteFooter() {
           {footerColumns.map((col) => (
             <nav key={col.label} aria-label={col.label}>
               <p className="eyebrow">{col.label}</p>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-1 md:mt-4 md:space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       to={link.href}
                       className={cn(
-                        "text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                        "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:min-h-0 md:py-1",
                       )}
                     >
                       {link.label}

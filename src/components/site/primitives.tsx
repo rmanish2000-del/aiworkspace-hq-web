@@ -112,7 +112,7 @@ export function ButtonLink(props: {
 
 export function ArrowLink(props: { to: string; children: ReactNode; className?: string }) {
   const cls = cn(
-    "group inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary",
+    "group inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary sm:min-h-0",
     props.className,
   );
   const arrow = (
