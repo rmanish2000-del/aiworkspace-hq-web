@@ -20,6 +20,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrinciplesRouteImport } from './routes/principles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -84,6 +85,11 @@ const RefundsRoute = RefundsRouteImport.update({
   path: '/refunds',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SecurityRoute = SecurityRouteImport.update({
   id: '/security',
   path: '/security',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   PrinciplesRoute: typeof PrinciplesRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
+  ResourcesRoute: typeof ResourcesRoute
   SecurityRoute: typeof SecurityRoute
   TechnologyRoute: typeof TechnologyRoute
   TermsRoute: typeof TermsRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RefundsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/security': {
       id: '/security'
       path: '/security'
@@ -427,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrinciplesRoute: PrinciplesRoute,
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
+  ResourcesRoute: ResourcesRoute,
   SecurityRoute: SecurityRoute,
   TechnologyRoute: TechnologyRoute,
   TermsRoute: TermsRoute,
