@@ -211,7 +211,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     display: grid;
     gap: var(--space-8);
     align-items: center;
-    padding-block: var(--space-9) var(--space-8);
+    padding-block: var(--space-10) var(--space-9);
   }
 
   .home-hero > * {
@@ -221,9 +221,9 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   .home-hero__copy h1 {
     max-width: 15ch;
     margin-block-start: var(--space-4);
-    font-size: clamp(2.75rem, 1.8rem + 4vw, 5.75rem);
+    font-size: clamp(3rem, 2rem + 4.5vw, 6.25rem);
     font-weight: var(--weight-h1);
-    line-height: 0.98;
+    line-height: 0.94;
     letter-spacing: -0.05em;
     text-wrap: balance;
     overflow-wrap: anywhere;
@@ -387,7 +387,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .capability-section {
     padding: var(--space-8);
-    border-radius: calc(var(--radius) * 2);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
     background: var(--fg);
     color: var(--bg);
   }
@@ -525,7 +526,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     min-width: 0;
     padding: var(--space-6);
     border: 1px solid var(--border-strong);
-    border-radius: calc(var(--radius) * 1.5);
+    border-radius: var(--radius);
     background: var(--bg);
     transition: border-color var(--motion-dur-quick) var(--motion-ease-standard);
   }
@@ -671,7 +672,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   .closing-cta {
     padding: var(--space-8) var(--space-5);
     border-block-start: 2px solid var(--rail-color);
-    border-radius: calc(var(--radius) * 2);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
     background: var(--band-wash);
     text-align: center;
   }
@@ -763,3 +765,4 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     }
   }
 </style>
+
