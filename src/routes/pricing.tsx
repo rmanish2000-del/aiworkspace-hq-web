@@ -132,7 +132,7 @@ function PricingPage() {
 
       <CtaBand
         heading="One price, one system, one record of the work"
-        lead="Start now, or ask questions first — both go to the founder."
+        lead="Start now from checkout, or explore products first."
         primary={{ to: "/checkout", label: "Subscribe" }}
         secondary={{ to: "/products", label: "See Products" }}
       />
