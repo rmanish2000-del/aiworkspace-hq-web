@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
+import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
+import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,34 +30,68 @@ const ProductsIndexRoute = ProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsWarrantRoute = ProductsWarrantRouteImport.update({
+  id: '/products/warrant',
+  path: '/products/warrant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsWarrantMcpRoute = ProductsWarrantMcpRouteImport.update({
+  id: '/products/warrant-mcp',
+  path: '/products/warrant-mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/platform': typeof PlatformRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/platform': typeof PlatformRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/platform': typeof PlatformRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/platform' | '/products/'
+  fullPaths:
+    | '/'
+    | '/platform'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/platform' | '/products'
-  id: '__root__' | '/' | '/platform' | '/products/'
+  to:
+    | '/'
+    | '/platform'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products'
+  id:
+    | '__root__'
+    | '/'
+    | '/platform'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlatformRoute: typeof PlatformRoute
+  ProductsWarrantRoute: typeof ProductsWarrantRoute
+  ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
@@ -82,12 +118,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/warrant': {
+      id: '/products/warrant'
+      path: '/products/warrant'
+      fullPath: '/products/warrant'
+      preLoaderRoute: typeof ProductsWarrantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/warrant-mcp': {
+      id: '/products/warrant-mcp'
+      path: '/products/warrant-mcp'
+      fullPath: '/products/warrant-mcp'
+      preLoaderRoute: typeof ProductsWarrantMcpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlatformRoute: PlatformRoute,
+  ProductsWarrantRoute: ProductsWarrantRoute,
+  ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport

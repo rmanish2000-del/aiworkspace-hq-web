@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 /** Hash hrefs bypass typed routes; render a plain anchor for them. */
 function isHashHref(to: string) {
-  return to.includes("#");
+  return to.includes("#") || to.startsWith("http");
 }
 
 function linkClass(variant: "primary" | "secondary", className?: string) {
