@@ -77,7 +77,9 @@ html {
 /* -------------------------------------------------------------------------- */
 
 body {
-  background-color: var(--bg);
+  background:
+    radial-gradient(circle at 50% -10%, rgb(37 99 235 / 0.17), transparent 36rem), var(--bg);
+  background-attachment: fixed;
   color: var(--fg);
   font-family: var(--font-sans);
   font-size: var(--type-body);
@@ -634,3 +636,4 @@ a:hover {
     padding-block-start: var(--space-11);
   }
 }
+
