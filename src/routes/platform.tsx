@@ -1,14 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { experience, platform as copy } from "@/content/copy";
-import { block } from "@/content/ledger";
-import {
-  ArrowLink,
-  Card,
-  PageHead,
-  Section,
-  StatusChip,
-  TermList,
-} from "@/components/site/primitives";
+import { LedgerBlock } from "@/components/site/ledger-block";
+import { Card, PageHead, Section, TermList } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/platform")({
   head: () => ({
@@ -24,58 +17,48 @@ export const Route = createFileRoute("/platform")({
   component: PlatformPage,
 });
 
-const p = experience.platform;
-
 function PlatformPage() {
   return (
     <>
-      <PageHead eyebrow="The operating layer" title={copy.heading} lead={copy.lead} />
+      <PageHead eyebrow={copy.eyebrow} title={copy.heading} lead={copy.lead} />
 
-      <Section heading={p.flowHeading}>
-        <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-          {p.flowSteps.map((s, i) => (
-            <div key={s.label} className="bg-card p-6">
-              <span className="font-mono text-xs text-muted-foreground">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-3 text-base font-semibold tracking-tight">{s.label}</h3>
-              <p className="mt-1.5 text-sm text-muted-foreground">{s.body}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-6 text-sm text-muted-foreground">{p.summary}</p>
+      <Section eyebrow={copy.problemHeading}>
+        <TermList
+          className="mt-2"
+          items={copy.problems.map((p) => ({
+            title: p.leadIn,
+            body: p.body,
+          }))}
+        />
       </Section>
 
-      <Section eyebrow={copy.surfacesEyebrow} heading={copy.surfacesHeading}>
+      <Section heading={copy.pillarsHeading} lead={copy.pillarsLead}>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {copy.surfaces.map((s) => (
-            <Card key={s.name}>
-              <h3 className="text-base font-semibold tracking-tight">{s.name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+          {copy.pillars.map((p) => (
+            <Card key={p.title}>
+              <h3 className="h3">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
             </Card>
           ))}
         </div>
       </Section>
 
-      <Section id="verified-capability-heading" eyebrow={copy.ledgerEyebrow} heading={copy.ledgerHeading}>
-        <p className="lead mt-5">{copy.ledgerLead}</p>
+      <Section heading={copy.distinctionsHeading} lead={copy.distinctionsLead}>
         <TermList
-          items={["CB-80", "CB-81", "CB-82", "CB-83"].map((id) => ({
-            title: block(id).split(". ")[0] + ".",
-            body: block(id).split(". ").slice(1).join(". ") || undefined,
-            badge: (
-              <StatusChip tone="verified">
-                {copy.ledgerStatusPrefix}: {id}
-              </StatusChip>
-            ),
+          items={copy.distinctions.map((d) => ({
+            title: d.category,
+            body: d.body,
           }))}
         />
-        <div className="mt-8 flex items-center gap-4">
-          <StatusChip tone="review">{block("CB-84")}</StatusChip>
-        </div>
-        <ArrowLink to="/trust" className="mt-8 inline-flex">
-          Review the trust page
-        </ArrowLink>
+      </Section>
+
+      <Section id="verified-capability-heading" eyebrow={copy.verifiedCapabilityHeading} lead={experience.platform.proofLead}>
+        <TermList
+          className="mt-8"
+          items={["CB-80", "CB-81", "CB-82", "CB-83", "CB-84"].map((id) => ({
+            body: <LedgerBlock id={id} />,
+          }))}
+        />
       </Section>
     </>
   );

@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { experience, products as copy } from "@/content/copy";
-import { block } from "@/content/ledger";
+import { LedgerBlock } from "@/components/site/ledger-block";
 import { ArrowLink, Card, PageHead, Section, StatusChip } from "@/components/site/primitives";
 
-export const Route = createFileRoute("/products/")({
+export const Route = createFileRoute("/products")({
   head: () => ({
     meta: [
       { title: copy.metaTitle },
@@ -17,74 +17,59 @@ export const Route = createFileRoute("/products/")({
   component: ProductsPage,
 });
 
-const p = experience.products;
-
 function ProductsPage() {
   return (
     <>
-      <PageHead eyebrow="Products" title={p.heading} lead={p.lead} />
+      <PageHead eyebrow={copy.eyebrow} title={copy.heading} lead={copy.lead} />
 
-      <Section>
-        <div className="grid gap-4 md:grid-cols-2">
-          {copy.cards.map((card) => (
-            <Card key={card.href} className="flex flex-col">
-              <h2 className="h3">{card.name}</h2>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {card.summary}
-              </p>
-              <ArrowLink to={card.href} className="mt-5">
-                {card.linkText}
-              </ArrowLink>
-            </Card>
-          ))}
+      <Section eyebrow={copy.relationHeading} heading={copy.relationLead}>
+        <div className="mt-8 max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground">
+          <LedgerBlock id="CB-87" />
         </div>
       </Section>
 
-      <Section eyebrow="Comparison" heading={p.compareHeading}>
+      <Section heading={copy.familyHeading}>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <Card>
-            <p className="eyebrow">{p.commerceLabel}</p>
-            <p className="mt-3 text-sm font-medium">Warrant</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-              {block("CB-86")}
+          <Card className="flex flex-col">
+            <div className="flex items-center justify-between gap-3">
+              <span className="eyebrow">{experience.home.warrantCard.label}</span>
+              <StatusChip tone="review">{experience.home.warrantCard.status}</StatusChip>
+            </div>
+            <h3 className="h3 mt-4">{copy.warrantTitle}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {copy.warrantSummary}
             </p>
-            <ArrowLink to="/products/warrant" className="mt-4">
-              Explore Warrant
+            <div className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              <LedgerBlock id="CB-85" />
+            </div>
+            <ArrowLink to={copy.warrantHref} className="mt-6">
+              {experience.home.warrantCard.action}
             </ArrowLink>
           </Card>
-          <Card>
-            <p className="eyebrow">{p.toolLabel}</p>
-            <p className="mt-3 text-sm font-medium">Warrant MCP</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-              {block("CB-87")}
+          <Card className="flex flex-col">
+            <div className="flex items-center justify-between gap-3">
+              <span className="eyebrow">{experience.home.warrantMcpCard.label}</span>
+              <StatusChip tone="review">{experience.home.warrantMcpCard.status}</StatusChip>
+            </div>
+            <h3 className="h3 mt-4">{copy.warrantMcpTitle}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {copy.warrantMcpSummary}
             </p>
-            <ArrowLink to="/products/warrant-mcp" className="mt-4">
-              Explore Warrant MCP
+            <div className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              <LedgerBlock id="CB-86" />
+            </div>
+            <ArrowLink to={copy.warrantMcpHref} className="mt-6">
+              {experience.home.warrantMcpCard.action}
             </ArrowLink>
           </Card>
         </div>
-        <div className="mt-6 rounded-lg border border-border bg-muted/40 p-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <StatusChip tone="review">{p.runtimeLabel}</StatusChip>
-            <StatusChip tone="verified">{p.outcomeLabel}</StatusChip>
-          </div>
-          <ul className="mt-5 space-y-2 font-mono text-sm text-muted-foreground">
-            {p.policyPreview.map((line) => (
-              <li key={line} className="flex gap-3">
-                <span aria-hidden className="text-[var(--color-verified)]">
-                  ▸
-                </span>
-                {line}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p className="mt-8 text-sm text-muted-foreground">
-          {copy.boundaryLead}{" "}
-          <ArrowLink to="/what-we-havent-built" className="inline-flex">
-            {copy.boundaryLinkText}
-          </ArrowLink>
-        </p>
+      </Section>
+
+      <Section eyebrow={experience.home.platformCard.label} heading={experience.home.platformCard.title}>
+        <p className="lead mt-2">{experience.home.platformCard.body}</p>
+        <ArrowLink to={experience.home.platformCard.href} className="mt-6 inline-flex">
+          {experience.home.platformCard.action}
+        </ArrowLink>
       </Section>
     </>
   );

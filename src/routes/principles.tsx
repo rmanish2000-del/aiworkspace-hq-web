@@ -19,20 +19,14 @@ export const Route = createFileRoute("/principles")({
 function PrinciplesPage() {
   return (
     <>
-      <PageHead eyebrow={copy.eyebrow} title={page.heading} lead={page.lead} />
+      <PageHead title={copy.heading} lead={page.lead} />
 
       <Section>
         <TermList
+          className="mt-2"
           items={copy.items.map((p) => ({
-            index: p.index,
-            title: p.name,
-            body: (
-              <>
-                <span className="text-foreground">{p.statement}</span>
-                <br />
-                {p.detail}
-              </>
-            ),
+            title: p.title,
+            body: p.gloss,
           }))}
         />
       </Section>
