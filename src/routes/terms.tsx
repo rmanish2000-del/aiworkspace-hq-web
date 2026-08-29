@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import markdown from "@/content/legal/terms.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
-import { PageHead, Section } from "@/components/site/primitives";
+import { Section } from "@/components/site/primitives";
+import { PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/terms")({
 function TermsPage() {
   return (
     <>
-      <PageHead eyebrow="Legal" title="Terms" />
+      <PageHero badge="Legal" title="Terms" />
       <Section>
         <LegalDoc markdown={markdown} />
       </Section>

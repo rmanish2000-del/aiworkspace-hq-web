@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { principles as copy, principlesPage as page } from "@/content/copy";
-import { PageHead, Section, TermList } from "@/components/site/primitives";
+import { Section, TermList } from "@/components/site/primitives";
+import { CtaBand, PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/principles")({
   head: () => ({
@@ -19,9 +20,15 @@ export const Route = createFileRoute("/principles")({
 function PrinciplesPage() {
   return (
     <>
-      <PageHead title={copy.heading} lead={page.lead} />
+      <PageHero
+        badge="Principles"
+        title={copy.heading}
+        lead={page.lead}
+        primary={{ to: "/trust", label: "Read Trust" }}
+        secondary={{ to: "/what-we-havent-built", label: "What We Haven't Built" }}
+      />
 
-      <Section>
+      <Section eyebrow="The rules" heading="What we hold ourselves to">
         <TermList
           className="mt-2"
           items={copy.items.map((p) => ({
@@ -31,9 +38,16 @@ function PrinciplesPage() {
         />
       </Section>
 
-      <Section heading={page.meaningHeading}>
+      <Section eyebrow="In practice" heading={page.meaningHeading}>
         <TermList items={page.meaningPoints.map((p) => ({ body: p }))} />
       </Section>
+
+      <CtaBand
+        heading="Hold us to these in an evaluation"
+        lead="Ask for the evidence behind any principle on this page."
+        primary={{ to: "/contact", label: "Contact Us" }}
+        secondary={{ to: "/resources", label: "Browse Resources" }}
+      />
     </>
   );
 }

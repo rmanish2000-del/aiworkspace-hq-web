@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import markdown from "@/content/legal/refunds.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
-import { PageHead, Section } from "@/components/site/primitives";
+import { Section } from "@/components/site/primitives";
+import { PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/refunds")({
   head: () => ({
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/refunds")({
 function RefundsPage() {
   return (
     <>
-      <PageHead eyebrow="Legal" title="Refunds" />
+      <PageHero badge="Legal" title="Refunds" />
       <Section>
         <LegalDoc markdown={markdown} />
       </Section>

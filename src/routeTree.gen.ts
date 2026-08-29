@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BuildingRouteImport } from './routes/building'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as EnterpriseRouteImport } from './routes/enterprise'
@@ -20,6 +21,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrinciplesRouteImport } from './routes/principles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -28,6 +30,11 @@ import { Route as WhatWeHaventBuiltRouteImport } from './routes/what-we-havent-b
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
 import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
+import { Route as ApiRazorpayCreateSubscriptionRouteImport } from './routes/api/razorpay/create-subscription'
+import { Route as ApiRazorpayReadinessRouteImport } from './routes/api/razorpay/readiness'
+import { Route as ApiRazorpayReturnRouteImport } from './routes/api/razorpay/return'
+import { Route as ApiRazorpaySubscriptionStatusRouteImport } from './routes/api/razorpay/subscription-status'
+import { Route as ApiRazorpayWebhookRouteImport } from './routes/api/razorpay/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -42,6 +49,11 @@ const AboutRoute = AboutRouteImport.update({
 const BuildingRoute = BuildingRouteImport.update({
   id: '/building',
   path: '/building',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -84,6 +96,11 @@ const RefundsRoute = RefundsRouteImport.update({
   path: '/refunds',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SecurityRoute = SecurityRouteImport.update({
   id: '/security',
   path: '/security',
@@ -124,11 +141,39 @@ const ProductsWarrantMcpRoute = ProductsWarrantMcpRouteImport.update({
   path: '/products/warrant-mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRazorpayCreateSubscriptionRoute =
+  ApiRazorpayCreateSubscriptionRouteImport.update({
+    id: '/api/razorpay/create-subscription',
+    path: '/api/razorpay/create-subscription',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiRazorpayReadinessRoute = ApiRazorpayReadinessRouteImport.update({
+  id: '/api/razorpay/readiness',
+  path: '/api/razorpay/readiness',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRazorpayReturnRoute = ApiRazorpayReturnRouteImport.update({
+  id: '/api/razorpay/return',
+  path: '/api/razorpay/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRazorpaySubscriptionStatusRoute =
+  ApiRazorpaySubscriptionStatusRouteImport.update({
+    id: '/api/razorpay/subscription-status',
+    path: '/api/razorpay/subscription-status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiRazorpayWebhookRoute = ApiRazorpayWebhookRouteImport.update({
+  id: '/api/razorpay/webhook',
+  path: '/api/razorpay/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
@@ -137,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -145,11 +191,17 @@ export interface FileRoutesByFullPath {
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/razorpay/create-subscription': typeof ApiRazorpayCreateSubscriptionRoute
+  '/api/razorpay/readiness': typeof ApiRazorpayReadinessRoute
+  '/api/razorpay/return': typeof ApiRazorpayReturnRoute
+  '/api/razorpay/subscription-status': typeof ApiRazorpaySubscriptionStatusRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
@@ -158,6 +210,7 @@ export interface FileRoutesByTo {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -166,12 +219,18 @@ export interface FileRoutesByTo {
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
+  '/api/razorpay/create-subscription': typeof ApiRazorpayCreateSubscriptionRoute
+  '/api/razorpay/readiness': typeof ApiRazorpayReadinessRoute
+  '/api/razorpay/return': typeof ApiRazorpayReturnRoute
+  '/api/razorpay/subscription-status': typeof ApiRazorpaySubscriptionStatusRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
@@ -180,6 +239,7 @@ export interface FileRoutesById {
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
+  '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
@@ -188,6 +248,11 @@ export interface FileRoutesById {
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/razorpay/create-subscription': typeof ApiRazorpayCreateSubscriptionRoute
+  '/api/razorpay/readiness': typeof ApiRazorpayReadinessRoute
+  '/api/razorpay/return': typeof ApiRazorpayReturnRoute
+  '/api/razorpay/subscription-status': typeof ApiRazorpaySubscriptionStatusRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -195,6 +260,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/checkout'
     | '/contact'
     | '/delivery'
     | '/enterprise'
@@ -203,6 +269,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -211,11 +278,17 @@ export interface FileRouteTypes {
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
+    | '/api/razorpay/create-subscription'
+    | '/api/razorpay/readiness'
+    | '/api/razorpay/return'
+    | '/api/razorpay/subscription-status'
+    | '/api/razorpay/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/building'
+    | '/checkout'
     | '/contact'
     | '/delivery'
     | '/enterprise'
@@ -224,6 +297,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -232,11 +306,17 @@ export interface FileRouteTypes {
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products'
+    | '/api/razorpay/create-subscription'
+    | '/api/razorpay/readiness'
+    | '/api/razorpay/return'
+    | '/api/razorpay/subscription-status'
+    | '/api/razorpay/webhook'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/building'
+    | '/checkout'
     | '/contact'
     | '/delivery'
     | '/enterprise'
@@ -245,6 +325,7 @@ export interface FileRouteTypes {
     | '/principles'
     | '/privacy'
     | '/refunds'
+    | '/resources'
     | '/security'
     | '/technology'
     | '/terms'
@@ -253,12 +334,18 @@ export interface FileRouteTypes {
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
+    | '/api/razorpay/create-subscription'
+    | '/api/razorpay/readiness'
+    | '/api/razorpay/return'
+    | '/api/razorpay/subscription-status'
+    | '/api/razorpay/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BuildingRoute: typeof BuildingRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   DeliveryRoute: typeof DeliveryRoute
   EnterpriseRoute: typeof EnterpriseRoute
@@ -267,6 +354,7 @@ export interface RootRouteChildren {
   PrinciplesRoute: typeof PrinciplesRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
+  ResourcesRoute: typeof ResourcesRoute
   SecurityRoute: typeof SecurityRoute
   TechnologyRoute: typeof TechnologyRoute
   TermsRoute: typeof TermsRoute
@@ -275,6 +363,11 @@ export interface RootRouteChildren {
   ProductsWarrantRoute: typeof ProductsWarrantRoute
   ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
+  ApiRazorpayCreateSubscriptionRoute: typeof ApiRazorpayCreateSubscriptionRoute
+  ApiRazorpayReadinessRoute: typeof ApiRazorpayReadinessRoute
+  ApiRazorpayReturnRoute: typeof ApiRazorpayReturnRoute
+  ApiRazorpaySubscriptionStatusRoute: typeof ApiRazorpaySubscriptionStatusRoute
+  ApiRazorpayWebhookRoute: typeof ApiRazorpayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -298,6 +391,13 @@ declare module '@tanstack/react-router' {
       path: '/building'
       fullPath: '/building'
       preLoaderRoute: typeof BuildingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -356,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RefundsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/security': {
       id: '/security'
       path: '/security'
@@ -412,6 +519,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsWarrantMcpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/razorpay/create-subscription': {
+      id: '/api/razorpay/create-subscription'
+      path: '/api/razorpay/create-subscription'
+      fullPath: '/api/razorpay/create-subscription'
+      preLoaderRoute: typeof ApiRazorpayCreateSubscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/razorpay/readiness': {
+      id: '/api/razorpay/readiness'
+      path: '/api/razorpay/readiness'
+      fullPath: '/api/razorpay/readiness'
+      preLoaderRoute: typeof ApiRazorpayReadinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/razorpay/return': {
+      id: '/api/razorpay/return'
+      path: '/api/razorpay/return'
+      fullPath: '/api/razorpay/return'
+      preLoaderRoute: typeof ApiRazorpayReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/razorpay/subscription-status': {
+      id: '/api/razorpay/subscription-status'
+      path: '/api/razorpay/subscription-status'
+      fullPath: '/api/razorpay/subscription-status'
+      preLoaderRoute: typeof ApiRazorpaySubscriptionStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/razorpay/webhook': {
+      id: '/api/razorpay/webhook'
+      path: '/api/razorpay/webhook'
+      fullPath: '/api/razorpay/webhook'
+      preLoaderRoute: typeof ApiRazorpayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -419,6 +561,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BuildingRoute: BuildingRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   DeliveryRoute: DeliveryRoute,
   EnterpriseRoute: EnterpriseRoute,
@@ -427,6 +570,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrinciplesRoute: PrinciplesRoute,
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
+  ResourcesRoute: ResourcesRoute,
   SecurityRoute: SecurityRoute,
   TechnologyRoute: TechnologyRoute,
   TermsRoute: TermsRoute,
@@ -435,6 +579,11 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsWarrantRoute: ProductsWarrantRoute,
   ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,
+  ApiRazorpayCreateSubscriptionRoute: ApiRazorpayCreateSubscriptionRoute,
+  ApiRazorpayReadinessRoute: ApiRazorpayReadinessRoute,
+  ApiRazorpayReturnRoute: ApiRazorpayReturnRoute,
+  ApiRazorpaySubscriptionStatusRoute: ApiRazorpaySubscriptionStatusRoute,
+  ApiRazorpayWebhookRoute: ApiRazorpayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
