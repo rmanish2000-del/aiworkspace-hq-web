@@ -39,16 +39,16 @@ function WarrantMcpPage() {
         >
           <code>{copy.quickstartCommands.join("\n")}</code>
         </pre>
-        <ButtonLink href={copy.githubHref} variant="outline" className="mt-6">
+        <ButtonLink to={copy.githubHref} variant="secondary" className="mt-6">
           {copy.installLabel}
         </ButtonLink>
       </Section>
 
       <Section heading={copy.lifecycleHeading}>
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {copy.lifecycle.map((s) => (
-            <Card key={s.step}>
-              <span className="eyebrow">{s.step}</span>
+          {copy.lifecycle.map((s, i) => (
+            <Card key={s.label}>
+              <span className="eyebrow">{i + 1}</span>
               <h3 className="h3 mt-3">{s.label}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
             </Card>
