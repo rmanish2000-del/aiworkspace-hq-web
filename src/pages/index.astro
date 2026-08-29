@@ -33,7 +33,10 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   </section>
 
   <nav class="audience-nav" aria-labelledby="audience-heading">
-    <h2 id="audience-heading">{home.audienceHeading}</h2>
+    <div class="audience-nav__intro">
+      <p class="eyebrow">{home.audienceEyebrow}</p>
+      <h2 id="audience-heading">{home.audienceHeading}</h2>
+    </div>
     <ul>
       {
         home.audiences.map((audience) => (
@@ -116,6 +119,27 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     </ol>
   </section>
 
+  <section class="evidence-section" aria-labelledby="evidence-heading">
+    <div class="section-intro">
+      <p class="eyebrow">{home.evidenceEyebrow}</p>
+      <h2 id="evidence-heading">{home.evidenceHeading}</h2>
+      <p>{home.evidenceLead}</p>
+    </div>
+    <dl class="evidence-key">
+      {
+        home.evidenceItems.map((item) => (
+          <div>
+            <>
+              <dt>{item.label}</dt>
+              <dd>{item.body}</dd>
+            </>
+          </div>
+        ))
+      }
+    </dl>
+    <div class="evidence-section__proof"><LedgerBlock id="CB-84" /></div>
+  </section>
+
   <section class="portfolio-section" aria-labelledby="portfolio-heading">
     <div class="section-intro">
       <p class="eyebrow">{home.portfolioEyebrow}</p>
@@ -153,27 +177,6 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     </div>
   </section>
 
-  <section class="evidence-section" aria-labelledby="evidence-heading">
-    <div class="section-intro">
-      <p class="eyebrow">{home.evidenceEyebrow}</p>
-      <h2 id="evidence-heading">{home.evidenceHeading}</h2>
-      <p>{home.evidenceLead}</p>
-    </div>
-    <dl class="evidence-key">
-      {
-        home.evidenceItems.map((item) => (
-          <div>
-            <>
-              <dt>{item.label}</dt>
-              <dd>{item.body}</dd>
-            </>
-          </div>
-        ))
-      }
-    </dl>
-    <div class="evidence-section__proof"><LedgerBlock id="CB-84" /></div>
-  </section>
-
   <section class="developer-section" aria-labelledby="developer-heading">
     <div class="section-intro">
       <p class="eyebrow">{home.developerEyebrow}</p>
@@ -208,10 +211,21 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
 <style>
   .home-hero {
+    position: relative;
     display: grid;
     gap: var(--space-8);
     align-items: center;
-    padding-block: var(--space-10) var(--space-9);
+    padding-block: var(--space-10);
+  }
+
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 4% -20vw 0 42%;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgb(37 99 235 / 0.14), transparent 68%);
+    pointer-events: none;
   }
 
   .home-hero > * {
@@ -219,7 +233,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .home-hero__copy h1 {
-    max-width: 15ch;
+    max-width: 12ch;
     margin-block-start: var(--space-4);
     font-size: clamp(3rem, 2rem + 4.5vw, 6.25rem);
     font-weight: var(--weight-h1);
@@ -230,7 +244,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .home-hero__lead {
-    max-width: 62ch;
+    max-width: 54ch;
     margin-block-start: var(--space-5);
     color: var(--fg-muted);
     font-size: var(--type-hero-supporting);
@@ -261,12 +275,19 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .audience-nav {
+    display: grid;
+    gap: var(--space-6);
     padding-block: var(--space-7);
     border-block: 1px solid var(--border);
   }
 
+  .audience-nav__intro {
+    max-width: 32rem;
+  }
+
   .audience-nav h2 {
     max-width: 24ch;
+    margin-block-start: var(--space-2);
     font-size: var(--type-h2);
     line-height: var(--leading-h2);
   }
@@ -274,7 +295,6 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   .audience-nav ul {
     display: grid;
     gap: var(--space-3);
-    margin-block-start: var(--space-6);
   }
 
   .audience-nav a {
@@ -282,9 +302,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     display: grid;
     gap: var(--space-1);
     min-height: 100%;
-    padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-10) var(--space-4) 0;
+    border-block-start: 1px solid var(--border);
     color: var(--fg);
     text-decoration: none;
   }
@@ -304,8 +323,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .audience-nav a:hover {
-    border-color: var(--border-strong);
-    background: var(--bg-subtle);
+    border-color: var(--accent);
   }
 
   .audience-nav a > span:first-child {
@@ -337,6 +355,12 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .section-intro {
     max-width: 65ch;
+  }
+
+  .split-section .section-intro h2 {
+    max-width: 13ch;
+    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 5.5rem);
+    line-height: 0.98;
   }
 
   .section-intro h2,
@@ -386,7 +410,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   }
 
   .capability-section {
-    padding: var(--space-8);
+    position: relative;
+    padding: clamp(var(--space-7), 5vw, var(--space-10));
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) * 1.5);
     background: var(--fg);
@@ -416,7 +441,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .capability-card {
     min-width: 0;
-    padding: var(--space-6);
+    padding: clamp(var(--space-5), 3vw, var(--space-7));
     background: var(--fg);
   }
 
@@ -428,7 +453,8 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .capability-card h3 {
     margin-block-start: var(--space-7);
-    font-size: var(--type-h2);
+    max-width: 12ch;
+    font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem);
     line-height: 1.15;
   }
 
@@ -468,7 +494,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   .method-grid li {
     position: relative;
-    padding: var(--space-5);
+    padding: var(--space-5) var(--space-5) var(--space-6);
     border-block-start: 2px solid var(--rail-color);
     transition: background-color var(--motion-dur-quick) var(--motion-ease-standard);
   }
@@ -589,8 +615,10 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   .evidence-section {
     display: grid;
     gap: var(--space-7);
-    padding-block: var(--space-8);
-    border-block: 1px solid var(--border);
+    padding: clamp(var(--space-7), 5vw, var(--space-10));
+    border: 1px solid var(--border-strong);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--bg-subtle);
   }
 
   .evidence-key {
@@ -602,7 +630,7 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
   .evidence-key > div {
     padding: var(--space-5);
     border-inline-start: 3px solid var(--accent);
-    background: var(--bg-subtle);
+    background: var(--bg);
   }
 
   .evidence-key dt {
@@ -669,10 +697,15 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     margin-block-start: var(--space-5);
   }
 
+  .developer-section {
+    align-items: center;
+    padding-block: var(--space-8);
+    border-block: 1px solid var(--border);
+  }
+
   .closing-cta {
-    padding: var(--space-8) var(--space-5);
-    border-block-start: 2px solid var(--rail-color);
-    border: 1px solid var(--border);
+    padding: clamp(var(--space-8), 7vw, var(--space-11)) var(--space-5);
+    border: 1px solid var(--border-strong);
     border-radius: calc(var(--radius) * 1.5);
     background: var(--band-wash);
     text-align: center;
@@ -701,9 +734,14 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
 
   @media (min-width: 900px) {
     .home-hero {
-      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(380px, 0.85fr);
       gap: var(--space-9);
-      min-height: 720px;
+      min-height: 760px;
+    }
+
+    .audience-nav {
+      grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+      align-items: end;
     }
 
     .split-section,
@@ -718,12 +756,15 @@ const portfolio = [home.platformCard, home.warrantCard, home.warrantMcpCard] as 
     }
 
     .method-grid {
-      /* Word-safe minimum: squeezing below ~150px broke headings mid-word. */
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .portfolio-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .portfolio-card--primary {
+      grid-column: span 2;
     }
 
     .evidence-section {
