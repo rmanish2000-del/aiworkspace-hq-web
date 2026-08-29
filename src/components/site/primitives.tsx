@@ -103,7 +103,7 @@ export function ButtonLink(props: {
     );
   }
   return (
-    <Link to={props.to} className={cls}>
+    <Link to={props.to as "/"} className={cls}>
       {props.children}
       <span aria-hidden>→</span>
     </Link>
@@ -129,7 +129,7 @@ export function ArrowLink(props: { to: string; children: ReactNode; className?: 
     );
   }
   return (
-    <Link to={props.to} className={cls}>
+    <Link to={props.to as "/"} className={cls}>
       {props.children}
       {arrow}
     </Link>
