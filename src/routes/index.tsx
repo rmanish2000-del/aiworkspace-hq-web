@@ -130,7 +130,10 @@ function HomePage() {
             </div>
             <p className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
               <StatusChip tone="review">{h.stage}</StatusChip>
-              <Link to={h.pricingHref} className="link-quiet font-medium">
+              <Link
+                to={h.pricingHref}
+                className="link-quiet inline-flex min-h-11 items-center font-medium sm:min-h-0"
+              >
                 {h.pricingAction} →
               </Link>
             </p>

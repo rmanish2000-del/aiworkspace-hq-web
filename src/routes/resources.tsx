@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowLink, Card, PageHead, Section } from "@/components/site/primitives";
+import { ArrowLink, Card, Section } from "@/components/site/primitives";
+import { CtaBand, PageHero } from "@/components/site/page-shell";
+import { Reveal } from "@/components/site/motion";
 
 const title = "Resources — AI Workspace HQ";
 const description =
@@ -31,24 +33,36 @@ const resources = [
 function ResourcesPage() {
   return (
     <>
-      <PageHead
-        eyebrow="Resources"
+      <PageHero
+        badge="Resources"
         title="Everything we publish, in one place"
         lead="Evidence before claims. Each page below states what exists today and what does not."
+        primary={{ to: "/platform", label: "Explore Platform" }}
+        secondary={{ to: "/contact", label: "Contact Us" }}
       />
-      <Section>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {resources.map((r) => (
-            <Card key={r.href} className="flex h-full flex-col transition-colors hover:border-primary/40">
-              <h2 className="text-base font-semibold tracking-tight">{r.title}</h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{r.body}</p>
-              <ArrowLink to={r.href} className="mt-5">
-                Open
-              </ArrowLink>
-            </Card>
+
+      <Section eyebrow="Library" heading="Read before you evaluate">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {resources.map((r, i) => (
+            <Reveal key={r.href} delay={i * 50}>
+              <Card className="flex h-full flex-col transition-colors duration-200 hover:border-primary/40">
+                <h2 className="text-base font-semibold tracking-tight">{r.title}</h2>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{r.body}</p>
+                <ArrowLink to={r.href} className="mt-5">
+                  Open
+                </ArrowLink>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Section>
+
+      <CtaBand
+        heading="Still have an open question?"
+        lead="Ask for the record behind any claim on these pages."
+        primary={{ to: "/contact", label: "Contact Us" }}
+        secondary={{ to: "/trust", label: "Read Trust" }}
+      />
     </>
   );
 }

@@ -18,7 +18,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="container-site flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="AI Workspace HQ home">
+        <Link to="/" className="flex min-h-11 items-center gap-2.5" aria-label="AI Workspace HQ home">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Shield className="size-4" />
           </span>
@@ -139,13 +139,13 @@ export function SiteFooter() {
           {footerColumns.map((col) => (
             <nav key={col.label} aria-label={col.label}>
               <p className="eyebrow">{col.label}</p>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-1 md:mt-4 md:space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       to={link.href}
                       className={cn(
-                        "text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                        "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:min-h-0 md:py-1",
                       )}
                     >
                       {link.label}

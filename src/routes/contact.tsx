@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { contact as copy } from "@/content/copy";
-import { ArrowLink, Card, PageHead, Section } from "@/components/site/primitives";
+import { ArrowLink, Card, Section } from "@/components/site/primitives";
+import { CtaBand, PageHero } from "@/components/site/page-shell";
+import { Reveal } from "@/components/site/motion";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -22,13 +24,16 @@ function ContactPage() {
   const lead = copy.lead.split("contact routes");
   return (
     <>
-      <PageHead
-        eyebrow={copy.heading}
+      <PageHero
+        badge={copy.heading}
         title={copy.heading}
         lead={
           <>
             {lead[0]}
-            <a href={`mailto:${EMAIL}`} className="text-foreground underline underline-offset-4 hover:text-primary">
+            <a
+              href={`mailto:${EMAIL}`}
+              className="text-foreground underline underline-offset-4 hover:text-primary"
+            >
               contact routes
             </a>
             {lead[1] ?? ""}
@@ -36,45 +41,60 @@ function ContactPage() {
         }
       />
 
-      <Section heading={copy.generalHeading}>
-        <Card className="max-w-xl">
-          <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">
-            For anything not covered below, email us. A person reads and answers.
-          </p>
-          <ArrowLink to={`mailto:${EMAIL}`} className="mt-4">
-            {EMAIL}
-          </ArrowLink>
-        </Card>
-      </Section>
-
-      <Section heading={copy.privacyHeading}>
-        <Card className="max-w-xl">
-          <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">{copy.privacyBody}</p>
-          <ArrowLink to="/privacy" className="mt-4">
-            {copy.privacyLinkText}
-          </ArrowLink>
-        </Card>
-      </Section>
-
-      <Section heading={copy.securityHeading}>
-        <Card className="max-w-xl">
-          <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">{copy.securityBody}</p>
-          <ArrowLink to={`mailto:${EMAIL}`} className="mt-4">
-            {EMAIL}
-          </ArrowLink>
-        </Card>
+      <Section>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {[
+            {
+              heading: copy.generalHeading,
+              body: "For anything not covered below, email us. A person reads and answers.",
+              link: { to: `mailto:${EMAIL}`, label: EMAIL },
+            },
+            {
+              heading: copy.privacyHeading,
+              body: copy.privacyBody,
+              link: { to: "/privacy", label: copy.privacyLinkText },
+            },
+            {
+              heading: copy.securityHeading,
+              body: copy.securityBody,
+              link: { to: `mailto:${EMAIL}`, label: EMAIL },
+            },
+          ].map((c, i) => (
+            <Reveal key={c.heading} delay={i * 60}>
+              <Card className="flex h-full flex-col transition-colors duration-200 hover:border-primary/40">
+                <h2 className="h3">{c.heading}</h2>
+                <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {c.body}
+                </p>
+                <ArrowLink to={c.link.to} className="mt-5">
+                  {c.link.label}
+                </ArrowLink>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section heading={copy.locationHeading}>
-        <p className="max-w-xl text-[0.9375rem] leading-relaxed text-muted-foreground">
+        <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground">
           The registered entity name and address are pending legal confirmation and are deliberately
           not published yet. This gap is documented on the{" "}
-          <Link to="/what-we-havent-built" className="text-foreground underline underline-offset-4 hover:text-primary">
+          <Link
+            to="/what-we-havent-built"
+            className="text-foreground underline underline-offset-4 hover:text-primary"
+          >
             what we have not built
           </Link>{" "}
           page.
         </p>
       </Section>
+
+      <CtaBand
+        heading="Everything we publish, in one place"
+        lead="Technology, security, principles and the gap list are open to read before you talk to us."
+        primary={{ to: "/resources", label: "Browse Resources" }}
+        secondary={{ to: "/platform", label: "Explore Platform" }}
+      />
     </>
   );
 }

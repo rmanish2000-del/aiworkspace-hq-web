@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { warrantMcpProduct as copy } from "@/content/copy";
 import { LedgerBlock } from "@/components/site/ledger-block";
-import { ArrowLink, ButtonLink, Card, PageHead, Section, TermList } from "@/components/site/primitives";
+import { ArrowLink, ButtonLink, Card, Section, TermList } from "@/components/site/primitives";
+import { CtaBand, PageHero } from "@/components/site/page-shell";
 
 export const Route = createFileRoute("/products/warrant-mcp")({
   head: () => ({
@@ -20,13 +21,20 @@ export const Route = createFileRoute("/products/warrant-mcp")({
 function WarrantMcpPage() {
   return (
     <>
-      <PageHead eyebrow={copy.eyebrow} title={copy.heading} lead={copy.lead} />
+      <PageHero
+        badge={copy.eyebrow}
+        title={copy.heading}
+        lead={copy.lead}
+        primary={{ to: copy.githubHref, label: copy.installLabel }}
+        secondary={{ to: "/products", label: "All Products" }}
+        aside={
+          <Card className="border-l-2">
+            <span className="eyebrow">Maturity</span>
+            <p className="mt-3 text-[0.9375rem] leading-relaxed">{copy.maturity}</p>
+          </Card>
+        }
+      />
 
-      <Section>
-        <Card className="border-l-2">
-          <p className="text-[0.9375rem] leading-relaxed">{copy.maturity}</p>
-        </Card>
-      </Section>
 
       <Section heading={copy.problemHeading}>
         <p className="lead mt-4">{copy.problemBody}</p>
@@ -90,6 +98,14 @@ function WarrantMcpPage() {
           {copy.partnershipLabel}
         </ArrowLink>
       </Section>
+
+      <CtaBand
+        heading="Add policy checks to your MCP toolchain"
+        lead="Install the server, run a first check, and keep the record."
+        primary={{ to: copy.githubHref, label: copy.installLabel }}
+        secondary={{ to: "/contact", label: "Contact Us" }}
+      />
     </>
+
   );
 }
