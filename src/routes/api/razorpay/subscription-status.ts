@@ -28,7 +28,7 @@ export const Route = createFileRoute("/api/razorpay/subscription-status")({
             console.error("razorpay: status lookup failed", upstream.status);
             return Response.json(
               { error: "not found" },
-              { status: upstream.status === 400 ? 404 : 500 },
+              { status: upstream.status === 400 || upstream.status === 404 ? 404 : 500 },
             );
           }
           return Response.json({

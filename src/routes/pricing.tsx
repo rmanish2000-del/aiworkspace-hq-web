@@ -101,7 +101,7 @@ function PricingPage() {
             },
             {
               title: "Where you subscribe",
-              body: "Subscribe on /checkout. The same flat price applies whether you are one person or a team.",
+              body: "Subscribe on the checkout page. The same flat price applies whether you are one person or a team.",
             },
             {
               title: "Questions before paying",
@@ -132,7 +132,7 @@ function PricingPage() {
 
       <CtaBand
         heading="One price, one system, one record of the work"
-        lead="Start now, or ask questions first — both go to the founder."
+        lead="Start now from checkout, or explore products first."
         primary={{ to: "/checkout", label: "Subscribe" }}
         secondary={{ to: "/products", label: "See Products" }}
       />
