@@ -12,8 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BuildingRouteImport } from './routes/building'
+import { Route as EnterpriseRouteImport } from './routes/enterprise'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PrinciplesRouteImport } from './routes/principles'
+import { Route as SecurityRouteImport } from './routes/security'
+import { Route as TechnologyRouteImport } from './routes/technology'
+import { Route as TrustRouteImport } from './routes/trust'
+import { Route as WhatWeHaventBuiltRouteImport } from './routes/what-we-havent-built'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
 import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
@@ -33,6 +38,11 @@ const BuildingRoute = BuildingRouteImport.update({
   path: '/building',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnterpriseRoute = EnterpriseRouteImport.update({
+  id: '/enterprise',
+  path: '/enterprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -41,6 +51,26 @@ const PlatformRoute = PlatformRouteImport.update({
 const PrinciplesRoute = PrinciplesRouteImport.update({
   id: '/principles',
   path: '/principles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechnologyRoute = TechnologyRouteImport.update({
+  id: '/technology',
+  path: '/technology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrustRoute = TrustRouteImport.update({
+  id: '/trust',
+  path: '/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhatWeHaventBuiltRoute = WhatWeHaventBuiltRouteImport.update({
+  id: '/what-we-havent-built',
+  path: '/what-we-havent-built',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
@@ -63,8 +93,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
   '/principles': typeof PrinciplesRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -73,8 +108,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
   '/principles': typeof PrinciplesRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
@@ -84,8 +124,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/building': typeof BuildingRoute
+  '/enterprise': typeof EnterpriseRoute
   '/platform': typeof PlatformRoute
   '/principles': typeof PrinciplesRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -96,8 +141,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/enterprise'
     | '/platform'
     | '/principles'
+    | '/security'
+    | '/technology'
+    | '/trust'
+    | '/what-we-havent-built'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -106,8 +156,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/enterprise'
     | '/platform'
     | '/principles'
+    | '/security'
+    | '/technology'
+    | '/trust'
+    | '/what-we-havent-built'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products'
@@ -116,8 +171,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/building'
+    | '/enterprise'
     | '/platform'
     | '/principles'
+    | '/security'
+    | '/technology'
+    | '/trust'
+    | '/what-we-havent-built'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -127,8 +187,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BuildingRoute: typeof BuildingRoute
+  EnterpriseRoute: typeof EnterpriseRoute
   PlatformRoute: typeof PlatformRoute
   PrinciplesRoute: typeof PrinciplesRoute
+  SecurityRoute: typeof SecurityRoute
+  TechnologyRoute: typeof TechnologyRoute
+  TrustRoute: typeof TrustRoute
+  WhatWeHaventBuiltRoute: typeof WhatWeHaventBuiltRoute
   ProductsWarrantRoute: typeof ProductsWarrantRoute
   ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -157,6 +222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuildingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/enterprise': {
+      id: '/enterprise'
+      path: '/enterprise'
+      fullPath: '/enterprise'
+      preLoaderRoute: typeof EnterpriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/platform': {
       id: '/platform'
       path: '/platform'
@@ -169,6 +241,34 @@ declare module '@tanstack/react-router' {
       path: '/principles'
       fullPath: '/principles'
       preLoaderRoute: typeof PrinciplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/technology': {
+      id: '/technology'
+      path: '/technology'
+      fullPath: '/technology'
+      preLoaderRoute: typeof TechnologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trust': {
+      id: '/trust'
+      path: '/trust'
+      fullPath: '/trust'
+      preLoaderRoute: typeof TrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/what-we-havent-built': {
+      id: '/what-we-havent-built'
+      path: '/what-we-havent-built'
+      fullPath: '/what-we-havent-built'
+      preLoaderRoute: typeof WhatWeHaventBuiltRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -199,8 +299,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BuildingRoute: BuildingRoute,
+  EnterpriseRoute: EnterpriseRoute,
   PlatformRoute: PlatformRoute,
   PrinciplesRoute: PrinciplesRoute,
+  SecurityRoute: SecurityRoute,
+  TechnologyRoute: TechnologyRoute,
+  TrustRoute: TrustRoute,
+  WhatWeHaventBuiltRoute: WhatWeHaventBuiltRoute,
   ProductsWarrantRoute: ProductsWarrantRoute,
   ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,
