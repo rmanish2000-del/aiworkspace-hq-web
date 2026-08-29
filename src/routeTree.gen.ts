@@ -10,33 +10,271 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as BuildingRouteImport } from './routes/building'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DeliveryRouteImport } from './routes/delivery'
+import { Route as EnterpriseRouteImport } from './routes/enterprise'
+import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PrinciplesRouteImport } from './routes/principles'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RefundsRouteImport } from './routes/refunds'
+import { Route as SecurityRouteImport } from './routes/security'
+import { Route as TechnologyRouteImport } from './routes/technology'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TrustRouteImport } from './routes/trust'
+import { Route as WhatWeHaventBuiltRouteImport } from './routes/what-we-havent-built'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
+import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
+import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildingRoute = BuildingRouteImport.update({
+  id: '/building',
+  path: '/building',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeliveryRoute = DeliveryRouteImport.update({
+  id: '/delivery',
+  path: '/delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnterpriseRoute = EnterpriseRouteImport.update({
+  id: '/enterprise',
+  path: '/enterprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrinciplesRoute = PrinciplesRouteImport.update({
+  id: '/principles',
+  path: '/principles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundsRoute = RefundsRouteImport.update({
+  id: '/refunds',
+  path: '/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechnologyRoute = TechnologyRouteImport.update({
+  id: '/technology',
+  path: '/technology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrustRoute = TrustRouteImport.update({
+  id: '/trust',
+  path: '/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhatWeHaventBuiltRoute = WhatWeHaventBuiltRouteImport.update({
+  id: '/what-we-havent-built',
+  path: '/what-we-havent-built',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsWarrantRoute = ProductsWarrantRouteImport.update({
+  id: '/products/warrant',
+  path: '/products/warrant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsWarrantMcpRoute = ProductsWarrantMcpRouteImport.update({
+  id: '/products/warrant-mcp',
+  path: '/products/warrant-mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
+  '/delivery': typeof DeliveryRoute
+  '/enterprise': typeof EnterpriseRoute
+  '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
+  '/principles': typeof PrinciplesRoute
+  '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/terms': typeof TermsRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
+  '/delivery': typeof DeliveryRoute
+  '/enterprise': typeof EnterpriseRoute
+  '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
+  '/principles': typeof PrinciplesRoute
+  '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/terms': typeof TermsRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
+  '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/building': typeof BuildingRoute
+  '/contact': typeof ContactRoute
+  '/delivery': typeof DeliveryRoute
+  '/enterprise': typeof EnterpriseRoute
+  '/platform': typeof PlatformRoute
+  '/pricing': typeof PricingRoute
+  '/principles': typeof PrinciplesRoute
+  '/privacy': typeof PrivacyRoute
+  '/refunds': typeof RefundsRoute
+  '/security': typeof SecurityRoute
+  '/technology': typeof TechnologyRoute
+  '/terms': typeof TermsRoute
+  '/trust': typeof TrustRoute
+  '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/products/warrant': typeof ProductsWarrantRoute
+  '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/building'
+    | '/contact'
+    | '/delivery'
+    | '/enterprise'
+    | '/platform'
+    | '/pricing'
+    | '/principles'
+    | '/privacy'
+    | '/refunds'
+    | '/security'
+    | '/technology'
+    | '/terms'
+    | '/trust'
+    | '/what-we-havent-built'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/building'
+    | '/contact'
+    | '/delivery'
+    | '/enterprise'
+    | '/platform'
+    | '/pricing'
+    | '/principles'
+    | '/privacy'
+    | '/refunds'
+    | '/security'
+    | '/technology'
+    | '/terms'
+    | '/trust'
+    | '/what-we-havent-built'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/building'
+    | '/contact'
+    | '/delivery'
+    | '/enterprise'
+    | '/platform'
+    | '/pricing'
+    | '/principles'
+    | '/privacy'
+    | '/refunds'
+    | '/security'
+    | '/technology'
+    | '/terms'
+    | '/trust'
+    | '/what-we-havent-built'
+    | '/products/warrant'
+    | '/products/warrant-mcp'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BuildingRoute: typeof BuildingRoute
+  ContactRoute: typeof ContactRoute
+  DeliveryRoute: typeof DeliveryRoute
+  EnterpriseRoute: typeof EnterpriseRoute
+  PlatformRoute: typeof PlatformRoute
+  PricingRoute: typeof PricingRoute
+  PrinciplesRoute: typeof PrinciplesRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RefundsRoute: typeof RefundsRoute
+  SecurityRoute: typeof SecurityRoute
+  TechnologyRoute: typeof TechnologyRoute
+  TermsRoute: typeof TermsRoute
+  TrustRoute: typeof TrustRoute
+  WhatWeHaventBuiltRoute: typeof WhatWeHaventBuiltRoute
+  ProductsWarrantRoute: typeof ProductsWarrantRoute
+  ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +286,155 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/building': {
+      id: '/building'
+      path: '/building'
+      fullPath: '/building'
+      preLoaderRoute: typeof BuildingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delivery': {
+      id: '/delivery'
+      path: '/delivery'
+      fullPath: '/delivery'
+      preLoaderRoute: typeof DeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enterprise': {
+      id: '/enterprise'
+      path: '/enterprise'
+      fullPath: '/enterprise'
+      preLoaderRoute: typeof EnterpriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/principles': {
+      id: '/principles'
+      path: '/principles'
+      fullPath: '/principles'
+      preLoaderRoute: typeof PrinciplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refunds': {
+      id: '/refunds'
+      path: '/refunds'
+      fullPath: '/refunds'
+      preLoaderRoute: typeof RefundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/technology': {
+      id: '/technology'
+      path: '/technology'
+      fullPath: '/technology'
+      preLoaderRoute: typeof TechnologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trust': {
+      id: '/trust'
+      path: '/trust'
+      fullPath: '/trust'
+      preLoaderRoute: typeof TrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/what-we-havent-built': {
+      id: '/what-we-havent-built'
+      path: '/what-we-havent-built'
+      fullPath: '/what-we-havent-built'
+      preLoaderRoute: typeof WhatWeHaventBuiltRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/warrant': {
+      id: '/products/warrant'
+      path: '/products/warrant'
+      fullPath: '/products/warrant'
+      preLoaderRoute: typeof ProductsWarrantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/warrant-mcp': {
+      id: '/products/warrant-mcp'
+      path: '/products/warrant-mcp'
+      fullPath: '/products/warrant-mcp'
+      preLoaderRoute: typeof ProductsWarrantMcpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BuildingRoute: BuildingRoute,
+  ContactRoute: ContactRoute,
+  DeliveryRoute: DeliveryRoute,
+  EnterpriseRoute: EnterpriseRoute,
+  PlatformRoute: PlatformRoute,
+  PricingRoute: PricingRoute,
+  PrinciplesRoute: PrinciplesRoute,
+  PrivacyRoute: PrivacyRoute,
+  RefundsRoute: RefundsRoute,
+  SecurityRoute: SecurityRoute,
+  TechnologyRoute: TechnologyRoute,
+  TermsRoute: TermsRoute,
+  TrustRoute: TrustRoute,
+  WhatWeHaventBuiltRoute: WhatWeHaventBuiltRoute,
+  ProductsWarrantRoute: ProductsWarrantRoute,
+  ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
