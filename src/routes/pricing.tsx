@@ -55,7 +55,7 @@ function PricingPage() {
         badge="Pricing"
         title={copy.heading}
         lead="One flat monthly price. No seat tiers, no usage meters, no quote gate."
-        primary={{ to: "/contact", label: "Request Access" }}
+        primary={{ to: "/checkout", label: "Subscribe — ₹999/mo" }}
         secondary={{ to: "/platform", label: "Explore Platform" }}
         aside={
           <div className="rounded-xl border border-border bg-card">
@@ -80,7 +80,7 @@ function PricingPage() {
                 ))}
               </ul>
               <a
-                href="/contact"
+                href="/checkout"
                 className="mt-7 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Subscribe <span aria-hidden>→</span>
@@ -101,7 +101,7 @@ function PricingPage() {
             },
             {
               title: "Where you subscribe",
-              body: "Subscribe by contacting us. The same flat price applies whether you are one person or a team.",
+              body: "Subscribe on /checkout. The same flat price applies whether you are one person or a team.",
             },
             {
               title: "Questions before paying",
@@ -117,7 +117,7 @@ function PricingPage() {
           ))}
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <a href="/contact" className="link-quiet inline-flex min-h-11 items-center text-sm font-medium sm:min-h-0">Contact to subscribe →</a>
+          <a href="/checkout" className="link-quiet inline-flex min-h-11 items-center text-sm font-medium sm:min-h-0">Go to checkout →</a>
           <a
             href="mailto:founder@aiworkspacehq.com"
             className="link-quiet inline-flex min-h-11 items-center text-sm font-medium sm:min-h-0"
@@ -133,7 +133,7 @@ function PricingPage() {
       <CtaBand
         heading="One price, one system, one record of the work"
         lead="Start now, or ask questions first — both go to the founder."
-        primary={{ to: "/contact", label: "Contact Us" }}
+        primary={{ to: "/checkout", label: "Subscribe" }}
         secondary={{ to: "/products", label: "See Products" }}
       />
     </>
