@@ -45,6 +45,7 @@ function loadRazorpay(): Promise<boolean> {
     if ((window as any).Razorpay) return resolve(true);
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${RAZORPAY_SCRIPT}"]`);
     if (existing) {
+      if ((window as any).Razorpay) return resolve(true);
       existing.addEventListener("load", () => resolve(true));
       existing.addEventListener("error", () => resolve(false));
       return;

@@ -101,7 +101,7 @@ function PricingPage() {
             },
             {
               title: "Where you subscribe",
-              body: "Subscribe on /checkout. The same flat price applies whether you are one person or a team.",
+              body: "Subscribe on the checkout page. The same flat price applies whether you are one person or a team.",
             },
             {
               title: "Questions before paying",

@@ -9,7 +9,12 @@ import { LIVE_PAYMENTS_RELEASED, keyClass, razorpay, readCredentials } from "@/l
 export const Route = createFileRoute("/api/razorpay/readiness")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
+        const readinessToken = process.env["RAZORPAY_READINESS_TOKEN"];
+        if (!readinessToken || request.headers.get("x-readiness-token") !== readinessToken) {
+          return new Response("Not found", { status: 404 });
+        }
+
         const keyId = process.env["RAZORPAY_KEY_ID"];
         const keySecret = process.env["RAZORPAY_KEY_SECRET"];
         const webhookSecret = process.env["RAZORPAY_WEBHOOK_SECRET"];
