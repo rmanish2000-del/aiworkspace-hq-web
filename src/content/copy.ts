@@ -716,15 +716,59 @@ export const experience = {
       },
       {
         index: '02',
-        title: 'Retrieve',
-        body: 'Return only relevant context with exact provenance.',
+        title: 'Scope',
+        body: 'Limit retrieval and authority to the approved organizational boundary.',
       },
       {
         index: '03',
         title: 'Execute',
         body: 'Route work through an accountable assignment and attempt.',
       },
-      { index: '04', title: 'Verify', body: 'Review evidence and record the authorized decision.' },
+      {
+        index: '04',
+        title: 'Verify',
+        body: 'Check the result against evidence and explicit acceptance criteria.',
+      },
+      {
+        index: '05',
+        title: 'Review',
+        body: 'Present the context, evidence and findings to an authorized human.',
+      },
+      {
+        index: '06',
+        title: 'Record',
+        body: 'Retain the decision state and the evidence attached to it.',
+      },
+    ],
+    controlEyebrow: 'Platform capabilities',
+    controlHeading: 'Designed for governed work, not unattended output.',
+    controlLead:
+      'The operating layer separates sources, scope, execution, evidence and authorization so each boundary can be inspected.',
+    controls: [
+      {
+        title: 'Source provenance',
+        body: 'Returned context retains the approved source and exact reference used for the result.',
+      },
+      {
+        title: 'Scoped retrieval',
+        body: 'Context is requested within Organization, Workspace or Project boundaries.',
+      },
+      {
+        title: 'Explicit work state',
+        body: 'Assignments and attempts expose readiness, routing and completion state.',
+      },
+      {
+        title: 'Deterministic checks',
+        body: 'Verification records criterion-level findings before a decision is presented.',
+      },
+      {
+        title: 'Human authorization',
+        body: 'Completion requires the authorized decision defined by the operating boundary.',
+      },
+      {
+        title: 'Evidence continuity',
+        body: 'Source material, findings and review remain attached to the resulting state.',
+      },
     ],
     portfolioEyebrow: 'Product portfolio',
     portfolioHeading: 'One operating thesis. Clear product boundaries.',
