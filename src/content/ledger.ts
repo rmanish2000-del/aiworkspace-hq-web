@@ -1,0 +1,568 @@
+export interface LedgerBlock {
+  id: string; route: string; slot: string; kind: string;
+  claim: string | null; copy: string; withheld?: boolean; note?: string;
+}
+
+export const ledgerBlocks: LedgerBlock[] = [
+  {
+    "id": "CB-85",
+    "route": "/products",
+    "slot": "warrant-summary",
+    "kind": "proof",
+    "claim": "CL-40",
+    "copy": "Warrant compiles human-written spending policy into numbered clauses, requires human confirmation, and evaluates purchase proposals with deterministic ALLOW, ESCALATE or DENY decisions that cite the governing clause."
+  },
+  {
+    "id": "CB-86",
+    "route": "/products",
+    "slot": "warrant-mcp-summary",
+    "kind": "proof",
+    "claim": "CL-44",
+    "copy": "Warrant MCP compiles plain-English policy once into numbered clauses and closed structured rules. Deterministic code returns ALLOW or DENY for a supported action, and a Claude Code PreToolUse hook makes DENY a hard block."
+  },
+  {
+    "id": "CB-87",
+    "route": "/products",
+    "slot": "relationship",
+    "kind": "disclosure",
+    "claim": "CL-48",
+    "copy": "Warrant applies deterministic authorization to AI purchasing proposals. Warrant MCP applies deterministic policy checks to supported AI-agent actions and tool calls. They share a design thesis, not a claimed shared runtime platform."
+  },
+  {
+    "id": "CB-88",
+    "route": "/products/warrant",
+    "slot": "provider-boundary",
+    "kind": "proof",
+    "claim": "CL-41",
+    "copy": "A Warrant DENY makes zero outbound provider calls. Only the supported human-approved escalation path can open a Prava sandbox payment session; the ALLOW path is authorized and recorded but is not wired to the provider."
+  },
+  {
+    "id": "CB-89",
+    "route": "/products/warrant",
+    "slot": "authorization-record",
+    "kind": "proof",
+    "claim": "CL-42",
+    "copy": "Warrant appends decisions to a hash-chained authorization record. The record is tamper-evident; it has no digital signature and makes no non-repudiation claim."
+  },
+  {
+    "id": "CB-90",
+    "route": "/products/warrant",
+    "slot": "maturity-limit",
+    "kind": "limitation",
+    "claim": "CL-43",
+    "copy": "Warrant currently runs as a local, single-operator demonstration and all payment interaction is Prava sandbox-only. Spend counts at approval and reconciliation that releases expired holds is not built."
+  },
+  {
+    "id": "CB-91",
+    "route": "/products/warrant-mcp",
+    "slot": "specification",
+    "kind": "proof",
+    "claim": "CL-45",
+    "copy": "Warrant MCP specification 0.1.0 defines eight rule types, precedence, fail-closed requirements and deliberate limits. Its TypeScript reference implementation runs a 76-case language-agnostic conformance corpus."
+  },
+  {
+    "id": "CB-92",
+    "route": "/products/warrant-mcp",
+    "slot": "enforcement-boundary",
+    "kind": "limitation",
+    "claim": "CL-46",
+    "copy": "Warrant MCP binding enforcement is limited to its Claude Code hook. Other MCP hosts can call check_action for an advisory ALLOW or DENY, but the tool cannot force the host to comply."
+  },
+  {
+    "id": "CB-93",
+    "route": "/products/warrant-mcp",
+    "slot": "local-record",
+    "kind": "limitation",
+    "claim": "CL-47",
+    "copy": "Warrant MCP writes a local plain-text decision record and can render it as a self-contained offline HTML report. The record is append-only by convention, has no integrity check, and is evidence rather than proof."
+  },
+  {
+    "id": "CB-80",
+    "route": "/platform",
+    "slot": "assignment-creation",
+    "kind": "proof",
+    "claim": "CL-35",
+    "copy": "An Assignment can now be created from a Work Item through the existing governed Assignment lifecycle. After creation, the Assignment appears immediately and its dossier view opens directly."
+  },
+  {
+    "id": "CB-81",
+    "route": "/platform",
+    "slot": "assignment-validation-routing",
+    "kind": "proof",
+    "claim": "CL-36",
+    "copy": "An Assignment dossier can now validate readiness against governed contract and lifecycle state, show actionable failures, identify eligible Executors from recorded capability and authorization state, and route a valid Assignment through the governed lifecycle. The resulting Assignment and Agent state changes, and the routing audit record, are visible immediately."
+  },
+  {
+    "id": "CB-82",
+    "route": "/platform",
+    "slot": "assignment-execution-activation",
+    "kind": "proof",
+    "claim": "CL-37",
+    "copy": "A properly routed Assignment can now enter governed execution through an accountable Attempt and a time-bounded fenced lease issued to its Executor. Assignment and Agent surfaces expose the execution and lease state; invalid, stale, or unauthorized activation fails closed, and relevant lifecycle events remain auditable."
+  },
+  {
+    "id": "CB-83",
+    "route": "/platform",
+    "slot": "assignment-verification-review-completion",
+    "kind": "proof",
+    "claim": "CL-38",
+    "copy": "An evidence-backed submitted result can now pass through deterministic verification, criterion-level findings, authorized human approval or rejection, and auditable completion. Remediable failures create a new Attempt while prior Attempts, results, evidence, verifications, and decisions remain inspectable and unchanged."
+  },
+  {
+    "id": "CB-84",
+    "route": "/platform",
+    "slot": "knowledge-workspace",
+    "kind": "proof",
+    "claim": "CL-39",
+    "copy": "AI Workspace can ingest governed organizational knowledge from an approved source and retrieve scoped context with exact source provenance."
+  },
+  {
+    "id": "CB-01",
+    "route": "/",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-26",
+    "copy": "We are building an enterprise AI operating layer."
+  },
+  {
+    "id": "CB-02",
+    "route": "/",
+    "slot": "subheadline",
+    "kind": "subheadline",
+    "claim": "CL-12",
+    "copy": "It is designed to work with the systems an organisation already runs, rather than replace them."
+  },
+  {
+    "id": "CB-03",
+    "route": "/",
+    "slot": "status",
+    "kind": "limitation",
+    "claim": "CL-01",
+    "copy": "AI Workspace is in development. Early access is not yet open."
+  },
+  {
+    "id": "CB-04",
+    "route": "/",
+    "slot": "gap-link",
+    "kind": "cta",
+    "claim": "CL-11",
+    "copy": "Read what we have not built."
+  },
+  {
+    "id": "CB-05",
+    "route": "/",
+    "slot": "method-link",
+    "kind": "navigational",
+    "claim": null,
+    "copy": "See what we run on, and why we chose it."
+  },
+  {
+    "id": "CB-06",
+    "route": "/",
+    "slot": "ai-disclosure",
+    "kind": "disclosure",
+    "claim": "CL-16",
+    "copy": "This site is drafted with AI assistance and reviewed by a person before anything is published."
+  },
+  {
+    "id": "CB-07",
+    "route": "/",
+    "slot": "cta",
+    "kind": "cta",
+    "claim": "CL-02",
+    "copy": "If you want to hear when early access opens, leave an email address. We will only contact you about AI Workspace early access."
+  },
+  {
+    "id": "CB-10",
+    "route": "/trust",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-11",
+    "copy": "What we can be held to, and what we cannot."
+  },
+  {
+    "id": "CB-11",
+    "route": "/trust",
+    "slot": "subheadline",
+    "kind": "subheadline",
+    "claim": "CL-11",
+    "copy": "Everything below is either something we can show you, or something we are telling you we do not have."
+  },
+  {
+    "id": "CB-12",
+    "route": "/trust",
+    "slot": "missing-1",
+    "kind": "limitation",
+    "claim": "CL-20",
+    "copy": "We hold no third-party security certification, and none is in progress."
+  },
+  {
+    "id": "CB-13",
+    "route": "/trust",
+    "slot": "missing-2",
+    "kind": "limitation",
+    "claim": "CL-31",
+    "copy": "We do not offer single sign-on."
+  },
+  {
+    "id": "CB-14",
+    "route": "/trust",
+    "slot": "missing-3",
+    "kind": "limitation",
+    "claim": "CL-32",
+    "copy": "We do not offer an uptime commitment."
+  },
+  {
+    "id": "CB-15",
+    "route": "/trust",
+    "slot": "missing-4",
+    "kind": "limitation",
+    "claim": "CL-33",
+    "copy": "We do not yet publish a process for reporting a security flaw to us."
+  },
+  {
+    "id": "CB-16",
+    "route": "/trust",
+    "slot": "method-1",
+    "kind": "proof",
+    "claim": "CL-10",
+    "copy": "Before anything reaches production we verify it. We verify before we approve, and verification has blocked releases \u2014 including a hosting tier whose licence prohibited commercial use.",
+    "note": "Re-issued under FD-F4 (CC-008 \u00a70): count removed; named example retained (CL-08, publishable in full)."
+  },
+  {
+    "id": "CB-17",
+    "route": "/trust",
+    "slot": "method-2",
+    "kind": "proof",
+    "claim": "CL-09",
+    "copy": "Architecture decisions are recorded with their reasoning at the time they are made."
+  },
+  {
+    "id": "CB-18",
+    "route": "/trust",
+    "slot": "ai-1",
+    "kind": "disclosure",
+    "claim": "CL-16",
+    "copy": "Our written material is drafted with AI assistance and reviewed by a person before publication."
+  },
+  {
+    "id": "CB-19",
+    "route": "/trust",
+    "slot": "ai-2",
+    "kind": "disclosure",
+    "claim": "CL-17",
+    "copy": "We integrate no third-party AI model provider in the product today."
+  },
+  {
+    "id": "CB-20",
+    "route": "/trust",
+    "slot": "ai-3",
+    "kind": "disclosure",
+    "claim": "CL-18",
+    "copy": "Where a decision is not ours to automate, a person makes it."
+  },
+  {
+    "id": "CB-21",
+    "route": "/trust",
+    "slot": "cookies",
+    "kind": "disclosure",
+    "claim": "CL-03",
+    "withheld": true,
+    "copy": "",
+    "note": "CT-4 \u2014 binding commitment; locally verified by CC-006, deployed verification parked in CC-007. Withheld until the founder lifts CT-4."
+  },
+  {
+    "id": "CB-22",
+    "route": "/trust",
+    "slot": "footnote",
+    "kind": "footnote",
+    "claim": null,
+    "copy": "Last reviewed 25 October 2026."
+  },
+  {
+    "id": "CB-30",
+    "route": "/technology",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-05",
+    "copy": "What we run on, and what happens if we are wrong about it."
+  },
+  {
+    "id": "CB-31",
+    "route": "/technology",
+    "slot": "subheadline",
+    "kind": "subheadline",
+    "claim": "CL-07",
+    "copy": "Every component below is open source or an open standard. You could run all of it without us."
+  },
+  {
+    "id": "CB-32",
+    "route": "/technology",
+    "slot": "lead",
+    "kind": "proof",
+    "claim": "CL-06",
+    "copy": "When we adopted our current runtime we wrote down the conditions under which we would replace it. That exit strategy was recorded at the moment of the decision, not afterwards."
+  },
+  {
+    "id": "CB-33",
+    "route": "/technology",
+    "slot": "stack",
+    "kind": "section",
+    "claim": "CL-05",
+    "copy": "We run on PostgreSQL for data, Node.js as the application runtime, and Docker with Docker Compose for packaging and deployment. Source control is Git, dependencies are managed with npm, and an automated test and release pipeline runs before anything ships."
+  },
+  {
+    "id": "CB-34",
+    "route": "/technology",
+    "slot": "lockin",
+    "kind": "proof",
+    "claim": "CL-07",
+    "copy": "None of these locks us in. Standard SQL, an open container format and an open-source runtime mean the cost of moving is real but bounded, and it is ours to pay rather than a vendor's to set."
+  },
+  {
+    "id": "CB-35",
+    "route": "/technology",
+    "slot": "rejected-1",
+    "kind": "proof",
+    "claim": "CL-08",
+    "copy": "We rejected a free hosting tier because its licence prohibits commercial use. We found that during verification, before it reached anything."
+  },
+  {
+    "id": "CB-36",
+    "route": "/technology",
+    "slot": "rejected-2",
+    "kind": "proof",
+    "claim": "CL-08",
+    "copy": "We rejected a log-retention assumption because the retention we had designed for was not available on any plan without a paid add-on. The design assumed it; verification showed otherwise."
+  },
+  {
+    "id": "CB-37",
+    "route": "/technology",
+    "slot": "limitation",
+    "kind": "limitation",
+    "claim": "CL-34",
+    "copy": "Our current deployment runs on a single host. That is a deliberate choice at this stage and a real ceiling; we have not built the orchestration that would remove it."
+  },
+  {
+    "id": "CB-39",
+    "route": "/technology",
+    "slot": "how-we-decide",
+    "kind": "proof",
+    "claim": "CL-09",
+    "copy": "How we decide: every adoption is recorded with its reasoning at the time it is made, and every rejection is recorded the same way. The register of decisions is the method.",
+    "note": "FD-F2 (CC-008 \u00a70): the ADR practice moves to a \"How we decide\" section; the unnamed toolchain stays unnamed."
+  },
+  {
+    "id": "CB-38",
+    "route": "/technology",
+    "slot": "footnote",
+    "kind": "footnote",
+    "claim": null,
+    "copy": "Last reviewed 25 October 2026."
+  },
+  {
+    "id": "CB-40",
+    "route": "/what-we-havent-built",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-11",
+    "copy": "What we have not built."
+  },
+  {
+    "id": "CB-41",
+    "route": "/what-we-havent-built",
+    "slot": "subheadline",
+    "kind": "subheadline",
+    "claim": "CL-11",
+    "copy": "This is the list we would want from a vendor. It is as complete as we can make it, and it is dated. If something is missing from it, tell us and we will add it."
+  },
+  {
+    "id": "CB-42",
+    "route": "/what-we-havent-built",
+    "slot": "gap-1",
+    "kind": "limitation",
+    "claim": "CL-31",
+    "copy": "Single sign-on. We do not offer it, and we have not built the identity foundation it needs."
+  },
+  {
+    "id": "CB-43",
+    "route": "/what-we-havent-built",
+    "slot": "gap-2",
+    "kind": "limitation",
+    "claim": "CL-32",
+    "copy": "An uptime commitment. We do not offer one."
+  },
+  {
+    "id": "CB-44",
+    "route": "/what-we-havent-built",
+    "slot": "gap-3",
+    "kind": "limitation",
+    "claim": "CL-33",
+    "copy": "A published way to report a security flaw to us. We do not have one yet."
+  },
+  {
+    "id": "CB-45",
+    "route": "/what-we-havent-built",
+    "slot": "gap-4",
+    "kind": "limitation",
+    "claim": "CL-20",
+    "copy": "Third-party security certification. We hold none, and none is in progress."
+  },
+  {
+    "id": "CB-46",
+    "route": "/what-we-havent-built",
+    "slot": "gap-5",
+    "kind": "limitation",
+    "claim": "CL-34",
+    "copy": "Agent orchestration. We have not built it. The identity layer it depends on is a placeholder we have deliberately not started."
+  },
+  {
+    "id": "CB-47",
+    "route": "/what-we-havent-built",
+    "slot": "no-dates",
+    "kind": "section",
+    "claim": "CL-11",
+    "copy": "We do not publish dates for any of these. A date we have not earned is a promise we would rather not make."
+  },
+  {
+    "id": "CB-48",
+    "route": "/what-we-havent-built",
+    "slot": "footnote",
+    "kind": "footnote",
+    "claim": null,
+    "copy": "Last reviewed 25 October 2026. Reviewed every quarter."
+  },
+  {
+    "id": "CB-50",
+    "route": "/enterprise",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-11",
+    "copy": "Five enterprise questions we can answer with evidence today."
+  },
+  {
+    "id": "CB-51",
+    "route": "/enterprise",
+    "slot": "subheadline",
+    "kind": "subheadline",
+    "claim": "CL-11",
+    "copy": "Four answers disclose current limitations. One explains our portability position. The governance note below explains where human decision authority remains."
+  },
+  {
+    "id": "CB-52",
+    "route": "/enterprise",
+    "slot": "q1",
+    "kind": "limitation",
+    "claim": "CL-31",
+    "copy": "Can we use our own identity provider? Not yet \u2014 we do not offer single sign-on."
+  },
+  {
+    "id": "CB-53",
+    "route": "/enterprise",
+    "slot": "q5",
+    "kind": "limitation",
+    "claim": "CL-32",
+    "copy": "What is your uptime commitment? We do not offer one."
+  },
+  {
+    "id": "CB-54",
+    "route": "/enterprise",
+    "slot": "q6",
+    "kind": "proof",
+    "claim": "CL-06",
+    "copy": "What happens if you disappear? Everything we run on is open source or an open standard, and we wrote down our runtime exit conditions when we adopted it."
+  },
+  {
+    "id": "CB-55",
+    "route": "/enterprise",
+    "slot": "q8",
+    "kind": "limitation",
+    "claim": "CL-20",
+    "copy": "Are you certification-holding? No. We hold none, and none is in progress."
+  },
+  {
+    "id": "CB-56",
+    "route": "/enterprise",
+    "slot": "q10",
+    "kind": "limitation",
+    "claim": "CL-33",
+    "copy": "How do we report a security flaw? We do not yet publish a process for that."
+  },
+  {
+    "id": "CB-57",
+    "route": "/enterprise",
+    "slot": "governance",
+    "kind": "proof",
+    "claim": "CL-18",
+    "copy": "Where a decision is reserved to a person, the system does not make it. That boundary is written down and it is narrow on purpose."
+  },
+  {
+    "id": "CB-58",
+    "route": "/enterprise",
+    "slot": "footnote",
+    "kind": "footnote",
+    "claim": null,
+    "copy": "Last reviewed 25 October 2026."
+  },
+  {
+    "id": "CB-70",
+    "route": "/security",
+    "slot": "headline",
+    "kind": "headline",
+    "claim": "CL-33",
+    "copy": "Security: what we can say, and what we cannot."
+  },
+  {
+    "id": "CB-71",
+    "route": "/security",
+    "slot": "gate-notice",
+    "kind": "limitation",
+    "claim": "CL-33",
+    "copy": "We do not yet publish a process for reporting a security flaw to us. Until we do, we are not going to make security claims on this page."
+  },
+  {
+    "id": "CB-72",
+    "route": "/security",
+    "slot": "certification",
+    "kind": "limitation",
+    "claim": "CL-20",
+    "copy": "We hold no third-party security certification, and none is in progress."
+  },
+  {
+    "id": "CB-73",
+    "route": "/security",
+    "slot": "verification",
+    "kind": "proof",
+    "claim": "CL-10",
+    "copy": "What we can show you is our verification record: we verify before we approve, and verification has blocked releases before anything reached production.",
+    "note": "Re-issued under FD-F4 (CC-008 \u00a70): count removed."
+  },
+  {
+    "id": "CB-74",
+    "route": "/security",
+    "slot": "cookies",
+    "kind": "disclosure",
+    "claim": "CL-03",
+    "withheld": true,
+    "copy": "",
+    "note": "CT-4 \u2014 see CB-21."
+  },
+  {
+    "id": "CB-75",
+    "route": "/security",
+    "slot": "boundary",
+    "kind": "footnote",
+    "claim": null,
+    "copy": "We describe our posture here, not our architecture. Detailed infrastructure information is not something we publish."
+  }
+];
+
+export const ledger = Object.fromEntries(ledgerBlocks.map((b) => [b.id, b])) as Record<string, LedgerBlock>;
+
+export function block(id: string): string {
+  const b = ledger[id];
+  if (!b) return '';
+  return b.copy;
+}
+
+export const REVIEW_STAMP = '25 October 2026';
