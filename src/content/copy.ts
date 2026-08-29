@@ -613,12 +613,12 @@ export const experience = {
     primaryHref: '/platform#verified-capability-heading',
   },
   home: {
-    metaTitle: 'AI Workspace — Governed enterprise AI operations',
+    metaTitle: 'AI Workspace — The operating layer for accountable AI',
     metaDescription:
-      'AI Workspace brings approved organizational knowledge, governed work and accountable AI-agent operations into one evidence-backed layer.',
-    eyebrow: 'Enterprise AI operating layer · In development',
-    heading: 'The context layer for accountable AI.',
-    lead: 'AI Workspace retrieves scoped context from an approved source, moves work through governed assignments, and keeps evidence, review and accountability attached to the result.',
+      'Connect approved knowledge, governed work, verification and human review in one evidence-backed operating layer for accountable enterprise AI.',
+    eyebrow: 'Enterprise AI operating layer · Founder Edition',
+    heading: 'The enterprise operating layer for accountable AI.',
+    lead: 'Connect approved knowledge to governed execution, verification, evidence and authorized human review—without losing provenance or accountability.',
     /**
      * HOME-CTA-AND-BETA-PATH (Chat ruling, founder input, 2026-08-18): ONE
      * primary action site-wide — "View verified evidence", matching
@@ -651,7 +651,7 @@ export const experience = {
     resultLabel: 'Result',
     resultValue: 'Verified · Reviewed',
     auditLabel: 'Accountability trail retained',
-    audienceHeading: 'Start with the question you need answered.',
+    audienceHeading: 'Start with the evidence you need.',
     audiences: [
       {
         label: 'Enterprise leader',
@@ -675,16 +675,16 @@ export const experience = {
       },
     ],
     problemEyebrow: 'The enterprise gap',
-    problemHeading: 'Models are capable. Organizations are complicated.',
+    problemHeading: 'Enterprise AI needs more than capable models.',
     problemLead:
-      'Knowledge, ownership and decisions are spread across systems. Giving an agent a prompt does not give it organizational context, authority or accountability.',
+      'Knowledge, ownership and decisions are spread across systems. A prompt alone cannot give an agent organizational context, authority or accountability.',
     problemPoints: [
       'Context loses its source when it is copied between tools.',
       'Automation outruns policy when the decision boundary is implicit.',
       'Results become difficult to review when evidence arrives separately.',
     ],
     capabilityEyebrow: 'The operating layer',
-    capabilityHeading: 'Connect context, govern work, preserve proof.',
+    capabilityHeading: 'Govern the path from context to decision.',
     capabilities: [
       {
         index: '01',
@@ -706,7 +706,7 @@ export const experience = {
       },
     ],
     methodEyebrow: 'How it works',
-    methodHeading: 'One governed path from source to decision.',
+    methodHeading: 'A documented path from source to decision.',
     methodSteps: [
       {
         index: '01',
@@ -726,7 +726,7 @@ export const experience = {
       { index: '04', title: 'Verify', body: 'Review evidence and record the authorized decision.' },
     ],
     portfolioEyebrow: 'Product portfolio',
-    portfolioHeading: 'Shared principles. Distinct product boundaries.',
+    portfolioHeading: 'One operating thesis. Clear product boundaries.',
     portfolioLead:
       'The portfolio separates the enterprise operating layer from domain-specific authorization products. Maturity is stated on every surface.',
     platformCard: {
@@ -764,7 +764,7 @@ export const experience = {
       href: '/building',
     },
     evidenceEyebrow: 'Evidence before claims',
-    evidenceHeading: 'Every capability carries its boundary.',
+    evidenceHeading: 'See what is verified—and what is not.',
     evidenceLead:
       'Verified statements point to repository evidence. Design intent, demonstrations and limitations are labelled separately so a buyer can distinguish proof from direction.',
     evidenceItems: [
@@ -782,7 +782,7 @@ export const experience = {
       { label: 'In development', body: 'A direction that is not presented as delivered.' },
     ],
     developerEyebrow: 'Technical proof',
-    developerHeading: 'Inspect the contract, then inspect the result.',
+    developerHeading: 'Inspect the contract. Trace the result.',
     developerLead:
       'The governed context contract returns scoped source material with provenance. Product repositories expose their own test and policy evidence.',
     contractLabel: 'Governed context contract',
@@ -795,7 +795,7 @@ export const experience = {
     developerAction: 'Read the technology choices',
     developerHref: '/technology',
     closeEyebrow: 'Evaluate what exists',
-    closeHeading: 'Start with the verified path—not a promise.',
+    closeHeading: 'Evaluate the evidence, not the promise.',
     closeLead:
       'Review the platform evidence, inspect the authorization products, and decide whether the current boundary matches a problem worth testing together.',
     closePrimary: 'Review verified capability',
