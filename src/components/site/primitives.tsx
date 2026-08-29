@@ -42,7 +42,7 @@ export function Section(props: {
   eyebrow?: string;
   heading?: ReactNode;
   lead?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 }) {
   return (
