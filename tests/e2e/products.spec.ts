@@ -18,6 +18,28 @@ test('/products distinguishes the two authorization products', async ({ page }) 
   );
 });
 
+test('/pricing shows a concrete Guardian refusal before checkout', async ({ page }) => {
+  await page.goto('/pricing');
+
+  const example = page.getByRole('region', { name: 'A concrete policy check' });
+  await expect(example.getByText('delete .env', { exact: true })).toBeVisible();
+  await expect(
+    example.getByText('Protected paths cannot be deleted.', { exact: true }),
+  ).toBeVisible();
+  await expect(
+    example.getByText('DENY — the command does not run.', { exact: true }),
+  ).toBeVisible();
+
+  const exampleBox = await example.boundingBox();
+  const checkoutBox = await page.getByRole('link', { name: '/checkout' }).boundingBox();
+  expect(exampleBox).not.toBeNull();
+  expect(checkoutBox).not.toBeNull();
+  expect(exampleBox!.y + exampleBox!.height).toBeLessThan(checkoutBox!.y);
+
+  await expect(page.locator('main')).toContainText('₹999 per month');
+  await expect(page.locator('main')).toContainText('private beta build');
+});
+
 test('/products/warrant exposes proof, refusal and sandbox limitations', async ({ page }) => {
   await page.goto('/products/warrant');
 

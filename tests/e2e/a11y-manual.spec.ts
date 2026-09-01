@@ -14,6 +14,7 @@ import {
   header,
   PROVISIONAL,
 } from '../../src/content/copy';
+import { pricingPage } from '../../src/content/pricing-page';
 
 /**
  * A11Y-02 … A11Y-12 and M-1 … M-10, automated as far as they honestly can be.
@@ -915,6 +916,7 @@ test('M-9 every visible string on every route comes from the copy module', async
   collect(privacy);
   collect(nav);
   collect(notFound);
+  collect(pricingPage);
 
   /**
    * CC-008 — the ledger is the second approved source (G-LEDGER enforces the
