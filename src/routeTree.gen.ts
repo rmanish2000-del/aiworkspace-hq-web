@@ -20,9 +20,11 @@ import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrinciplesRouteImport } from './routes/principles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ProcessRouteImport } from './routes/process'
 import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SecurityRouteImport } from './routes/security'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrustRouteImport } from './routes/trust'
@@ -91,6 +93,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProcessRoute = ProcessRouteImport.update({
+  id: '/process',
+  path: '/process',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefundsRoute = RefundsRouteImport.update({
   id: '/refunds',
   path: '/refunds',
@@ -104,6 +111,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
 const SecurityRoute = SecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TechnologyRoute = TechnologyRouteImport.update({
@@ -181,9 +193,11 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
+  '/process': typeof ProcessRoute
   '/refunds': typeof RefundsRoute
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
+  '/services': typeof ServicesRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
@@ -209,9 +223,11 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
+  '/process': typeof ProcessRoute
   '/refunds': typeof RefundsRoute
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
+  '/services': typeof ServicesRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
@@ -238,9 +254,11 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
   '/privacy': typeof PrivacyRoute
+  '/process': typeof ProcessRoute
   '/refunds': typeof RefundsRoute
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
+  '/services': typeof ServicesRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
@@ -268,9 +286,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/principles'
     | '/privacy'
+    | '/process'
     | '/refunds'
     | '/resources'
     | '/security'
+    | '/services'
     | '/technology'
     | '/terms'
     | '/trust'
@@ -296,9 +316,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/principles'
     | '/privacy'
+    | '/process'
     | '/refunds'
     | '/resources'
     | '/security'
+    | '/services'
     | '/technology'
     | '/terms'
     | '/trust'
@@ -324,9 +346,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/principles'
     | '/privacy'
+    | '/process'
     | '/refunds'
     | '/resources'
     | '/security'
+    | '/services'
     | '/technology'
     | '/terms'
     | '/trust'
@@ -353,9 +377,11 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   PrinciplesRoute: typeof PrinciplesRoute
   PrivacyRoute: typeof PrivacyRoute
+  ProcessRoute: typeof ProcessRoute
   RefundsRoute: typeof RefundsRoute
   ResourcesRoute: typeof ResourcesRoute
   SecurityRoute: typeof SecurityRoute
+  ServicesRoute: typeof ServicesRoute
   TechnologyRoute: typeof TechnologyRoute
   TermsRoute: typeof TermsRoute
   TrustRoute: typeof TrustRoute
@@ -449,6 +475,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/process': {
+      id: '/process'
+      path: '/process'
+      fullPath: '/process'
+      preLoaderRoute: typeof ProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refunds': {
       id: '/refunds'
       path: '/refunds'
@@ -468,6 +501,13 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/technology': {
@@ -569,9 +609,11 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   PrinciplesRoute: PrinciplesRoute,
   PrivacyRoute: PrivacyRoute,
+  ProcessRoute: ProcessRoute,
   RefundsRoute: RefundsRoute,
   ResourcesRoute: ResourcesRoute,
   SecurityRoute: SecurityRoute,
+  ServicesRoute: ServicesRoute,
   TechnologyRoute: TechnologyRoute,
   TermsRoute: TermsRoute,
   TrustRoute: TrustRoute,
