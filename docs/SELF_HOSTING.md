@@ -10,7 +10,7 @@ Canonical source: **this repository (`aiworkspace-hq-web`)**. Lovable is optiona
 
 ## Deploy pipeline (`.github/workflows/`)
 - `ci.yml` — every PR and push to main: install, typecheck, build.
-- `deploy.yml` — every push to main: build, `wrangler deploy` as Worker `aiworkspacehq`, smoke-test 4 pages. Skips cleanly until the secrets below exist.
+- `deploy.yml` — every push to main: build, `wrangler deploy` as Worker `aiworkspacehq`, smoke-test 4 pages once repo variable `SITE_URL` is set. Skips cleanly until the secrets below exist.
 
 ## One-time setup (founder: tokens only, then nothing)
 1. Cloudflare API token with "Edit Cloudflare Workers" → GitHub repo secret `CLOUDFLARE_API_TOKEN`; account id → `CLOUDFLARE_ACCOUNT_ID`.

@@ -25,10 +25,10 @@ jobs:
       - name: Deploy worker
         if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
         run: bunx wrangler@4 deploy --config .output/server/wrangler.json --name aiworkspacehq
-      - name: Smoke test
-        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
+      - name: Smoke test (after the custom domain points at this worker)
+        if: env.CLOUDFLARE_API_TOKEN != '' && vars.SITE_URL != ''
         run: |
           for path in / /services /process /pricing; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "https://aiworkspacehq.workers.dev$path" || true)
-            echo "$path -> $code"
+            code=$(curl -s -o /dev/null -w "%{http_code}" "${{ vars.SITE_URL }}$path")
+            echo "$path -> $code"; [ "$code" = "200" ] || exit 1
           done
