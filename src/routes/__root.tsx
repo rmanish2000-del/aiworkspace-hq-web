@@ -79,17 +79,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AI Workspace — The operating layer for accountable AI" },
+      { title: "AI Workspace — Customer AI deployment you can check, step by step" },
       {
         name: "description",
         content:
-          "Connect approved knowledge, governed work, verification and human review in one evidence-backed operating layer for accountable enterprise AI.",
+          "We take one repeated job in your organisation and put AI on it, measured and safe, through a 12-step process where every step leaves a receipt you can check.",
       },
-      { property: "og:title", content: "AI Workspace — The operating layer for accountable AI" },
+      {
+        property: "og:title",
+        content: "AI Workspace — Customer AI deployment you can check, step by step",
+      },
       {
         property: "og:description",
         content:
-          "Connect approved knowledge, governed work, verification and human review in one evidence-backed operating layer for accountable enterprise AI.",
+          "We take one repeated job in your organisation and put AI on it, measured and safe, through a 12-step process where every step leaves a receipt you can check.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -99,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Source+Sans+3:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@500;600&display=swap",
       },
       {
         rel: "stylesheet",

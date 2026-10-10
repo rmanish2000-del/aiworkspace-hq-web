@@ -1,15 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Shield } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { planMailto } from "@/content/caid";
 import { experience, nav } from "@/content/copy";
 import { cn } from "@/lib/utils";
 
 const primaryNav = [
-  { href: "/platform", label: "Platform" },
+  { href: "/services", label: "Services" },
+  { href: "/process", label: "The 12 steps" },
   { href: "/products", label: "Products" },
   { href: "/trust", label: "Trust" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/resources", label: "Resources" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
@@ -18,11 +19,20 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="container-site flex h-16 items-center justify-between gap-6">
-        <Link to="/" className="flex min-h-11 items-center gap-2.5" aria-label="AI Workspace HQ home">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Shield className="size-4" />
+        <Link
+          to="/"
+          className="flex min-h-11 items-center gap-2.5"
+          aria-label="AI Workspace HQ home"
+        >
+          <span
+            aria-hidden
+            className="flex size-8 items-center justify-center rounded-full border-2 border-[var(--color-verified)] font-display text-[0.8125rem] font-bold text-[var(--color-verified)] -rotate-6"
+          >
+            AW
           </span>
-          <span className="text-[0.9375rem] font-semibold tracking-tight">AI Workspace HQ</span>
+          <span className="font-display text-[1.0625rem] font-semibold tracking-tight">
+            AI Workspace
+          </span>
         </Link>
 
         <nav aria-label={nav.label} className="hidden items-center gap-8 lg:flex">
@@ -40,10 +50,10 @@ export function SiteHeader() {
 
         <div className="hidden lg:block">
           <a
-            href={experience.nav.primaryHref}
-            className="inline-flex min-h-11 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            href={planMailto}
+            className="inline-flex min-h-11 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
-            Request Early Access
+            Ask for a plan
           </a>
         </div>
 
@@ -58,12 +68,14 @@ export function SiteHeader() {
         </button>
       </div>
 
-
       {open ? (
         <div className="border-t border-border lg:hidden">
           <nav aria-label={nav.label} className="container-site flex flex-col py-4">
             <p className="eyebrow pb-3">{experience.nav.menuEyebrow}</p>
-            {[...primaryNav, ...nav.items.filter((i) => !primaryNav.some((p) => p.href === i.href))].map((item) => (
+            {[
+              ...primaryNav,
+              ...nav.items.filter((i) => !primaryNav.some((p) => p.href === i.href)),
+            ].map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
@@ -74,11 +86,11 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href={experience.nav.primaryHref}
+              href={planMailto}
               onClick={() => setOpen(false)}
               className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
             >
-              {experience.nav.primaryAction}
+              Ask for a plan
             </a>
           </nav>
         </div>
@@ -91,8 +103,10 @@ const footerColumns = [
   {
     label: experience.footer.explore,
     links: [
-      { href: "/platform", label: "Platform" },
+      { href: "/services", label: "Services" },
+      { href: "/process", label: "The 12 steps" },
       { href: "/products", label: "Products" },
+      { href: "/platform", label: "Platform" },
       { href: "/building", label: "What we are building" },
       { href: "/about", label: nav.about },
     ],
@@ -127,13 +141,17 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="flex size-6 items-center justify-center rounded-md bg-primary font-mono text-[0.6875rem] font-bold text-primary-foreground">
+              <span
+                aria-hidden
+                className="flex size-6 -rotate-6 items-center justify-center rounded-full border-2 border-[var(--color-verified)] font-display text-[0.625rem] font-bold text-[var(--color-verified)]"
+              >
                 AW
               </span>
               <span className="text-[0.9375rem] font-semibold tracking-tight">AI Workspace</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              {experience.footer.statement}
+              We put AI on one repeated job at a time, through a process where every step leaves a
+              receipt you can check.
             </p>
           </div>
           {footerColumns.map((col) => (
@@ -157,7 +175,7 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>{experience.footer.status}</p>
+          <p>Customer AI deployment services. Products: Warrant and Warrant MCP.</p>
           <p>© 2026 AI Workspace. All rights reserved.</p>
         </div>
       </div>
