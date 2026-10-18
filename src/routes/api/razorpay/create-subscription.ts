@@ -6,6 +6,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 
+import { guardCreateSubscription } from "@/lib/checkout-guard.server";
 import { razorpay, readCredentials } from "@/lib/razorpay.server";
 
 const SEALED_INR = 999;
@@ -20,7 +21,15 @@ const PLAN_ITEM = {
 export const Route = createFileRoute("/api/razorpay/create-subscription")({
   server: {
     handlers: {
-      POST: async () => {
+      POST: async ({ request }) => {
+        // Security: reject cross-site, empty, malformed and rate-limited requests
+        // before anything is sent to Razorpay (3 Sep 2026 audit).
+        const guard = await guardCreateSubscription(request);
+        if (!guard.ok) {
+          return Response.json({ error: guard.error }, { status: guard.status });
+        }
+        const buyer = guard.value;
+
         const credentials = readCredentials();
         if (!credentials) {
           console.error("razorpay: credentials are missing or not allowed");
@@ -67,6 +76,9 @@ export const Route = createFileRoute("/api/razorpay/create-subscription")({
               notes: {
                 surface: "aiworkspacehq.com/checkout",
                 seal: "PRICING-SEAL 2026-08-18 OK B",
+                plan: buyer.plan,
+                buyer_email: buyer.email,
+                buyer_name: buyer.name,
               },
             }),
           });
