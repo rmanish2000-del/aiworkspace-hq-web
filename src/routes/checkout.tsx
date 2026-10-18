@@ -29,7 +29,8 @@ export const Route = createFileRoute("/checkout")({
       { property: "og:title", content: "Checkout — Warrant Guardian subscription" },
       {
         property: "og:description",
-        content: "Warrant Guardian monthly subscription checkout, operated by Kartavya CSC Digital Seva.",
+        content:
+          "Warrant Guardian monthly subscription checkout, operated by Kartavya CSC Digital Seva.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -61,6 +62,8 @@ function loadRazorpay(): Promise<boolean> {
 function CheckoutPage() {
   const [state, setState] = useState("");
   const [busy, setBusy] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const rupees = SEALED_INR.toLocaleString("en-IN");
 
   // Return leg from the bank redirect: confirm with Razorpay before saying anything is paid.
@@ -90,6 +93,10 @@ function CheckoutPage() {
   }, []);
 
   const pay = useCallback(async () => {
+    if (name.trim().length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setState("Please enter your name and a valid email before subscribing.");
+      return;
+    }
     setBusy(true);
     setState("Preparing your subscription…");
 
@@ -102,7 +109,15 @@ function CheckoutPage() {
 
     let order: { subscription_id: string; key_id: string };
     try {
-      const created = await fetch("/api/razorpay/create-subscription", { method: "POST" });
+      const created = await fetch("/api/razorpay/create-subscription", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          plan: "warrant-guardian-monthly",
+          name: name.trim(),
+          email: email.trim(),
+        }),
+      });
       if (!created.ok) {
         setBusy(false);
         setState("Payments are not available right now. Nothing was charged.");
@@ -120,6 +135,7 @@ function CheckoutPage() {
       subscription_id: order.subscription_id,
       name: "Warrant Guardian",
       description: "Monthly subscription",
+      prefill: { name: name.trim(), email: email.trim() },
       // Bank authentication (3DS) redirects rather than returning to the modal.
       // Redirect-only is the only shape that survives the window closing: the
       // browser posts to /api/razorpay/return, which verifies the signature
@@ -140,14 +156,14 @@ function CheckoutPage() {
       );
     });
     rzp.open();
-  }, []);
+  }, [name, email]);
 
   return (
     <Section eyebrow="Checkout" heading="Warrant Guardian">
       <div className="max-w-2xl">
         <p className="mt-2 text-base leading-relaxed text-muted-foreground">
-          Warrant Guardian — <strong className="text-foreground">₹{rupees} per month</strong>. GST as
-          applicable is added at payment.
+          Warrant Guardian — <strong className="text-foreground">₹{rupees} per month</strong>. GST
+          as applicable is added at payment.
         </p>
 
         <div className="mt-8 rounded-xl border border-border bg-card p-6 md:p-7">
@@ -155,6 +171,30 @@ function CheckoutPage() {
             <span className="text-4xl font-semibold tracking-tight">₹{rupees}</span>
             <span className="text-sm text-muted-foreground">per month</span>
           </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <label className="text-sm">
+              <span className="text-muted-foreground">Name</span>
+              <input
+                type="text"
+                autoComplete="name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2"
+              />
+            </label>
+            <label className="text-sm">
+              <span className="text-muted-foreground">Email</span>
+              <input
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2"
+              />
+            </label>
+          </div>
           <button
             id="pay"
             type="button"
@@ -175,12 +215,30 @@ function CheckoutPage() {
 
         <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
           Operated by Kartavya CSC Digital Seva. Before paying, you can read the{" "}
-          <a className="link-quiet" href="/terms">Terms of Service</a>,{" "}
-          <a className="link-quiet" href="/privacy">Privacy Policy</a>,{" "}
-          <a className="link-quiet" href="/refunds">Refund and Cancellation Policy</a>,{" "}
-          <a className="link-quiet" href="/delivery">Delivery Policy</a>,{" "}
-          <a className="link-quiet" href="/contact">Contact</a> and{" "}
-          <a className="link-quiet" href="/about">About</a> pages.
+          <a className="link-quiet" href="/terms">
+            Terms of Service
+          </a>
+          ,{" "}
+          <a className="link-quiet" href="/privacy">
+            Privacy Policy
+          </a>
+          ,{" "}
+          <a className="link-quiet" href="/refunds">
+            Refund and Cancellation Policy
+          </a>
+          ,{" "}
+          <a className="link-quiet" href="/delivery">
+            Delivery Policy
+          </a>
+          ,{" "}
+          <a className="link-quiet" href="/contact">
+            Contact
+          </a>{" "}
+          and{" "}
+          <a className="link-quiet" href="/about">
+            About
+          </a>{" "}
+          pages.
         </p>
       </div>
     </Section>
