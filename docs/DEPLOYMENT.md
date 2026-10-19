@@ -5,8 +5,9 @@
 Verified 2026-10-10:
 - Vercel builds every PR (preview) and deploys every push to `main` to production automatically.
 - Production domains on the Vercel project: `aiworkspacehq.com`, `www.aiworkspacehq.com` (both verified). DNS is hosted on Vercel DNS (`ns1/ns2.vercel-dns.com`).
-- Production env vars on Vercel: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `RESEND_API_KEY`.
-- GitHub Actions `ci.yml` typechecks and builds every PR and push to `main`.
+- Production env vars on Vercel: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `RESEND_API_KEY`. Optional mail overrides: `OPS_EMAIL` (admin payment-alert recipient; default `founder@aiworkspacehq.com`) and `MAIL_FROM` (default `AI Workspace <founder@aiworkspacehq.com>`, and that address must be a verified Resend sender).
+- GitHub Actions `ci.yml` runs tests, typecheck, and build on every PR and push to `main`.
+- A verified Razorpay webhook (`payment.captured`, `subscription.charged`, `subscription.activated` with a captured payment) sends the buyer confirmation and the admin alert. The checkout return URL does not send mail. `RESEND_API_KEY` is read from the environment. A mail failure is logged and still returns 200 to Razorpay. Sending is idempotent per payment id.
 
 ## Why nothing breaks without Lovable
 - Plain `bun install && bun run build` works; `@lovable.dev/vite-tanstack-config` is an ordinary npm package.
