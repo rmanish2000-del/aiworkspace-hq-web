@@ -139,7 +139,7 @@ export async function deliverPlanRequest(
     "AI Workspace <onboarding@resend.dev>",
   ];
   let lastReason = "mailer-unknown";
-  for (const from of senders) {
+  for (const { from, to } of attempts) {
     try {
       const response = await fetchImpl("https://api.resend.com/emails", {
         method: "POST",
@@ -149,7 +149,7 @@ export async function deliverPlanRequest(
         },
         body: JSON.stringify({
           from,
-          to: [EMAIL],
+          to: [to],
           reply_to: value.email,
           subject: `Scoped plan request — ${value.name}`,
           text: formatPlanMessage(value),
