@@ -31,14 +31,20 @@ type MailEnv = { RESEND_API_KEY?: string; RESEND_FROM?: string };
 
 export const planIpLimiter = createRateLimiter(5, 15 * 60_000);
 
-function textField(value: unknown, max: number, label: string, required: boolean): PlanResult<string> {
+function textField(
+  value: unknown,
+  max: number,
+  label: string,
+  required: boolean,
+): PlanResult<string> {
   if (value == null || value === "") {
     if (required) return { ok: false, status: 400, error: `${label} is required` };
     return { ok: true, value: "" };
   }
   if (typeof value !== "string") return { ok: false, status: 400, error: `${label} must be text` };
   const trimmed = value.trim();
-  if (required && trimmed.length < 2) return { ok: false, status: 400, error: `${label} is required` };
+  if (required && trimmed.length < 2)
+    return { ok: false, status: 400, error: `${label} is required` };
   if (trimmed.length > max) return { ok: false, status: 400, error: `${label} is too long` };
   if (/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(trimmed)) {
     return { ok: false, status: 400, error: `${label} contains characters we cannot accept` };
@@ -126,30 +132,51 @@ export async function deliverPlanRequest(
     return "logged";
   }
 
-  try {
-    const response = await fetchImpl("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: env.RESEND_FROM || `AI Workspace <${EMAIL}>`,
-        to: [EMAIL],
-        reply_to: value.email,
-        subject: `Scoped plan request — ${value.name}`,
-        text: formatPlanMessage(value),
-      }),
-    });
-    if (response.ok) return "email";
-    console.error("plan-request: mailer returned", response.status);
-    storePlanRequest(value, `mailer-${response.status}`);
-    return "logged";
-  } catch (error) {
-    console.error("plan-request: mailer threw", error instanceof Error ? error.name : "error");
-    storePlanRequest(value, "mailer-threw");
-    return "logged";
+  // Primary sender first; if Resend refuses it (e.g. domain not verified yet),
+  // retry once from Resend's shared sender, which delivers to the account owner.
+  const senders = [
+    env.RESEND_FROM || `AI Workspace <${EMAIL}>`,
+    "AI Workspace <onboarding@resend.dev>",
+  ];
+  let lastReason = "mailer-unknown";
+  for (const from of senders) {
+    try {
+      const response = await fetchImpl("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from,
+          to: [EMAIL],
+          reply_to: value.email,
+          subject: `Scoped plan request — ${value.name}`,
+          text: formatPlanMessage(value),
+        }),
+      });
+      if (response.ok) return "email";
+      let detail = "";
+      try {
+        const body = (await response.json()) as { name?: string; message?: string };
+        detail = `${body.name ?? ""} ${body.message ?? ""}`.trim().slice(0, 200);
+      } catch {
+        /* ignore */
+      }
+      console.error(
+        "plan-request: mailer returned",
+        response.status,
+        from.includes("resend.dev") ? "fallback" : "primary",
+        detail,
+      );
+      lastReason = `mailer-${response.status}`;
+    } catch (error) {
+      console.error("plan-request: mailer threw", error instanceof Error ? error.name : "error");
+      lastReason = "mailer-threw";
+    }
   }
+  storePlanRequest(value, lastReason);
+  return "logged";
 }
 
 export async function handlePlanRequest(
