@@ -134,9 +134,9 @@ export async function deliverPlanRequest(
 
   // Primary sender first; if Resend refuses it (e.g. domain not verified yet),
   // retry once from Resend's shared sender, which delivers to the account owner.
-  const senders = [
-    env.RESEND_FROM || `AI Workspace <${EMAIL}>`,
-    "AI Workspace <onboarding@resend.dev>",
+  const attempts = [
+    { from: env.RESEND_FROM || `AI Workspace <${EMAIL}>`, to: EMAIL },
+    { from: "AI Workspace <onboarding@resend.dev>", to: "rmanish2000@gmail.com" },
   ];
   let lastReason = "mailer-unknown";
   for (const { from, to } of attempts) {
