@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { planMailto } from "@/content/caid";
+import { PLAN_HREF } from "@/content/caid";
 import { experience, nav } from "@/content/copy";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +50,8 @@ export function SiteHeader() {
 
         <div className="hidden lg:block">
           <a
-            href={planMailto}
+            href={PLAN_HREF}
+            data-cta="header"
             className="inline-flex min-h-11 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             Ask for a plan
@@ -86,7 +87,8 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href={planMailto}
+              href={PLAN_HREF}
+              data-cta="header"
               onClick={() => setOpen(false)}
               className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
             >

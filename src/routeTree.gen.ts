@@ -29,6 +29,7 @@ import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrustRouteImport } from './routes/trust'
 import { Route as WhatWeHaventBuiltRouteImport } from './routes/what-we-havent-built'
+import { Route as ApiPlanRequestRouteImport } from './routes/api/plan-request'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
 import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
@@ -138,6 +139,11 @@ const WhatWeHaventBuiltRoute = WhatWeHaventBuiltRouteImport.update({
   path: '/what-we-havent-built',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPlanRequestRoute = ApiPlanRequestRouteImport.update({
+  id: '/api/plan-request',
+  path: '/api/plan-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/api/plan-request': typeof ApiPlanRequestRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -232,6 +239,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/api/plan-request': typeof ApiPlanRequestRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
@@ -263,6 +271,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
+  '/api/plan-request': typeof ApiPlanRequestRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
+    | '/api/plan-request'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -325,6 +335,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
+    | '/api/plan-request'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products'
@@ -355,6 +366,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
+    | '/api/plan-request'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -386,6 +398,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TrustRoute: typeof TrustRoute
   WhatWeHaventBuiltRoute: typeof WhatWeHaventBuiltRoute
+  ApiPlanRequestRoute: typeof ApiPlanRequestRoute
   ProductsWarrantRoute: typeof ProductsWarrantRoute
   ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -538,6 +551,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhatWeHaventBuiltRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/plan-request': {
+      id: '/api/plan-request'
+      path: '/api/plan-request'
+      fullPath: '/api/plan-request'
+      preLoaderRoute: typeof ApiPlanRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -618,6 +638,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TrustRoute: TrustRoute,
   WhatWeHaventBuiltRoute: WhatWeHaventBuiltRoute,
+  ApiPlanRequestRoute: ApiPlanRequestRoute,
   ProductsWarrantRoute: ProductsWarrantRoute,
   ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,

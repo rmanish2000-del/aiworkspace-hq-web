@@ -3,7 +3,7 @@
 > Native state (wins on detail): this file + `docs/HANDOFF_LOG.md`; CI `.github/workflows/ci.yml`
 
 Owner: lead Grok Engineering desk; also Claude (CAID redesign), Lovable  ·  Visibility: PUBLIC (no private data here)  ·  Deploy: Vercel: every push to `main` deploys production
-Last updated: 2026-10-19 08:10 IST by Grok Bot
+Last updated: 2026-10-20 21:20 IST by Grok (Cursor)
 
 ## Current state
 - Live on Vercel (TanStack Start). Checkout uses Razorpay.
@@ -27,4 +27,5 @@ Last updated: 2026-10-19 08:10 IST by Grok Bot
 - (none)
 
 ## Recent (newest first)
+- Plan CTAs (`Ask for a plan` / `Ask for a scoped plan`) go to `/contact#plan`. The form POSTs `/api/plan-request` (validate, rate-limit, Resend when `RESEND_API_KEY` is set, otherwise the request is logged and the call still returns 200). Plain founder@ links keep mailto plus a copy button. Evidence: `bun test` 21 pass; Playwright `tests/e2e/cta-smoke.e2e.ts` 4 pass. Checkout/Razorpay untouched.
 - cf290e1 security: guard create-subscription (#82) · de2b550 CAID redesign + security fix (#81)

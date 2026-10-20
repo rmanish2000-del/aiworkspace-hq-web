@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { planMailto } from "@/content/caid";
+import { PLAN_HREF } from "@/content/caid";
 import { Band, CloseBand, PrimaryAction, ProcessDetail } from "@/components/site/caid-sections";
 
 const title = "The 12 steps — AI Workspace";
@@ -29,7 +29,9 @@ function ProcessPage() {
             its receipt exists and you can open it.
           </p>
           <div className="mt-8">
-            <PrimaryAction href={planMailto}>Ask for a scoped plan</PrimaryAction>
+            <PrimaryAction href={PLAN_HREF} cta="hero">
+              Ask for a scoped plan
+            </PrimaryAction>
           </div>
         </div>
       </section>

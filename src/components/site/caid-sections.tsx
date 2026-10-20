@@ -8,7 +8,7 @@ import {
   exampleLedger,
   ownSystems,
   phases,
-  planMailto,
+  PLAN_HREF,
   promises,
   services,
   servicesNote,
@@ -19,10 +19,17 @@ import {
 /* the one loud object.                                                */
 /* ------------------------------------------------------------------ */
 
-export function PrimaryAction(props: { href: string; children: ReactNode; className?: string }) {
+export function PrimaryAction(props: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+  cta?: "hero" | "footer";
+}) {
+  const ctaProps = props.cta ? { "data-cta": props.cta } : {};
   return (
     <a
       href={props.href}
+      {...ctaProps}
       className={cn(
         "inline-flex min-h-12 items-center justify-center rounded-md bg-primary px-6 text-[0.9875rem] font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
         props.className,
@@ -291,7 +298,8 @@ export function CloseBand() {
         </div>
         <div className="md:text-right">
           <a
-            href={planMailto}
+            href={PLAN_HREF}
+            data-cta="footer"
             className="inline-flex min-h-12 items-center justify-center rounded-md bg-primary-foreground px-6 font-semibold text-primary transition-opacity hover:opacity-90"
           >
             {close.primary}

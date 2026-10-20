@@ -38,7 +38,7 @@ export function PageHero(props: {
           {props.primary || props.secondary ? (
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               {props.primary ? (
-                <ButtonLink to={props.primary.to} className="min-h-11 w-full sm:w-auto">
+                <ButtonLink to={props.primary.to} cta="hero" className="min-h-11 w-full sm:w-auto">
                   {props.primary.label}
                 </ButtonLink>
               ) : null}
@@ -46,6 +46,7 @@ export function PageHero(props: {
                 <ButtonLink
                   to={props.secondary.to}
                   variant="secondary"
+                  cta="hero"
                   className="min-h-11 w-full sm:w-auto"
                 >
                   {props.secondary.label}
@@ -78,13 +79,14 @@ export function CtaBand(props: {
         <h2 className="h2 mx-auto max-w-2xl">{props.heading}</h2>
         {props.lead ? <p className="lead mx-auto mt-5">{props.lead}</p> : null}
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <ButtonLink to={props.primary.to} className="min-h-11 w-full sm:w-auto">
+          <ButtonLink to={props.primary.to} cta="footer" className="min-h-11 w-full sm:w-auto">
             {props.primary.label}
           </ButtonLink>
           {props.secondary ? (
             <ButtonLink
               to={props.secondary.to}
               variant="secondary"
+              cta="footer"
               className="min-h-11 w-full sm:w-auto"
             >
               {props.secondary.label}

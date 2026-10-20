@@ -91,19 +91,21 @@ export function ButtonLink(props: {
   children: ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
+  cta?: "hero" | "footer";
 }) {
   const variant = props.variant ?? "primary";
   const cls = linkClass(variant, props.className);
+  const ctaProps = props.cta ? { "data-cta": props.cta } : {};
   if (isHashHref(props.to)) {
     return (
-      <a href={props.to} className={cls}>
+      <a href={props.to} className={cls} {...ctaProps}>
         {props.children}
         <span aria-hidden>→</span>
       </a>
     );
   }
   return (
-    <Link to={props.to as "/"} className={cls}>
+    <Link to={props.to as "/"} className={cls} {...ctaProps}>
       {props.children}
       <span aria-hidden>→</span>
     </Link>
