@@ -5,9 +5,15 @@
 */
 
 export const EMAIL = "founder@aiworkspacehq.com";
-export const planMailto = `mailto:${EMAIL}?subject=${encodeURIComponent("Scoped plan request")}&body=${encodeURIComponent(
-  "Organisation:\nWhat kind of work repeats every week:\nWho does it today:\nWhat would 'better' look like:\n",
-)}`;
+
+/** On-site plan request. A mail app is not required. */
+export const PLAN_HREF = "/contact#plan";
+
+export const planQuestions = [
+  { name: "weeklyWork", label: "What kind of work repeats every week" },
+  { name: "whoDoesIt", label: "Who does it today" },
+  { name: "better", label: "What would better look like" },
+] as const;
 
 export const meta = {
   title: "AI Workspace — Customer AI deployment you can check, step by step",

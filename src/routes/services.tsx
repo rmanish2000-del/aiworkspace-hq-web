@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { planMailto } from "@/content/caid";
+import { PLAN_HREF } from "@/content/caid";
 import {
   Band,
   BandHead,
@@ -36,7 +36,9 @@ function ServicesPage() {
             our recommendation — and you choose whether to go on.
           </p>
           <div className="mt-8">
-            <PrimaryAction href={planMailto}>Ask for a scoped plan</PrimaryAction>
+            <PrimaryAction href={PLAN_HREF} cta="hero">
+              Ask for a scoped plan
+            </PrimaryAction>
           </div>
         </div>
       </section>

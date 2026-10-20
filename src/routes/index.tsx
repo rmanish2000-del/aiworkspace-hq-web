@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { hero, meta, planMailto } from "@/content/caid";
+import { hero, meta, PLAN_HREF } from "@/content/caid";
 import {
   Audiences,
   Band,
@@ -42,7 +42,9 @@ function HomePage() {
               {hero.hindi}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <PrimaryAction href={planMailto}>{hero.primary}</PrimaryAction>
+              <PrimaryAction href={PLAN_HREF} cta="hero">
+                {hero.primary}
+              </PrimaryAction>
               <SecondaryAction to="/process">{hero.secondary}</SecondaryAction>
             </div>
           </div>

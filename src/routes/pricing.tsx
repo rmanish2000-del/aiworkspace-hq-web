@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BadgeCheck, CreditCard, Lock, RefreshCcw, Users } from "lucide-react";
 import { pricingPage as copy } from "@/content/pricing-page";
 import { Card, Section, StatusChip } from "@/components/site/primitives";
+import { EmailCopy } from "@/components/site/email-link";
 import { CtaBand, PageHero, SignalStrip } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
 
@@ -118,12 +119,7 @@ function PricingPage() {
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
           <a href="/checkout" className="link-quiet inline-flex min-h-11 items-center text-sm font-medium sm:min-h-0">Go to checkout →</a>
-          <a
-            href="mailto:founder@aiworkspacehq.com"
-            className="link-quiet inline-flex min-h-11 items-center text-sm font-medium sm:min-h-0"
-          >
-            founder@aiworkspacehq.com
-          </a>
+          <EmailCopy className="inline-flex min-h-11 items-center sm:min-h-0" />
         </div>
         <p className="micro-notice mt-8">
           {copy.sealLead} {SEAL.date}.

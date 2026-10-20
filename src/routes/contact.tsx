@@ -3,6 +3,8 @@ import { contact as copy } from "@/content/copy";
 import { ArrowLink, Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
+import { EmailCopy } from "@/components/site/email-link";
+import { PlanRequestForm } from "@/components/site/plan-request-form";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -18,8 +20,6 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const EMAIL = "founder@aiworkspacehq.com";
-
 function ContactPage() {
   const lead = copy.lead.split("contact routes");
   return (
@@ -30,10 +30,7 @@ function ContactPage() {
         lead={
           <>
             {lead[0]}
-            <a
-              href={`mailto:${EMAIL}`}
-              className="text-foreground underline underline-offset-4 hover:text-primary"
-            >
+            <a href="#plan" className="text-foreground underline underline-offset-4 hover:text-primary">
               contact routes
             </a>
             {lead[1] ?? ""}
@@ -41,23 +38,32 @@ function ContactPage() {
         }
       />
 
+      <Section id="plan" className="scroll-mt-24">
+        <h2 className="h2 max-w-2xl">Ask for a scoped plan</h2>
+        <p className="lead mt-5">
+          Tell us one piece of work your team repeats every week. We will reply with a scoped plan
+          for Discovery — what we would look at, what you would receive, and the fee.
+        </p>
+        <PlanRequestForm />
+      </Section>
+
       <Section>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
             {
               heading: copy.generalHeading,
               body: "For anything not covered below, email us. A person reads and answers.",
-              link: { to: `mailto:${EMAIL}`, label: EMAIL },
+              email: true,
             },
             {
               heading: copy.privacyHeading,
               body: copy.privacyBody,
-              link: { to: "/privacy", label: copy.privacyLinkText },
+              email: false,
             },
             {
               heading: copy.securityHeading,
               body: copy.securityBody,
-              link: { to: `mailto:${EMAIL}`, label: EMAIL },
+              email: true,
             },
           ].map((c, i) => (
             <Reveal key={c.heading} delay={i * 60}>
@@ -66,9 +72,13 @@ function ContactPage() {
                 <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {c.body}
                 </p>
-                <ArrowLink to={c.link.to} className="mt-5">
-                  {c.link.label}
-                </ArrowLink>
+                {c.email ? (
+                  <EmailCopy className="mt-5" />
+                ) : (
+                  <ArrowLink to="/privacy" className="mt-5">
+                    {copy.privacyLinkText}
+                  </ArrowLink>
+                )}
               </Card>
             </Reveal>
           ))}

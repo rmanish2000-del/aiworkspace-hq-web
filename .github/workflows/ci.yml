@@ -11,4 +11,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bunx tsc --noEmit -p .
+      - run: bun test
       - run: bun run build
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run test:e2e
