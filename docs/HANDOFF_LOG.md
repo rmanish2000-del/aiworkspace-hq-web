@@ -9,6 +9,7 @@ Format: `## <YYYY-MM-DD HH:MM IST> — <agent>` then: what changed (with evidenc
 - Secondary "or email founder@aiworkspacehq.com" plus a copy button; the same treatment is on the general, security and pricing email links.
 - Tests: `bun test` 21 passed (guard + plan-request). Playwright smoke (`bun run test:e2e`) 4 passed: every header/hero/footer CTA across 23 routes, mobile menu CTA, form error and success, copy button.
 - Checkout and Razorpay were not changed.
+- PR: https://github.com/rmanish2000-del/aiworkspace-hq-web/pull/84
 - Next: merge after CI and the Vercel preview are green, then confirm production CTAs and a successful form response.
 
 ## 2026-10-19 08:10 IST — Grok Bot
