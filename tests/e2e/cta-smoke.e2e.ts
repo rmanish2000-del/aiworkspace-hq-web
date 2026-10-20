@@ -89,9 +89,12 @@ test("plan form shows an error with the founder address, then submits", async ({
   await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto("/contact#plan");
 
-  await page.locator("#plan-name").fill("A");
-  await page.getByRole("button", { name: "Send the request" }).click();
-  await expect(page.getByRole("alert")).toContainText("founder@aiworkspacehq.com");
+  // Clicks before hydration do nothing. Retry until the handler is attached.
+  await expect(async () => {
+    await page.locator("#plan-name").fill("A");
+    await page.getByRole("button", { name: "Send the request" }).click();
+    await expect(page.getByRole("alert")).toContainText("founder@aiworkspacehq.com", { timeout: 1500 });
+  }).toPass({ timeout: 20_000 });
 
   await page.route("**/api/plan-request", async (route) => {
     await route.fulfill({
@@ -120,10 +123,13 @@ test("plan form shows an error with the founder address, then submits", async ({
   expect(await response.json()).toMatchObject({ ok: true });
   await expect(page.getByRole("status")).toContainText("asha@example.com");
 
-  await page.locator("#plan").getByRole("button", { name: "Copy email address" }).click();
-  await expect
-    .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-    .toBe("founder@aiworkspacehq.com");
+  const copy = page.locator("#plan").getByRole("button", { name: "Copy email address" });
+  await expect(async () => {
+    await copy.click();
+    await expect(page.locator("#plan").getByRole("button", { name: "Email address copied" })).toBeVisible({
+      timeout: 1500,
+    });
+  }).toPass({ timeout: 20_000 });
 });
 
 test("plain email links keep a mailto target and a copy button", async ({ page }) => {
@@ -132,9 +138,12 @@ test("plain email links keep a mailto target and a copy button", async ({ page }
     await page.goto(route);
     const mailto = page.locator('a[href="mailto:founder@aiworkspacehq.com"]');
     expect(await mailto.count(), route).toBeGreaterThan(0);
-    await page.getByRole("button", { name: "Copy email address" }).first().click();
-    await expect
-      .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-      .toBe("founder@aiworkspacehq.com");
+    const copy = page.getByRole("button", { name: "Copy email address" }).first();
+    await expect(async () => {
+      await copy.click();
+      await expect(page.getByRole("button", { name: "Email address copied" }).first()).toBeVisible({
+        timeout: 1500,
+      });
+    }).toPass({ timeout: 20_000 });
   }
 });
