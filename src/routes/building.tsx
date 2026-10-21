@@ -36,7 +36,7 @@ function BuildingPage() {
               <Card className="flex h-full flex-col transition-colors duration-200 hover:border-primary/40">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="h3">{p.name}</h2>
-                  <StatusChip tone="intent">Day zero</StatusChip>
+                  <StatusChip tone="intent">{"chip" in p ? p.chip : "Day zero"}</StatusChip>
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.what}</p>
                 <dl className="mt-6 flex-1 space-y-4 border-t border-border pt-5 text-sm">
@@ -56,6 +56,12 @@ function BuildingPage() {
                     </dd>
                   </div>
                 </dl>
+                {"href" in p ? (
+                  <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-4 text-sm font-medium">
+                    <a href={p.href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{p.linkLabel} →</a>
+                    <a href={p.caseHref} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{p.caseLabel} →</a>
+                  </div>
+                ) : null}
               </Card>
             </Reveal>
           ))}

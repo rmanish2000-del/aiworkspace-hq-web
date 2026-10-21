@@ -122,10 +122,10 @@ export const shared = {
 export const building = {
   metaTitle: 'What we are building — AI Workspace',
   metaDescription:
-    'Three efforts at day zero, each with its problem, its intended operator, its honest state and the date we would stop.',
+    'Three efforts, each with its problem, its intended operator, its honest state and the date we would stop.',
   eyebrow: 'What we are building',
-  heading: 'Three efforts at day zero, with the date we would stop each one.',
-  lead: 'None of these is a product yet. Each has a written problem, an intended operator, and a kill date — the day we archive it if the one thing it must prove has not happened. Publishing the kill date is the point: it is what stops an idea outliving its evidence.',
+  heading: 'Three efforts, with the date we would stop each one.',
+  lead: 'One is live with a public demo; the others are not products yet. Each has a written problem, an intended operator, and a kill date — the day we archive it if the one thing it must prove has not happened. Publishing the kill date is the point: it is what stops an idea outliving its evidence.',
   stateLabel: 'State today',
   forLabel: 'Intended for',
   killLabel: 'We stop it on',
@@ -146,7 +146,12 @@ export const building = {
       intendedFor:
         'Operations leads at EPCs and aggregators, who track this today in spreadsheets, shared drives and field calls.',
       state:
-        'Day zero. A written definition and a first task list exist. No software has been built.',
+        'Live at urjaops.com: lifecycle tracking for all four PM-KUSUM components, a responsibility directory, a deadline register with reminders, seven registers and 28 AI drafting actions. A public demo runs on a fictional sample project. No paying operator yet.',
+      chip: 'Live',
+      href: 'https://urjaops.com/demo',
+      linkLabel: 'Open the live demo',
+      caseHref: 'https://urjaops.com/case-study',
+      caseLabel: 'Read the case study',
       kill: '19 November 2026',
       killWhy:
         'if no operator has put a real site list into the register and confirmed it does the job of their weekly spreadsheet.',
