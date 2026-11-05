@@ -279,9 +279,14 @@ export const ownSystems = {
       body: "A research and trading system used only by its founder. Not offered as a service and not investment advice.",
     },
     {
-      name: "MirrorOS",
+      name: "Jachega",
       status: "Prototype",
-      body: "Virtual try-on for fashion brands that own their images. Quality is being measured before anything is offered.",
+      body: "Consumer virtual try-on at jachega.in: one shopper photo + brand product → AI preview on you → buy on the brand's own site. Photo stays on-device for the preview; AI shows look only. Prototype — quality is being measured before anything is offered.",
+    },
+    {
+      name: "ProofShot",
+      status: "Indie hackathon",
+      body: "Gated AI product photography (Meta Global AI Developer Hackathon Indie-track): checks a candidate listing image against the seller's own garment photos; a code gate decides RELEASE / REVIEW / REFUSE and writes a hash-chained receipt anyone can verify offline. Demo: https://rmanish2000-proofshot.hf.space/ · Public repo: https://github.com/rmanish2000-del/proofshot-hackathon · Video: https://youtu.be/JSzJBOU11sA. Own build / hackathon entry — not a client service.",
     },
   ],
 };

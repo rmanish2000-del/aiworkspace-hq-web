@@ -267,6 +267,7 @@ const statusTone: Record<string, string> = {
   "Pilot preparation": "stamp stamp-now",
   "Internal only": "stamp stamp-next",
   Prototype: "stamp stamp-next",
+  "Indie hackathon": "stamp stamp-next",
 };
 
 export function OwnSystems() {
