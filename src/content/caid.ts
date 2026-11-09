@@ -25,7 +25,6 @@ export const hero = {
   kicker: "Customer AI deployment",
   title: "Don’t trust us. Trust the process.",
   lead: "We take one job your team repeats every week and put AI on it — measured, safe and running in your real work. Every step leaves a receipt you can open and check, so you never have to take our word for anything.",
-  hindi: "भरोसा हम पर नहीं, प्रक्रिया पर।",
   primary: "Ask for a scoped plan",
   secondary: "See the 12 steps",
 };

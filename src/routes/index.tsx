@@ -38,9 +38,6 @@ function HomePage() {
             <p className="font-semibold text-[var(--color-verified)]">{hero.kicker}</p>
             <h1 className="h1 mt-4 text-ink">{hero.title}</h1>
             <p className="lead mt-6">{hero.lead}</p>
-            <p lang="hi" className="font-deva mt-5 text-lg text-ink">
-              {hero.hindi}
-            </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <PrimaryAction href={PLAN_HREF} cta="hero">
                 {hero.primary}
