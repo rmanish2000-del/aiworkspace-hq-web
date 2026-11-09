@@ -195,7 +195,7 @@ const toCheck = new Set();
 for (const page of pages) {
   for (const href of page.links || []) {
     const u = new URL(href);
-    if (u.origin === new URL(BASE).origin || href.includes("github.com/rmanish2000-del") || href.includes("jachega.in") || href.includes("eduos.global") || href.includes("urjaops.com") || href.includes("upwork.com/services") || href.includes("hf.space") || href.includes("youtu")) {
+    if (u.origin === new URL(BASE).origin || href.includes("github.com/rmanish2000-del") || href.includes("jachega.in") || href.includes("eduos.global") || href.includes("urjaops.com") || href.includes("upwork.com/services") || href.includes("hf.space") || href.includes("youtu") || href.includes("sensexpilot.com")) {
       // skip assets
       if (/\.(png|jpg|jpeg|svg|webp|ico|css|js|woff2?)(\?|$)/i.test(u.pathname)) continue;
       toCheck.add(href.split("#")[0]);
@@ -211,8 +211,11 @@ for (const href of [...toCheck].sort()) {
       redirect: "follow",
       headers: { "User-Agent": UA },
     });
-    // Upwork often 403 bots — treat 403 as soft warn, not failure
-    const soft = res.status === 403 && href.includes("upwork.com");
+    // Soft: Upwork bot 403; GitHub issues/new often auth-walls; transient GitHub 5xx
+    const soft =
+      (res.status === 403 && href.includes("upwork.com")) ||
+      (href.includes("github.com/") && href.includes("/issues/new")) ||
+      (res.status >= 500 && href.includes("github.com/"));
     linkStatus.set(href, { status: res.status, ok: res.status >= 200 && res.status < 400, soft });
     if (!(res.status >= 200 && res.status < 400) && !soft) {
       failures.push({ type: "link", href, status: res.status });
@@ -231,7 +234,7 @@ for (const href of [...toCheck].sort()) {
   );
   const EXPECTED_PRODUCTS = portfolio.products.map((p) => p.name);
   console.log(`Checking product SSOT consistency (${EXPECTED_PRODUCTS.join(", ")})…`);
-  for (const path of ["/", "/our-work", "/llms.txt", "/llms-full.txt"]) {
+  for (const path of ["/", "/our-work", "/about", "/llms.txt", "/llms-full.txt"]) {
     const url = `${BASE}${path}`;
     try {
       const res = await fetch(url, { headers: { "User-Agent": UA }, redirect: "follow" });

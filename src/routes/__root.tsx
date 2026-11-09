@@ -16,6 +16,7 @@ import {
   websiteJsonLd,
   personJsonLd,
   professionalServiceJsonLd,
+  softwareApplicationsJsonLd,
 } from "@/content/social";
 import { notFound } from "@/content/copy";
 
@@ -128,6 +129,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { "script:ld+json": websiteJsonLd },
       { "script:ld+json": personJsonLd },
       { "script:ld+json": professionalServiceJsonLd },
+      ...softwareApplicationsJsonLd.map((block) => ({ "script:ld+json": block })),
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
