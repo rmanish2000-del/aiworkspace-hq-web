@@ -122,10 +122,10 @@ export const shared = {
 export const building = {
   metaTitle: 'What we are building — AI Workspace',
   metaDescription:
-    'Three efforts, each with its problem, its intended operator, its honest state and the date we would stop.',
+    'Kill-dated efforts we still track, stated plainly. For the full portfolio of products and projects, see Our Work.',
   eyebrow: 'What we are building',
-  heading: 'Three efforts, with the date we would stop each one.',
-  lead: 'One is live with a public demo; the others are not products yet. Each has a written problem, an intended operator, and a kill date — the day we archive it if the one thing it must prove has not happened. Publishing the kill date is the point: it is what stops an idea outliving its evidence.',
+  heading: 'Kill-dated efforts, stated with the date we would stop.',
+  lead: 'Our Work is the portfolio. This page tracks a few efforts that still carry a kill date — the day we archive the idea if the one proof it needed has not happened. Publishing the date is the point: it stops an idea outliving its evidence.',
   stateLabel: 'State today',
   forLabel: 'Intended for',
   killLabel: 'We stop it on',
@@ -136,9 +136,10 @@ export const building = {
       intendedFor:
         'Ourselves first, on one real matter. Chambers only after internal use has proved it.',
       state:
-        'Day zero. A written definition and a first task list exist. No software has been built.',
+        'Kill date passed on 19 October 2026. Not presented as available. Related private work on document workflows appears under NyayOS on Our Work — that is a separate pilot-preparation project, not a claim that this effort shipped.',
+      chip: 'Past kill date',
       kill: '19 October 2026',
-      killWhy: 'if the index and chronology are not in weekly use on that matter by then.',
+      killWhy: 'Kill date passed. Archived from the active build list until a new written proof plan exists.',
     },
     {
       name: 'UrjaOps',
@@ -158,17 +159,22 @@ export const building = {
     },
     {
       name: 'EduOS',
-      what: 'A way for cohort operators to prove completion with evidence, instead of reconstructing it from spreadsheets afterwards.',
+      what: 'Learning tools for tutoring and coaching centres — including ways to prove completion with evidence instead of reconstructing it from spreadsheets.',
       intendedFor:
         'Training leads and small education teams, who chase this today through spreadsheets and messages.',
       state:
-        'Day zero, and deliberately parked: no build work begins until a named design partner exists. Attention is finite and two other efforts rank ahead of it.',
-      kill: '19 November 2026',
-      killWhy: 'if no design partner has committed by then.',
+        'Live at eduos.global. Public product site; private codebase. Listed under Projects on Our Work.',
+      chip: 'Live',
+      href: 'https://eduos.global',
+      linkLabel: 'Open the live site',
+      caseHref: 'https://eduos.global',
+      caseLabel: 'eduos.global',
+      kill: 'Kept live',
+      killWhy: 'No longer a day-zero park. If the public product is withdrawn, this card will say so.',
     },
   ],
-  closing: 'If one of these describes a problem you have, the contact page reaches a person.',
-  closingAction: 'Contact',
+  closing: 'If one of these describes a problem you have, ask for a scoped plan — or browse the full portfolio.',
+  closingAction: 'Ask for a plan',
   closingHref: '/contact',
 } as const;
 
@@ -937,8 +943,8 @@ export const warrantProduct = {
     'The repository includes a keyless test suite, five headless decision scenarios and a local operator console. Provider interaction remains sandbox-only.',
   githubLabel: 'Open the Warrant repository',
   githubHref: 'https://github.com/rmanish2000-del/warrant',
-  consoleLabel: 'Open the sandbox console',
-  consoleHref: '/warrant/console',
+  consoleLabel: 'Open the Warrant repository',
+  consoleHref: 'https://github.com/rmanish2000-del/warrant',
   partnershipHeading: 'Evaluate a bounded design partnership',
   partnershipBody:
     'Teams exploring purchasing authorization can open a public GitHub issue with the agent, payment boundary and policy question they need to test.',
@@ -1082,9 +1088,9 @@ export const principlesPage = {
 export const contact = {
   heading: 'Contact',
 
-  /** [V] Inline link `register interest` -> `/#interest`. */
-  lead: 'AI Workspace is in development. If you want to get in touch, the contact routes below reach a person.',
-  leadLinkText: 'register interest',
+  /** Plan form is the primary hire path; email still reaches a person. */
+  lead: 'Ask for a scoped plan, email a person, or hire us on Upwork. The routes below are monitored.',
+  leadLinkText: 'Ask for a scoped plan',
 
   generalHeading: 'General enquiries',
 
@@ -1111,7 +1117,7 @@ export const contact = {
   /** P1-J §8.3. 127 characters. */
   metaTitle: 'Contact — AI Workspace',
   metaDescription:
-    'How to reach AI Workspace, and how to ask what personal data we hold, correct it, or have it deleted.',
+    'Ask for a scoped Customer AI plan, email founder@aiworkspacehq.com, or hire the AI Eval Audit on Upwork. Privacy requests welcome.',
   canonicalPath: '/contact',
 } as const;
 
@@ -1273,7 +1279,7 @@ export const about = {
    * `sla`. The check is whole-word, so it passes; P2-C §12.2 records this.
    */
   whyBody:
-    'Organizations already run on dozens of systems, chosen over many years for good reasons. Most AI tools arrive assuming a clean slate, and ask for data to be moved or re-platformed before they become useful. AI Workspace starts from the opposite assumption: that those systems are staying, and the layer has to fit around them.',
+    'Most AI tools ask you to migrate data or re-platform before they help. We start from the opposite assumption: keep the systems you already run, put AI on one repeated job, and prove each step with a receipt you can open. That is Customer AI you can check, step by step.',
 
   /** P2-C §5 `about.todayH2`. */
   todayHeading: 'Where this programme is today',
@@ -1286,7 +1292,7 @@ export const about = {
 
   /** [V] P2-C §5 `about.todayBody`. A fact about the site, not the product. */
   todayBody:
-    'This site exists before the product does. It is here to explain the problem and the approach, and to let people who recognize that problem tell us so.',
+    'We deliver Customer AI Deployment: one repeated job at a time, through a 12-step process where every step leaves a receipt you can check. Live products and selected projects are listed on Our Work. A sealed Founder Edition price for Warrant Guardian is published on Pricing.',
 
   /** P2-C §5 `about.claimsH2`. */
   claimsHeading: 'What this site will and will not claim',
@@ -1319,16 +1325,16 @@ export const about = {
    * Two inline links: `register interest` → `/#interest`, `contact us` →
    * `/contact`. Both link texts are meaningful out of context (P2-C A-3).
    */
-  contactBody: 'To register interest or get in touch, use the contact routes below.',
+  contactBody: 'Ask for a scoped Discovery plan on Contact, or hire the AI Eval Audit listing on Upwork. Email reaches a person at founder@aiworkspacehq.com.',
 
   /** The two link texts, split out so the sentence is never rebuilt by hand. */
-  contactRegisterLinkText: 'register interest',
-  contactContactLinkText: 'contact us',
+  contactRegisterLinkText: 'Ask for a scoped plan',
+  contactContactLinkText: 'Contact',
 
   /** P2-C §7.1. */
   metaTitle: 'About — AI Workspace',
   metaDescription:
-    'Why AI Workspace is being built, where the programme is today, and what this site will and will not claim while the product is still in development.',
+    'AI Workspace HQ — Customer AI deployment by Manish Patel in India. What we do, what we will not claim, and how to hire us.',
   canonicalPath: '/about',
 } as const;
 

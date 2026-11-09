@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { principles as copy, principlesPage as page } from "@/content/copy";
 import { Section, TermList } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
@@ -11,8 +12,10 @@ export const Route = createFileRoute("/principles")({
       { property: "og:title", content: page.metaTitle },
       { property: "og:description", content: page.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/principles") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/principles") }],
   }),
   component: PrinciplesPage,
 });

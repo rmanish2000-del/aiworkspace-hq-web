@@ -12,7 +12,7 @@ How this site is written
 Every sentence here about what Guardian does is checked against a document that records exactly which features exist and which do not. When something is not built, the page says so. There is no separate marketing function writing copy that engineering has not verified.
 
 Where we are
-Early. Some of it works today and some is being built; every card on the home page says which. There is no paid tier, nothing is on sale, and no payment is collected anywhere on this site.
+Customer AI Deployment services are offered through a scoped plan on Contact. Warrant Guardian is offered as a paid monthly subscription at the price published on /pricing; payment is collected on /checkout through Razorpay.
 We would rather have you correctly informed and not signed up, than signed up on a misunderstanding.
 
 Contact

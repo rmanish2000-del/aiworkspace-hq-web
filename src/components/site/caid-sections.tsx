@@ -301,13 +301,21 @@ export function CloseBand() {
           <h2 className="h2">{close.title}</h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed opacity-85">{close.lead}</p>
         </div>
-        <div className="md:text-right">
+        <div className="flex flex-col gap-3 md:items-end md:text-right">
           <a
             href={PLAN_HREF}
             data-cta="footer"
             className="inline-flex min-h-12 items-center justify-center rounded-md bg-primary-foreground px-6 font-semibold text-primary transition-opacity hover:opacity-90"
           >
             {close.primary}
+          </a>
+          <a
+            href="https://www.upwork.com/services/product/2109673752356316568"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium underline underline-offset-4 opacity-90 hover:opacity-100"
+          >
+            Or hire on Upwork — AI Eval Audit
           </a>
         </div>
       </div>

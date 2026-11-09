@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { PLAN_HREF } from "@/content/caid";
 import { Band, CloseBand, PrimaryAction, ProcessDetail } from "@/components/site/caid-sections";
 
@@ -9,11 +10,13 @@ const description =
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
+      { property: "og:url", content: absoluteUrl("/process") },
       { title },
       { name: "description", content: description },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/process") }],
   }),
   component: ProcessPage,
 });

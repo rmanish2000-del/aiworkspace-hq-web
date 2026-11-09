@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { warrantProduct as copy } from "@/content/copy";
 import { LedgerBlock } from "@/components/site/ledger-block";
 import { ArrowLink, ButtonLink, Card, Section, TermList } from "@/components/site/primitives";
@@ -13,8 +14,10 @@ export const Route = createFileRoute("/products/warrant")({
       { property: "og:title", content: copy.metaTitle },
       { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/products/warrant") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/products/warrant") }],
   }),
   component: WarrantPage,
 });

@@ -5,7 +5,7 @@
  */
 export const pricingPage = {
   metaTitle: 'Pricing — AI Workspace',
-  metaDescription: 'Warrant Guardian pricing.',
+  metaDescription: 'Warrant Guardian at the founder-sealed price of ₹999 per month. GST as applicable. Subscribe on Checkout.',
   heading: 'Pricing',
   priceLeadBefore: 'Warrant Guardian is ',
   perMonth: 'per month',

@@ -129,6 +129,11 @@ const footerColumns = [
     links: [
       { href: "/enterprise", label: nav.enterprise },
       { href: "/contact", label: "Contact" },
+      {
+        href: "https://www.upwork.com/services/product/2109673752356316568",
+        label: "Hire on Upwork",
+        external: true,
+      },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
       { href: "/delivery", label: "Delivery" },
@@ -164,14 +169,27 @@ export function SiteFooter() {
               <ul className="mt-1 md:mt-4 md:space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link
-                      to={link.href}
-                      className={cn(
-                        "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:min-h-0 md:py-1",
-                      )}
-                    >
-                      {link.label}
-                    </Link>
+                    {"external" in link && link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:min-h-0 md:py-1",
+                        )}
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className={cn(
+                          "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:min-h-0 md:py-1",
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -179,7 +197,7 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>Customer AI deployment services. Products: Warrant and Warrant MCP.</p>
+          <p>Customer AI deployment. Products and projects: see Our Work.</p>
           <p>© 2026 AI Workspace. All rights reserved.</p>
         </div>
       </div>

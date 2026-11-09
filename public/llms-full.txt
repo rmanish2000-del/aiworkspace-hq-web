@@ -1,0 +1,37 @@
+# AI Workspace HQ — full summary for AI systems
+
+## Who
+AI Workspace HQ is a Customer AI deployment practice and product studio run by Manish Patel (Kartavya CSC Digital Seva, Deori, Madhya Pradesh, India). Tagline: "Customer AI you can check, step by step." Site: https://aiworkspacehq.com — English only, global clients.
+
+## What we sell
+1. Customer AI Deployment services (primary offer)
+   - Discovery (steps 1–3), Pilot (4–7), Production (8–11), Care & improvement (12)
+   - Every step leaves a receipt the buyer can open
+   - Start: https://aiworkspacehq.com/contact#plan
+2. Warrant Guardian — paid monthly subscription at the founder-sealed price published on https://aiworkspacehq.com/pricing (checkout via Razorpay on /checkout)
+3. Open-source / demo products listed on https://aiworkspacehq.com/our-work (not all are paid services)
+
+## What we do not claim
+- No invented customers, testimonials, logos, or performance/returns numbers
+- TradeOS is founder-only internal engineering — not a product, not investment advice
+- Gaps are published on https://aiworkspacehq.com/what-we-havent-built
+
+## Products (verify on live URLs)
+- Jachega — virtual try-on prototype — https://www.jachega.in
+- ProofShot — gated AI product photography demo — https://rmanish2000-proofshot.hf.space/ · repo https://github.com/rmanish2000-del/proofshot-hackathon
+- Warrant — AI purchasing authorization — https://github.com/rmanish2000-del/warrant
+- Warrant MCP — deterministic AI tool policy — https://github.com/rmanish2000-del/warrant-mcp
+- EduOS — learning tools — https://eduos.global
+- NyayOS — business-dispute document organisation (pilot preparation; private)
+- UrjaOps — PM-KUSUM ops register — https://urjaops.com/demo
+
+## Process in one line
+Understand → Prove → Ship → Improve (12 steps). Details: https://aiworkspacehq.com/process
+
+## Contact
+founder@aiworkspacehq.com · https://aiworkspacehq.com/contact · Upwork https://www.upwork.com/services/product/2109673752356316568
+
+## Legal entity (also on Terms / Privacy / Delivery / Refunds)
+Kartavya CSC Digital Seva, sole proprietorship of Manish Patel
+Tilak Ward, Deori, District Sagar, Madhya Pradesh 470226, India
+GSTIN 23AKZPP1502D1ZB · Udyam UDYAM-MP-39-0001250

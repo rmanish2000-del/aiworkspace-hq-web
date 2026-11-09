@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import {
   Layers,
   ShieldCheck,
@@ -21,8 +22,10 @@ export const Route = createFileRoute("/platform")({
       { property: "og:title", content: copy.metaTitle },
       { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/platform") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/platform") }],
   }),
   component: PlatformPage,
 });
@@ -79,7 +82,7 @@ function PlatformPage() {
         badge={copy.eyebrow}
         title={copy.heading}
         lead={copy.lead}
-        primary={{ to: "/contact", label: "Request Early Access" }}
+        primary={{ to: "/contact", label: "Ask for a scoped plan" }}
         secondary={{ to: "/our-work", label: "Our Work" }}
         aside={<LayerStack />}
       />
@@ -137,7 +140,7 @@ function PlatformPage() {
       <CtaBand
         heading="See the operating layer against your own workflow"
         lead="We will walk through governance, provenance, and human authorization on a real task."
-        primary={{ to: "/contact", label: "Request Early Access" }}
+        primary={{ to: "/contact", label: "Ask for a scoped plan" }}
         secondary={{ to: "/trust", label: "Read Trust" }}
       />
     </>

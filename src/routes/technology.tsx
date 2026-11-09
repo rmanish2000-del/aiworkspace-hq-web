@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { REVIEW_STAMP } from "@/content/ledger";
 import { LedgerBlock } from "@/components/site/ledger-block";
 import { Section, TermList } from "@/components/site/primitives";
@@ -18,8 +19,10 @@ export const Route = createFileRoute("/technology")({
         content: "What we run on, and what happens if we are wrong about it.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/technology") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/technology") }],
   }),
   component: TechnologyPage,
 });

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { ShieldCheck, GitBranch, UserCheck, FileCheck2, ScrollText } from "lucide-react";
 import { REVIEW_STAMP, WITHHELD_NOTICE } from "@/content/ledger";
 import { LedgerBlock } from "@/components/site/ledger-block";
@@ -20,8 +21,10 @@ export const Route = createFileRoute("/trust")({
         content: "What we can be held to, and what we cannot.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/trust") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/trust") }],
   }),
   component: TrustPage,
 });

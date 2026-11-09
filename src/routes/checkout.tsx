@@ -9,6 +9,7 @@
  *     (which asks Razorpay itself) answers authenticated/active.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { useCallback, useEffect, useState } from "react";
 import { Lock, ShieldCheck } from "lucide-react";
 
@@ -33,9 +34,11 @@ export const Route = createFileRoute("/checkout")({
           "Warrant Guardian monthly subscription checkout, operated by Kartavya CSC Digital Seva.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/checkout") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/checkout") }],
   }),
   component: CheckoutPage,
 });

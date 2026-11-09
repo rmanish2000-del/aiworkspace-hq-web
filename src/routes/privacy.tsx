@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import markdown from "@/content/legal/privacy.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
 import { Section } from "@/components/site/primitives";
@@ -18,8 +19,10 @@ export const Route = createFileRoute("/privacy")({
         content: "How AI Workspace handles personal data, logs, and analytics.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/privacy") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/privacy") }],
   }),
   component: PrivacyPage,
 });

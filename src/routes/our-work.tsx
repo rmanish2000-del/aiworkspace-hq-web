@@ -1,20 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { credentials, products, projects, workMeta } from "@/content/work";
+import { softwareApplicationsJsonLd } from "@/content/social";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
 import { Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
 
+const workSeo = pageSeo({
+  title: workMeta.title,
+  description: workMeta.description,
+  path: "/our-work",
+  jsonLd: [
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Our Work", path: "/our-work" },
+    ]),
+    ...softwareApplicationsJsonLd,
+  ],
+});
+
 export const Route = createFileRoute("/our-work")({
-  head: () => ({
-    meta: [
-      { title: workMeta.title },
-      { name: "description", content: workMeta.description },
-      { property: "og:title", content: workMeta.title },
-      { property: "og:description", content: workMeta.description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => workSeo,
   component: OurWorkPage,
 });
 

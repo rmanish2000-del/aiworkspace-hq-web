@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { hero, meta, PLAN_HREF } from "@/content/caid";
 import {
   Audiences,
@@ -24,8 +25,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: meta.title },
       { property: "og:description", content: meta.description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/") }],
   }),
   component: HomePage,
 });

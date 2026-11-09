@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { building as copy } from "@/content/copy";
 import { Card, Section, StatusChip } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
@@ -12,8 +13,10 @@ export const Route = createFileRoute("/building")({
       { property: "og:title", content: copy.metaTitle },
       { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/building") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/building") }],
   }),
   component: BuildingPage,
 });
@@ -26,7 +29,7 @@ function BuildingPage() {
         title={copy.heading}
         lead={copy.lead}
         primary={{ to: copy.closingHref, label: copy.closingAction }}
-        secondary={{ to: "/what-we-havent-built", label: "What We Haven't Built" }}
+        secondary={{ to: "/our-work", label: "Our Work" }}
       />
 
       <Section>
@@ -71,7 +74,7 @@ function BuildingPage() {
       <CtaBand
         heading={copy.closing}
         primary={{ to: copy.closingHref, label: copy.closingAction }}
-        secondary={{ to: "/resources", label: "Browse Resources" }}
+        secondary={{ to: "/our-work", label: "Our Work" }}
       />
     </>
   );

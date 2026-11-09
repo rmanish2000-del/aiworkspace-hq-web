@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import markdown from "@/content/legal/refunds.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
 import { Section } from "@/components/site/primitives";
@@ -18,8 +19,10 @@ export const Route = createFileRoute("/refunds")({
         content: "The refund policy for AI Workspace purchases.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/refunds") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/refunds") }],
   }),
   component: RefundsPage,
 });

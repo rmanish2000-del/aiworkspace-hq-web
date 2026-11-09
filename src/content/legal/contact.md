@@ -23,7 +23,7 @@ Response time
 Within 3 business days. Every email is read by a person, so a reply is a reply, not a ticket number.
 
 What to write about
-Joining the private beta, or use the form on the home page.
+Asking for a scoped Customer AI plan via the form on /contact, or hiring via the Upwork AI Eval Audit listing.
 Removing your email from our list. Reply to any email, or write here. Deleted within 7 days.
 A question about what Guardian does or does not do. We would rather answer than have you assume.
 Anything on this site that looks wrong. Especially this. If a claim on this site is inaccurate, tell us and we will correct it publicly.

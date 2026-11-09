@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { BadgeCheck, CreditCard, Lock, RefreshCcw, Users } from "lucide-react";
 import { pricingPage as copy } from "@/content/pricing-page";
 import { Card, Section, StatusChip } from "@/components/site/primitives";
@@ -25,8 +26,10 @@ export const Route = createFileRoute("/pricing")({
       { property: "og:title", content: copy.metaTitle },
       { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/pricing") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/pricing") }],
   }),
   component: PricingPage,
 });

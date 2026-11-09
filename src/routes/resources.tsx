@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { ArrowLink, Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
@@ -15,8 +16,10 @@ export const Route = createFileRoute("/resources")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/resources") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/resources") }],
   }),
   component: ResourcesPage,
 });

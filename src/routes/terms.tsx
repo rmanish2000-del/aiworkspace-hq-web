@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import markdown from "@/content/legal/terms.md?raw";
 import { LegalDoc } from "@/components/site/legal-doc";
 import { Section } from "@/components/site/primitives";
@@ -18,8 +19,10 @@ export const Route = createFileRoute("/terms")({
         content: "The terms that govern use of AI Workspace products and services.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/terms") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/terms") }],
   }),
   component: TermsPage,
 });

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { WITHHELD_NOTICE } from "@/content/ledger";
 import { LedgerBlock } from "@/components/site/ledger-block";
 import { Section, TermList } from "@/components/site/primitives";
@@ -18,8 +19,10 @@ export const Route = createFileRoute("/security")({
         content: "Security: what we can say, and what we cannot.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/security") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/security") }],
   }),
   component: SecurityPage,
 });

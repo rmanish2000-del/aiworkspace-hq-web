@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { absoluteUrl } from "@/lib/seo";
 import { contact as copy } from "@/content/copy";
 import { ArrowLink, Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
@@ -15,14 +16,15 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: copy.metaTitle },
       { property: "og:description", content: copy.metaDescription },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absoluteUrl("/contact") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absoluteUrl("/contact") }],
   }),
   component: ContactPage,
 });
 
 function ContactPage() {
-  const lead = copy.lead.split("contact routes");
   return (
     <>
       <PageHero
@@ -30,11 +32,11 @@ function ContactPage() {
         title={copy.heading}
         lead={
           <>
-            {lead[0]}
+            {copy.lead}{" "}
             <a href="#plan" className="text-foreground underline underline-offset-4 hover:text-primary">
-              contact routes
+              Jump to the plan form
             </a>
-            {lead[1] ?? ""}
+            .
           </>
         }
       />
@@ -94,25 +96,38 @@ function ContactPage() {
         <SocialLinks className="mt-5" showHandle />
       </Section>
 
-      <Section heading={copy.locationHeading}>
+      <Section heading="Hire on Upwork">
         <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground">
-          The registered entity name and address are pending legal confirmation and are deliberately
-          not published yet. This gap is documented on the{" "}
-          <Link
-            to="/what-we-havent-built"
+          Prefer a marketplace listing? The public catalog item is{" "}
+          <a
+            href="https://www.upwork.com/services/product/2109673752356316568"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-foreground underline underline-offset-4 hover:text-primary"
           >
-            what we have not built
-          </Link>{" "}
-          page.
+            AI Eval Audit
+          </a>
+          .
+        </p>
+      </Section>
+
+      <Section heading={copy.locationHeading}>
+        <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground">
+          Kartavya CSC Digital Seva, a sole proprietorship of Manish Patel
+          <br />
+          Tilak Ward, Deori, District Sagar, Madhya Pradesh 470226, India
+          <br />
+          GSTIN 23AKZPP1502D1ZB · Udyam UDYAM-MP-39-0001250
+          <br />
+          Email: founder@aiworkspacehq.com
         </p>
       </Section>
 
       <CtaBand
-        heading="Everything we publish, in one place"
-        lead="Technology, security, principles and the gap list are open to read before you talk to us."
-        primary={{ to: "/resources", label: "Browse Resources" }}
-        secondary={{ to: "/platform", label: "Explore Platform" }}
+        heading="See the work before you hire"
+        lead="Our Work lists products, projects and credentials. Services explains what you buy."
+        primary={{ to: "/our-work", label: "Our Work" }}
+        secondary={{ to: "/services", label: "Services" }}
       />
     </>
   );

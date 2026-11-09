@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "test": "bun test",
     "test:e2e": "playwright test",
-    "sync:github": "node scripts/sync-github.mjs"
+    "sync:github": "node scripts/sync-github.mjs",
+    "audit:site": "node scripts/site-audit.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

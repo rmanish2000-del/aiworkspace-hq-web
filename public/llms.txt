@@ -1,0 +1,38 @@
+# AI Workspace HQ
+> Customer AI deployment you can check, step by step.
+
+AI Workspace HQ (aiworkspacehq.com) helps organisations put AI on one repeated job at a time, through a 12-step process where every step leaves a receipt you can open and check. Founded by Manish Patel in India; serves global clients. Operated by Kartavya CSC Digital Seva (sole proprietorship).
+
+## Hire us
+- Scoped plan (primary): https://aiworkspacehq.com/contact#plan
+- Email: founder@aiworkspacehq.com
+- Upwork — AI Eval Audit: https://www.upwork.com/services/product/2109673752356316568
+
+## Services
+- Overview: https://aiworkspacehq.com/services
+- The 12 steps: https://aiworkspacehq.com/process
+- Discovery → Pilot → Production → Care & improvement
+
+## Our Work (products & projects)
+- Portfolio: https://aiworkspacehq.com/our-work
+- Jachega (try-on prototype): https://www.jachega.in
+- ProofShot (hackathon demo): https://rmanish2000-proofshot.hf.space/
+- Warrant: https://aiworkspacehq.com/products/warrant · https://github.com/rmanish2000-del/warrant
+- Warrant MCP: https://aiworkspacehq.com/products/warrant-mcp · https://github.com/rmanish2000-del/warrant-mcp
+- EduOS (live): https://eduos.global
+
+## Trust & honesty
+- Trust: https://aiworkspacehq.com/trust
+- What we have not built: https://aiworkspacehq.com/what-we-havent-built
+- Principles: https://aiworkspacehq.com/principles
+- About: https://aiworkspacehq.com/about
+
+## Social
+- LinkedIn: https://www.linkedin.com/company/aiworkspacehq/
+- X: https://x.com/aiworkspacehq
+- Instagram: https://www.instagram.com/aiworkspacehq/
+- Facebook: https://www.facebook.com/profile.php?id=61595442609488
+- GitHub: https://github.com/rmanish2000-del
+
+## Full text
+- https://aiworkspacehq.com/llms-full.txt
