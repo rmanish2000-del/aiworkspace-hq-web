@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { PLAN_HREF } from "@/content/caid";
+import { PRODUCT_NAMES } from "@/content/products";
 import { experience, nav } from "@/content/copy";
 import { cn } from "@/lib/utils";
 import { SocialLinks } from "@/components/site/social-links";
@@ -197,7 +198,13 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>Customer AI deployment. Products and projects: see Our Work.</p>
+          <p>
+            Customer AI deployment. Products: {PRODUCT_NAMES.join(", ")}.{" "}
+            <Link to="/our-work" className="underline underline-offset-2 hover:text-foreground">
+              Our Work
+            </Link>
+            .
+          </p>
           <p>© 2026 AI Workspace. All rights reserved.</p>
         </div>
       </div>

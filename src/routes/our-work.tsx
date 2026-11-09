@@ -81,7 +81,7 @@ function OurWorkPage() {
                 <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {item.value}
                 </p>
-                {"hackathon" in item && item.hackathon ? (
+                {item.hackathon ? (
                   <p className="mt-3 rounded-md border border-[var(--color-verified)]/30 bg-[var(--color-verified)]/5 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
                     <span className="font-medium text-[var(--color-verified)]">Hackathon. </span>
                     {item.hackathon}
@@ -126,7 +126,7 @@ function OurWorkPage() {
                 <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {item.value}
                 </p>
-                {"hackathon" in item && item.hackathon ? (
+                {item.hackathon ? (
                   <p className="mt-3 rounded-md border border-[var(--color-verified)]/30 bg-[var(--color-verified)]/5 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
                     <span className="font-medium text-[var(--color-verified)]">Hackathon. </span>
                     {item.hackathon}

@@ -6,7 +6,7 @@
  * Usage: node scripts/site-audit.mjs
  * Env: SITE_AUDIT_BASE (default https://aiworkspacehq.com)
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -221,6 +221,32 @@ for (const href of [...toCheck].sort()) {
     linkStatus.set(href, { status: 0, ok: false, error: String(e) });
     failures.push({ type: "link", href, error: String(e) });
   }
+}
+
+
+// --- Portfolio product-list consistency (SSOT: src/content/products.json) ---
+{
+  const portfolio = JSON.parse(
+    readFileSync(join(root, "src/content/products.json"), "utf8"),
+  );
+  const EXPECTED_PRODUCTS = portfolio.products.map((p) => p.name);
+  console.log(`Checking product SSOT consistency (${EXPECTED_PRODUCTS.join(", ")})…`);
+  for (const path of ["/", "/our-work", "/llms.txt", "/llms-full.txt"]) {
+    const url = `${BASE}${path}`;
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": UA }, redirect: "follow" });
+      const text = await res.text();
+      const missing = EXPECTED_PRODUCTS.filter((name) => !text.includes(name));
+      if (missing.length) {
+        failures.push({ type: "products", path, issue: `missing products: ${missing.join(", ")}` });
+        process.stdout.write("F");
+      } else process.stdout.write(".");
+    } catch (e) {
+      failures.push({ type: "products", path, error: String(e) });
+      process.stdout.write("F");
+    }
+  }
+  process.stdout.write("\n");
 }
 
 const report = {

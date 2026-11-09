@@ -1,0 +1,89 @@
+{
+  "products": [
+    {
+      "id": "jachega",
+      "name": "Jachega",
+      "status": "Prototype",
+      "value": "Consumer virtual try-on: one shopper photo plus a brand product, previewed on you, then buy on the brand’s own site.",
+      "homeBody": "Consumer virtual try-on at jachega.in: one shopper photo + brand product → AI preview on you → buy on the brand's own site. Photo stays on-device for the preview; AI shows look only. Prototype — quality is being measured before anything is offered.",
+      "stack": ["TypeScript", "AI vision", "on-device preview"],
+      "liveUrl": "https://www.jachega.in",
+      "githubUrl": null,
+      "detailHref": null,
+      "hackathon": null
+    },
+    {
+      "id": "proofshot",
+      "name": "ProofShot",
+      "status": "Hackathon demo",
+      "value": "Gated AI product photography: a code gate decides RELEASE / REVIEW / REFUSE and writes a hash-chained receipt anyone can verify offline.",
+      "homeBody": "Gated AI product photography — built for the Meta Global AI Developer Hackathon, Indie Developer track (Meta + Cerebral Valley; event inference partners include Fireworks, Baseten, and Modal). Submitted 4 Nov 2026; no win claimed. Demo: https://rmanish2000-proofshot.hf.space/ · Repo: https://github.com/rmanish2000-del/proofshot-hackathon. Own build — not a client service.",
+      "stack": ["TypeScript", "vision gate", "hash-chained receipts"],
+      "liveUrl": "https://rmanish2000-proofshot.hf.space/",
+      "githubUrl": "https://github.com/rmanish2000-del/proofshot-hackathon",
+      "detailHref": null,
+      "hackathon": "Built for the Meta Global AI Developer Hackathon — Indie Developer track (Meta + Cerebral Valley; inference partners include Fireworks, Baseten, and Modal). Submitted 4 Nov 2026; result not claimed."
+    },
+    {
+      "id": "warrant",
+      "name": "Warrant",
+      "status": "Open source",
+      "value": "Authorization layer for AI purchasing agents — rules before action.",
+      "homeBody": "Authorization layer for AI purchasing agents — rules before action. Built for the Agentic Commerce Hackathon (Prava); that hackathon's prize sponsors include Visa and OpenAI. Submitted Aug 2026; no placement claimed. Repo: https://github.com/rmanish2000-del/warrant · Product page: /products/warrant.",
+      "stack": ["TypeScript", "authorization"],
+      "liveUrl": null,
+      "githubUrl": "https://github.com/rmanish2000-del/warrant",
+      "detailHref": "/products/warrant",
+      "hackathon": "Built for the Agentic Commerce Hackathon (Prava). Prize sponsors listed by that hackathon include Visa and OpenAI. Submitted Aug 2026; no placement claimed."
+    },
+    {
+      "id": "warrant-mcp",
+      "name": "Warrant MCP",
+      "status": "Open source",
+      "value": "Write the rules for an AI agent once, in plain English, as a deterministic MCP.",
+      "homeBody": "Write the rules for an AI agent once, in plain English, as a deterministic MCP. Repo: https://github.com/rmanish2000-del/warrant-mcp · Product page: /products/warrant-mcp.",
+      "stack": ["TypeScript", "MCP", "authorization"],
+      "liveUrl": null,
+      "githubUrl": "https://github.com/rmanish2000-del/warrant-mcp",
+      "detailHref": "/products/warrant-mcp",
+      "hackathon": null
+    },
+    {
+      "id": "sensexpilot",
+      "name": "SensexPilot",
+      "status": "Live",
+      "value": "Backtest infrastructure for your own rules-based NIFTY/SENSEX options or futures strategy: upload the rules, get an automated report. We don't sell strategies, signals or tips. Software tool only — not SEBI-registered investment advice. Past results do not guarantee future returns.",
+      "homeBody": "Your strategy. Our infrastructure. Bring a rules-based NIFTY/SENSEX options or futures strategy; SensexPilot runs an automated backtest and sends a report. We don't sell strategies, signals or tips. Software tool only — not SEBI-registered as an investment adviser or research analyst; not investment advice. Past results do not guarantee future returns. (Mirrors sensexpilot.com.) Live: https://sensexpilot.com. Built on our internal TradeOS engineering stack — TradeOS is not a separate public product.",
+      "stack": ["Python", "backtesting", "options/futures"],
+      "liveUrl": "https://sensexpilot.com",
+      "githubUrl": null,
+      "detailHref": null,
+      "hackathon": null,
+      "note": "Public product. Internal TradeOS engineering is the systems stack behind founder research and this product — not listed separately."
+    }
+  ],
+  "projects": [
+    {
+      "id": "eduos",
+      "name": "EduOS",
+      "status": "Live",
+      "value": "Learning tools for tutoring and coaching centres.",
+      "homeBody": "Learning tools for tutoring and coaching centres, at eduos.global.",
+      "stack": ["TypeScript", "education ops"],
+      "liveUrl": "https://eduos.global",
+      "githubUrl": null,
+      "note": "Private codebase; public product site only."
+    },
+    {
+      "id": "nyayos",
+      "name": "NyayOS",
+      "status": "Pilot preparation",
+      "value": "Organises business-dispute papers into a reviewable file for a human reviewer. It never predicts outcomes.",
+      "homeBody": "Organises business-dispute papers into a file a human reviewer checks. It never predicts outcomes.",
+      "stack": ["TypeScript", "document workflows"],
+      "liveUrl": null,
+      "githubUrl": null,
+      "note": "Private codebase."
+    }
+  ]
+}

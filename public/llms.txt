@@ -15,12 +15,13 @@ AI Workspace HQ (aiworkspacehq.com) helps organisations put AI on one repeated j
 
 ## Our Work (products & projects)
 - Portfolio: https://aiworkspacehq.com/our-work
-- Jachega (try-on prototype): https://www.jachega.in
-- ProofShot (hackathon demo): https://rmanish2000-proofshot.hf.space/
-- Warrant: https://aiworkspacehq.com/products/warrant · https://github.com/rmanish2000-del/warrant
-- Warrant MCP: https://aiworkspacehq.com/products/warrant-mcp · https://github.com/rmanish2000-del/warrant-mcp
-- EduOS (live): https://eduos.global
-
+- Jachega · https://www.jachega.in
+- ProofShot · https://rmanish2000-proofshot.hf.space/ · https://github.com/rmanish2000-del/proofshot-hackathon
+- Warrant · https://github.com/rmanish2000-del/warrant · https://aiworkspacehq.com/products/warrant
+- Warrant MCP · https://github.com/rmanish2000-del/warrant-mcp · https://aiworkspacehq.com/products/warrant-mcp
+- SensexPilot · https://sensexpilot.com
+- EduOS (Live) · https://eduos.global
+- NyayOS (Pilot preparation)
 
 ## Hackathons (submitted; no wins claimed)
 - Warrant — Agentic Commerce Hackathon (Prava / Devfolio), submitted Aug 2026. Prize sponsors listed by that hackathon include Visa, OpenAI, Linq, Localhost, Project Nanda, Senso. Submission: https://devfolio.co/projects/warrant-an-authorization-layer-for-ai-purchasing-agents-855e · Repo: https://github.com/rmanish2000-del/warrant

@@ -4,6 +4,8 @@
   No invented customers, numbers, logos or testimonials.
 */
 
+import { products as portfolioProducts, projects as portfolioProjects } from "./products";
+
 export const EMAIL = "founder@aiworkspacehq.com";
 
 /** On-site plan request. A mail app is not required. */
@@ -258,35 +260,23 @@ export const digital = {
   ],
 };
 
+/** Home “own systems” band — products first (SSOT), then projects. */
 export const ownSystems = {
   title: "We run the process on our own systems first",
-  lead: "Before we ask anyone to trust the process, we use it on our own projects. Their status is stated plainly, including what is not finished.",
+  lead: "Before we ask anyone to trust the process, we use it on our own products and projects. Status is stated plainly, including what is not finished. Full cards live on Our Work.",
   items: [
-    {
-      name: "EduOS",
-      status: "Live",
-      body: "Learning tools for tutoring and coaching centres, at eduos.global.",
-    },
-    {
-      name: "NyayOS",
-      status: "Pilot preparation",
-      body: "Organises business-dispute papers into a file a human reviewer checks. It never predicts outcomes.",
-    },
-    {
-      name: "TradeOS",
-      status: "Internal only",
-      body: "A research and trading system used only by its founder. Not offered as a service and not investment advice.",
-    },
-    {
-      name: "Jachega",
-      status: "Prototype",
-      body: "Consumer virtual try-on at jachega.in: one shopper photo + brand product → AI preview on you → buy on the brand's own site. Photo stays on-device for the preview; AI shows look only. Prototype — quality is being measured before anything is offered.",
-    },
-    {
-      name: "ProofShot",
-      status: "Indie hackathon",
-      body: "Gated AI product photography — built for the Meta Global AI Developer Hackathon, Indie Developer track (Meta + Cerebral Valley; event inference partners include Fireworks, Baseten, and Modal). Submitted 4 Nov 2026; no win claimed. A code gate decides RELEASE / REVIEW / REFUSE and writes a hash-chained receipt anyone can verify offline. Demo: https://rmanish2000-proofshot.hf.space/ · Repo: https://github.com/rmanish2000-del/proofshot-hackathon · Video: https://youtu.be/JSzJBOU11sA. Own build — not a client service.",
-    },
+    ...portfolioProducts.map((p) => ({
+      name: p.name,
+      status: p.status,
+      body: p.homeBody,
+      href: p.liveUrl || p.detailHref || p.githubUrl,
+    })),
+    ...portfolioProjects.map((p) => ({
+      name: p.name,
+      status: p.status,
+      body: p.homeBody,
+      href: p.liveUrl || p.githubUrl,
+    })),
   ],
 };
 

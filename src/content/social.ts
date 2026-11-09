@@ -3,6 +3,8 @@
  * Titles come from startupos docs/marketing/posting-log.md — never invent copy.
  */
 
+import { products as portfolioProducts } from "./products";
+
 export const SOCIAL_HANDLE = "@aiworkspacehq";
 
 export const socialProfiles = [
@@ -83,8 +85,7 @@ export const websiteJsonLd = {
   "@type": "WebSite",
   name: "AI Workspace HQ",
   url: "https://aiworkspacehq.com",
-  description:
-    "Customer AI deployment services and products — Warrant, Warrant MCP, Jachega, ProofShot, and more.",
+  description: `Customer AI deployment services and products — ${portfolioProducts.map((p) => p.name).join(", ")}.`,
   publisher: { "@type": "Organization", name: "AI Workspace HQ", url: "https://aiworkspacehq.com" },
 } as const;
 
@@ -112,28 +113,16 @@ export const professionalServiceJsonLd = {
   serviceType: "Customer AI deployment",
 } as const;
 
-export const softwareApplicationsJsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Jachega",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: "https://www.jachega.in",
-    description:
-      "Consumer virtual try-on: one shopper photo plus a brand product, previewed on you, then buy on the brand's own site.",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "ProofShot",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: "https://rmanish2000-proofshot.hf.space/",
-    description:
-      "Gated AI product photography with a code gate and hash-chained receipt anyone can verify offline.",
-  },
-] as const;
+/** Built from products.json so JSON-LD stays aligned with the portfolio SSOT. */
+export const softwareApplicationsJsonLd = portfolioProducts.map((p) => ({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: p.name,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: p.liveUrl || p.githubUrl || "https://aiworkspacehq.com/our-work",
+  description: p.value,
+}));
 
 
 /** Mentions of hackathon submissions — not Award (no wins claimed). */

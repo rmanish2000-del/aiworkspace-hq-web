@@ -6,6 +6,7 @@ import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
 import { SocialLinks } from "@/components/site/social-links";
 import { credentials } from "@/content/work";
+import { PRODUCT_NAMES } from "@/content/products";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -48,6 +49,13 @@ function AboutPage() {
             </p>
           </Card>
         </Reveal>
+      </Section>
+
+      <Section heading="Products">
+        <p className="lead mt-2 max-w-2xl">
+          {PRODUCT_NAMES.join(", ")} — each with status and links on{" "}
+          <ArrowLink to="/our-work">Our Work</ArrowLink>.
+        </p>
       </Section>
 
       <Section heading={copy.todayHeading}>

@@ -64,3 +64,8 @@ Manual / one-time human (not automated):
 Analytics choice: **skip third-party and cookie trackers**. Do not add GA/Meta pixels. Vercel Web Analytics is cookieless and free on many plans but is **not** installed in this repo — leave off unless explicitly enabled later on the Vercel project (still no cookies).
 
 OG image: `/og.png` (1200×630). Prefer WebP/lazy for large content images when added; current product cards are CSS-first.
+
+
+## Portfolio SSOT
+
+All product lists come from `src/content/products.json` (typed via `src/content/products.ts`). Home, Our Work, footer, JSON-LD, and llms*.txt must name every product. `scripts/site-audit.mjs` fails if any product name is missing from `/`, `/our-work`, `/llms.txt`, or `/llms-full.txt`.

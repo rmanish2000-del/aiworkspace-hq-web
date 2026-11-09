@@ -16,14 +16,15 @@ AI Workspace HQ is a Customer AI deployment practice and product studio run by M
 - TradeOS is founder-only internal engineering — not a product, not investment advice
 - Gaps are published on https://aiworkspacehq.com/what-we-havent-built
 
-## Products (verify on live URLs)
+## Products (verify on live URLs) — SSOT: src/content/products.json
 - Jachega — virtual try-on prototype — https://www.jachega.in
 - ProofShot — gated AI product photography demo — https://rmanish2000-proofshot.hf.space/ · repo https://github.com/rmanish2000-del/proofshot-hackathon
 - Warrant — AI purchasing authorization — https://github.com/rmanish2000-del/warrant
 - Warrant MCP — deterministic AI tool policy — https://github.com/rmanish2000-del/warrant-mcp
+- SensexPilot — backtest infrastructure for your own NIFTY/SENSEX options/futures rules; no tips/signals; software tool only, not SEBI-registered advice; past results do not guarantee future returns — https://sensexpilot.com (TradeOS is the internal engineering stack, not a separate public product)
 - EduOS — learning tools — https://eduos.global
 - NyayOS — business-dispute document organisation (pilot preparation; private)
-- UrjaOps — PM-KUSUM ops register — https://urjaops.com/demo
+- UrjaOps — PM-KUSUM ops register (kill-dated effort on /building) — https://urjaops.com/demo
 
 ## Process in one line
 Understand → Prove → Ship → Improve (12 steps). Details: https://aiworkspacehq.com/process

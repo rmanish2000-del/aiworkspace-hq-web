@@ -270,6 +270,8 @@ const statusTone: Record<string, string> = {
   "Internal only": "stamp stamp-next",
   Prototype: "stamp stamp-next",
   "Indie hackathon": "stamp stamp-next",
+  "Hackathon demo": "stamp stamp-next",
+  "Open source": "stamp",
 };
 
 export function OwnSystems() {
@@ -283,7 +285,17 @@ export function OwnSystems() {
               <p className="font-display text-xl font-semibold text-ink">{s.name}</p>
               <span className={cn(statusTone[s.status] ?? "stamp stamp-next")}>{s.status}</span>
             </div>
-            <p className="mt-3 leading-relaxed text-muted-foreground">{s.body}</p>
+            <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{s.body}</p>
+            {s.href ? (
+              <a
+                href={s.href}
+                target={s.href.startsWith("http") ? "_blank" : undefined}
+                rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="mt-4 text-sm font-medium text-foreground underline underline-offset-4 hover:text-primary"
+              >
+                {s.href.startsWith("http") ? "Open" : "Details"} →
+              </a>
+            ) : null}
           </li>
         ))}
       </ul>
