@@ -59,6 +59,24 @@ function AboutPage() {
         </div>
       </Section>
 
+
+      <Section heading="Hackathon credentials">
+        <Reveal>
+          <Card className="mt-8 max-w-2xl">
+            <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">
+              Warrant was submitted to the Agentic Commerce Hackathon (Prava). Prize sponsors listed
+              by that hackathon include Visa and OpenAI. ProofShot was submitted to the Meta Global
+              AI Developer Hackathon, Indie Developer track (Meta and Cerebral Valley; inference
+              partners include Fireworks, Baseten, and Modal). Sponsors named here are the
+              hackathon&apos;s, not ours. No wins or placements are claimed.
+            </p>
+            <div className="mt-5">
+              <ArrowLink to="/our-work">See hackathon entries</ArrowLink>
+            </div>
+          </Card>
+        </Reveal>
+      </Section>
+
       <Section heading={copy.claimsHeading} lead={copy.claimsLead}>
         <TermList items={copy.claims.map((c) => ({ body: c }))} />
       </Section>

@@ -21,6 +21,12 @@ AI Workspace HQ (aiworkspacehq.com) helps organisations put AI on one repeated j
 - Warrant MCP: https://aiworkspacehq.com/products/warrant-mcp · https://github.com/rmanish2000-del/warrant-mcp
 - EduOS (live): https://eduos.global
 
+
+## Hackathons (submitted; no wins claimed)
+- Warrant — Agentic Commerce Hackathon (Prava / Devfolio), submitted Aug 2026. Prize sponsors listed by that hackathon include Visa, OpenAI, Linq, Localhost, Project Nanda, Senso. Submission: https://devfolio.co/projects/warrant-an-authorization-layer-for-ai-purchasing-agents-855e · Repo: https://github.com/rmanish2000-del/warrant
+- ProofShot — Meta Global AI Developer Hackathon, Indie Developer track (Meta + Cerebral Valley), submitted 4 Nov 2026. Event inference partners include Fireworks, Baseten, Modal. Repo: https://github.com/rmanish2000-del/proofshot-hackathon · Demo: https://rmanish2000-proofshot.hf.space/
+- Details: https://aiworkspacehq.com/our-work#hackathons
+
 ## Trust & honesty
 - Trust: https://aiworkspacehq.com/trust
 - What we have not built: https://aiworkspacehq.com/what-we-havent-built

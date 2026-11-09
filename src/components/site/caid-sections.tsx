@@ -9,6 +9,7 @@ import {
   exampleLedger,
   ownSystems,
   phases,
+  hackathonLine,
   PLAN_HREF,
   promises,
   services,
@@ -286,9 +287,14 @@ export function OwnSystems() {
           </li>
         ))}
       </ul>
-      <div className="mt-8">
+      <div className="mt-8 flex flex-wrap gap-4">
         <SecondaryAction to="/our-work">See Our Work — products, projects, credentials</SecondaryAction>
+        <SecondaryAction to={hackathonLine.href}>{hackathonLine.action}</SecondaryAction>
       </div>
+      <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        <span className="font-medium text-ink">{hackathonLine.title}. </span>
+        {hackathonLine.body}
+      </p>
     </>
   );
 }

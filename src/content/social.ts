@@ -135,6 +135,44 @@ export const softwareApplicationsJsonLd = [
   },
 ] as const;
 
+
+/** Mentions of hackathon submissions — not Award (no wins claimed). */
+export const hackathonSubjectOfJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Warrant",
+    url: "https://github.com/rmanish2000-del/warrant",
+    description: "Authorization layer for AI purchasing agents.",
+    subjectOf: {
+      "@type": "Event",
+      name: "Agentic Commerce Hackathon",
+      url: "https://agentic-commerce.devfolio.co/",
+      organizer: { "@type": "Organization", name: "Prava" },
+      startDate: "2026-07-31",
+      endDate: "2026-08-02",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "ProofShot",
+    url: "https://github.com/rmanish2000-del/proofshot-hackathon",
+    description: "Gated AI product photography with hash-chained receipts.",
+    subjectOf: {
+      "@type": "Event",
+      name: "Meta Global AI Developer Hackathon",
+      url: "https://dev.meta.ai/events/global-hackathon",
+      organizer: [
+        { "@type": "Organization", name: "Meta" },
+        { "@type": "Organization", name: "Cerebral Valley" },
+      ],
+      startDate: "2026-10-26",
+      endDate: "2026-11-04",
+    },
+  },
+] as const;
+
 export const ogImage = {
   url: "https://aiworkspacehq.com/og.png",
   alt: "AI Workspace — Customer AI you can check, step by step.",

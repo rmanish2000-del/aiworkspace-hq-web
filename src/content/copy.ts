@@ -901,7 +901,7 @@ export const warrantProduct = {
   heading: 'Decide whether an AI purchasing agent is allowed to spend',
   lead: 'Warrant turns a human-confirmed spending policy into deterministic purchase authorization. The runtime returns ALLOW, ESCALATE or DENY and cites the clause that governed the decision.',
   maturity:
-    'Current maturity: a local, single-operator demonstration with Prava sandbox payment sessions. No real-money processing is claimed.',
+    'Current maturity: a local, single-operator demonstration with Prava sandbox payment sessions. No real-money processing is claimed. Built for the Agentic Commerce Hackathon (Prava); that hackathon\'s prize sponsors include Visa and OpenAI. Submitted Aug 2026 — no placement claimed.',
   audienceHeading: 'Built for teams placing agents near a purchase',
   audiences: [
     'Agent-commerce builders',

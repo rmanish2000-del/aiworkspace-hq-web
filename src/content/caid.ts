@@ -285,10 +285,17 @@ export const ownSystems = {
     {
       name: "ProofShot",
       status: "Indie hackathon",
-      body: "Gated AI product photography (Meta Global AI Developer Hackathon Indie-track): checks a candidate listing image against the seller's own garment photos; a code gate decides RELEASE / REVIEW / REFUSE and writes a hash-chained receipt anyone can verify offline. Demo: https://rmanish2000-proofshot.hf.space/ · Public repo: https://github.com/rmanish2000-del/proofshot-hackathon · Video: https://youtu.be/JSzJBOU11sA. Own build / hackathon entry — not a client service.",
+      body: "Gated AI product photography — built for the Meta Global AI Developer Hackathon, Indie Developer track (Meta + Cerebral Valley; event inference partners include Fireworks, Baseten, and Modal). Submitted 4 Nov 2026; no win claimed. A code gate decides RELEASE / REVIEW / REFUSE and writes a hash-chained receipt anyone can verify offline. Demo: https://rmanish2000-proofshot.hf.space/ · Repo: https://github.com/rmanish2000-del/proofshot-hackathon · Video: https://youtu.be/JSzJBOU11sA. Own build — not a client service.",
     },
   ],
 };
+
+export const hackathonLine = {
+  title: "Hackathon credentials you can open",
+  body: "Warrant was submitted to the Agentic Commerce Hackathon (Prava; that event's prize sponsors include Visa and OpenAI). ProofShot was submitted to the Meta Global AI Developer Hackathon, Indie Developer track (Meta + Cerebral Valley; inference partners include Fireworks, Baseten, and Modal). No wins claimed — details and links are on Our Work.",
+  href: "/our-work",
+  action: "See hackathon entries",
+} as const;
 
 export const close = {
   title: "Start with one job",

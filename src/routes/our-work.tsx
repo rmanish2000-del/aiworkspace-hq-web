@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { credentials, products, projects, workMeta } from "@/content/work";
-import { softwareApplicationsJsonLd } from "@/content/social";
+import { credentials, hackathons, products, projects, workMeta } from "@/content/work";
+import { hackathonSubjectOfJsonLd, softwareApplicationsJsonLd } from "@/content/social";
 import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
 import { Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
@@ -16,6 +16,7 @@ const workSeo = pageSeo({
       { name: "Our Work", path: "/our-work" },
     ]),
     ...softwareApplicationsJsonLd,
+    ...hackathonSubjectOfJsonLd,
   ],
 });
 
@@ -80,6 +81,12 @@ function OurWorkPage() {
                 <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {item.value}
                 </p>
+                {"hackathon" in item && item.hackathon ? (
+                  <p className="mt-3 rounded-md border border-[var(--color-verified)]/30 bg-[var(--color-verified)]/5 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                    <span className="font-medium text-[var(--color-verified)]">Hackathon. </span>
+                    {item.hackathon}
+                  </p>
+                ) : null}
                 <TagList tags={item.stack} />
                 <div className="mt-5 flex flex-wrap gap-4">
                   {item.liveUrl ? <ExternalLink href={item.liveUrl}>Live site</ExternalLink> : null}
@@ -119,6 +126,12 @@ function OurWorkPage() {
                 <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {item.value}
                 </p>
+                {"hackathon" in item && item.hackathon ? (
+                  <p className="mt-3 rounded-md border border-[var(--color-verified)]/30 bg-[var(--color-verified)]/5 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                    <span className="font-medium text-[var(--color-verified)]">Hackathon. </span>
+                    {item.hackathon}
+                  </p>
+                ) : null}
                 <TagList tags={item.stack} />
                 {item.note ? (
                   <p className="mt-3 text-xs text-muted-foreground">{item.note}</p>
@@ -128,6 +141,44 @@ function OurWorkPage() {
                   {item.githubUrl ? (
                     <ExternalLink href={item.githubUrl}>GitHub</ExternalLink>
                   ) : null}
+                </div>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="hackathons" heading="Hackathons" className="bg-paper">
+        <p className="lead mt-2 max-w-2xl">
+          Entries we submitted. Sponsors and partners named here are the hackathon&apos;s — not a claim
+          that they endorse us. No wins or placements are claimed.
+        </p>
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {hackathons.map((h, i) => (
+            <Reveal key={h.id} delay={i * 40}>
+              <Card className="flex h-full flex-col">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="eyebrow text-[var(--color-verified)]">{h.project}</p>
+                    <h3 className="h3 mt-1">{h.name}</h3>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                    {h.status}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {h.organisers} · {h.track} · {h.when}
+                </p>
+                <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {h.blurb}
+                </p>
+                <p className="mt-2 text-xs text-muted-foreground">{h.statusNote}</p>
+                <div className="mt-5 flex flex-wrap gap-4">
+                  {h.links.map((l) => (
+                    <ExternalLink key={l.href} href={l.href}>
+                      {l.label}
+                    </ExternalLink>
+                  ))}
                 </div>
               </Card>
             </Reveal>

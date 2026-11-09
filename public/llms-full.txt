@@ -35,3 +35,11 @@ founder@aiworkspacehq.com · https://aiworkspacehq.com/contact · Upwork https:/
 Kartavya CSC Digital Seva, sole proprietorship of Manish Patel
 Tilak Ward, Deori, District Sagar, Madhya Pradesh 470226, India
 GSTIN 23AKZPP1502D1ZB · Udyam UDYAM-MP-39-0001250
+
+
+## Hackathons (credentials — no wins claimed)
+Warrant was built for and submitted to the Agentic Commerce Hackathon (31 Jul–2 Aug 2026, online), organised around Prava payments on Devfolio. Prize sponsors listed on the hackathon page include Visa, OpenAI, Linq, Localhost, Project Nanda, and Senso. Prava is the required payments platform for the event. Submission: https://devfolio.co/projects/warrant-an-authorization-layer-for-ai-purchasing-agents-855e . Code: https://github.com/rmanish2000-del/warrant (tag submission). Mastercard is not listed among that hackathon's prize sponsors on the public page, so it is not claimed here.
+
+ProofShot was built for the Meta Global AI Developer Hackathon (26 Oct–4 Nov 2026), Indie Developer track, organised by Meta and Cerebral Valley. Official inference partners named by Cerebral Valley include Fireworks, Baseten, and Modal. Cerebral Valley emailed confirmation that project "ProofShot" was submitted (4 Nov 2026). Repo: https://github.com/rmanish2000-del/proofshot-hackathon . Demo: https://rmanish2000-proofshot.hf.space/ . Video: https://youtu.be/JSzJBOU11sA . No win or placement is claimed.
+
+Hack2skill Buildathon is not listed (dropped; no claim).
