@@ -16,6 +16,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DeliveryRouteImport } from './routes/delivery'
 import { Route as EnterpriseRouteImport } from './routes/enterprise'
+import { Route as OurWorkRouteImport } from './routes/our-work'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrinciplesRouteImport } from './routes/principles'
@@ -72,6 +73,11 @@ const DeliveryRoute = DeliveryRouteImport.update({
 const EnterpriseRoute = EnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurWorkRoute = OurWorkRouteImport.update({
+  id: '/our-work',
+  path: '/our-work',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlatformRoute = PlatformRouteImport.update({
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
+  '/our-work': typeof OurWorkRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
@@ -226,6 +233,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
+  '/our-work': typeof OurWorkRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/delivery': typeof DeliveryRoute
   '/enterprise': typeof EnterpriseRoute
+  '/our-work': typeof OurWorkRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/principles': typeof PrinciplesRoute
@@ -291,6 +300,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/delivery'
     | '/enterprise'
+    | '/our-work'
     | '/platform'
     | '/pricing'
     | '/principles'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/delivery'
     | '/enterprise'
+    | '/our-work'
     | '/platform'
     | '/pricing'
     | '/principles'
@@ -353,6 +364,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/delivery'
     | '/enterprise'
+    | '/our-work'
     | '/platform'
     | '/pricing'
     | '/principles'
@@ -385,6 +397,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DeliveryRoute: typeof DeliveryRoute
   EnterpriseRoute: typeof EnterpriseRoute
+  OurWorkRoute: typeof OurWorkRoute
   PlatformRoute: typeof PlatformRoute
   PricingRoute: typeof PricingRoute
   PrinciplesRoute: typeof PrinciplesRoute
@@ -458,6 +471,13 @@ declare module '@tanstack/react-router' {
       path: '/enterprise'
       fullPath: '/enterprise'
       preLoaderRoute: typeof EnterpriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-work': {
+      id: '/our-work'
+      path: '/our-work'
+      fullPath: '/our-work'
+      preLoaderRoute: typeof OurWorkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/platform': {
@@ -625,6 +645,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DeliveryRoute: DeliveryRoute,
   EnterpriseRoute: EnterpriseRoute,
+  OurWorkRoute: OurWorkRoute,
   PlatformRoute: PlatformRoute,
   PricingRoute: PricingRoute,
   PrinciplesRoute: PrinciplesRoute,

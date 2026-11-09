@@ -9,7 +9,7 @@ import { SocialLinks } from "@/components/site/social-links";
 const primaryNav = [
   { href: "/services", label: "Services" },
   { href: "/process", label: "The 12 steps" },
-  { href: "/products", label: "Products" },
+  { href: "/our-work", label: "Our Work" },
   { href: "/trust", label: "Trust" },
   { href: "/contact", label: "Contact" },
 ] as const;
@@ -108,7 +108,7 @@ const footerColumns = [
     links: [
       { href: "/services", label: "Services" },
       { href: "/process", label: "The 12 steps" },
-      { href: "/products", label: "Products" },
+      { href: "/our-work", label: "Our Work" },
       { href: "/platform", label: "Platform" },
       { href: "/building", label: "What we are building" },
       { href: "/about", label: nav.about },

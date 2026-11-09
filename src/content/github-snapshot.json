@@ -1,0 +1,82 @@
+{
+  "syncedAt": "2026-11-09T06:30:42.847Z",
+  "profileUrl": "https://github.com/rmanish2000-del",
+  "publicRepoCount": 4,
+  "achievements": [
+    {
+      "id": "pull-shark",
+      "name": "Pull Shark",
+      "tier": "silver",
+      "count": 3,
+      "image": "/badges/pull-shark-silver.png",
+      "sourceImage": "https://github.githubassets.com/assets/pull-shark-silver-0643f87ac9fd.png"
+    },
+    {
+      "id": "pair-extraordinaire",
+      "name": "Pair Extraordinaire",
+      "tier": "gold",
+      "count": 4,
+      "image": "/badges/pair-extraordinaire-gold.png",
+      "sourceImage": "https://github.githubassets.com/assets/pair-extraordinaire-gold-5335a3b8ae7d.png"
+    },
+    {
+      "id": "yolo",
+      "name": "YOLO",
+      "tier": "default",
+      "count": 1,
+      "image": "/badges/yolo-default.png",
+      "sourceImage": "https://github.githubassets.com/assets/yolo-default-be0bbff04951.png"
+    },
+    {
+      "id": "quickdraw",
+      "name": "Quickdraw",
+      "tier": "default",
+      "count": 1,
+      "image": "/badges/quickdraw-default.png",
+      "sourceImage": "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png"
+    }
+  ],
+  "publicRepos": [
+    {
+      "name": "aiworkspace-hq-web",
+      "url": "https://github.com/rmanish2000-del/aiworkspace-hq-web",
+      "description": "Official public website, documentation, research, trust center, and future customer portal for AI Workspace.",
+      "language": "TypeScript",
+      "stars": 0,
+      "homepage": "https://aiworkspace-hq-web.vercel.app",
+      "pushedAt": "2026-11-09T06:27:24Z"
+    },
+    {
+      "name": "proofshot-hackathon",
+      "url": "https://github.com/rmanish2000-del/proofshot-hackathon",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "homepage": null,
+      "pushedAt": "2026-11-04T08:40:55Z"
+    },
+    {
+      "name": "warrant-mcp",
+      "url": "https://github.com/rmanish2000-del/warrant-mcp",
+      "description": "Write the rules for your AI agent once, in plain English. Deterministic code checks every tool call, and a Claude Code hook blocks what your rules forbid. Ships a Claude Skill that writes the policy with you.",
+      "language": "TypeScript",
+      "stars": 1,
+      "homepage": null,
+      "pushedAt": "2026-08-25T03:47:41Z"
+    },
+    {
+      "name": "warrant",
+      "url": "https://github.com/rmanish2000-del/warrant",
+      "description": "Authorization layer for AI purchasing agents",
+      "language": "TypeScript",
+      "stars": 1,
+      "homepage": null,
+      "pushedAt": "2026-08-21T02:57:36Z"
+    }
+  ],
+  "upworkCatalog": {
+    "title": "AI Eval Audit",
+    "url": "https://www.upwork.com/services/product/2109673752356316568",
+    "note": "Catalog listing checked 2026-11-09 (bot fetch returned 403; treat as live unless manually confirmed otherwise)."
+  }
+}

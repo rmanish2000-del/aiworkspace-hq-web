@@ -286,6 +286,9 @@ export function OwnSystems() {
           </li>
         ))}
       </ul>
+      <div className="mt-8">
+        <SecondaryAction to="/our-work">See Our Work — products, projects, credentials</SecondaryAction>
+      </div>
     </>
   );
 }

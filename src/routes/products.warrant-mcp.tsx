@@ -26,7 +26,7 @@ function WarrantMcpPage() {
         title={copy.heading}
         lead={copy.lead}
         primary={{ to: copy.githubHref, label: copy.installLabel }}
-        secondary={{ to: "/products", label: "All Products" }}
+        secondary={{ to: "/our-work", label: "Our Work" }}
         aside={
           <Card className="border-l-2">
             <span className="eyebrow">Maturity</span>

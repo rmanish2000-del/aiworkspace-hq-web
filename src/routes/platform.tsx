@@ -80,7 +80,7 @@ function PlatformPage() {
         title={copy.heading}
         lead={copy.lead}
         primary={{ to: "/contact", label: "Request Early Access" }}
-        secondary={{ to: "/products", label: "See Products" }}
+        secondary={{ to: "/our-work", label: "Our Work" }}
         aside={<LayerStack />}
       />
 

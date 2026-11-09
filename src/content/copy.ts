@@ -423,7 +423,7 @@ export const nav = {
   items: [
     { href: '/trust', label: 'Trust' },
     { href: '/technology', label: 'Technology' },
-    { href: '/products', label: 'Products' },
+    { href: '/our-work', label: 'Our Work' },
     { href: '/what-we-havent-built', label: 'What we have not built' },
     { href: '/platform', label: 'Platform' },
     { href: '/principles', label: 'Principles' },

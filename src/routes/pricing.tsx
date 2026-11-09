@@ -130,7 +130,7 @@ function PricingPage() {
         heading="One price, one system, one record of the work"
         lead="Start now, or ask questions first — both go to the founder."
         primary={{ to: "/checkout", label: "Subscribe" }}
-        secondary={{ to: "/products", label: "See Products" }}
+        secondary={{ to: "/our-work", label: "Our Work" }}
       />
     </>
   );
