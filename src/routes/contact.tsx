@@ -5,6 +5,7 @@ import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
 import { EmailCopy } from "@/components/site/email-link";
 import { PlanRequestForm } from "@/components/site/plan-request-form";
+import { SocialLinks } from "@/components/site/social-links";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -83,6 +84,14 @@ function ContactPage() {
             </Reveal>
           ))}
         </div>
+      </Section>
+
+      <Section heading="On social media">
+        <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-muted-foreground">
+          Follow @aiworkspacehq for process notes and product updates. No third-party embeds — just
+          links.
+        </p>
+        <SocialLinks className="mt-5" showHandle />
       </Section>
 
       <Section heading={copy.locationHeading}>

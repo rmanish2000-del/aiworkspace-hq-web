@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { PLAN_HREF } from "@/content/caid";
 import { experience, nav } from "@/content/copy";
 import { cn } from "@/lib/utils";
+import { SocialLinks } from "@/components/site/social-links";
 
 const primaryNav = [
   { href: "/services", label: "Services" },
@@ -155,6 +156,7 @@ export function SiteFooter() {
               We put AI on one repeated job at a time, through a process where every step leaves a
               receipt you can check.
             </p>
+            <SocialLinks className="mt-6" showHandle size="sm" />
           </div>
           {footerColumns.map((col) => (
             <nav key={col.label} aria-label={col.label}>

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { latestPosts } from "@/content/social";
 import {
   audiences,
   close,
@@ -310,3 +311,26 @@ export function CloseBand() {
     </section>
   );
 }
+
+export function LatestPosts() {
+  return (
+    <div className="mt-8 grid gap-4 md:grid-cols-3">
+      {latestPosts.map((post) => (
+        <a
+          key={post.id}
+          href={post.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group rounded-xl border border-border bg-background p-5 transition-colors hover:border-primary/40"
+        >
+          <p className="eyebrow text-[var(--color-verified)]">{post.platform}</p>
+          <p className="mt-3 text-[0.9375rem] font-medium leading-snug text-ink group-hover:text-primary">
+            {post.title}
+          </p>
+          <p className="mt-4 text-sm text-muted-foreground">Read on {post.platform} →</p>
+        </a>
+      ))}
+    </div>
+  );
+}
+

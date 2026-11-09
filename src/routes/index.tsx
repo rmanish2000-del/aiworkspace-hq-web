@@ -6,6 +6,7 @@ import {
   BandHead,
   CloseBand,
   DigitalFlow,
+  LatestPosts,
   OwnSystems,
   PhaseOverview,
   PrimaryAction,
@@ -99,6 +100,14 @@ function HomePage() {
 
       <Band id="own-systems" tone="paper">
         <OwnSystems />
+      </Band>
+
+      <Band id="latest">
+        <BandHead
+          title="Latest posts"
+          lead="Recent notes from @aiworkspacehq — static links, no embeds."
+        />
+        <LatestPosts />
       </Band>
 
       <CloseBand />

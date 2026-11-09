@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site/chrome";
+import { ogImage, organizationJsonLd } from "@/content/social";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -95,8 +96,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "We take one repeated job in your organisation and put AI on it, measured and safe, through a 12-step process where every step leaves a receipt you can check.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://aiworkspacehq.com" },
+      { property: "og:image", content: ogImage.url },
+      { property: "og:image:alt", content: ogImage.alt },
+      { property: "og:image:width", content: ogImage.width },
+      { property: "og:image:height", content: ogImage.height },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@aiworkspacehq" },
+      { name: "twitter:image", content: ogImage.url },
       { name: "theme-color", content: "#0b7a62" },
+      { "script:ld+json": organizationJsonLd },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

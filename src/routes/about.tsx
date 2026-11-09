@@ -3,6 +3,7 @@ import { about as copy } from "@/content/copy";
 import { ArrowLink, Card, Section, TermList } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
+import { SocialLinks } from "@/components/site/social-links";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -47,6 +48,7 @@ function AboutPage() {
               <ArrowLink to="/contact">{copy.contactRegisterLinkText}</ArrowLink>
               <ArrowLink to="/contact">{copy.contactContactLinkText}</ArrowLink>
             </div>
+            <SocialLinks className="mt-6" showHandle />
           </Card>
         </Reveal>
       </Section>
