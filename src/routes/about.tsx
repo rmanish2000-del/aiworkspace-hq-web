@@ -97,7 +97,7 @@ function AboutPage() {
               {copy.contactBody}
             </p>
             <div className="mt-5 flex flex-wrap gap-6">
-              <ArrowLink to="/contact">{copy.contactRegisterLinkText}</ArrowLink>
+              <ArrowLink to={PLAN_HREF}>{copy.contactRegisterLinkText}</ArrowLink>
               <a
                 href={credentials.upwork.url}
                 target="_blank"

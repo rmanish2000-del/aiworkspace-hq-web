@@ -175,7 +175,7 @@ export const building = {
   ],
   closing: 'If one of these describes a problem you have, ask for a scoped plan — or browse the full portfolio.',
   closingAction: 'Ask for a plan',
-  closingHref: '/contact',
+  closingHref: '/contact#plan',
 } as const;
 
 /* -------------------------------------------------------------------------- */
