@@ -16,3 +16,12 @@ Format: `## <YYYY-MM-DD HH:MM IST> — <agent>` then: what changed (with evidenc
 ## 2026-10-19 08:10 IST — Grok Bot
 - Added the team protocol: `STATUS.md`, this log, `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` pointers (docs only, no code changed).
 - Next: every agent claims in `STATUS.md` before starting and appends here at the end.
+
+## 2026-11-20 19:42 IST — Grok Bot
+- Added Tareekh as a first-class live product on aiworkspacehq.com: `src/content/products.json` (first, status Live), home own-systems grid, Our Work card, footer Explore + product list, `/products/tareekh` and redirect `/tareekh`, sitemap, llms.txt / llms-full.txt.
+- Product page: problem, how it works, who it is for, what is different (live vs coming soon), pricing (14-day trial, ₹49/case/month, advocate ₹199/month up to 10 cases), how it is built, honest limits, WhatsApp + site CTAs, official logo and hero screenshots. No user or revenue claims. ProofShot stays a hackathon demo.
+- Also unblocked CI typecheck (JSON-LD head typings + `hackathon: null` on projects) and pointed remaining “Ask for a plan” CTAs at `/contact#plan`.
+- Local: tsc clean, bun test 21 passed, `bun run build` OK, Playwright 4 passed.
+- PR: https://github.com/rmanish2000-del/aiworkspace-hq-web/pull/86 squash-merged to main as 4ee8144. CI build + Bugbot + Security + Approval all green.
+- Production verified: https://aiworkspacehq.com/products/tareekh , https://aiworkspacehq.com/tareekh → 307, Tareekh first on / and /our-work.
+- Next: Upwork personal portfolio and Freelancer.com portfolio need a browser step (copy + images in /workspace/caid/portfolio_tareekh/). Agency portfolio has a write tool but needs Manish's OK on the preview.
