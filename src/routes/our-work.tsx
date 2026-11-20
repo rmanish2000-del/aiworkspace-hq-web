@@ -5,6 +5,7 @@ import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
 import { Card, Section } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
 import { Reveal } from "@/components/site/motion";
+import { PLAN_HREF } from "@/content/caid";
 
 const workSeo = pageSeo({
   title: workMeta.title,
@@ -60,7 +61,7 @@ function OurWorkPage() {
         badge="Our Work"
         title="Products, projects, and credentials you can check"
         lead="GitHub is the source of truth for our engineering. Live products come first, then other substantial projects, then recognition that is public on GitHub and Upwork."
-        primary={{ to: "/contact", label: "Ask for a plan" }}
+        primary={{ to: PLAN_HREF, label: "Ask for a plan" }}
         secondary={{ to: "/process", label: "See the 12 steps" }}
       />
 
@@ -231,7 +232,7 @@ function OurWorkPage() {
       <CtaBand
         heading="Want this process on one of your jobs?"
         lead="Ask for a scoped Discovery plan. Every step leaves a receipt you can check."
-        primary={{ to: "/contact", label: "Ask for a plan" }}
+        primary={{ to: PLAN_HREF, label: "Ask for a plan" }}
         secondary={{ to: "/trust", label: "Read Trust" }}
       />
     </>

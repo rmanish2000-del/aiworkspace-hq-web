@@ -4,6 +4,7 @@ import { REVIEW_STAMP } from "@/content/ledger";
 import { LedgerBlock } from "@/components/site/ledger-block";
 import { Section, TermList } from "@/components/site/primitives";
 import { CtaBand, PageHero } from "@/components/site/page-shell";
+import { PLAN_HREF } from "@/content/caid";
 
 export const Route = createFileRoute("/enterprise")({
   head: () => ({
@@ -34,7 +35,7 @@ function EnterprisePage() {
         badge="For enterprise"
         title={<LedgerBlock id="CB-50" badge={false} bare />}
         lead={<LedgerBlock id="CB-51" badge={false} bare />}
-        primary={{ to: "/contact", label: "Ask for a scoped plan" }}
+        primary={{ to: PLAN_HREF, label: "Ask for a scoped plan" }}
         secondary={{ to: "/trust", label: "Read Trust" }}
         chip={`Last reviewed ${REVIEW_STAMP}`}
       />

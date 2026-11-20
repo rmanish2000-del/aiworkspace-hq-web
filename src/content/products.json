@@ -1,6 +1,18 @@
 {
   "products": [
     {
+      "id": "tareekh",
+      "name": "Tareekh",
+      "status": "Live",
+      "value": "Court-date and order alerts on WhatsApp for Indian court cases. Live today for Madhya Pradesh High Court; other courts are on a waitlist.",
+      "homeBody": "Send a CNR once on WhatsApp and get the next date, case status, parties, the latest order PDF, and a reminder before the hearing — from the official court record. Live today for Madhya Pradesh High Court. Tareekh is for all of India; other High Courts and district courts are waitlisted. Site: https://www.tareekh.co.in. Not a court or government service, and not legal advice.",
+      "stack": ["Next.js", "WhatsApp Business API", "Vercel"],
+      "liveUrl": "https://www.tareekh.co.in",
+      "githubUrl": null,
+      "detailHref": "/products/tareekh",
+      "hackathon": null
+    },
+    {
       "id": "jachega",
       "name": "Jachega",
       "status": "Prototype",
@@ -72,7 +84,8 @@
       "stack": ["TypeScript", "education ops"],
       "liveUrl": "https://eduos.global",
       "githubUrl": null,
-      "note": "Private codebase; public product site only."
+      "note": "Private codebase; public product site only.",
+      "hackathon": null
     },
     {
       "id": "nyayos",
@@ -83,7 +96,8 @@
       "stack": ["TypeScript", "document workflows"],
       "liveUrl": null,
       "githubUrl": null,
-      "note": "Private codebase."
+      "note": "Private codebase.",
+      "hackathon": null
     }
   ]
 }

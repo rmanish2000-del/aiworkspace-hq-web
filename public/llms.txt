@@ -15,6 +15,7 @@ AI Workspace HQ (aiworkspacehq.com) helps organisations put AI on one repeated j
 
 ## Our Work (products & projects)
 - Portfolio: https://aiworkspacehq.com/our-work
+- Tareekh (Live) · https://www.tareekh.co.in · https://aiworkspacehq.com/products/tareekh — court-date and order alerts on WhatsApp. Live today for Madhya Pradesh High Court; other Indian courts waitlisted. Not legal advice.
 - Jachega · https://www.jachega.in
 - ProofShot · https://rmanish2000-proofshot.hf.space/ · https://github.com/rmanish2000-del/proofshot-hackathon
 - Warrant · https://github.com/rmanish2000-del/warrant · https://aiworkspacehq.com/products/warrant

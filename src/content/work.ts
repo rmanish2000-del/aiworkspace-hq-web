@@ -4,7 +4,7 @@ import { products as portfolioProducts, projects as portfolioProjects } from "./
 export const workMeta = {
   title: "Our Work — AI Workspace",
   description:
-    "Live products, selected engineering projects, and credentials you can verify — Jachega, ProofShot, Warrant, SensexPilot, and more.",
+    "Live products, selected engineering projects, and credentials you can verify — Tareekh, Jachega, Warrant, SensexPilot, and more.",
 } as const;
 
 /** Products — single source: src/content/products.json */
