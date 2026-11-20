@@ -14,6 +14,7 @@ const ROUTES = [
   "/privacy",
   "/process",
   "/products",
+  "/products/tareekh",
   "/products/warrant",
   "/products/warrant-mcp",
   "/refunds",

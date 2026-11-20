@@ -110,6 +110,7 @@ const footerColumns = [
       { href: "/services", label: "Services" },
       { href: "/process", label: "The 12 steps" },
       { href: "/our-work", label: "Our Work" },
+      { href: "/products/tareekh", label: "Tareekh" },
       { href: "/platform", label: "Platform" },
       { href: "/building", label: "What we are building" },
       { href: "/about", label: nav.about },

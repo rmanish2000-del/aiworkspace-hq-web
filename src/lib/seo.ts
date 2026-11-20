@@ -36,7 +36,7 @@ export function pageSeo(input: PageSeoInput) {
       ...blocks.map((block) => ({ "script:ld+json": block })),
     ],
     links: [{ rel: "canonical", href: url }],
-  };
+  } as { meta: Array<Record<string, unknown>>; links: Array<Record<string, unknown>> };
 }
 
 export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {

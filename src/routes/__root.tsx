@@ -148,7 +148,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: "/site.webmanifest" },
       { rel: "sitemap", type: "application/xml", href: "/sitemap.xml" },
     ],
-  }),
+    // script:ld+json is valid TanStack Start head meta; current typings expect HTMLMetaElement only.
+  } as { meta: Array<Record<string, unknown>>; links: Array<Record<string, unknown>> }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

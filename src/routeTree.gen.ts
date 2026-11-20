@@ -26,12 +26,14 @@ import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as TareekhRouteImport } from './routes/tareekh'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrustRouteImport } from './routes/trust'
 import { Route as WhatWeHaventBuiltRouteImport } from './routes/what-we-havent-built'
 import { Route as ApiPlanRequestRouteImport } from './routes/api/plan-request'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
+import { Route as ProductsTareekhRouteImport } from './routes/products.tareekh'
 import { Route as ProductsWarrantRouteImport } from './routes/products.warrant'
 import { Route as ProductsWarrantMcpRouteImport } from './routes/products.warrant-mcp'
 import { Route as ApiRazorpayCreateSubscriptionRouteImport } from './routes/api/razorpay/create-subscription'
@@ -125,6 +127,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TareekhRoute = TareekhRouteImport.update({
+  id: '/tareekh',
+  path: '/tareekh',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TechnologyRoute = TechnologyRouteImport.update({
   id: '/technology',
   path: '/technology',
@@ -153,6 +160,11 @@ const ApiPlanRequestRoute = ApiPlanRequestRouteImport.update({
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsTareekhRoute = ProductsTareekhRouteImport.update({
+  id: '/products/tareekh',
+  path: '/products/tareekh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsWarrantRoute = ProductsWarrantRouteImport.update({
@@ -211,11 +223,13 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/services': typeof ServicesRoute
+  '/tareekh': typeof TareekhRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/api/plan-request': typeof ApiPlanRequestRoute
+  '/products/tareekh': typeof ProductsTareekhRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -243,11 +257,13 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/services': typeof ServicesRoute
+  '/tareekh': typeof TareekhRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/api/plan-request': typeof ApiPlanRequestRoute
+  '/products/tareekh': typeof ProductsTareekhRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products': typeof ProductsIndexRoute
@@ -276,11 +292,13 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/security': typeof SecurityRoute
   '/services': typeof ServicesRoute
+  '/tareekh': typeof TareekhRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
   '/trust': typeof TrustRoute
   '/what-we-havent-built': typeof WhatWeHaventBuiltRoute
   '/api/plan-request': typeof ApiPlanRequestRoute
+  '/products/tareekh': typeof ProductsTareekhRoute
   '/products/warrant': typeof ProductsWarrantRoute
   '/products/warrant-mcp': typeof ProductsWarrantMcpRoute
   '/products/': typeof ProductsIndexRoute
@@ -310,11 +328,13 @@ export interface FileRouteTypes {
     | '/resources'
     | '/security'
     | '/services'
+    | '/tareekh'
     | '/technology'
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
     | '/api/plan-request'
+    | '/products/tareekh'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -342,11 +362,13 @@ export interface FileRouteTypes {
     | '/resources'
     | '/security'
     | '/services'
+    | '/tareekh'
     | '/technology'
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
     | '/api/plan-request'
+    | '/products/tareekh'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products'
@@ -374,11 +396,13 @@ export interface FileRouteTypes {
     | '/resources'
     | '/security'
     | '/services'
+    | '/tareekh'
     | '/technology'
     | '/terms'
     | '/trust'
     | '/what-we-havent-built'
     | '/api/plan-request'
+    | '/products/tareekh'
     | '/products/warrant'
     | '/products/warrant-mcp'
     | '/products/'
@@ -407,11 +431,13 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   SecurityRoute: typeof SecurityRoute
   ServicesRoute: typeof ServicesRoute
+  TareekhRoute: typeof TareekhRoute
   TechnologyRoute: typeof TechnologyRoute
   TermsRoute: typeof TermsRoute
   TrustRoute: typeof TrustRoute
   WhatWeHaventBuiltRoute: typeof WhatWeHaventBuiltRoute
   ApiPlanRequestRoute: typeof ApiPlanRequestRoute
+  ProductsTareekhRoute: typeof ProductsTareekhRoute
   ProductsWarrantRoute: typeof ProductsWarrantRoute
   ProductsWarrantMcpRoute: typeof ProductsWarrantMcpRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -543,6 +569,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tareekh': {
+      id: '/tareekh'
+      path: '/tareekh'
+      fullPath: '/tareekh'
+      preLoaderRoute: typeof TareekhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/technology': {
       id: '/technology'
       path: '/technology'
@@ -583,6 +616,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/tareekh': {
+      id: '/products/tareekh'
+      path: '/products/tareekh'
+      fullPath: '/products/tareekh'
+      preLoaderRoute: typeof ProductsTareekhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/warrant': {
@@ -655,11 +695,13 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   SecurityRoute: SecurityRoute,
   ServicesRoute: ServicesRoute,
+  TareekhRoute: TareekhRoute,
   TechnologyRoute: TechnologyRoute,
   TermsRoute: TermsRoute,
   TrustRoute: TrustRoute,
   WhatWeHaventBuiltRoute: WhatWeHaventBuiltRoute,
   ApiPlanRequestRoute: ApiPlanRequestRoute,
+  ProductsTareekhRoute: ProductsTareekhRoute,
   ProductsWarrantRoute: ProductsWarrantRoute,
   ProductsWarrantMcpRoute: ProductsWarrantMcpRoute,
   ProductsIndexRoute: ProductsIndexRoute,
