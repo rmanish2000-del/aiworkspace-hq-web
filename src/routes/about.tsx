@@ -7,6 +7,7 @@ import { Reveal } from "@/components/site/motion";
 import { SocialLinks } from "@/components/site/social-links";
 import { credentials } from "@/content/work";
 import { PRODUCT_NAMES } from "@/content/products";
+import { PLAN_HREF } from "@/content/caid";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -31,7 +32,7 @@ function AboutPage() {
         badge="About"
         title={copy.heading}
         lead={copy.whyBody}
-        primary={{ to: "/contact", label: "Ask for a plan" }}
+        primary={{ to: PLAN_HREF, label: "Ask for a plan" }}
         secondary={{ to: "/our-work", label: "Our Work" }}
       />
 
@@ -114,7 +115,7 @@ function AboutPage() {
       <CtaBand
         heading="Talk to the person building it"
         lead="A person reads and answers. We will tell you what exists today and what does not."
-        primary={{ to: "/contact", label: "Ask for a plan" }}
+        primary={{ to: PLAN_HREF, label: "Ask for a plan" }}
         secondary={{ to: "/what-we-havent-built", label: "What We Haven't Built" }}
       />
     </>
