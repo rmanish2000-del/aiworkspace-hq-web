@@ -25,3 +25,6 @@ Format: `## <YYYY-MM-DD HH:MM IST> — <agent>` then: what changed (with evidenc
 - PR: https://github.com/rmanish2000-del/aiworkspace-hq-web/pull/86 squash-merged to main as 4ee8144. CI build + Bugbot + Security + Approval all green.
 - Production verified: https://aiworkspacehq.com/products/tareekh , https://aiworkspacehq.com/tareekh → 307, Tareekh first on / and /our-work.
 - Next: Upwork personal portfolio and Freelancer.com portfolio need a browser step (copy + images in /workspace/caid/portfolio_tareekh/). Agency portfolio has a write tool but needs Manish's OK on the preview.
+
+## 2026-11-21 17:01 IST — Grok Bot
+Removed EduOS from the site (Manish 21 Nov: EduOS dropped). Deleted the EduOS project card (products.json), the /building EduOS card (copy.ts), the llms.txt/llms-full.txt lines and the SITE_AUDIT eduos.global reference. bun test 21/21, build ok.

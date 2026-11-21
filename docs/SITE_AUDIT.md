@@ -26,7 +26,7 @@ For **every** public route:
 2. **Proof** — Receipts, GitHub, live product links, or an explicit “not built” label. No invented clients, numbers, testimonials, or returns.
 3. **Hire path** — Visible CTA to `/contact#plan` and/or the Upwork AI Eval Audit listing (`https://www.upwork.com/services/product/2109673752356316568`).
 4. **English only** — Zero Devanagari or other non-English marketing copy.
-5. **Facts match source of truth** — Compare product blurbs to live sites (`jachega.in`, `eduos.global`, ProofShot Space) and public GitHub READMEs. `/building` kill dates must not contradict `/our-work`.
+5. **Facts match source of truth** — Compare product blurbs to live sites (`jachega.in`, ProofShot Space) and public GitHub READMEs. `/building` kill dates must not contradict `/our-work`.
 6. **No placeholders** — No `TODO`, `FIXME`, `lorem ipsum`, or `{{TOKENS}}` in rendered HTML.
 7. **Meta** — Unique `<title>` and meta description per page.
 8. **Links** — Internal links 200 (or intentional redirect). External product/repo links not 404. Upwork may 403 to bots; verify manually if flagged soft.

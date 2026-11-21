@@ -76,18 +76,6 @@
   ],
   "projects": [
     {
-      "id": "eduos",
-      "name": "EduOS",
-      "status": "Live",
-      "value": "Learning tools for tutoring and coaching centres.",
-      "homeBody": "Learning tools for tutoring and coaching centres, at eduos.global.",
-      "stack": ["TypeScript", "education ops"],
-      "liveUrl": "https://eduos.global",
-      "githubUrl": null,
-      "note": "Private codebase; public product site only.",
-      "hackathon": null
-    },
-    {
       "id": "nyayos",
       "name": "NyayOS",
       "status": "Pilot preparation",

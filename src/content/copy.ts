@@ -157,21 +157,6 @@ export const building = {
       killWhy:
         'if no operator has put a real site list into the register and confirmed it does the job of their weekly spreadsheet.',
     },
-    {
-      name: 'EduOS',
-      what: 'Learning tools for tutoring and coaching centres — including ways to prove completion with evidence instead of reconstructing it from spreadsheets.',
-      intendedFor:
-        'Training leads and small education teams, who chase this today through spreadsheets and messages.',
-      state:
-        'Live at eduos.global. Public product site; private codebase. Listed under Projects on Our Work.',
-      chip: 'Live',
-      href: 'https://eduos.global',
-      linkLabel: 'Open the live site',
-      caseHref: 'https://eduos.global',
-      caseLabel: 'eduos.global',
-      kill: 'Kept live',
-      killWhy: 'No longer a day-zero park. If the public product is withdrawn, this card will say so.',
-    },
   ],
   closing: 'If one of these describes a problem you have, ask for a scoped plan — or browse the full portfolio.',
   closingAction: 'Ask for a plan',

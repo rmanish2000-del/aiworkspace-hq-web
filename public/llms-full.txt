@@ -23,7 +23,6 @@ AI Workspace HQ is a Customer AI deployment practice and product studio run by M
 - Warrant — AI purchasing authorization — https://github.com/rmanish2000-del/warrant
 - Warrant MCP — deterministic AI tool policy — https://github.com/rmanish2000-del/warrant-mcp
 - SensexPilot — backtest infrastructure for your own NIFTY/SENSEX options/futures rules; no tips/signals; software tool only, not SEBI-registered advice; past results do not guarantee future returns — https://sensexpilot.com (TradeOS is the internal engineering stack, not a separate public product)
-- EduOS — learning tools — https://eduos.global
 - NyayOS — business-dispute document organisation (pilot preparation; private)
 - UrjaOps — PM-KUSUM ops register (kill-dated effort on /building) — https://urjaops.com/demo
 
