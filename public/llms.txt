@@ -21,7 +21,6 @@ AI Workspace HQ (aiworkspacehq.com) helps organisations put AI on one repeated j
 - Warrant · https://github.com/rmanish2000-del/warrant · https://aiworkspacehq.com/products/warrant
 - Warrant MCP · https://github.com/rmanish2000-del/warrant-mcp · https://aiworkspacehq.com/products/warrant-mcp
 - SensexPilot · https://sensexpilot.com
-- EduOS (Live) · https://eduos.global
 - NyayOS (Pilot preparation)
 
 ## Hackathons (submitted; no wins claimed)
